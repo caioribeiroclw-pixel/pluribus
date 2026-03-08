@@ -59,24 +59,133 @@ And it generates the right files for each tool:
 - It's **versionable** — git diff your AI context like you diff your code
 - It's **simple** — no YAML schemas, no JSON configs, no lock files
 
+## Getting Started
+
+### Install
+
+```bash
+# From npm (once published)
+npm install -g pluribus
+
+# Or run directly with npx
+npx pluribus
+
+# Or clone and link locally
+git clone https://github.com/caioribeiroclw-pixel/pluribus.git
+cd pluribus
+npm link
+```
+
+### Usage
+
+**1. Initialize your context file**
+
+```bash
+cd your-project/
+pluribus init
+```
+
+This creates `pluribus.md` with all required sections scaffolded. Fill in your project context.
+
+You can also use flags for non-interactive init:
+
+```bash
+pluribus init --name "Ana" --description "A background job runner" --tools claude,cursor,openclaw
+```
+
+**2. Edit `pluribus.md`**
+
+Fill in your context once:
+
+```markdown
+# Identity
+I am Ana, building **Conduit** — a background job runner for Node.js.
+
+# Stack
+- Language: TypeScript 5.4
+- Runtime: Node.js 22 LTS
+- ...
+
+# Conventions
+- async/await everywhere — no .then()/.catch()
+- ...
+
+# Goals
+1. Zero external infrastructure
+2. Type safety end-to-end
+...
+
+# Constraints
+- Never introduce native-compile dependencies
+- ...
+```
+
+**3. Sync to all your tools**
+
+```bash
+pluribus sync
+```
+
+Output:
+```
+🔄 Syncing pluribus.md → claude, cursor, openclaw
+
+   ✅ [claude]   → CLAUDE.md
+   ✅ [cursor]   → .cursorrules
+   ✅ [openclaw] → AGENTS.md
+
+✅ Sync complete — 3 file(s) written.
+```
+
+**Preview without writing (dry run):**
+
+```bash
+pluribus sync --dry-run
+```
+
+**Sync specific tools only:**
+
+```bash
+pluribus sync --tools claude,openclaw
+```
+
+### Supported Tools
+
+| Flag | Output file | AI Tool |
+|---|---|---|
+| `claude` | `CLAUDE.md` | Claude Code (Anthropic) |
+| `cursor` | `.cursorrules` | Cursor AI editor |
+| `openclaw` | `AGENTS.md` | OpenClaw agent runner |
+| `copilot` | `.github/copilot-instructions.md` | GitHub Copilot |
+
+### Custom Skills
+
+Add a `pluribus/skills/<tool>.md` file to override or extend any built-in skill.
+See `spec/skills-format.md` for the skill file format.
+
+---
+
 ## Status
 
 🚧 **Early development** — the spec and CLI are being built in public.
 
-This is day 1. I'm building this because I have this exact problem — I run multiple AI tools daily and I'm tired of maintaining duplicate context files.
-
 ### Roadmap
 
 - [x] Problem definition & vision
-- [ ] Context format spec (`context.md`, `identity.md`, `skills.md`, `rules.md`)
-- [ ] CLI: `pluribus init` — scaffold your context
-- [ ] CLI: `pluribus sync` — generate tool-specific files
-- [ ] OpenClaw integration
-- [ ] Cursor integration
-- [ ] Copilot integration
+- [x] Context format spec (`pluribus.md` flat format)
+- [x] Skills format spec (extensible adapter system)
+- [x] CLI: `pluribus init` — scaffold your context
+- [x] CLI: `pluribus sync` — generate tool-specific files
+- [x] OpenClaw integration (built-in skill)
+- [x] Cursor integration (built-in skill)
+- [x] Copilot integration (built-in skill)
+- [x] Claude Code integration (built-in skill)
+- [ ] Custom skill overrides (local `pluribus/skills/`)
 - [ ] Windsurf integration
+- [ ] `pluribus validate` command
 - [ ] Composable contexts (import/extend)
 - [ ] CI/CD: auto-sync on commit
+- [ ] Published to npm
 
 ## Building in Public
 

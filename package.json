@@ -1,0 +1,33 @@
+{
+  "name": "pluribus",
+  "version": "0.1.0",
+  "description": "Write your AI context once. Sync it to every tool.",
+  "type": "module",
+  "bin": {
+    "pluribus": "./bin/pluribus.js"
+  },
+  "main": "./src/index.js",
+  "files": [
+    "bin/",
+    "src/"
+  ],
+  "scripts": {
+    "start": "node bin/pluribus.js",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": [
+    "ai",
+    "cli",
+    "context",
+    "claude",
+    "cursor",
+    "copilot",
+    "openclaw",
+    "developer-tools"
+  ],
+  "author": "Caio Ribeiro",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
