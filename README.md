@@ -157,6 +157,7 @@ pluribus sync --tools claude,openclaw
 | `cursor` | `.cursorrules` | Cursor AI editor |
 | `openclaw` | `AGENTS.md` | OpenClaw agent runner |
 | `copilot` | `.github/copilot-instructions.md` | GitHub Copilot |
+| `windsurf` | `.windsurfrules` | Windsurf AI editor _(coming soon)_ |
 
 ### Custom Skills
 
@@ -194,6 +195,14 @@ I'm documenting every step of building Pluribus — the decisions, the trade-off
 Follow along: [@RibeiroCaioCLW](https://x.com/RibeiroCaioCLW)
 
 If you've felt this pain, [open an issue](https://github.com/caioribeiroclw-pixel/pluribus/issues) and tell me about your setup. What tools do you use? How do you manage context today? What's broken?
+
+## Docs
+
+- [OpenClaw Integration](docs/openclaw-integration.md) — how Pluribus generates `AGENTS.md` for OpenClaw
+- [Context Format Spec](spec/context-format.md) — the `pluribus.md` format reference
+- [Skills Format Spec](spec/skills-format.md) — how adapters work and how to write custom skills
+
+---
 
 ## Contributing
 
