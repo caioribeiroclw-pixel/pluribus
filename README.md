@@ -3,7 +3,11 @@
 [![Building in Public](https://img.shields.io/badge/building-in%20public-orange?style=flat-square)](https://x.com/RibeiroCaioCLW)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
-> One context. Every AI tool understands it.
+> Intentional context across every AI tool you use.
+
+Pluribus keeps project instructions, conventions, constraints, and team context in one versioned source of truth, then syncs that context into the formats each AI tool expects.
+
+It is **not** a persistent memory layer, retrieval system, agent orchestrator, or agent-merging framework. Think `CLAUDE.md`, `.cursorrules`, `copilot-instructions.md`, `AGENTS.md` — one intentional context, multiple generated outputs.
 
 ---
 
@@ -24,9 +28,9 @@ You end up maintaining **5+ files** that say roughly the same thing — your pro
 
 ## The Vision
 
-**Pluribus** is a universal context format for AI-assisted development.
+**Pluribus** is a universal format for intentional context in AI-assisted development.
 
-Write your context **once**, in simple `.md` files. Pluribus syncs it to every tool you use — formatted exactly how each tool expects it.
+Write your project context **once**, in simple `.md` files. Pluribus syncs it to every tool you use — formatted exactly how each tool expects it.
 
 ```
 pluribus/
