@@ -6,6 +6,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import { parsePluribusFile, validateSections, REQUIRED_SECTIONS } from '../utils/parser.js'
+import { resolveImports } from '../utils/imports.js'
 import { renderTemplate, parseSkillFile } from '../utils/renderer.js'
 import { BUILT_IN_SKILLS, SUPPORTED_TOOLS } from '../skills/built-in.js'
 
@@ -39,7 +40,16 @@ export async function runSync(args) {
     process.exit(1)
   }
 
-  const sections = parsePluribusFile(rawContent)
+  let resolvedContent
+  try {
+    const resolved = resolveImports(sourcePath, { rootDir: path.dirname(sourcePath) })
+    resolvedContent = resolved.content
+  } catch (err) {
+    console.error(`❌ Could not resolve imports for ${sourcePath}: ${err.message}`)
+    process.exit(1)
+  }
+
+  const sections = parsePluribusFile(resolvedContent)
 
   // Validate required sections
   const { valid, errors } = validateSections(sections)
