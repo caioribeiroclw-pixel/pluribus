@@ -124,7 +124,21 @@ I am Ana, building **Conduit** — a background job runner for Node.js.
 - ...
 ```
 
-**3. Sync to all your tools**
+**3. Compose shared context when needed**
+
+For team or org-wide conventions, import shared Markdown files before your local project sections:
+
+```markdown
+# @import ./shared/team-context.md
+# @import ./shared/security-constraints.md
+
+# Identity
+I am Ana, building **Conduit** — a background job runner for Node.js.
+```
+
+Local sections are applied after imported sections, so project-specific context can override shared context. See [Composable Contexts](docs/composable-contexts.md) for details.
+
+**4. Sync to all your tools**
 
 ```bash
 pluribus sync
@@ -188,7 +202,8 @@ See `spec/skills-format.md` for the skill file format.
 - [ ] Custom skill overrides (local `pluribus/skills/`)
 - [ ] Windsurf integration
 - [ ] `pluribus validate` command
-- [ ] Composable contexts (import/extend)
+- [x] Composable contexts MVP (local `# @import ./file.md`)
+- [ ] Remote composable contexts (GitHub/URL imports with cache/auth rules)
 - [ ] CI/CD: auto-sync on commit
 - [ ] Published to npm
 
@@ -203,6 +218,7 @@ If you've felt this pain, [open an issue](https://github.com/caioribeiroclw-pixe
 ## Docs
 
 - [OpenClaw Integration](docs/openclaw-integration.md) — how Pluribus generates `AGENTS.md` for OpenClaw
+- [Composable Contexts](docs/composable-contexts.md) — local imports, merge behavior, and safety rules
 - [Context Format Spec](spec/context-format.md) — the `pluribus.md` format reference
 - [Skills Format Spec](spec/skills-format.md) — how adapters work and how to write custom skills
 

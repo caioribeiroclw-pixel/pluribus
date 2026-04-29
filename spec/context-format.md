@@ -25,6 +25,39 @@ This spec covers the flat form. The structured form follows the same section rul
 
 ---
 
+## Composable Contexts
+
+A `pluribus.md` file may import other local Markdown context files with `# @import` directives:
+
+```markdown
+# @import ./shared/team-context.md
+# @import ./shared/security-constraints.md
+```
+
+Imports are resolved during `pluribus sync` before the file is parsed into sections.
+
+### Import Rules
+
+- Import paths are resolved relative to the file containing the directive.
+- Imports are expanded before the importing file's own local content.
+- Later duplicate top-level sections override earlier ones through the existing parser behavior, so project-local sections win over shared imported sections.
+- Nested imports are allowed up to depth `5`.
+- Cycles are rejected with the import path chain.
+- Imports cannot escape the project/source root.
+- Remote imports (`github:`, `http://`, `https://`) are reserved for a future release and currently fail clearly.
+- Context files are never executed; imports only read Markdown text.
+
+### Example
+
+```markdown
+# @import ./shared/base-context.md
+
+# Goals
+1. Project-specific goals override the shared `# Goals` section.
+```
+
+---
+
 ## Canonical Sections
 
 A `pluribus.md` file is composed of top-level Markdown headings. Each heading is a **section**. Sections are case-sensitive and must be level-1 headings (`#`).
@@ -203,6 +236,7 @@ Pluribus parses `pluribus.md` using the following rules:
 4. **Whitespace:** Leading and trailing whitespace within a section body is trimmed.
 5. **No execution:** Pluribus never executes code blocks inside `pluribus.md`. They are treated as literal text.
 6. **Encoding:** UTF-8. Files with BOM are supported but the BOM is stripped.
+7. **Imports:** `# @import ./path.md` directives are resolved before section parsing. The directive itself is not preserved in generated tool output.
 
 ---
 
