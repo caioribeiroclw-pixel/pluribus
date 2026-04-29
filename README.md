@@ -13,7 +13,7 @@ It is **not** a persistent memory layer, retrieval system, agent orchestrator, o
 
 ## The Problem
 
-You use Claude, Copilot, Cursor, Windsurf, ChatGPT, and whatever ships next Tuesday.
+You use Claude, Copilot, Cursor, Windsurf, Zed, ChatGPT, and whatever ships next Tuesday.
 
 Each one has its own way of understanding your project:
 - `CLAUDE.md` for Claude Code
@@ -21,6 +21,7 @@ Each one has its own way of understanding your project:
 - `.cursorrules` for Cursor
 - `AGENTS.md` for OpenClaw
 - `.windsurfrules` for Windsurf
+- `.rules` for Zed
 
 You end up maintaining **5+ files** that say roughly the same thing — your project's architecture, conventions, tech stack, who you are, what matters. Copy-paste across files. They drift. They rot. You forget to update one. Your AI gives you wrong answers because it's reading stale context.
 
@@ -52,6 +53,7 @@ And it generates the right files for each tool:
 - `.cursorrules` ← for Cursor
 - `AGENTS.md` ← for OpenClaw
 - `.windsurfrules` ← for Windsurf
+- `.rules` ← for Zed
 
 **One source of truth. Zero drift.**
 
@@ -175,6 +177,7 @@ pluribus sync --tools claude,openclaw
 | `cursor` | `.cursorrules` | Cursor AI editor |
 | `openclaw` | `AGENTS.md` | OpenClaw agent runner |
 | `copilot` | `.github/copilot-instructions.md` | GitHub Copilot |
+| `zed` | `.rules` | Zed Editor |
 | `windsurf` | `.windsurfrules` | Windsurf AI editor _(coming soon)_ |
 
 ### Custom Skills
@@ -199,6 +202,7 @@ See `spec/skills-format.md` for the skill file format.
 - [x] Cursor integration (built-in skill)
 - [x] Copilot integration (built-in skill)
 - [x] Claude Code integration (built-in skill)
+- [x] Zed Editor integration (built-in skill)
 - [ ] Custom skill overrides (local `pluribus/skills/`)
 - [ ] Windsurf integration
 - [ ] `pluribus validate` command
@@ -232,7 +236,7 @@ This project is just getting started. The best way to help right now:
 2. 🗣️ [Open an issue](https://github.com/caioribeiroclw-pixel/pluribus/issues) describing your context management pain
 3. 📣 Share with someone who maintains 3+ AI context files
 
-Formal contributing guidelines coming soon.
+Looking for first contributions? Check out the [good first issues](https://github.com/caioribeiroclw-pixel/pluribus/issues?q=is%3Aopen+label%3A%22good+first+issue%22) — integrations for Windsurf, Continue.dev, and more.
 
 ## License
 
