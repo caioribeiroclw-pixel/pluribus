@@ -1,6 +1,6 @@
 # Remote Composable Context Imports
 
-Status: remote MVP implemented for explicit public `github:`/`https://` fetches. Remaining design work: lockfile, cache, auth hardening, and offline/CI determinism.
+Status: remote MVP implemented for explicit `github:`/`https://` fetches, lock/cache offline reuse, and optional GitHub auth for private imports. Remaining design work: CI/cache policy ergonomics and deeper structured error context.
 
 ## Goals
 
@@ -39,11 +39,12 @@ If a GitHub path includes `@`, parse the ref from the rightmost `@`.
 
 ## Auth
 
-- Public GitHub and HTTPS imports should work without auth.
-- Private GitHub imports may use an existing environment token such as `GITHUB_TOKEN`.
-- Do not support tokens in import specs, CLI flags, lockfiles, cache metadata, logs, dry-run output, or errors.
-- Do not support arbitrary custom headers in the MVP.
-- Error messages must redact credentials and credential-bearing URLs.
+- Public GitHub and HTTPS imports work without auth.
+- Private GitHub imports may use existing credentials only during `pluribus sync --update-imports`.
+- Credential lookup order: `GH_TOKEN`, then `GITHUB_TOKEN`, then an existing GitHub CLI login via `gh auth token`.
+- Do not support inline tokens, token CLI flags, lockfile/cache auth metadata, or arbitrary custom headers in the MVP.
+- Do not store tokens in `pluribus.lock.json` or `.pluribus/cache/remote/`; the lockfile is safe to commit and the cache is local/regenerable.
+- Error messages must redact credentials, credential-bearing URLs, and known token values.
 
 ## Lockfile and cache
 
@@ -110,7 +111,7 @@ Defaults for the MVP:
 ## Supply-chain safety
 
 - Never execute imported content.
-- Never shell out from import resolution.
+- Never shell out based on imported content or import specs; the only subprocess is the fixed optional `gh auth token` credential lookup when env tokens are absent.
 - Never support post-processing hooks.
 - Require digest pinning for deterministic use.
 - Fail hard on lockfile digest mismatch.
@@ -145,17 +146,19 @@ Shipped in the first remote MVP:
 - `github:owner/repo/path.md[@ref]`
 - direct `https://...` Markdown/text files
 - unauthenticated public imports
+- optional private GitHub imports via `GH_TOKEN`/`GITHUB_TOKEN` or logged-in `gh`
 - explicit `pluribus sync --update-imports` network access
+- lockfile generation/update and cache by SHA-256 digest
+- deterministic offline lock/cache reuse with digest verification
 - timeout, redirect, content-type, UTF-8, per-file size, and merged-size guards
 - credential-bearing URL rejection/redaction
 - nested GitHub imports within the same repo/ref
 
 Still pending for the hardening phase:
 
-- optional GitHub auth via `GITHUB_TOKEN`
-- lockfile generation/update
-- cache by SHA-256 digest
-- deterministic CI/offline behavior
+- CI/cache policy ergonomics
+- immutable GitHub commit resolution metadata
+- richer import-chain context in structured errors
 
 Non-goals:
 
@@ -173,9 +176,9 @@ Non-goals:
 Current implementation keeps `resolveImports(sourcePath, options)` as the synchronous local-only entry point and adds `resolveImportsAsync(sourcePath, { allowRemote })` for explicit remote resolution:
 
 - local resolver: existing filesystem behavior
-- GitHub resolver: normalize `github:` specs and fetch public raw content
+- GitHub resolver: normalize `github:` specs and fetch raw content, optionally with existing GitHub auth
 - HTTPS resolver: fetch Markdown/text with timeout and size guards
-- pending lock/cache module: read/write `pluribus.lock.json`, verify digest, read/write cached blobs
+- lock/cache module: read/write `pluribus.lock.json`, verify digest, read/write cached blobs
 
 Potential options:
 
@@ -202,10 +205,10 @@ CLI flag shipped: `pluribus sync --update-imports` enables remote network fetche
 - [x] enforces timeout
 - [x] enforces per-file and merged-size limits
 - [x] rejects unsafe redirects
-- [ ] writes deterministic lockfile entries
-- [ ] reads from lock/cache without network in CI/offline mode
-- [ ] fails on missing lock entry in CI/offline mode
-- [ ] fails on digest mismatch
+- [x] writes deterministic lockfile entries
+- [x] reads from lock/cache without network in CI/offline mode
+- [x] fails on missing lock entry in CI/offline mode
+- [x] fails on digest mismatch
 - [x] supports nested GitHub imports within the same repo/ref
 - [x] rejects unsupported HTTPS-relative nested imports
 - [x] preserves local override behavior after remote expansion
@@ -217,13 +220,13 @@ Next phase for #9: harden remote composable context imports.
 
 - [x] Specify remote syntax: `github:owner/repo/path.md[@ref]` and `https://...`.
 - [x] Preserve local MVP merge behavior: imports expand before local content; local duplicate sections win.
-- [ ] Add `pluribus.lock.json` design with resolved ref/commit, SHA-256 digest, size, fetched timestamp, and content type.
-- [ ] Add cache design around the explicit `--update-imports` refresh flow.
-- [ ] Define CI/offline behavior: fail on unlocked/cache-missing/floating imports unless explicitly updating.
-- [ ] Define auth: public unauthenticated fetches plus optional `GITHUB_TOKEN`; never persist or log secrets.
+- [x] Add `pluribus.lock.json` design with SHA-256 digest, size, fetched timestamp, and content type. Resolved commit metadata remains pending.
+- [x] Add cache design around the explicit `--update-imports` refresh flow.
+- [x] Define CI/offline behavior: fail on unlocked/cache-missing imports unless explicitly updating. Floating ref policy remains pending.
+- [x] Define auth: public unauthenticated fetches plus optional existing `GH_TOKEN`/`GITHUB_TOKEN` or logged-in `gh`; never persist or log secrets.
 - [x] Enforce safety limits: HTTPS only, request timeout, max bytes, redirect limit, UTF-8 Markdown only.
-- [ ] Define supply-chain protections: digest verification, hard fail on mismatch, no execution/hooks.
-- [ ] Add structured remote import errors with import-chain context and secret redaction.
+- [x] Define supply-chain protections: digest verification, hard fail on mismatch, no execution/hooks.
+- [ ] Add structured remote import errors with import-chain context and broader secret redaction.
 - [x] MVP: GitHub + direct HTTPS files only.
 - [x] Non-goals: `http://`, arbitrary headers, GitLab/Bitbucket shorthand, directory/glob imports, HTTPS-relative nested imports.
 - [ ] Add tests for lockfile determinism, digest mismatch, and CI/offline mode.

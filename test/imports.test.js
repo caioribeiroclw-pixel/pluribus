@@ -274,6 +274,7 @@ test('normalizes github: imports to public raw GitHub URLs and supports same-rep
   const requested = []
   const resolved = await resolveImportsAsync(path.join(dir, 'pluribus.md'), {
     allowRemote: true,
+    execFileImpl: (_file, _args, _options, callback) => callback(new Error('no auth for public import test')),
     fetchImpl: async (url) => {
       requested.push(url)
       if (url.endsWith('/contexts/base.md')) {
@@ -294,6 +295,152 @@ test('normalizes github: imports to public raw GitHub URLs and supports same-rep
   ])
   assert.equal(sections.Identity, 'Nested identity')
   assert.equal(sections.Goals, 'Shared goals')
+})
+
+test('uses GH_TOKEN for github imports without persisting or leaking the token', async () => {
+  const dir = tempProject()
+  const token = `test-${crypto.randomUUID()}`
+  const lockfilePath = path.join(dir, 'pluribus.lock.json')
+  const cacheDir = path.join(dir, '.pluribus', 'cache', 'remote')
+  writeFile(path.join(dir, 'pluribus.md'), '# @import github:owner/private-repo/context.md@main')
+
+  const previousGhToken = process.env.GH_TOKEN
+  const previousGithubToken = process.env.GITHUB_TOKEN
+  process.env.GH_TOKEN = token
+  delete process.env.GITHUB_TOKEN
+
+  try {
+    const seenHeaders = []
+    const resolved = await resolveImportsAsync(path.join(dir, 'pluribus.md'), {
+      allowRemote: true,
+      lockfilePath,
+      cacheDir,
+      updateLockfile: true,
+      execFileImpl: () => {
+        throw new Error('gh fallback should not run when GH_TOKEN is present')
+      },
+      fetchImpl: async (_url, init) => {
+        seenHeaders.push(init.headers)
+        return new Response('# Identity\nPrivate identity', {
+          headers: { 'content-type': 'text/markdown; charset=utf-8' },
+        })
+      },
+    })
+
+    const lockfileText = fs.readFileSync(lockfilePath, 'utf8')
+    const cacheText = fs.readFileSync(path.join(cacheDir, `${sha256Digest('# Identity\nPrivate identity').replace('sha256-', '')}.md`), 'utf8')
+
+    assert.equal(seenHeaders[0].Authorization, `Bearer ${token}`)
+    assert.match(resolved.content, /Private identity/)
+    assert.doesNotMatch(lockfileText, new RegExp(token))
+    assert.doesNotMatch(cacheText, new RegExp(token))
+  } finally {
+    if (previousGhToken === undefined) delete process.env.GH_TOKEN
+    else process.env.GH_TOKEN = previousGhToken
+    if (previousGithubToken === undefined) delete process.env.GITHUB_TOKEN
+    else process.env.GITHUB_TOKEN = previousGithubToken
+  }
+})
+
+test('falls back to gh auth token for github imports when env tokens are absent', async () => {
+  const dir = tempProject()
+  const token = `test-${crypto.randomUUID()}`
+  writeFile(path.join(dir, 'pluribus.md'), '# @import github:owner/private-repo/context.md')
+
+  const previousGhToken = process.env.GH_TOKEN
+  const previousGithubToken = process.env.GITHUB_TOKEN
+  delete process.env.GH_TOKEN
+  delete process.env.GITHUB_TOKEN
+
+  try {
+    let command
+    let authHeader
+    await resolveImportsAsync(path.join(dir, 'pluribus.md'), {
+      allowRemote: true,
+      execFileImpl: (file, args, options, callback) => {
+        command = { file, args, options }
+        callback(null, `${token}\n`, '')
+      },
+      fetchImpl: async (_url, init) => {
+        authHeader = init.headers.Authorization
+        return new Response('# Identity\nCLI private identity', {
+          headers: { 'content-type': 'text/markdown; charset=utf-8' },
+        })
+      },
+    })
+
+    assert.equal(command.file, 'gh')
+    assert.deepEqual(command.args, ['auth', 'token'])
+    assert.equal(authHeader, `Bearer ${token}`)
+  } finally {
+    if (previousGhToken === undefined) delete process.env.GH_TOKEN
+    else process.env.GH_TOKEN = previousGhToken
+    if (previousGithubToken === undefined) delete process.env.GITHUB_TOKEN
+    else process.env.GITHUB_TOKEN = previousGithubToken
+  }
+})
+
+test('keeps github imports public when no env token or gh auth token exists', async () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), '# @import github:owner/public-repo/context.md')
+
+  const previousGhToken = process.env.GH_TOKEN
+  const previousGithubToken = process.env.GITHUB_TOKEN
+  delete process.env.GH_TOKEN
+  delete process.env.GITHUB_TOKEN
+
+  try {
+    let authHeader
+    await resolveImportsAsync(path.join(dir, 'pluribus.md'), {
+      allowRemote: true,
+      execFileImpl: (_file, _args, _options, callback) => callback(new Error('not logged in')),
+      fetchImpl: async (_url, init) => {
+        authHeader = init.headers.Authorization
+        return new Response('# Identity\nPublic identity', {
+          headers: { 'content-type': 'text/markdown; charset=utf-8' },
+        })
+      },
+    })
+
+    assert.equal(authHeader, undefined)
+  } finally {
+    if (previousGhToken === undefined) delete process.env.GH_TOKEN
+    else process.env.GH_TOKEN = previousGhToken
+    if (previousGithubToken === undefined) delete process.env.GITHUB_TOKEN
+    else process.env.GITHUB_TOKEN = previousGithubToken
+  }
+})
+
+test('redacts github auth tokens from remote fetch errors', async () => {
+  const dir = tempProject()
+  const token = `test-${crypto.randomUUID()}`
+  writeFile(path.join(dir, 'pluribus.md'), '# @import github:owner/private-repo/context.md')
+
+  const previousGhToken = process.env.GH_TOKEN
+  const previousGithubToken = process.env.GITHUB_TOKEN
+  process.env.GH_TOKEN = token
+  delete process.env.GITHUB_TOKEN
+
+  try {
+    await assert.rejects(
+      () => resolveImportsAsync(path.join(dir, 'pluribus.md'), {
+        allowRemote: true,
+        fetchImpl: async () => {
+          throw new Error(`request failed with Authorization: Bearer ${token}`)
+        },
+      }),
+      (err) => {
+        assert.match(err.message, /Authorization: Bearer REDACTED/)
+        assert.doesNotMatch(err.message, new RegExp(token))
+        return true
+      }
+    )
+  } finally {
+    if (previousGhToken === undefined) delete process.env.GH_TOKEN
+    else process.env.GH_TOKEN = previousGhToken
+    if (previousGithubToken === undefined) delete process.env.GITHUB_TOKEN
+    else process.env.GITHUB_TOKEN = previousGithubToken
+  }
 })
 
 test('rejects unsafe remote specs without leaking credentials', async () => {

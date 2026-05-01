@@ -9,6 +9,7 @@
  * sync runs never perform silent network access.
  */
 
+import * as childProcess from 'child_process'
 import * as crypto from 'crypto'
 import * as fs from 'fs'
 import * as path from 'path'
@@ -44,6 +45,7 @@ const DEFAULT_MAX_REDIRECTS = 3
  * @property {string} [lockfilePath] Project remote import lockfile path.
  * @property {string} [cacheDir] Directory for digest-addressed remote import cache entries.
  * @property {boolean} [updateLockfile] Write fetched remote imports into lockfile/cache.
+ * @property {(file: string, args: string[], options: object, callback: Function) => void} [execFileImpl] Test seam for GitHub CLI token lookup.
  */
 
 /**
@@ -103,6 +105,8 @@ function createContext(sourcePath, options, asyncMode) {
     stack: [],
     imports: [],
     remoteState: { bytes: 0 },
+    githubAuth: { resolved: false, token: null },
+    execFileImpl: options.execFileImpl || childProcess.execFile,
     lockfile: options.lockfilePath ? readRemoteLockfile(path.resolve(options.lockfilePath)) : null,
   }
 }
@@ -371,6 +375,7 @@ async function readRemoteResource(resource, ctx) {
 
 async function fetchRemoteText(resource, ctx) {
   let url = resource.url
+  const githubToken = resource.kind === 'github' ? await getGithubAuthToken(ctx) : null
   for (let redirectCount = 0; redirectCount <= ctx.maxRedirects; redirectCount++) {
     const controller = new AbortController()
     const timeout = setTimeout(() => controller.abort(), ctx.timeoutMs)
@@ -379,16 +384,13 @@ async function fetchRemoteText(resource, ctx) {
       response = await ctx.fetchImpl(url, {
         redirect: 'manual',
         signal: controller.signal,
-        headers: {
-          Accept: 'text/markdown,text/plain;q=0.9,*/*;q=0.1',
-          'User-Agent': 'pluribus-remote-imports',
-        },
+        headers: remoteFetchHeaders(resource, url, githubToken),
       })
     } catch (err) {
       if (err?.name === 'AbortError') {
         throw remoteError('REMOTE_IMPORT_TIMEOUT', `Remote import timed out after ${ctx.timeoutMs}ms: ${resource.display}`)
       }
-      throw new Error(`Could not fetch remote import ${resource.display}: ${err.message || err}`)
+      throw new Error(`Could not fetch remote import ${resource.display}: ${redactSecrets(err.message || String(err), ctx)}`)
     } finally {
       clearTimeout(timeout)
     }
@@ -446,6 +448,71 @@ async function fetchRemoteText(resource, ctx) {
   }
 
   throw remoteError('REMOTE_IMPORT_UNSAFE_REDIRECT', `Remote import exceeded ${ctx.maxRedirects} redirects: ${resource.display}`)
+}
+
+function remoteFetchHeaders(resource, url, githubToken) {
+  const headers = {
+    Accept: 'text/markdown,text/plain;q=0.9,*/*;q=0.1',
+    'User-Agent': 'pluribus-remote-imports',
+  }
+
+  if (resource.kind === 'github' && githubToken && isGithubRawUrl(url)) {
+    headers.Authorization = `Bearer ${githubToken}`
+  }
+
+  return headers
+}
+
+async function getGithubAuthToken(ctx) {
+  if (ctx.githubAuth.resolved) return ctx.githubAuth.token
+
+  ctx.githubAuth.resolved = true
+  ctx.githubAuth.token = getEnvGithubToken() || await getGithubCliToken(ctx)
+  return ctx.githubAuth.token
+}
+
+function getEnvGithubToken() {
+  return firstNonEmpty(process.env.GH_TOKEN, process.env.GITHUB_TOKEN)
+}
+
+async function getGithubCliToken(ctx) {
+  if (typeof ctx.execFileImpl !== 'function') return null
+
+  return new Promise((resolve) => {
+    try {
+      ctx.execFileImpl('gh', ['auth', 'token'], {
+        encoding: 'utf8',
+        timeout: 5000,
+        windowsHide: true,
+      }, (err, stdout) => {
+        if (err) {
+          resolve(null)
+          return
+        }
+        resolve(firstNonEmpty(stdout))
+      })
+    } catch {
+      resolve(null)
+    }
+  })
+}
+
+function firstNonEmpty(...values) {
+  for (const value of values) {
+    if (typeof value !== 'string') continue
+    const trimmed = value.trim()
+    if (trimmed) return trimmed
+  }
+  return null
+}
+
+function isGithubRawUrl(candidate) {
+  try {
+    const url = new URL(candidate)
+    return url.protocol === 'https:' && url.hostname === 'raw.githubusercontent.com'
+  } catch {
+    return false
+  }
 }
 
 function readRemoteLockfile(lockfilePath) {
@@ -598,6 +665,16 @@ function redactImportSpec(spec) {
   } catch {
     return spec.replace(/:\/\/([^:@/]+):([^@/]+)@/, '://REDACTED:REDACTED@')
   }
+}
+
+function redactSecrets(text, ctx) {
+  let redacted = String(text)
+  const candidates = [ctx.githubAuth?.token, process.env.GH_TOKEN, process.env.GITHUB_TOKEN]
+  for (const secret of candidates) {
+    if (typeof secret !== 'string' || secret.length === 0) continue
+    redacted = redacted.split(secret).join('REDACTED')
+  }
+  return redacted
 }
 
 function formatImportId(id) {

@@ -152,6 +152,8 @@ pluribus sync --update-imports
 
 That writes `pluribus.lock.json` plus a local `.pluribus/cache/remote/` content cache. Future plain `pluribus sync` runs resolve those remote imports from the lock/cache without network access, and fail if cached bytes no longer match the recorded digest.
 
+Private `github:` imports use existing GitHub credentials only during `--update-imports`: `GH_TOKEN`/`GITHUB_TOKEN` if set, otherwise the logged-in GitHub CLI (`gh auth token`). Tokens are never stored in the lockfile or cache. Commit `pluribus.lock.json`; treat `.pluribus/cache/remote/` as local, regenerable cache.
+
 Output:
 ```
 🔄 Syncing pluribus.md → claude, cursor, openclaw
@@ -212,7 +214,7 @@ See `spec/skills-format.md` for the skill file format.
 - [ ] `pluribus validate` command
 - [x] Composable contexts MVP (local `# @import ./file.md`)
 - [x] Remote composable contexts MVP (explicit `--update-imports`, public GitHub/HTTPS, safety limits)
-- [~] Remote imports hardening (lockfile/cache/digest offline mode done; auth still open)
+- [~] Remote imports hardening (lockfile/cache/digest offline mode and optional GitHub auth done; CI/cache ergonomics still open)
 - [ ] CI/CD: auto-sync on commit
 - [ ] Published to npm
 

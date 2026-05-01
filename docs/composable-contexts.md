@@ -52,6 +52,7 @@ Local imports are deterministic by default:
 Remote imports are explicit opt-in via `pluribus sync --update-imports`:
 
 - ✅ `github:owner/repo/path.md[@ref]` public raw imports
+- ✅ optional private `github:` imports via existing `GH_TOKEN`/`GITHUB_TOKEN` or logged-in `gh`
 - ✅ direct `https://...` Markdown/text imports
 - ✅ HTTPS only; `http://` is rejected
 - ✅ request timeout, redirect limit, UTF-8/text content checks, per-file and merged-size limits
@@ -60,9 +61,9 @@ Remote imports are explicit opt-in via `pluribus sync --update-imports`:
 - ✅ `pluribus sync --update-imports` writes `pluribus.lock.json` and `.pluribus/cache/remote/`
 - ✅ later plain `pluribus sync` runs reuse the locked cache offline with SHA-256 verification
 - ❌ relative imports from arbitrary HTTPS documents
-- ❌ private GitHub auth flow for now
+- ❌ inline tokens in import specs, CLI flags, lockfiles, cache metadata, logs, or errors
 
-Remote imports are deliberately disabled unless `--update-imports` is passed so normal sync runs do not perform silent network access. Once a remote import is locked, normal sync runs read it from the local cache instead of the network. If a remote import has no lock entry/cache yet, sync fails closed and asks you to refresh with `--update-imports`.
+Remote imports are deliberately disabled unless `--update-imports` is passed so normal sync runs do not perform silent network access. Once a remote import is locked, normal sync runs read it from the local cache instead of the network. If a remote import has no lock entry/cache yet, sync fails closed and asks you to refresh with `--update-imports`. GitHub credentials are used only while refreshing private `github:` imports; tokens are never written to `pluribus.lock.json` or `.pluribus/cache/remote/`. Commit the lockfile for deterministic CI/offline syncs; treat the cache as local and regenerable.
 
 ## Example layout
 
