@@ -6,7 +6,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import { parsePluribusFile, validateSections, REQUIRED_SECTIONS } from '../utils/parser.js'
-import { resolveImports } from '../utils/imports.js'
+import { resolveImportsAsync } from '../utils/imports.js'
 import { renderTemplate, parseSkillFile } from '../utils/renderer.js'
 import { BUILT_IN_SKILLS, SUPPORTED_TOOLS } from '../skills/built-in.js'
 
@@ -17,6 +17,7 @@ export async function runSync(args) {
   const isDryRun = Boolean(args['dry-run'])
   const sourceArg = typeof args.source === 'string' ? args.source : null
   const toolsArg = typeof args.tools === 'string' ? args.tools : null
+  const updateImports = Boolean(args['update-imports'])
 
   const cwd = process.cwd()
 
@@ -42,7 +43,10 @@ export async function runSync(args) {
 
   let resolvedContent
   try {
-    const resolved = resolveImports(sourcePath, { rootDir: path.dirname(sourcePath) })
+    const resolved = await resolveImportsAsync(sourcePath, {
+      rootDir: path.dirname(sourcePath),
+      allowRemote: updateImports,
+    })
     resolvedContent = resolved.content
   } catch (err) {
     console.error(`❌ Could not resolve imports for ${sourcePath}: ${err.message}`)

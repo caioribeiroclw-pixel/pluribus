@@ -1,6 +1,6 @@
 # Remote Composable Context Imports
 
-Status: design note for the next phase of issue #9. Local `# @import ./file.md` support is already shipped; this note scopes the remote-import follow-up before implementation.
+Status: remote MVP implemented for explicit public `github:`/`https://` fetches. Remaining design work: lockfile, cache, auth hardening, and offline/CI determinism.
 
 ## Goals
 
@@ -140,18 +140,22 @@ They should never include auth headers, tokens, credential-bearing URLs, or remo
 
 ## MVP scope
 
-Ship the first remote MVP only after the local-import behavior remains stable.
-
-In scope:
+Shipped in the first remote MVP:
 
 - `github:owner/repo/path.md[@ref]`
-- direct `https://...` Markdown files
+- direct `https://...` Markdown/text files
 - unauthenticated public imports
+- explicit `pluribus sync --update-imports` network access
+- timeout, redirect, content-type, UTF-8, per-file size, and merged-size guards
+- credential-bearing URL rejection/redaction
+- nested GitHub imports within the same repo/ref
+
+Still pending for the hardening phase:
+
 - optional GitHub auth via `GITHUB_TOKEN`
 - lockfile generation/update
 - cache by SHA-256 digest
 - deterministic CI/offline behavior
-- nested GitHub imports within the same repo/ref
 
 Non-goals:
 
@@ -166,12 +170,12 @@ Non-goals:
 
 ## Implementation shape
 
-Keep `resolveImports(sourcePath, options)` as the public entry point, but split resolver internals:
+Current implementation keeps `resolveImports(sourcePath, options)` as the synchronous local-only entry point and adds `resolveImportsAsync(sourcePath, { allowRemote })` for explicit remote resolution:
 
 - local resolver: existing filesystem behavior
-- GitHub resolver: normalize `github:` specs, fetch content, resolve commit SHA
-- HTTPS resolver: fetch Markdown text with timeout and size guards
-- lock/cache module: read/write `pluribus.lock.json`, verify digest, read/write cached blobs
+- GitHub resolver: normalize `github:` specs and fetch public raw content
+- HTTPS resolver: fetch Markdown/text with timeout and size guards
+- pending lock/cache module: read/write `pluribus.lock.json`, verify digest, read/write cached blobs
 
 Potential options:
 
@@ -188,39 +192,39 @@ resolveImports(sourcePath, {
 })
 ```
 
-CLI flags should come after the resolver behavior is covered by tests.
+CLI flag shipped: `pluribus sync --update-imports` enables remote network fetches. Without that flag, remote directives fail clearly instead of doing silent network access.
 
 ## Test checklist
 
-- parses `github:` imports with and without `@ref`
-- rejects `http://`
-- redacts auth in errors
-- enforces timeout
-- enforces per-file and merged-size limits
-- rejects unsafe redirects
-- writes deterministic lockfile entries
-- reads from lock/cache without network in CI/offline mode
-- fails on missing lock entry in CI/offline mode
-- fails on digest mismatch
-- supports nested GitHub imports within the same repo/ref
-- rejects unsupported HTTPS-relative nested imports
-- preserves local override behavior after remote expansion
+- [x] parses `github:` imports with `@ref`
+- [x] rejects `http://`
+- [x] redacts auth in errors
+- [x] enforces timeout
+- [x] enforces per-file and merged-size limits
+- [x] rejects unsafe redirects
+- [ ] writes deterministic lockfile entries
+- [ ] reads from lock/cache without network in CI/offline mode
+- [ ] fails on missing lock entry in CI/offline mode
+- [ ] fails on digest mismatch
+- [x] supports nested GitHub imports within the same repo/ref
+- [x] rejects unsupported HTTPS-relative nested imports
+- [x] preserves local override behavior after remote expansion
 
 ## Suggested issue #9 checklist
 
 ```markdown
-Next phase for #9: remote composable context imports.
+Next phase for #9: harden remote composable context imports.
 
-- [ ] Specify remote syntax: `github:owner/repo/path.md[@ref]` and `https://...`.
-- [ ] Preserve local MVP merge behavior: imports expand before local content; local duplicate sections win.
+- [x] Specify remote syntax: `github:owner/repo/path.md[@ref]` and `https://...`.
+- [x] Preserve local MVP merge behavior: imports expand before local content; local duplicate sections win.
 - [ ] Add `pluribus.lock.json` design with resolved ref/commit, SHA-256 digest, size, fetched timestamp, and content type.
-- [ ] Add cache design and explicit `--update-imports` refresh flow.
+- [ ] Add cache design around the explicit `--update-imports` refresh flow.
 - [ ] Define CI/offline behavior: fail on unlocked/cache-missing/floating imports unless explicitly updating.
 - [ ] Define auth: public unauthenticated fetches plus optional `GITHUB_TOKEN`; never persist or log secrets.
-- [ ] Enforce safety limits: HTTPS only, request timeout, max bytes, redirect limit, UTF-8 Markdown only.
+- [x] Enforce safety limits: HTTPS only, request timeout, max bytes, redirect limit, UTF-8 Markdown only.
 - [ ] Define supply-chain protections: digest verification, hard fail on mismatch, no execution/hooks.
 - [ ] Add structured remote import errors with import-chain context and secret redaction.
-- [ ] MVP: GitHub + direct HTTPS files only.
-- [ ] Non-goals: `http://`, arbitrary headers, GitLab/Bitbucket shorthand, directory/glob imports, HTTPS-relative nested imports.
-- [ ] Add tests for lockfile determinism, digest mismatch, timeout, size limit, auth redaction, nested remote imports, and CI/offline mode.
+- [x] MVP: GitHub + direct HTTPS files only.
+- [x] Non-goals: `http://`, arbitrary headers, GitLab/Bitbucket shorthand, directory/glob imports, HTTPS-relative nested imports.
+- [ ] Add tests for lockfile determinism, digest mismatch, and CI/offline mode.
 ```

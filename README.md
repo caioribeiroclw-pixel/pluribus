@@ -203,7 +203,8 @@ See `spec/skills-format.md` for the skill file format.
 - [ ] Windsurf integration
 - [ ] `pluribus validate` command
 - [x] Composable contexts MVP (local `# @import ./file.md`)
-- [ ] Remote composable contexts (GitHub/URL imports with cache/auth rules)
+- [x] Remote composable contexts MVP (explicit `--update-imports`, public GitHub/HTTPS, safety limits)
+- [ ] Remote imports lockfile/cache/auth hardening
 - [ ] CI/CD: auto-sync on commit
 - [ ] Published to npm
 
@@ -218,7 +219,8 @@ If you've felt this pain, [open an issue](https://github.com/caioribeiroclw-pixe
 ## Docs
 
 - [OpenClaw Integration](docs/openclaw-integration.md) — how Pluribus generates `AGENTS.md` for OpenClaw
-- [Composable Contexts](docs/composable-contexts.md) — local imports, merge behavior, and safety rules
+- [Composable Contexts](docs/composable-contexts.md) — local/remote imports, merge behavior, and safety rules
+- [Remote Composable Context Imports](docs/remote-composable-context-imports.md) — design notes for lockfile/cache/auth hardening
 - [Context Format Spec](spec/context-format.md) — the `pluribus.md` format reference
 - [Skills Format Spec](spec/skills-format.md) — how adapters work and how to write custom skills
 

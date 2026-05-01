@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url'
 import { spawnSync } from 'node:child_process'
 
 import { parsePluribusFile } from '../src/utils/parser.js'
-import { resolveImports } from '../src/utils/imports.js'
+import { resolveImports, resolveImportsAsync } from '../src/utils/imports.js'
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -121,18 +121,167 @@ test('rejects imports that escape the project root', () => {
   )
 })
 
-test('rejects GitHub and URL imports clearly', () => {
+test('rejects GitHub and URL imports unless remote resolution is explicitly enabled', () => {
   const dir = tempProject()
   writeFile(path.join(dir, 'github.md'), '# @import github:owner/repo/path.md')
   writeFile(path.join(dir, 'url.md'), '# @import https://example.com/context.md')
 
   assert.throws(
     () => resolveImports(path.join(dir, 'github.md')),
-    /Remote imports are not supported yet: github:owner\/repo\/path\.md/
+    /Remote imports are not enabled: github:owner\/repo\/path\.md/
   )
   assert.throws(
     () => resolveImports(path.join(dir, 'url.md')),
-    /Remote imports are not supported yet: https:\/\/example\.com\/context\.md/
+    /Remote imports are not enabled: https:\/\/example\.com\/context\.md/
+  )
+})
+
+test('fetches explicit HTTPS imports with size and content-type guards', async () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), `
+# @import https://example.com/context.md
+
+# Goals
+Local goals win
+`)
+
+  const requested = []
+  const resolved = await resolveImportsAsync(path.join(dir, 'pluribus.md'), {
+    allowRemote: true,
+    fetchImpl: async (url) => {
+      requested.push(url)
+      return new Response('# Identity\nRemote identity', {
+        headers: { 'content-type': 'text/markdown; charset=utf-8' },
+      })
+    },
+  })
+  const sections = parsePluribusFile(resolved.content)
+
+  assert.deepEqual(requested, ['https://example.com/context.md'])
+  assert.equal(resolved.imports[0].to, 'https://example.com/context.md')
+  assert.equal(sections.Identity, 'Remote identity')
+  assert.equal(sections.Goals, 'Local goals win')
+})
+
+test('normalizes github: imports to public raw GitHub URLs and supports same-repo nested imports', async () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), '# @import github:owner/repo/contexts/base.md@main')
+
+  const requested = []
+  const resolved = await resolveImportsAsync(path.join(dir, 'pluribus.md'), {
+    allowRemote: true,
+    fetchImpl: async (url) => {
+      requested.push(url)
+      if (url.endsWith('/contexts/base.md')) {
+        return new Response('# @import ./identity.md\n\n# Goals\nShared goals', {
+          headers: { 'content-type': 'text/plain; charset=utf-8' },
+        })
+      }
+      return new Response('# Identity\nNested identity', {
+        headers: { 'content-type': 'text/plain; charset=utf-8' },
+      })
+    },
+  })
+  const sections = parsePluribusFile(resolved.content)
+
+  assert.deepEqual(requested, [
+    'https://raw.githubusercontent.com/owner/repo/main/contexts/base.md',
+    'https://raw.githubusercontent.com/owner/repo/main/contexts/identity.md',
+  ])
+  assert.equal(sections.Identity, 'Nested identity')
+  assert.equal(sections.Goals, 'Shared goals')
+})
+
+test('rejects unsafe remote specs without leaking credentials', async () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'http.md'), '# @import http://example.com/context.md')
+  writeFile(path.join(dir, 'creds.md'), '# @import https://user:secret@example.com/context.md')
+
+  await assert.rejects(
+    () => resolveImportsAsync(path.join(dir, 'http.md'), { allowRemote: true }),
+    /Remote imports require https:\/\/, not http:\/\//
+  )
+  await assert.rejects(
+    () => resolveImportsAsync(path.join(dir, 'creds.md'), { allowRemote: true }),
+    (err) => {
+      assert.match(err.message, /Credential-bearing HTTPS import URLs are not supported/)
+      assert.doesNotMatch(err.message, /secret/)
+      return true
+    }
+  )
+})
+
+test('enforces remote import size and content-type limits', async () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'too-large.md'), '# @import https://example.com/large.md')
+  writeFile(path.join(dir, 'binary.md'), '# @import https://example.com/binary.bin')
+
+  await assert.rejects(
+    () => resolveImportsAsync(path.join(dir, 'too-large.md'), {
+      allowRemote: true,
+      maxRemoteBytes: 4,
+      fetchImpl: async () => new Response('12345', {
+        headers: { 'content-type': 'text/markdown; charset=utf-8' },
+      }),
+    }),
+    (err) => err.code === 'REMOTE_IMPORT_TOO_LARGE'
+  )
+
+  await assert.rejects(
+    () => resolveImportsAsync(path.join(dir, 'binary.md'), {
+      allowRemote: true,
+      fetchImpl: async () => new Response('not markdown', {
+        headers: { 'content-type': 'image/png' },
+      }),
+    }),
+    (err) => err.code === 'REMOTE_IMPORT_UNSUPPORTED_CONTENT'
+  )
+})
+
+test('enforces remote timeouts and unsafe redirect checks', async () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'timeout.md'), '# @import https://example.com/slow.md')
+  writeFile(path.join(dir, 'redirect.md'), '# @import https://example.com/redirect.md')
+
+  await assert.rejects(
+    () => resolveImportsAsync(path.join(dir, 'timeout.md'), {
+      allowRemote: true,
+      timeoutMs: 1,
+      fetchImpl: async (_url, init) => new Promise((_resolve, reject) => {
+        init.signal.addEventListener('abort', () => {
+          const err = new Error('aborted')
+          err.name = 'AbortError'
+          reject(err)
+        })
+      }),
+    }),
+    (err) => err.code === 'REMOTE_IMPORT_TIMEOUT'
+  )
+
+  await assert.rejects(
+    () => resolveImportsAsync(path.join(dir, 'redirect.md'), {
+      allowRemote: true,
+      fetchImpl: async () => new Response('', {
+        status: 302,
+        headers: { location: 'http://example.com/plain.md' },
+      }),
+    }),
+    (err) => err.code === 'REMOTE_IMPORT_UNSAFE_REDIRECT'
+  )
+})
+
+test('rejects relative imports from direct HTTPS documents', async () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), '# @import https://example.com/base.md')
+
+  await assert.rejects(
+    () => resolveImportsAsync(path.join(dir, 'pluribus.md'), {
+      allowRemote: true,
+      fetchImpl: async () => new Response('# @import ./nested.md', {
+        headers: { 'content-type': 'text/markdown; charset=utf-8' },
+      }),
+    }),
+    /Relative imports from HTTPS documents are not supported/
   )
 })
 

@@ -1,6 +1,6 @@
 # Composable Contexts
 
-Pluribus supports local context imports so teams can share a base context and let each project add or override what is specific to that repo.
+Pluribus supports context imports so teams can share a base context and let each project add or override what is specific to that repo.
 
 Use this when you have one set of org/team conventions that should be inherited by multiple projects, but each project still needs its own stack, goals, constraints, or examples.
 
@@ -39,19 +39,29 @@ This keeps the inheritance model simple:
 2. team context next
 3. project-local context last
 
-## Safety rules in the MVP
+## Safety rules
 
-The first implementation is intentionally local-only:
+Local imports are deterministic by default:
 
 - ✅ `# @import ./relative/path.md`
 - ✅ nested imports up to depth `5`
 - ✅ cycle detection
 - ✅ path-escape protection outside the project root
-- ❌ `github:` imports for now
-- ❌ `http://` or `https://` imports for now
 - ❌ shell execution during import resolution
 
-Remote imports need stricter cache, auth, timeout, and supply-chain rules before they are safe enough to ship.
+Remote imports are explicit opt-in via `pluribus sync --update-imports`:
+
+- ✅ `github:owner/repo/path.md[@ref]` public raw imports
+- ✅ direct `https://...` Markdown/text imports
+- ✅ HTTPS only; `http://` is rejected
+- ✅ request timeout, redirect limit, UTF-8/text content checks, per-file and merged-size limits
+- ✅ credential-bearing URLs are rejected/redacted in errors
+- ✅ nested relative imports inside `github:` resources stay in the same repo/ref
+- ❌ relative imports from arbitrary HTTPS documents
+- ❌ lockfile/cache/offline CI mode for now
+- ❌ private GitHub auth flow for now
+
+Remote imports are deliberately disabled unless `--update-imports` is passed so normal sync runs do not perform silent network access.
 
 ## Example layout
 

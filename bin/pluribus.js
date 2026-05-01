@@ -32,6 +32,7 @@ OPTIONS (sync)
   --dry-run       Preview output without writing files
   --tools         Override which tools to sync (comma-separated)
   --source        Path to pluribus.md (default: ./pluribus.md)
+  --update-imports  Explicitly allow fetching remote github:/https:// imports
 
 EXAMPLES
   pluribus init
@@ -39,6 +40,7 @@ EXAMPLES
   pluribus sync
   pluribus sync --dry-run
   pluribus sync --tools claude,openclaw
+  pluribus sync --update-imports
 
 DOCS
   https://github.com/caioribeiroclw-pixel/pluribus

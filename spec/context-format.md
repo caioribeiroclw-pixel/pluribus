@@ -44,7 +44,11 @@ Imports are resolved during `pluribus sync` before the file is parsed into secti
 - Nested imports are allowed up to depth `5`.
 - Cycles are rejected with the import path chain.
 - Imports cannot escape the project/source root.
-- Remote imports (`github:`, `http://`, `https://`) are reserved for a future release and currently fail clearly.
+- Remote imports are available only when sync is run with explicit network refresh (`pluribus sync --update-imports`).
+- `github:owner/repo/path.md[@ref]` resolves to public raw GitHub content; nested relative imports stay within the same repo/ref.
+- Direct `https://...` Markdown/text imports are supported; `http://` and credential-bearing URLs are rejected.
+- Remote fetches enforce timeout, redirect, UTF-8/text content, per-file size, and merged-size limits.
+- Lockfile/cache/offline CI behavior is not implemented yet; remote imports are not deterministic without `--update-imports`.
 - Context files are never executed; imports only read Markdown text.
 
 ### Example
