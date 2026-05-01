@@ -9,6 +9,7 @@
  * sync runs never perform silent network access.
  */
 
+import * as crypto from 'crypto'
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -40,6 +41,9 @@ const DEFAULT_MAX_REDIRECTS = 3
  * @property {number} [maxRemoteBytes] Maximum bytes per remote document. Defaults to 256 KiB.
  * @property {number} [maxMergedRemoteBytes] Maximum total remote bytes in one resolution. Defaults to 1 MiB.
  * @property {number} [maxRedirects] Maximum HTTPS redirects. Defaults to 3.
+ * @property {string} [lockfilePath] Project remote import lockfile path.
+ * @property {string} [cacheDir] Directory for digest-addressed remote import cache entries.
+ * @property {boolean} [updateLockfile] Write fetched remote imports into lockfile/cache.
  */
 
 /**
@@ -92,10 +96,14 @@ function createContext(sourcePath, options, asyncMode) {
     maxRemoteBytes: Number.isInteger(options.maxRemoteBytes) ? options.maxRemoteBytes : DEFAULT_MAX_REMOTE_BYTES,
     maxMergedRemoteBytes: Number.isInteger(options.maxMergedRemoteBytes) ? options.maxMergedRemoteBytes : DEFAULT_MAX_MERGED_REMOTE_BYTES,
     maxRedirects: Number.isInteger(options.maxRedirects) ? options.maxRedirects : DEFAULT_MAX_REDIRECTS,
+    lockfilePath: options.lockfilePath ? path.resolve(options.lockfilePath) : null,
+    cacheDir: options.cacheDir ? path.resolve(options.cacheDir) : null,
+    updateLockfile: Boolean(options.updateLockfile),
     depth: 0,
     stack: [],
     imports: [],
     remoteState: { bytes: 0 },
+    lockfile: options.lockfilePath ? readRemoteLockfile(path.resolve(options.lockfilePath)) : null,
   }
 }
 
@@ -342,6 +350,13 @@ function buildGithubRawUrl(owner, repo, ref, filePath) {
 
 async function readRemoteResource(resource, ctx) {
   if (!ctx.allowRemote) {
+    const cachedText = readLockedRemoteText(resource, ctx)
+    if (cachedText !== null) return cachedText
+
+    if (ctx.lockfilePath) {
+      throw remoteError('REMOTE_IMPORT_UNLOCKED', `Remote import is not locked or cached: ${resource.display}. Run pluribus sync --update-imports to refresh pluribus.lock.json.`)
+    }
+
     throw new Error(`Remote imports are not enabled: ${resource.display}`)
   }
 
@@ -349,8 +364,9 @@ async function readRemoteResource(resource, ctx) {
     throw new Error('Remote imports require a fetch implementation')
   }
 
-  const text = await fetchRemoteText(resource, ctx)
-  return text
+  const fetched = await fetchRemoteText(resource, ctx)
+  writeLockedRemoteText(resource, fetched, ctx)
+  return fetched.text
 }
 
 async function fetchRemoteText(resource, ctx) {
@@ -418,13 +434,102 @@ async function fetchRemoteText(resource, ctx) {
     }
 
     try {
-      return new TextDecoder('utf-8', { fatal: true }).decode(bytes)
+      return {
+        text: new TextDecoder('utf-8', { fatal: true }).decode(bytes),
+        bytes,
+        byteLength: bytes.byteLength,
+        contentType,
+      }
     } catch {
       throw remoteError('REMOTE_IMPORT_UNSUPPORTED_CONTENT', `Remote import is not valid UTF-8: ${resource.display}`)
     }
   }
 
   throw remoteError('REMOTE_IMPORT_UNSAFE_REDIRECT', `Remote import exceeded ${ctx.maxRedirects} redirects: ${resource.display}`)
+}
+
+function readRemoteLockfile(lockfilePath) {
+  if (!fs.existsSync(lockfilePath)) {
+    return { version: 1, remoteImports: {} }
+  }
+
+  try {
+    const parsed = JSON.parse(fs.readFileSync(lockfilePath, 'utf8'))
+    if (parsed?.version !== 1 || typeof parsed.remoteImports !== 'object' || parsed.remoteImports === null) {
+      throw new Error('expected version 1 with remoteImports object')
+    }
+    return parsed
+  } catch (err) {
+    throw new Error(`Could not read remote import lockfile ${formatPath(lockfilePath)}: ${err.message}`)
+  }
+}
+
+function readLockedRemoteText(resource, ctx) {
+  if (!ctx.lockfilePath || !ctx.cacheDir || !ctx.lockfile) return null
+
+  const entry = ctx.lockfile.remoteImports[resource.id]
+  if (!entry) return null
+
+  const digestHex = parseSha256Digest(entry.digest)
+  if (!digestHex) {
+    throw remoteError('REMOTE_IMPORT_DIGEST_MISMATCH', `Remote import lock entry has invalid digest for ${resource.display}`)
+  }
+
+  const cachePath = path.join(ctx.cacheDir, `${digestHex}.md`)
+  if (!fs.existsSync(cachePath)) return null
+
+  const bytes = fs.readFileSync(cachePath)
+  const actualDigest = sha256Digest(bytes)
+  if (actualDigest !== entry.digest) {
+    throw remoteError('REMOTE_IMPORT_DIGEST_MISMATCH', `Remote import cache digest mismatch for ${resource.display}`)
+  }
+
+  try {
+    return new TextDecoder('utf-8', { fatal: true }).decode(bytes)
+  } catch {
+    throw remoteError('REMOTE_IMPORT_UNSUPPORTED_CONTENT', `Cached remote import is not valid UTF-8: ${resource.display}`)
+  }
+}
+
+function writeLockedRemoteText(resource, fetched, ctx) {
+  if (!ctx.updateLockfile || !ctx.lockfilePath || !ctx.cacheDir || !ctx.lockfile) return
+
+  const digest = sha256Digest(fetched.bytes)
+  fs.mkdirSync(ctx.cacheDir, { recursive: true })
+  fs.writeFileSync(path.join(ctx.cacheDir, `${parseSha256Digest(digest)}.md`), fetched.bytes)
+
+  ctx.lockfile.remoteImports[resource.id] = {
+    spec: resource.display,
+    url: resource.url,
+    digest,
+    bytes: fetched.byteLength,
+    contentType: fetched.contentType || null,
+    fetchedAt: new Date().toISOString(),
+  }
+  writeRemoteLockfile(ctx.lockfilePath, ctx.lockfile)
+}
+
+function writeRemoteLockfile(lockfilePath, lockfile) {
+  const sortedEntries = Object.fromEntries(
+    Object.entries(lockfile.remoteImports).sort(([a], [b]) => a.localeCompare(b))
+  )
+  const normalized = {
+    version: 1,
+    remoteImports: sortedEntries,
+  }
+
+  fs.mkdirSync(path.dirname(lockfilePath), { recursive: true })
+  fs.writeFileSync(lockfilePath, `${JSON.stringify(normalized, null, 2)}\n`, 'utf8')
+}
+
+function sha256Digest(bytes) {
+  return `sha256-${crypto.createHash('sha256').update(bytes).digest('hex')}`
+}
+
+function parseSha256Digest(digest) {
+  if (typeof digest !== 'string') return null
+  const match = digest.match(/^sha256-([a-f0-9]{64})$/)
+  return match ? match[1] : null
 }
 
 function isRedirect(status) {

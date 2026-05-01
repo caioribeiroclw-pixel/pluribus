@@ -1,5 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
+import * as crypto from 'node:crypto'
 import * as fs from 'node:fs'
 import * as os from 'node:os'
 import * as path from 'node:path'
@@ -18,6 +19,10 @@ function tempProject() {
 function writeFile(filePath, content) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true })
   fs.writeFileSync(filePath, content.trimStart(), 'utf8')
+}
+
+function sha256Digest(content) {
+  return `sha256-${crypto.createHash('sha256').update(content).digest('hex')}`
 }
 
 const requiredSections = `
@@ -161,6 +166,105 @@ Local goals win
   assert.equal(resolved.imports[0].to, 'https://example.com/context.md')
   assert.equal(sections.Identity, 'Remote identity')
   assert.equal(sections.Goals, 'Local goals win')
+})
+
+test('updates lockfile and digest cache when remote imports are refreshed', async () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), '# @import https://example.com/context.md')
+
+  const lockfilePath = path.join(dir, 'pluribus.lock.json')
+  const cacheDir = path.join(dir, '.pluribus', 'cache', 'remote')
+
+  const resolved = await resolveImportsAsync(path.join(dir, 'pluribus.md'), {
+    allowRemote: true,
+    lockfilePath,
+    cacheDir,
+    updateLockfile: true,
+    fetchImpl: async () => new Response('# Identity\nLocked identity', {
+      headers: { 'content-type': 'text/markdown; charset=utf-8' },
+    }),
+  })
+
+  const digest = sha256Digest('# Identity\nLocked identity')
+  const lockfile = JSON.parse(fs.readFileSync(lockfilePath, 'utf8'))
+  const entry = lockfile.remoteImports['https://example.com/context.md']
+
+  assert.match(resolved.content, /Locked identity/)
+  assert.equal(entry.digest, digest)
+  assert.equal(entry.bytes, Buffer.byteLength('# Identity\nLocked identity'))
+  assert.equal(entry.contentType, 'text/markdown; charset=utf-8')
+  assert.equal(fs.readFileSync(path.join(cacheDir, `${digest.replace('sha256-', '')}.md`), 'utf8'), '# Identity\nLocked identity')
+})
+
+test('resolves locked remote imports from cache without network access', async () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), '# @import https://example.com/context.md')
+
+  const content = '# Identity\nCached identity'
+  const digest = sha256Digest(content)
+  const lockfilePath = path.join(dir, 'pluribus.lock.json')
+  const cacheDir = path.join(dir, '.pluribus', 'cache', 'remote')
+
+  writeFile(lockfilePath, JSON.stringify({
+    version: 1,
+    remoteImports: {
+      'https://example.com/context.md': {
+        spec: 'https://example.com/context.md',
+        url: 'https://example.com/context.md',
+        digest,
+        bytes: Buffer.byteLength(content),
+        contentType: 'text/markdown; charset=utf-8',
+        fetchedAt: '2026-05-01T00:00:00.000Z',
+      },
+    },
+  }, null, 2))
+  writeFile(path.join(cacheDir, `${digest.replace('sha256-', '')}.md`), content)
+
+  const resolved = await resolveImportsAsync(path.join(dir, 'pluribus.md'), {
+    lockfilePath,
+    cacheDir,
+    fetchImpl: async () => {
+      throw new Error('network should not be used')
+    },
+  })
+
+  assert.match(resolved.content, /Cached identity/)
+})
+
+test('fails locked remote imports on cache digest mismatch', async () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), '# @import https://example.com/context.md')
+
+  const expected = '# Identity\nExpected identity'
+  const expectedDigest = sha256Digest(expected)
+  const tamperedDigest = sha256Digest('# Identity\nTampered identity')
+  const lockfilePath = path.join(dir, 'pluribus.lock.json')
+  const cacheDir = path.join(dir, '.pluribus', 'cache', 'remote')
+
+  writeFile(lockfilePath, JSON.stringify({
+    version: 1,
+    remoteImports: {
+      'https://example.com/context.md': {
+        spec: 'https://example.com/context.md',
+        url: 'https://example.com/context.md',
+        digest: expectedDigest,
+        bytes: Buffer.byteLength(expected),
+        contentType: 'text/markdown; charset=utf-8',
+        fetchedAt: '2026-05-01T00:00:00.000Z',
+      },
+    },
+  }, null, 2))
+  writeFile(path.join(cacheDir, `${expectedDigest.replace('sha256-', '')}.md`), '# Identity\nTampered identity')
+
+  await assert.rejects(
+    () => resolveImportsAsync(path.join(dir, 'pluribus.md'), { lockfilePath, cacheDir }),
+    (err) => {
+      assert.equal(err.code, 'REMOTE_IMPORT_DIGEST_MISMATCH')
+      assert.doesNotMatch(err.message, /Tampered identity/)
+      assert.notEqual(tamperedDigest, expectedDigest)
+      return true
+    }
+  )
 })
 
 test('normalizes github: imports to public raw GitHub URLs and supports same-repo nested imports', async () => {

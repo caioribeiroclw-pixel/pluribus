@@ -61,7 +61,7 @@ And it generates the right files for each tool:
 - It's **universal** — every tool already parses markdown
 - It's **composable** — import shared contexts across projects
 - It's **versionable** — git diff your AI context like you diff your code
-- It's **simple** — no YAML schemas, no JSON configs, no lock files
+- It's **simple** — no YAML schemas, minimal JSON only when you opt into locked remote imports
 
 ## Getting Started
 
@@ -144,6 +144,14 @@ Local sections are applied after imported sections, so project-specific context 
 pluribus sync
 ```
 
+If you use remote imports, refresh and pin them explicitly:
+
+```bash
+pluribus sync --update-imports
+```
+
+That writes `pluribus.lock.json` plus a local `.pluribus/cache/remote/` content cache. Future plain `pluribus sync` runs resolve those remote imports from the lock/cache without network access, and fail if cached bytes no longer match the recorded digest.
+
 Output:
 ```
 🔄 Syncing pluribus.md → claude, cursor, openclaw
@@ -204,7 +212,7 @@ See `spec/skills-format.md` for the skill file format.
 - [ ] `pluribus validate` command
 - [x] Composable contexts MVP (local `# @import ./file.md`)
 - [x] Remote composable contexts MVP (explicit `--update-imports`, public GitHub/HTTPS, safety limits)
-- [ ] Remote imports lockfile/cache/auth hardening
+- [~] Remote imports hardening (lockfile/cache/digest offline mode done; auth still open)
 - [ ] CI/CD: auto-sync on commit
 - [ ] Published to npm
 

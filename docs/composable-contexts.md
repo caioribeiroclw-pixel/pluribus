@@ -57,11 +57,12 @@ Remote imports are explicit opt-in via `pluribus sync --update-imports`:
 - ✅ request timeout, redirect limit, UTF-8/text content checks, per-file and merged-size limits
 - ✅ credential-bearing URLs are rejected/redacted in errors
 - ✅ nested relative imports inside `github:` resources stay in the same repo/ref
+- ✅ `pluribus sync --update-imports` writes `pluribus.lock.json` and `.pluribus/cache/remote/`
+- ✅ later plain `pluribus sync` runs reuse the locked cache offline with SHA-256 verification
 - ❌ relative imports from arbitrary HTTPS documents
-- ❌ lockfile/cache/offline CI mode for now
 - ❌ private GitHub auth flow for now
 
-Remote imports are deliberately disabled unless `--update-imports` is passed so normal sync runs do not perform silent network access.
+Remote imports are deliberately disabled unless `--update-imports` is passed so normal sync runs do not perform silent network access. Once a remote import is locked, normal sync runs read it from the local cache instead of the network. If a remote import has no lock entry/cache yet, sync fails closed and asks you to refresh with `--update-imports`.
 
 ## Example layout
 

@@ -43,9 +43,13 @@ export async function runSync(args) {
 
   let resolvedContent
   try {
+    const projectDir = path.dirname(sourcePath)
     const resolved = await resolveImportsAsync(sourcePath, {
-      rootDir: path.dirname(sourcePath),
+      rootDir: projectDir,
       allowRemote: updateImports,
+      lockfilePath: path.join(projectDir, 'pluribus.lock.json'),
+      cacheDir: path.join(projectDir, '.pluribus', 'cache', 'remote'),
+      updateLockfile: updateImports,
     })
     resolvedContent = resolved.content
   } catch (err) {
