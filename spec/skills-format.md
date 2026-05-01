@@ -192,7 +192,7 @@ author: Pluribus contributors
 
 ## Built-in Skills
 
-Pluribus ships with four built-in skills. Their behavior is defined below. The full template source is available in the Pluribus source repository under `src/skills/`.
+Pluribus ships with five built-in skills. Their behavior is defined below. The full template source is available in the Pluribus source repository under `src/skills/`.
 
 ### `claude`
 
@@ -221,6 +221,13 @@ Pluribus ships with four built-in skills. Their behavior is defined below. The f
 - **Target tool:** OpenClaw AI agent runner
 - **Format:** Markdown with specific sections OpenClaw expects: `## Identity`, `## Role`, `## Stack`, `## Conventions`, `## Constraints`. OpenClaw also reads `SOUL.md` for tone — skills can optionally generate `SOUL.md` as a second output.
 - **Sections used:** all required + examples
+
+### `zed`
+
+- **Output:** `.rules`
+- **Target tool:** Zed Editor
+- **Format:** Markdown-style rules file for Zed AI. Focuses on conventions and constraints, with optional project identity, stack, goals, and anti-patterns when present.
+- **Sections used:** conventions, constraints + optional identity, stack, goals, anti-patterns
 
 ---
 
