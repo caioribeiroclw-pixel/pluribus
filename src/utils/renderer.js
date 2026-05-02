@@ -4,8 +4,7 @@
  */
 
 import { slugify } from './parser.js'
-
-const VERSION = '0.1.0'
+import { VERSION } from './version.js'
 
 /**
  * @param {string} template

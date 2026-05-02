@@ -10,8 +10,7 @@ import { runSync } from '../src/commands/sync.js'
 import { runValidate } from '../src/commands/validate.js'
 import { runWatch } from '../src/commands/watch.js'
 import { parseArgs } from '../src/utils/args.js'
-
-const VERSION = '0.1.0'
+import { VERSION } from '../src/utils/version.js'
 
 const HELP = `
 Pluribus v${VERSION} — Write your AI context once. Sync it to every tool.
