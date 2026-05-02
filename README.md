@@ -45,7 +45,7 @@ pluribus/
 Then:
 
 ```bash
-npx pluribus sync
+npx pluribus-context sync
 ```
 
 And it generates the right files for each tool:
@@ -73,10 +73,10 @@ And it generates the right files for each tool:
 
 ```bash
 # From npm (once published)
-npm install -g pluribus
+npm install -g pluribus-context
 
 # Or run directly with npx
-npx pluribus
+npx pluribus-context
 
 # Or clone and link locally
 git clone https://github.com/caioribeiroclw-pixel/pluribus.git
@@ -251,7 +251,7 @@ See `spec/skills-format.md` for the skill file format.
 - [x] `pluribus watch` command (debounced auto-sync on context changes)
 - [x] Composable contexts MVP (local `# @import ./file.md`)
 - [x] Remote composable contexts MVP (explicit `--update-imports`, public GitHub/HTTPS, safety limits)
-- [~] Remote imports hardening (lockfile/cache/digest offline mode and optional GitHub auth done; CI/cache ergonomics still open)
+- [x] Remote imports hardening (lockfile/cache/digest offline mode, optional GitHub auth, and CI coverage)
 - [ ] CI/CD: auto-sync on commit
 - [ ] Published to npm
 
@@ -281,7 +281,7 @@ This project is just getting started. The best way to help right now:
 2. 🗣️ [Open an issue](https://github.com/caioribeiroclw-pixel/pluribus/issues) describing your context management pain
 3. 📣 Share with someone who maintains 3+ AI context files
 
-Looking for first contributions? Check out the [good first issues](https://github.com/caioribeiroclw-pixel/pluribus/issues?q=is%3Aopen+label%3A%22good+first+issue%22) — watch mode and other DX improvements are next.
+Looking for first contributions? Check out the [open issues](https://github.com/caioribeiroclw-pixel/pluribus/issues). The next good contributions are release polish, CI/CD workflow examples, and real-world adapter feedback.
 
 ## License
 

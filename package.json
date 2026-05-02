@@ -1,15 +1,26 @@
 {
-  "name": "pluribus",
+  "name": "pluribus-context",
   "version": "0.1.0",
-  "description": "Write your AI context once. Sync it to every tool.",
+  "description": "Intentional context across every AI tool you use.",
   "type": "module",
+  "homepage": "https://github.com/caioribeiroclw-pixel/pluribus#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caioribeiroclw-pixel/pluribus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/caioribeiroclw-pixel/pluribus/issues"
+  },
   "bin": {
     "pluribus": "./bin/pluribus.js"
   },
   "main": "./src/index.js",
   "files": [
     "bin/",
-    "src/"
+    "src/",
+    "docs/",
+    "spec/",
+    "examples/"
   ],
   "scripts": {
     "start": "node bin/pluribus.js",
@@ -19,9 +30,15 @@
     "ai",
     "cli",
     "context",
+    "context-engineering",
+    "ai-tools",
     "claude",
+    "claude-code",
     "cursor",
     "copilot",
+    "windsurf",
+    "continue",
+    "zed",
     "openclaw",
     "developer-tools"
   ],
