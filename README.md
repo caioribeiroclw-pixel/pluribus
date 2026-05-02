@@ -195,6 +195,20 @@ pluribus sync --dry-run
 pluribus sync --tools claude,openclaw
 ```
 
+**Keep tool files fresh while editing:**
+
+```bash
+pluribus watch
+```
+
+`watch` monitors `pluribus.md`, debounces rapid editor saves, and re-runs `sync` automatically. It accepts the same `--source`, `--tools`, and `--update-imports` options as `sync`.
+
+For scripts/hooks that should exit after the first detected change-triggered sync:
+
+```bash
+pluribus watch --once --tools claude,cursor
+```
+
 ### Supported Tools
 
 | Flag | Output file | AI Tool |
@@ -234,6 +248,7 @@ See `spec/skills-format.md` for the skill file format.
 - [x] Windsurf integration (built-in workspace rule)
 - [x] Continue integration (built-in workspace rule)
 - [x] `pluribus validate` command
+- [x] `pluribus watch` command (debounced auto-sync on context changes)
 - [x] Composable contexts MVP (local `# @import ./file.md`)
 - [x] Remote composable contexts MVP (explicit `--update-imports`, public GitHub/HTTPS, safety limits)
 - [~] Remote imports hardening (lockfile/cache/digest offline mode and optional GitHub auth done; CI/cache ergonomics still open)

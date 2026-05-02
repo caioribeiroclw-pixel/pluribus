@@ -8,6 +8,7 @@
 import { runInit } from '../src/commands/init.js'
 import { runSync } from '../src/commands/sync.js'
 import { runValidate } from '../src/commands/validate.js'
+import { runWatch } from '../src/commands/watch.js'
 import { parseArgs } from '../src/utils/args.js'
 
 const VERSION = '0.1.0'
@@ -22,6 +23,7 @@ COMMANDS
   init      Create a pluribus.md file in the current directory
   sync      Read pluribus.md and generate tool-specific output files
   validate  Validate pluribus.md before syncing
+  watch     Watch pluribus.md and auto-sync after changes
   help      Show this help message
 
 OPTIONS (init)
@@ -39,6 +41,13 @@ OPTIONS (validate)
   --source        Path to pluribus.md (default: ./pluribus.md)
   --update-imports  Refresh remote github:/https:// imports before validating
 
+OPTIONS (watch)
+  --source        Path to pluribus.md (default: ./pluribus.md)
+  --tools         Override which tools to sync (comma-separated)
+  --update-imports  Explicitly allow fetching remote github:/https:// imports
+  --once          Exit after the first change-triggered sync
+  --debounce      Debounce delay in ms (minimum 300, default 400)
+
 EXAMPLES
   pluribus init
   pluribus init --name "Ana" --description "A task manager" --tools claude,cursor
@@ -47,6 +56,7 @@ EXAMPLES
   pluribus sync --tools claude,openclaw
   pluribus sync --update-imports
   pluribus validate
+  pluribus watch --tools claude,cursor
 
 DOCS
   https://github.com/caioribeiroclw-pixel/pluribus
@@ -78,6 +88,9 @@ async function main() {
         break
       case 'validate':
         await runValidate(parsedArgs)
+        break
+      case 'watch':
+        await runWatch(parsedArgs)
         break
       default:
         console.error(`❌ Unknown command: "${command}"`)
