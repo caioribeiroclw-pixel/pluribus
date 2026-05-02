@@ -36,11 +36,6 @@ export async function runWatch(args) {
     process.exit(1)
   }
 
-  console.log(`👀 Watching ${displayPath} for changes...`)
-  console.log(`   Debounce: ${debounceMs}ms${once ? ' | once mode enabled' : ''}`)
-  console.log('   Press Ctrl+C to stop.')
-  console.log('')
-
   let debounceTimer = null
   let running = false
   let pending = false
@@ -55,6 +50,11 @@ export async function runWatch(args) {
     if (filename && filename.toString() !== sourceFile) return
     scheduleSync()
   })
+
+  console.log(`👀 Watching ${displayPath} for changes...`)
+  console.log(`   Debounce: ${debounceMs}ms${once ? ' | once mode enabled' : ''}`)
+  console.log('   Press Ctrl+C to stop.')
+  console.log('')
 
   watcher.on('error', (err) => {
     console.error(`❌ Watcher failed: ${err.message}`)
