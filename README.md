@@ -270,6 +270,8 @@ If you've felt this pain, [open an issue](https://github.com/caioribeiroclw-pixe
 - [Remote Composable Context Imports](docs/remote-composable-context-imports.md) — design notes for lockfile/cache/auth hardening
 - [Context Format Spec](spec/context-format.md) — the `pluribus.md` format reference
 - [Skills Format Spec](spec/skills-format.md) — how adapters work and how to write custom skills
+- [Release Checklist](docs/release-checklist.md) — reproducible npm/GitHub release steps
+- [Changelog](CHANGELOG.md) — user-facing release notes
 
 ---
 
