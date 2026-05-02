@@ -13,7 +13,7 @@ It is **not** a persistent memory layer, retrieval system, agent orchestrator, o
 
 ## The Problem
 
-You use Claude, Copilot, Cursor, Windsurf, Zed, ChatGPT, and whatever ships next Tuesday.
+You use Claude, Copilot, Cursor, Windsurf, Continue, Zed, ChatGPT, and whatever ships next Tuesday.
 
 Each one has its own way of understanding your project:
 - `CLAUDE.md` for Claude Code
@@ -21,6 +21,7 @@ Each one has its own way of understanding your project:
 - `.cursorrules` for Cursor
 - `AGENTS.md` for OpenClaw
 - `.windsurf/rules/pluribus.md` for Windsurf Cascade
+- `.continue/rules/pluribus.md` for Continue
 - `.rules` for Zed
 
 You end up maintaining **5+ files** that say roughly the same thing — your project's architecture, conventions, tech stack, who you are, what matters. Copy-paste across files. They drift. They rot. You forget to update one. Your AI gives you wrong answers because it's reading stale context.
@@ -53,6 +54,7 @@ And it generates the right files for each tool:
 - `.cursorrules` ← for Cursor
 - `AGENTS.md` ← for OpenClaw
 - `.windsurf/rules/pluribus.md` ← for Windsurf Cascade
+- `.continue/rules/pluribus.md` ← for Continue
 - `.rules` ← for Zed
 
 **One source of truth. Zero drift.**
@@ -203,6 +205,7 @@ pluribus sync --tools claude,openclaw
 | `copilot` | `.github/copilot-instructions.md` | GitHub Copilot |
 | `zed` | `.rules` | Zed Editor |
 | `windsurf` | `.windsurf/rules/pluribus.md` | Windsurf Cascade workspace rules |
+| `continue` | `.continue/rules/pluribus.md` | Continue workspace rules |
 
 ### Custom Skills
 
@@ -229,6 +232,7 @@ See `spec/skills-format.md` for the skill file format.
 - [x] Zed Editor integration (built-in skill)
 - [ ] Custom skill overrides (local `pluribus/skills/`)
 - [x] Windsurf integration (built-in workspace rule)
+- [x] Continue integration (built-in workspace rule)
 - [x] `pluribus validate` command
 - [x] Composable contexts MVP (local `# @import ./file.md`)
 - [x] Remote composable contexts MVP (explicit `--update-imports`, public GitHub/HTTPS, safety limits)
@@ -262,7 +266,7 @@ This project is just getting started. The best way to help right now:
 2. 🗣️ [Open an issue](https://github.com/caioribeiroclw-pixel/pluribus/issues) describing your context management pain
 3. 📣 Share with someone who maintains 3+ AI context files
 
-Looking for first contributions? Check out the [good first issues](https://github.com/caioribeiroclw-pixel/pluribus/issues?q=is%3Aopen+label%3A%22good+first+issue%22) — integrations for Continue.dev, watch mode, and more.
+Looking for first contributions? Check out the [good first issues](https://github.com/caioribeiroclw-pixel/pluribus/issues?q=is%3Aopen+label%3A%22good+first+issue%22) — watch mode and other DX improvements are next.
 
 ## License
 

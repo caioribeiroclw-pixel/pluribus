@@ -192,7 +192,7 @@ author: Pluribus contributors
 
 ## Built-in Skills
 
-Pluribus ships with six built-in skills. Their behavior is defined below. The full template source is available in the Pluribus source repository under `src/skills/`.
+Pluribus ships with seven built-in skills. Their behavior is defined below. The full template source is available in the Pluribus source repository under `src/skills/`.
 
 ### `claude`
 
@@ -227,6 +227,13 @@ Pluribus ships with six built-in skills. Their behavior is defined below. The fu
 - **Output:** `.windsurf/rules/pluribus.md`
 - **Target tool:** Windsurf Cascade workspace rules
 - **Format:** Markdown workspace rule with `trigger: always_on` frontmatter. Windsurf currently discovers workspace rules from `.windsurf/rules/*.md`; this keeps the generated Pluribus context version-controlled and shared with the project.
+- **Sections used:** conventions, constraints + optional identity, stack, goals, workflow, anti-patterns, context
+
+### `continue`
+
+- **Output:** `.continue/rules/pluribus.md`
+- **Target tool:** Continue workspace rules
+- **Format:** Markdown local rule with frontmatter (`name`, `alwaysApply: true`). Continue discovers project-specific rules from `.continue/rules/*.md` and includes always-apply rules in Agent, Chat, and Edit mode requests.
 - **Sections used:** conventions, constraints + optional identity, stack, goals, workflow, anti-patterns, context
 
 ### `zed`

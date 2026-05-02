@@ -100,3 +100,24 @@ test('sync generates Windsurf workspace rule and creates .windsurf/rules directo
   assert.match(output, /## Constraints\nDo not add native dependencies\./)
   assert.match(output, /## Anti-patterns\nDo not duplicate project rules in tool-specific files\./)
 })
+
+test('sync generates Continue workspace rule and creates .continue/rules directory', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), context)
+
+  const result = runCli(dir, ['sync', '--tools', 'continue'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /\[continue\].*\.continue\/rules\/pluribus\.md/)
+
+  const outputPath = path.join(dir, '.continue', 'rules', 'pluribus.md')
+  assert.equal(fs.existsSync(outputPath), true)
+
+  const output = fs.readFileSync(outputPath, 'utf8')
+  assert.match(output, /name: Pluribus Project Context/)
+  assert.match(output, /alwaysApply: true/)
+  assert.match(output, /Pluribus Project Context for Continue/)
+  assert.match(output, /## Conventions\nUse async\/await and keep modules small\./)
+  assert.match(output, /## Constraints\nDo not add native dependencies\./)
+  assert.match(output, /## Anti-patterns\nDo not duplicate project rules in tool-specific files\./)
+})
