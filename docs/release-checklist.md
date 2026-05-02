@@ -39,7 +39,34 @@ The dry-run package should include at least:
 - `spec/`
 - `examples/`
 
-## 3. Publish
+## 3. Tarball install smoke
+
+Before publishing, install the exact tarball that `npm pack` creates into a temporary project and run the CLI as a user would. This catches version drift or missing packaged files that unit tests and dry-runs can miss.
+
+```bash
+TARBALL="$(npm pack --silent)"
+TMP_DIR="$(mktemp -d)"
+(
+  cd "$TMP_DIR"
+  npm init -y >/dev/null
+  npm install "$OLDPWD/$TARBALL" >/dev/null
+  npx --no-install pluribus --version
+  npx --no-install pluribus --help
+  npx --no-install pluribus init --force
+  npx --no-install pluribus validate
+  npx --no-install pluribus sync --dry-run
+)
+rm -rf "$TMP_DIR" "$TARBALL"
+```
+
+Expected results:
+
+- `pluribus --version` matches `package.json`.
+- `pluribus --help` shows the same version.
+- generated files mention the same Pluribus version.
+- `validate` and `sync --dry-run` work from the installed package, not the repo checkout.
+
+## 4. Publish
 
 Only publish after npm auth is active and the dry run is clean:
 
@@ -54,7 +81,7 @@ npm view pluribus-context version dist.tarball
 npx pluribus-context --help
 ```
 
-## 4. GitHub release
+## 5. GitHub release
 
 After npm publish succeeds:
 
@@ -62,7 +89,7 @@ After npm publish succeeds:
 - Create a GitHub release using the matching `CHANGELOG.md` section.
 - Link the npm package and the GitHub release from any launch post or reply.
 
-## 5. Post-release monitoring
+## 6. Post-release monitoring
 
 Within the next work block, check:
 
