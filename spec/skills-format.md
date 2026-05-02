@@ -192,7 +192,7 @@ author: Pluribus contributors
 
 ## Built-in Skills
 
-Pluribus ships with five built-in skills. Their behavior is defined below. The full template source is available in the Pluribus source repository under `src/skills/`.
+Pluribus ships with six built-in skills. Their behavior is defined below. The full template source is available in the Pluribus source repository under `src/skills/`.
 
 ### `claude`
 
@@ -222,6 +222,13 @@ Pluribus ships with five built-in skills. Their behavior is defined below. The f
 - **Format:** Markdown with specific sections OpenClaw expects: `## Identity`, `## Role`, `## Stack`, `## Conventions`, `## Constraints`. OpenClaw also reads `SOUL.md` for tone — skills can optionally generate `SOUL.md` as a second output.
 - **Sections used:** all required + examples
 
+### `windsurf`
+
+- **Output:** `.windsurf/rules/pluribus.md`
+- **Target tool:** Windsurf Cascade workspace rules
+- **Format:** Markdown workspace rule with `trigger: always_on` frontmatter. Windsurf currently discovers workspace rules from `.windsurf/rules/*.md`; this keeps the generated Pluribus context version-controlled and shared with the project.
+- **Sections used:** conventions, constraints + optional identity, stack, goals, workflow, anti-patterns, context
+
 ### `zed`
 
 - **Output:** `.rules`
@@ -239,22 +246,22 @@ To add support for a new AI tool:
 2. Add the three required sections: `# Output`, `# Template`, `# Sections`.
 3. Run `pluribus sync` — Pluribus will include your custom skill automatically.
 
-**Example: a custom skill for Windsurf**
+**Example: a custom skill for a team-specific review bot**
 
 ```markdown
 # Meta
 
-name: Windsurf
-tool: windsurf
-description: Generates .windsurfrules for Windsurf AI editor
+name: Review Bot
+tool: reviewbot
+description: Generates REVIEWBOT.md for a team-specific review assistant
 
 # Output
 
-.windsurfrules
+REVIEWBOT.md
 
 # Template
 
-You are an expert assistant for the following project.
+You are an expert reviewer for the following project.
 
 **Stack:** {{stack}}
 
@@ -275,7 +282,7 @@ required: stack, conventions, constraints
 optional: goals, identity
 ```
 
-4. Commit `pluribus/skills/windsurf.md` to your repo. All team members get the same output on next sync.
+4. Commit `pluribus/skills/reviewbot.md` to your repo. All team members get the same output on next sync.
 
 ---
 

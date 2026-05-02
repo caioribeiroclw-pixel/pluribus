@@ -80,3 +80,23 @@ test('sync generates GitHub Copilot instructions and creates .github directory',
   assert.match(output, /## Conventions\nUse async\/await and keep modules small\./)
   assert.match(output, /## Constraints\nDo not add native dependencies\./)
 })
+
+test('sync generates Windsurf workspace rule and creates .windsurf/rules directory', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), context)
+
+  const result = runCli(dir, ['sync', '--tools', 'windsurf'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /\[windsurf\].*\.windsurf\/rules\/pluribus\.md/)
+
+  const outputPath = path.join(dir, '.windsurf', 'rules', 'pluribus.md')
+  assert.equal(fs.existsSync(outputPath), true)
+
+  const output = fs.readFileSync(outputPath, 'utf8')
+  assert.match(output, /trigger: always_on/)
+  assert.match(output, /Pluribus Project Rules for Windsurf Cascade/)
+  assert.match(output, /## Conventions\nUse async\/await and keep modules small\./)
+  assert.match(output, /## Constraints\nDo not add native dependencies\./)
+  assert.match(output, /## Anti-patterns\nDo not duplicate project rules in tool-specific files\./)
+})
