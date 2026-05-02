@@ -140,7 +140,21 @@ I am Ana, building **Conduit** — a background job runner for Node.js.
 
 Local sections are applied after imported sections, so project-specific context can override shared context. See [Composable Contexts](docs/composable-contexts.md) for details.
 
-**4. Sync to all your tools**
+**4. Validate before syncing**
+
+```bash
+pluribus validate
+```
+
+This checks that `pluribus.md` exists, imports resolve, required sections are present, top-level sections are not duplicated, and any `pluribus:tools` comment uses supported tool names.
+
+If you use remote imports and want to refresh the lock/cache while validating:
+
+```bash
+pluribus validate --update-imports
+```
+
+**5. Sync to all your tools**
 
 ```bash
 pluribus sync
@@ -215,7 +229,7 @@ See `spec/skills-format.md` for the skill file format.
 - [x] Zed Editor integration (built-in skill)
 - [ ] Custom skill overrides (local `pluribus/skills/`)
 - [ ] Windsurf integration
-- [ ] `pluribus validate` command
+- [x] `pluribus validate` command
 - [x] Composable contexts MVP (local `# @import ./file.md`)
 - [x] Remote composable contexts MVP (explicit `--update-imports`, public GitHub/HTTPS, safety limits)
 - [~] Remote imports hardening (lockfile/cache/digest offline mode and optional GitHub auth done; CI/cache ergonomics still open)

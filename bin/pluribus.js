@@ -7,6 +7,7 @@
 
 import { runInit } from '../src/commands/init.js'
 import { runSync } from '../src/commands/sync.js'
+import { runValidate } from '../src/commands/validate.js'
 import { parseArgs } from '../src/utils/args.js'
 
 const VERSION = '0.1.0'
@@ -20,7 +21,7 @@ USAGE
 COMMANDS
   init      Create a pluribus.md file in the current directory
   sync      Read pluribus.md and generate tool-specific output files
-  validate  Validate the pluribus.md file (coming soon)
+  validate  Validate pluribus.md before syncing
   help      Show this help message
 
 OPTIONS (init)
@@ -34,6 +35,10 @@ OPTIONS (sync)
   --source        Path to pluribus.md (default: ./pluribus.md)
   --update-imports  Explicitly allow fetching remote github:/https:// imports
 
+OPTIONS (validate)
+  --source        Path to pluribus.md (default: ./pluribus.md)
+  --update-imports  Refresh remote github:/https:// imports before validating
+
 EXAMPLES
   pluribus init
   pluribus init --name "Ana" --description "A task manager" --tools claude,cursor
@@ -41,6 +46,7 @@ EXAMPLES
   pluribus sync --dry-run
   pluribus sync --tools claude,openclaw
   pluribus sync --update-imports
+  pluribus validate
 
 DOCS
   https://github.com/caioribeiroclw-pixel/pluribus
@@ -71,8 +77,7 @@ async function main() {
         await runSync(parsedArgs)
         break
       case 'validate':
-        console.log('⚠️  validate command coming soon. Run `pluribus sync --dry-run` to preview output.')
-        process.exit(0)
+        await runValidate(parsedArgs)
         break
       default:
         console.error(`❌ Unknown command: "${command}"`)

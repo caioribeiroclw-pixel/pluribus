@@ -300,7 +300,7 @@ A valid skill file must:
 - [ ] Contain `# Sections` with at least one `required:` entry
 - [ ] Use only known variable names in the template (unknown variables emit a warning, not an error)
 
-Run `pluribus validate --skills` to check all skills in the project.
+Skill-file validation is planned as a future extension to `pluribus validate`. The current `validate` command checks `pluribus.md` source/import health before sync.
 
 ---
 
