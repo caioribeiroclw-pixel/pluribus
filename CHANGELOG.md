@@ -2,9 +2,9 @@
 
 All notable changes to Pluribus are documented here.
 
-## 0.1.0 — First public CLI release
+## 0.2.0 — Package-ready CLI release
 
-Pluribus 0.1.0 is the first package-ready release of the CLI for keeping intentional AI context in one versioned source and syncing it to the files each tool expects.
+Pluribus 0.2.0 is the first npm-ready release of the CLI for keeping intentional AI context in one versioned source and syncing it to the files each tool expects. It supersedes the earlier GitHub-only v0.1.0 alpha release from March.
 
 ### Added
 
