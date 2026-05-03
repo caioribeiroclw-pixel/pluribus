@@ -2,6 +2,13 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.2.1 — npm README alignment
+
+### Changed
+
+- Republished the package with the post-release README so the npm package page shows the real `npx pluribus-context` install path, npm badge, 60-second smoke test, and published-status roadmap.
+- No runtime behavior changed from 0.2.0.
+
 ## 0.2.0 — Package-ready CLI release
 
 Pluribus 0.2.0 is the first npm-ready release of the CLI for keeping intentional AI context in one versioned source and syncing it to the files each tool expects. It supersedes the earlier GitHub-only v0.1.0 alpha release from March.
