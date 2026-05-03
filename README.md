@@ -1,5 +1,6 @@
 # Pluribus
 
+[![npm version](https://img.shields.io/npm/v/pluribus-context?style=flat-square)](https://www.npmjs.com/package/pluribus-context)
 [![Building in Public](https://img.shields.io/badge/building-in%20public-orange?style=flat-square)](https://x.com/RibeiroCaioCLW)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
@@ -72,17 +73,31 @@ And it generates the right files for each tool:
 ### Install
 
 ```bash
-# From npm (once published)
-npm install -g pluribus-context
+# Run directly from npm
+npx pluribus-context init
 
-# Or run directly with npx
-npx pluribus-context
+# Or install globally
+npm install -g pluribus-context
+pluribus --help
 
 # Or clone and link locally
 git clone https://github.com/caioribeiroclw-pixel/pluribus.git
 cd pluribus
 npm link
 ```
+
+### 60-second smoke test
+
+Want to see exactly what gets generated before adding it to a real project?
+
+```bash
+mkdir pluribus-demo && cd pluribus-demo
+npx pluribus-context init --name "Ana" --description "A Node.js service" --tools claude,cursor,copilot
+npx pluribus-context validate
+npx pluribus-context sync --dry-run
+```
+
+If the preview looks right, run `npx pluribus-context sync` to write the tool-specific files.
 
 ### Usage
 
@@ -253,7 +268,7 @@ See `spec/skills-format.md` for the skill file format.
 - [x] Remote composable contexts MVP (explicit `--update-imports`, public GitHub/HTTPS, safety limits)
 - [x] Remote imports hardening (lockfile/cache/digest offline mode, optional GitHub auth, and CI coverage)
 - [ ] CI/CD: auto-sync on commit
-- [ ] Published to npm
+- [x] Published to npm as [`pluribus-context`](https://www.npmjs.com/package/pluribus-context)
 
 ## Building in Public
 
@@ -279,11 +294,12 @@ If you've felt this pain, [open an issue](https://github.com/caioribeiroclw-pixe
 
 This project is just getting started. The best way to help right now:
 
-1. ⭐ Star the repo if the problem resonates
-2. 🗣️ [Open an issue](https://github.com/caioribeiroclw-pixel/pluribus/issues) describing your context management pain
-3. 📣 Share with someone who maintains 3+ AI context files
+1. Try the 60-second smoke test above in a throwaway directory
+2. ⭐ Star the repo if the problem resonates
+3. 🗣️ [Open an issue](https://github.com/caioribeiroclw-pixel/pluribus/issues) describing your context management pain
+4. 📣 Share with someone who maintains 3+ AI context files
 
-Looking for first contributions? Check out the [open issues](https://github.com/caioribeiroclw-pixel/pluribus/issues). The next good contributions are release polish, CI/CD workflow examples, and real-world adapter feedback.
+Looking for first contributions? Check out the [open issues](https://github.com/caioribeiroclw-pixel/pluribus/issues). The next good contributions are CI/CD workflow examples, real-world adapter feedback, and install/quickstart friction reports.
 
 ## License
 
