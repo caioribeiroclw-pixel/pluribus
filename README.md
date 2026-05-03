@@ -99,6 +99,8 @@ npx pluribus-context sync --dry-run
 
 If the preview looks right, run `npx pluribus-context sync` to write the tool-specific files.
 
+For a fuller walkthrough, see the [Quickstart](docs/quickstart.md).
+
 ### Usage
 
 **1. Initialize your context file**
@@ -280,6 +282,7 @@ If you've felt this pain, [open an issue](https://github.com/caioribeiroclw-pixe
 
 ## Docs
 
+- [Quickstart](docs/quickstart.md) — first install, validation, dry-run preview, and common friction
 - [OpenClaw Integration](docs/openclaw-integration.md) — how Pluribus generates `AGENTS.md` for OpenClaw
 - [Composable Contexts](docs/composable-contexts.md) — local/remote imports, merge behavior, and safety rules
 - [Remote Composable Context Imports](docs/remote-composable-context-imports.md) — design notes for lockfile/cache/auth hardening
