@@ -44,20 +44,10 @@ The dry-run package should include at least:
 Before publishing, install the exact tarball that `npm pack` creates into a temporary project and run the CLI as a user would. This catches version drift or missing packaged files that unit tests and dry-runs can miss.
 
 ```bash
-TARBALL="$(npm pack --silent)"
-TMP_DIR="$(mktemp -d)"
-(
-  cd "$TMP_DIR"
-  npm init -y >/dev/null
-  npm install "$OLDPWD/$TARBALL" >/dev/null
-  npx --no-install pluribus --version
-  npx --no-install pluribus --help
-  npx --no-install pluribus init --force
-  npx --no-install pluribus validate
-  npx --no-install pluribus sync --dry-run
-)
-rm -rf "$TMP_DIR" "$TARBALL"
+npm run release:smoke
 ```
+
+The script packs the current checkout, installs that tarball into a temporary project, runs `pluribus --version`, `--help`, `init`, `validate`, `sync --dry-run`, and a real `sync`, then checks that generated output includes the package version from `package.json`. It also removes the temporary project and generated tarball on exit.
 
 Expected results:
 

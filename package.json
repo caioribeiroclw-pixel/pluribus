@@ -25,7 +25,8 @@
   ],
   "scripts": {
     "start": "node bin/pluribus.js",
-    "test": "node --test"
+    "test": "node --test",
+    "release:smoke": "node scripts/release-smoke.js"
   },
   "keywords": [
     "ai",
