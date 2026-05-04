@@ -7,7 +7,7 @@ All notable changes to Pluribus are documented here.
 ### Changed
 
 - Align the package README for the next npm patch so the npm package page shows the real `npx pluribus-context` install path, npm badge, 60-second smoke test, and published-status roadmap.
-- Add first-run docs for quickstart, existing context migration, when to use Pluribus versus one-way converters, and issue templates so early users can report install, adapter, and migration friction with concrete details.
+- Add first-run docs for quickstart, context drift audit, existing context migration, when to use Pluribus versus one-way converters, and issue templates so early users can report install, adapter, and migration friction with concrete details.
 - No runtime behavior changed from 0.2.0.
 
 ## 0.2.0 — Package-ready CLI release

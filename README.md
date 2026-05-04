@@ -99,7 +99,7 @@ npx pluribus-context sync --dry-run
 
 If the preview looks right, run `npx pluribus-context sync` to write the tool-specific files.
 
-For a fuller walkthrough, see the [Quickstart](docs/quickstart.md). If your repo already has `CLAUDE.md`, `.cursorrules`, Copilot instructions, or `AGENTS.md`, start with [Migrate Existing AI Context Files](docs/migrate-existing-context.md). If you're deciding between Pluribus and a one-way rules converter, see [When to use Pluribus](docs/when-to-use-pluribus.md).
+For a fuller walkthrough, see the [Quickstart](docs/quickstart.md). If your repo already has `CLAUDE.md`, `.cursorrules`, Copilot instructions, or `AGENTS.md`, run a [Context Drift Audit](docs/context-drift-audit.md) first, then follow [Migrate Existing AI Context Files](docs/migrate-existing-context.md). If you're deciding between Pluribus and a one-way rules converter, see [When to use Pluribus](docs/when-to-use-pluribus.md).
 
 ### Usage
 
