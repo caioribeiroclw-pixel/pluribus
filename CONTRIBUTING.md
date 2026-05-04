@@ -1,105 +1,128 @@
 # Contributing to Pluribus
 
-Thanks for your interest in contributing! Pluribus is a small, focused tool â€” contributions should stay small and focused too.
+Thanks for your interest in contributing. Pluribus is a small, focused tool; contributions should stay small and focused too.
 
 ---
 
-## Philosophy
+## What Pluribus does
 
-Pluribus does one thing: sync a single `pluribus.md` to the context formats used by different AI coding tools (CLAUDE.md, .cursorrules, copilot-instructions, etc.).
+Pluribus syncs one intentional context file (`pluribus.md`) to the instruction formats used by different AI coding tools: `CLAUDE.md`, `.cursorrules`, `.github/copilot-instructions.md`, `AGENTS.md`, and similar files.
 
 Good contributions:
-- Add a new integration adapter (e.g., a new tool format)
-- Fix a bug in an existing adapter
-- Improve documentation with real usage examples
-- Add tests for untested behavior
+- Add or improve a tool adapter.
+- Fix a bug in `init`, `validate`, `sync`, `watch`, or import resolution.
+- Improve docs with real first-run examples.
+- Add regression tests for behavior that surprised you.
+- Report friction from trying the quickstart in a real project.
 
-Out of scope (for now):
-- GUI / web app
-- Cloud sync / auth
-- Anything requiring network access at runtime
+Out of scope for now:
+- GUI / web app.
+- Hosted cloud sync.
+- Runtime telemetry or tracking.
+- Agent orchestration, memory databases, or retrieval systems.
 
 ---
 
-## Getting Started
+## Quick first-run feedback
+
+If you are trying Pluribus as a user, the most useful contribution is a short friction report:
+
+1. Run the [Quickstart](docs/quickstart.md) or the README smoke test.
+2. Note the command that confused you or failed.
+3. Open a [Quickstart feedback issue](https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=quickstart-feedback.yml).
+
+Even a small note like “I expected `sync --dry-run` to show X, but it showed Y” is useful.
+
+---
+
+## Local development
 
 ```bash
 git clone https://github.com/caioribeiroclw-pixel/pluribus.git
 cd pluribus
 npm install
 npm test
+npm run release:smoke
+```
+
+Useful checks before opening a PR:
+
+```bash
+npm test
+git diff --check
+npm pack --dry-run
 ```
 
 ---
 
-## Project Structure
+## Project structure
 
-```
+```text
 pluribus/
-â”œâ”€â”€ src/
-â”‚   â”œâ”€â”€ cli.js          # CLI entry point (pluribus init / sync / watch)
-â”‚   â”œâ”€â”€ sync.js         # Core sync logic
-â”‚   â””â”€â”€ adapters/       # One file per tool integration
-â”‚       â”œâ”€â”€ claude.js
-â”‚       â”œâ”€â”€ cursor.js   # (planned)
-â”‚       â””â”€â”€ copilot.js  # (planned)
-â”œâ”€â”€ spec/
-â”‚   â”œâ”€â”€ context-format.md   # pluribus.md format spec
-â”‚   â””â”€â”€ skills-format.md    # skills section spec
-â”œâ”€â”€ examples/
-â”‚   â””â”€â”€ openclaw/
-â”‚       â””â”€â”€ pluribus.md     # Real-world example
-â”œâ”€â”€ test/
-â””â”€â”€ README.md
+├── bin/
+│   └── pluribus.js                  # CLI entrypoint
+├── src/
+│   ├── commands/                    # init / validate / sync / watch
+│   ├── skills/                      # built-in tool adapters
+│   └── utils/                       # imports, rendering, version helpers
+├── docs/                            # quickstart and feature docs
+├── examples/                        # runnable examples
+├── spec/                            # context format spec
+├── test/                            # node:test suite
+├── scripts/
+│   └── release-smoke.js             # tarball install smoke test
+└── README.md
 ```
 
 ---
 
-## Adding an Integration Adapter
+## Adding or changing a tool adapter
 
-Each adapter lives in `src/adapters/` and exports a single function:
+Tool adapters are registered in `src/skills/built-in.js`. Each adapter defines:
 
-```js
-// src/adapters/cursor.js
-module.exports = function syncCursor(context, projectRoot) {
-  // context: parsed pluribus.md sections
-  // projectRoot: absolute path to project root
-  // Returns: { path, content } to write
-};
-```
+- the generated output file path;
+- which Pluribus sections it uses;
+- any tool-specific formatting requirements.
 
-Steps to add a new adapter:
-1. Create `src/adapters/<toolname>.js`
-2. Register it in `src/sync.js`
-3. Add a test in `test/adapters/<toolname>.test.js`
-4. Document the format in the PR description (link to official docs if available)
-5. Add the tool to the "Supported Formats" table in README.md
+Before opening a PR:
+
+1. Link to the official instruction-file docs for that tool, if available.
+2. Add or update tests that prove the generated file path/content.
+3. Update the supported-tools table in `README.md`.
+4. If the format is still unstable, prefer opening an issue first and mark it `future`.
 
 ---
 
 ## Issues
 
 Before opening an issue:
-- Search existing issues first
-- If it's a new integration request, include: tool name, format spec link, example file
+- Search existing issues first.
+- For bugs, include the exact command, Node.js version, package version, and minimal `pluribus.md`.
+- For integration requests, include the tool name, official docs link, expected output path, and an example file.
+- For quickstart friction, use the quickstart feedback template and keep it concrete.
 
-Use labels:
-- `enhancement` â€” new feature or integration
-- `bug` â€” something broken
-- `good first issue` â€” good entry point for new contributors
-- `help wanted` â€” needs input from users of that specific tool
+Labels used in this repo:
+- `bug` — something broken.
+- `documentation` — docs/examples/quickstart clarity.
+- `enhancement` — new capability or integration.
+- `good first issue` — approachable without deep project context.
+- `help wanted` — needs input from users of a specific tool/workflow.
+- `question` — workflow or design question.
+- `future` — radar item, not ready to implement.
 
 ---
 
-## Pull Requests
+## Pull requests
 
-- One PR per change (don't bundle unrelated fixes)
-- Keep commits clean (`feat:`, `fix:`, `docs:` prefixes)
-- All tests must pass (`npm test`)
-- If you add code, add tests
+- One PR per change; do not bundle unrelated fixes.
+- Use clear commit prefixes (`feat:`, `fix:`, `docs:`, `test:`, `chore:`).
+- Keep dependencies minimal; Pluribus intentionally has no runtime dependency stack.
+- If you add behavior, add tests.
+- If you change release/package behavior, run `npm run release:smoke`.
 
 PR description template:
-```
+
+```markdown
 ## What
 Brief description of the change.
 
@@ -110,26 +133,29 @@ What problem does this solve?
 How did you implement it?
 
 ## Testing
-How did you test it?
+- [ ] npm test
+- [ ] git diff --check
+- [ ] npm run release:smoke (if package/CLI behavior changed)
 ```
 
 ---
 
 ## First-time contributors
 
-New to open source? Check the issues labeled [`good first issue`](https://github.com/caioribeiroclw-pixel/pluribus/labels/good%20first%20issue) â€” they're designed to be approachable without deep context.
+New to open source? Check issues labeled [`good first issue`](https://github.com/caioribeiroclw-pixel/pluribus/labels/good%20first%20issue). If none are open, a quickstart feedback report is still valuable and much easier than writing code.
 
-If you get stuck, open a draft PR and ask. Happy to help.
-
----
-
-## Code Style
-
-- Node.js (no TypeScript for now â€” keeps the barrier low)
-- CommonJS (`require` / `module.exports`)
-- No unnecessary dependencies
-- Prefer explicit over clever
+If you get stuck, open a draft PR or issue and ask. The best reports are concrete, small, and reproducible.
 
 ---
 
-Built with â˜ï¸ by [@RibeiroCaioCLW](https://x.com/RibeiroCaioCLW)
+## Code style
+
+- Node.js with native ES modules.
+- `node:test` for tests.
+- No unnecessary dependencies.
+- Prefer explicit behavior over clever abstractions.
+- Keep user-facing CLI output stable unless the change is intentional.
+
+---
+
+Built by [@RibeiroCaioCLW](https://x.com/RibeiroCaioCLW).

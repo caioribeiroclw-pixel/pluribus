@@ -1,0 +1,58 @@
+name: Bug report
+description: Report a reproducible CLI, import, adapter, or generated-output bug.
+title: "Bug: "
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Pluribus version
+      placeholder: "0.2.0"
+    validations:
+      required: true
+  - type: input
+    id: node
+    attributes:
+      label: Node.js version
+      placeholder: "v22.13.0"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS
+      placeholder: "macOS 15 / Ubuntu 24.04 / Windows 11"
+    validations:
+      required: false
+  - type: textarea
+    id: commands
+    attributes:
+      label: Minimal reproduction commands
+      render: shell
+      placeholder: |
+        npx pluribus-context init --tools claude,cursor
+        npx pluribus-context validate
+        npx pluribus-context sync --dry-run
+    validations:
+      required: true
+  - type: textarea
+    id: pluribus-md
+    attributes:
+      label: Minimal pluribus.md
+      description: Paste a reduced example only. Do not include secrets or private company context.
+      render: markdown
+    validations:
+      required: false
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior / error output
+      render: text
+    validations:
+      required: true

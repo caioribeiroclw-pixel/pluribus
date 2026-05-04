@@ -1,0 +1,70 @@
+name: Quickstart feedback
+description: Tell us where the first-run flow was confusing or broken.
+title: "Quickstart feedback: "
+labels: [documentation, question]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for trying Pluribus. Short, concrete reports are very useful: what you ran, what happened, and what you expected.
+  - type: input
+    id: version
+    attributes:
+      label: Pluribus version
+      description: Run `npx pluribus-context --version` or `pluribus --version`.
+      placeholder: "0.2.0"
+    validations:
+      required: true
+  - type: input
+    id: node
+    attributes:
+      label: Node.js version
+      description: Run `node --version`.
+      placeholder: "v22.13.0"
+    validations:
+      required: false
+  - type: dropdown
+    id: install-method
+    attributes:
+      label: How did you run it?
+      options:
+        - npx pluribus-context
+        - npm install -g pluribus-context
+        - local clone / npm link
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: commands
+    attributes:
+      label: Commands you ran
+      description: Paste the smallest command sequence that shows the issue or confusion.
+      render: shell
+      placeholder: |
+        mkdir pluribus-demo && cd pluribus-demo
+        npx pluribus-context init --tools claude,cursor
+        npx pluribus-context sync --dry-run
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+      placeholder: "I expected sync --dry-run to show where .cursorrules would be written..."
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened instead?
+      placeholder: "The command succeeded, but I could not tell which file would be generated..."
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Project/tool context
+      description: Which AI tools were you trying to sync? Do not paste secrets or private code.
+      placeholder: "Claude Code + Cursor in a small Node project."
+    validations:
+      required: false

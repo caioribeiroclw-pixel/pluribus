@@ -1,0 +1,42 @@
+name: Tool integration request
+description: Request support for another AI tool instruction format.
+title: "Integration: "
+labels: [enhancement, help wanted]
+body:
+  - type: input
+    id: tool
+    attributes:
+      label: Tool name
+      placeholder: "Example: SomeAI IDE"
+    validations:
+      required: true
+  - type: input
+    id: docs
+    attributes:
+      label: Official docs URL
+      description: Link to the tool's instruction/context file format docs, if available.
+      placeholder: "https://..."
+    validations:
+      required: false
+  - type: input
+    id: output-path
+    attributes:
+      label: Expected generated file path
+      placeholder: ".someai/rules.md"
+    validations:
+      required: false
+  - type: textarea
+    id: format
+    attributes:
+      label: Example instruction file
+      description: Paste a minimal public example. Do not include private context or secrets.
+      render: markdown
+    validations:
+      required: false
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Why this matters
+      placeholder: "I use Claude Code + Cursor + this tool, and the same project conventions need to stay aligned..."
+    validations:
+      required: true
