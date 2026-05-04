@@ -4,6 +4,8 @@ Use this when you want to try Pluribus without touching a real project yet.
 
 Pluribus takes one intentional context file (`pluribus.md`) and generates the tool-specific files your AI tools expect: `CLAUDE.md`, `.cursorrules`, Copilot instructions, `AGENTS.md`, Windsurf/Continue rules, and Zed `.rules`.
 
+Already have one or more of those files? See [Migrate Existing AI Context Files](migrate-existing-context.md) before replacing anything.
+
 ## 1. Create a disposable demo project
 
 ```bash
