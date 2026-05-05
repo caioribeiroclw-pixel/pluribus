@@ -62,9 +62,17 @@ This repo is <project>. Its goal is <goal>.
 
 Keep tool-specific behavior outside the shared layer when it truly belongs to one tool: Cursor glob/frontmatter semantics, Claude-only slash-command notes, local MCP setup, or IDE-specific UI instructions.
 
-## 4. Preview the regenerated files
+## 4. Audit and preview the regenerated files
 
-Run a dry-run before writing anything:
+Run the read-only audit first:
+
+```bash
+npx pluribus-context audit
+```
+
+If `pluribus.md` exists, this compares generated tool files with the source and reports anything missing or drifted. If `pluribus.md` does not exist yet, it scans for known AI context files so you know what to migrate.
+
+Then run a dry-run before writing anything:
 
 ```bash
 npx pluribus-context validate
@@ -80,24 +88,19 @@ If the answer to either question is no, edit `pluribus.md` or keep that behavior
 
 ## 5. Add a lightweight drift check
 
-After adoption, the simplest check is to regenerate and fail if generated files changed unexpectedly:
+After adoption, the simplest check is:
 
 ```bash
-npx pluribus-context sync
-git diff --exit-code -- \
-  CLAUDE.md \
-  .cursorrules \
-  .github/copilot-instructions.md \
-  AGENTS.md \
-  .windsurf/rules/pluribus.md \
-  .continue/rules/pluribus.md \
-  .rules
+npx pluribus-context audit --strict
 ```
 
-That catches two common failure modes:
+That catches three common failure modes without writing files:
 
 - someone edited a generated file directly;
-- someone changed `pluribus.md` but forgot to regenerate outputs.
+- someone changed `pluribus.md` but forgot to regenerate outputs;
+- a configured output file is missing.
+
+Use `sync --dry-run` to inspect the fix, then `sync` to update generated files.
 
 ## Decision rule
 

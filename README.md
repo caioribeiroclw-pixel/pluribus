@@ -173,7 +173,21 @@ If you use remote imports and want to refresh the lock/cache while validating:
 pluribus validate --update-imports
 ```
 
-**5. Sync to all your tools**
+**5. Audit generated files before syncing**
+
+```bash
+pluribus audit
+```
+
+This is read-only. It compares existing generated files with what `pluribus.md` would produce, reports missing or drifted outputs, and can run in CI with `--strict`:
+
+```bash
+pluribus audit --strict
+```
+
+If your project does not have `pluribus.md` yet, `pluribus audit` scans for known AI context files (`CLAUDE.md`, `.cursorrules`, Copilot instructions, `AGENTS.md`, Windsurf, Continue, Zed) so you know what to migrate.
+
+**6. Sync to all your tools**
 
 ```bash
 pluribus sync

@@ -9,6 +9,7 @@ import { runInit } from '../src/commands/init.js'
 import { runSync } from '../src/commands/sync.js'
 import { runValidate } from '../src/commands/validate.js'
 import { runWatch } from '../src/commands/watch.js'
+import { runAudit } from '../src/commands/audit.js'
 import { parseArgs } from '../src/utils/args.js'
 import { VERSION } from '../src/utils/version.js'
 
@@ -22,6 +23,7 @@ COMMANDS
   init      Create a pluribus.md file in the current directory
   sync      Read pluribus.md and generate tool-specific output files
   validate  Validate pluribus.md before syncing
+  audit     Compare generated tool files with pluribus.md without writing
   watch     Watch pluribus.md and auto-sync after changes
   help      Show this help message
 
@@ -40,6 +42,12 @@ OPTIONS (validate)
   --source        Path to pluribus.md (default: ./pluribus.md)
   --update-imports  Refresh remote github:/https:// imports before validating
 
+OPTIONS (audit)
+  --source        Path to pluribus.md (default: ./pluribus.md)
+  --tools         Override which tools to audit (comma-separated)
+  --update-imports  Refresh remote github:/https:// imports before auditing
+  --strict        Exit non-zero when generated files are missing or drifted
+
 OPTIONS (watch)
   --source        Path to pluribus.md (default: ./pluribus.md)
   --tools         Override which tools to sync (comma-separated)
@@ -55,6 +63,8 @@ EXAMPLES
   pluribus sync --tools claude,openclaw
   pluribus sync --update-imports
   pluribus validate
+  pluribus audit
+  pluribus audit --strict
   pluribus watch --tools claude,cursor
 
 DOCS
@@ -90,6 +100,9 @@ async function main() {
         break
       case 'watch':
         await runWatch(parsedArgs)
+        break
+      case 'audit':
+        await runAudit(parsedArgs)
         break
       default:
         console.error(`❌ Unknown command: "${command}"`)
