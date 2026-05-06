@@ -103,6 +103,8 @@ For a fuller walkthrough, see the [Quickstart](docs/quickstart.md). If your repo
 
 ### Usage
 
+> **Version note:** `pluribus audit` requires Pluribus 0.3.0 or newer. If npm still shows `pluribus-context@0.2.0`, use the audit guide manually or run the source branch/main until the npm publish is complete.
+
 **1. Initialize your context file**
 
 ```bash
