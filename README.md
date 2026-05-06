@@ -99,7 +99,7 @@ npx pluribus-context sync --dry-run
 
 If the preview looks right, run `npx pluribus-context sync` to write the tool-specific files.
 
-For a fuller walkthrough, see the [Quickstart](docs/quickstart.md). If your repo already has `CLAUDE.md`, `.cursorrules`, Copilot instructions, or `AGENTS.md`, run a [Context Drift Audit](docs/context-drift-audit.md) first, then follow [Migrate Existing AI Context Files](docs/migrate-existing-context.md). If you're deciding between Pluribus and a one-way rules converter, see [When to use Pluribus](docs/when-to-use-pluribus.md).
+For a fuller walkthrough, see the [Quickstart](docs/quickstart.md). If your repo already has `CLAUDE.md`, `.cursorrules`, Copilot instructions, or `AGENTS.md`, run a [Context Drift Audit](docs/context-drift-audit.md) first, then follow [Migrate Existing AI Context Files](docs/migrate-existing-context.md). Before committing shared or generated AI instructions, use the [Context File Review Checklist](docs/context-file-review.md). If you're deciding between Pluribus and a one-way rules converter, see [When to use Pluribus](docs/when-to-use-pluribus.md).
 
 ### Usage
 
@@ -289,6 +289,7 @@ If you've felt this pain, tell me about your setup. What tools do you use? How d
 - [Quickstart](docs/quickstart.md) — first install, validation, dry-run preview, and common friction
 - [Migrate Existing AI Context Files](docs/migrate-existing-context.md) — move from `CLAUDE.md`, `.cursorrules`, Copilot instructions, or `AGENTS.md` to one source of truth
 - [When to use Pluribus](docs/when-to-use-pluribus.md) — choose between sync, one-way conversion, and tool-native context files
+- [Context File Review Checklist](docs/context-file-review.md) — review AI instructions as supply-chain artifacts before committing generated context
 - [OpenClaw Integration](docs/openclaw-integration.md) — how Pluribus generates `AGENTS.md` for OpenClaw
 - [Composable Contexts](docs/composable-contexts.md) — local/remote imports, merge behavior, and safety rules
 - [Remote Composable Context Imports](docs/remote-composable-context-imports.md) — design notes for lockfile/cache/auth hardening
