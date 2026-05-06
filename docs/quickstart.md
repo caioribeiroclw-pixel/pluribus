@@ -46,7 +46,15 @@ You should see previews for the selected tools. For the command above, Pluribus 
 | Cursor | `.cursorrules` |
 | GitHub Copilot | `.github/copilot-instructions.md` |
 
-## 5. Write the files when the preview looks right
+## 5. Audit before writing or in CI
+
+```bash
+npx pluribus-context audit
+```
+
+Before generated files exist, audit reports them as missing. After sync, it becomes a read-only drift check. Use `--strict` in CI when you want missing or drifted generated files to fail the build.
+
+## 6. Write the files when the preview looks right
 
 ```bash
 npx pluribus-context sync
@@ -54,7 +62,7 @@ npx pluribus-context sync
 
 Commit `pluribus.md` as the source of truth. Commit generated files if your team wants each tool to work immediately after clone; otherwise regenerate them in local setup/CI.
 
-## 6. Keep files fresh while editing
+## 7. Keep files fresh while editing
 
 ```bash
 npx pluribus-context watch
@@ -81,7 +89,7 @@ Local sections apply after imports, so project-specific context can override sha
 - **`pluribus` command not found after `npx`:** use `npx pluribus-context ...` for one-off runs, or install globally with `npm install -g pluribus-context` and then run `pluribus ...`.
 - **Remote imports fail without `--update-imports`:** network refresh is explicit. Run `npx pluribus-context sync --update-imports` to refresh and pin remote content, then normal `sync` uses the lock/cache offline.
 - **Private GitHub imports fail:** set `GH_TOKEN`/`GITHUB_TOKEN` or log in with `gh auth login`. Pluribus never writes tokens to `pluribus.lock.json` or cache files.
-- **Generated files look wrong:** edit `pluribus.md`, run `validate`, then use `sync --dry-run` before writing files.
+- **Generated files look wrong:** edit `pluribus.md`, run `validate`, then use `audit` and `sync --dry-run` before writing files.
 
 ## Feedback wanted
 

@@ -2,13 +2,16 @@
 
 All notable changes to Pluribus are documented here.
 
-## 0.2.1 — npm README and first-run docs alignment
+## 0.3.0 — Audit workflow and first-run docs alignment
+
+### Added
+
+- Add `pluribus audit`, a read-only command that compares generated tool files with `pluribus.md`, reports missing or drifted outputs, supports `--strict` for CI, and scans existing AI context files when a project has not adopted Pluribus yet.
+- Add first-run docs for quickstart, context drift audit, existing context migration, context-file review, when to use Pluribus versus one-way converters, and issue templates so early users can report install, adapter, security-review, and migration friction with concrete details.
 
 ### Changed
 
-- Align the package README for the next npm patch so the npm package page shows the real `npx pluribus-context` install path, npm badge, 60-second smoke test, and published-status roadmap.
-- Add first-run docs for quickstart, context drift audit, existing context migration, context-file review, when to use Pluribus versus one-way converters, and issue templates so early users can report install, adapter, security-review, and migration friction with concrete details.
-- No runtime behavior changed from 0.2.0.
+- Align the package README for the npm publish so the npm package page shows the real `npx pluribus-context` install path, npm badge, 60-second smoke test, `audit` workflow, and published-status roadmap.
 
 ## 0.2.0 — Package-ready CLI release
 

@@ -47,14 +47,15 @@ Before publishing, install the exact tarball that `npm pack` creates into a temp
 npm run release:smoke
 ```
 
-The script packs the current checkout, installs that tarball into a temporary project, runs `pluribus --version`, `--help`, `init`, `validate`, `sync --dry-run`, and a real `sync`, then checks that generated output includes the package version from `package.json`. It also removes the temporary project and generated tarball on exit.
+The script packs the current checkout, installs that tarball into a temporary project, runs `pluribus --version`, `--help`, `init`, `validate`, `audit`, `sync --dry-run`, a real `sync`, and `audit --strict`, then checks that generated output includes the package version from `package.json`. It also removes the temporary project and generated tarball on exit.
 
 Expected results:
 
 - `pluribus --version` matches `package.json`.
 - `pluribus --help` shows the same version.
 - generated files mention the same Pluribus version.
-- `validate` and `sync --dry-run` work from the installed package, not the repo checkout.
+- `validate`, `audit`, and `sync --dry-run` work from the installed package, not the repo checkout.
+- `audit --strict` passes after generated files are written.
 
 ## 4. Publish
 

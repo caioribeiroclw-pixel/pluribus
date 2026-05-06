@@ -62,9 +62,17 @@ This repo is <project>. Its goal is <goal>.
 
 Keep tool-specific behavior outside the shared layer when it truly belongs to one tool: Cursor glob/frontmatter semantics, Claude-only slash-command notes, local MCP setup, or IDE-specific UI instructions.
 
-## 4. Preview the regenerated files
+## 4. Audit and preview the regenerated files
 
-Run a dry-run before writing anything:
+Run the read-only audit first:
+
+```bash
+npx pluribus-context audit
+```
+
+If `pluribus.md` exists, this compares generated tool files with the source and reports anything missing or drifted. If `pluribus.md` does not exist yet, it scans for known AI context files so you know what to migrate.
+
+Then run a dry-run before writing anything:
 
 ```bash
 npx pluribus-context validate
@@ -80,24 +88,31 @@ If the answer to either question is no, edit `pluribus.md` or keep that behavior
 
 ## 5. Add a lightweight drift check
 
-After adoption, the simplest check is to regenerate and fail if generated files changed unexpectedly:
+After adoption, the simplest check is:
 
 ```bash
-npx pluribus-context sync
-git diff --exit-code -- \
-  CLAUDE.md \
-  .cursorrules \
-  .github/copilot-instructions.md \
-  AGENTS.md \
-  .windsurf/rules/pluribus.md \
-  .continue/rules/pluribus.md \
-  .rules
+npx pluribus-context audit --strict
 ```
 
-That catches two common failure modes:
+That catches three common failure modes without writing files:
 
 - someone edited a generated file directly;
-- someone changed `pluribus.md` but forgot to regenerate outputs.
+- someone changed `pluribus.md` but forgot to regenerate outputs;
+- a configured output file is missing.
+
+Use `sync --dry-run` to inspect the fix, then `sync` to update generated files.
+
+## What this does not check
+
+`pluribus audit` is intentionally narrow: it checks whether the files generated from `pluribus.md` are current, missing, or drifted. It is not a general-purpose linter for whether your instructions still match the repository.
+
+That distinction matters:
+
+- use `pluribus audit` when you want to know whether `CLAUDE.md`, Cursor rules, Copilot instructions, `AGENTS.md`, Windsurf, Continue, or Zed outputs are still in sync with the same source of truth;
+- use repo-specific checks, tests, or AI-context linters when you want to find stale commands, dead paths, outdated architecture notes, or conflicting nested instruction files;
+- use both if your risk is bigger than copy-paste drift: first keep generated files aligned, then validate that the shared instructions are still true.
+
+Pluribus solves output drift across tools. It does not prove that the canonical context is correct.
 
 ## Decision rule
 
