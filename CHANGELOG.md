@@ -2,6 +2,13 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.1 — npm README cleanup
+
+### Changed
+
+- Republish the post-0.3.0 README/docs cleanup so the npm package page no longer tells users that `audit` requires a source install or that npm latest may still be `0.2.0`.
+- Keep the published path explicit: `npx pluribus-context audit` is now the default first-run check.
+
 ## 0.3.0 — Audit workflow and first-run docs alignment
 
 ### Added
