@@ -42,6 +42,22 @@ Pluribus is different: it treats `pluribus.md` as the source of truth and regene
 | Review shared project context in PRs and regenerate generated files | Pluribus |
 | Share org/team conventions across repos with pinned imports | Pluribus |
 
+## Pluribus vs context linters and drift auditors
+
+A context linter or drift auditor is useful when you want to inspect existing files and catch stale paths, dead commands, oversized instructions, risky content, or conflicting guidance.
+
+Pluribus now includes a small read-only `pluribus audit` command, but its main job is not to be the deepest possible linter. Its main job is to prevent one specific class of drift: generated AI context files no longer matching the intentional source in `pluribus.md`.
+
+Use both layers when they help:
+
+| Need | Better fit |
+|---|---|
+| Find dead file references, stale commands, token bloat, or unsafe instructions inside context files | Dedicated context linter |
+| Check whether `CLAUDE.md`, `.cursorrules`, Copilot instructions, and `AGENTS.md` match the same source of truth | `pluribus audit` |
+| Auto-slim or rewrite arbitrary existing context files | Dedicated linter/fixer |
+| Generate aligned context files after review | `pluribus sync` |
+| Enforce “generated files are up to date” in CI | `pluribus audit --strict` |
+
 ## Recommended migration path
 
 1. Inventory your existing context files.
