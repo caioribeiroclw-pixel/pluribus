@@ -123,14 +123,13 @@ For local work:
 npx pluribus-context watch
 ```
 
-For CI or pre-commit flows, use a dry-run/check pattern first. Pluribus does not ship a dedicated CI command yet, but you can still detect drift by syncing in CI and checking whether git changed:
+For CI or pre-commit flows, use the read-only audit command in strict mode:
 
 ```bash
-npx pluribus-context sync
-git diff --exit-code -- CLAUDE.md .cursorrules .github/copilot-instructions.md AGENTS.md
+npx pluribus-context audit --strict
 ```
 
-If this fails, someone edited a generated file directly or changed `pluribus.md` without regenerating outputs.
+If this fails, someone edited a generated file directly or changed `pluribus.md` without regenerating outputs. Use `npx pluribus-context sync --dry-run` to preview the fix before writing files.
 
 ## 6. Use imports for team/org context
 

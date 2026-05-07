@@ -4,11 +4,13 @@ Use this before adopting Pluribus when you are not sure whether your AI context 
 
 The goal is not to make every tool identical. The goal is to separate shared project facts from tool-specific behavior so the shared parts can live in `pluribus.md` and be regenerated deliberately.
 
-> **Version note:** the `pluribus audit` command requires Pluribus 0.3.0 or newer. If npm still serves `pluribus-context@0.2.0`, follow the manual checklist below or run from the GitHub source until the npm publish is complete:
->
-> ```bash
-> npx --package github:caioribeiroclw-pixel/pluribus#main pluribus audit
-> ```
+Start with the read-only command when you want a quick signal:
+
+```bash
+npx pluribus-context audit
+```
+
+If `pluribus.md` exists, this reports generated files that are current, missing, or drifted. If `pluribus.md` does not exist yet, it scans for known AI context files so you can decide what to migrate.
 
 ## 1. Find AI context surfaces
 

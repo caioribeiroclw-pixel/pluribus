@@ -12,7 +12,7 @@ All notable changes to Pluribus are documented here.
 ### Changed
 
 - Align the package README for the npm publish so the npm package page shows the real `npx pluribus-context` install path, npm badge, 60-second smoke test, `audit` workflow, and published-status roadmap.
-- Clarify the temporary source-install path for `pluribus audit` while npm `latest` remains on 0.2.0.
+- Replace temporary source-install notes with the published `pluribus-context@0.3.0` audit path.
 
 ## 0.2.0 — Package-ready CLI release
 
