@@ -9,6 +9,7 @@ All notable changes to Pluribus are documented here.
 - Republish the post-0.3.0 README/docs cleanup so the npm package page no longer tells users that `audit` requires a source install or that npm latest may still be `0.2.0`.
 - Keep the published path explicit: `npx pluribus-context audit` is now the default first-run check.
 - Clarify when Pluribus complements dedicated context linters/drift auditors versus replacing one-way sync maintenance.
+- Expand package keywords for discoverability around `context-drift`, `AGENTS.md`, Cursor rules, and AI coding agents.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 
