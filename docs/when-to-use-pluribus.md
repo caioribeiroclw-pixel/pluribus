@@ -55,6 +55,7 @@ Use both layers when they help:
 | Find dead file references, stale commands, token bloat, or unsafe instructions inside context files | Dedicated context linter |
 | Check whether `CLAUDE.md`, `.cursorrules`, Copilot instructions, and `AGENTS.md` match the same source of truth | `pluribus audit` |
 | Auto-slim or rewrite arbitrary existing context files | Dedicated linter/fixer |
+| Diagnose why a correct `CLAUDE.md` is ignored after compaction or summarization | Tool-specific runtime diagnostics/hooks |
 | Generate aligned context files after review | `pluribus sync` |
 | Enforce “generated files are up to date” in CI | `pluribus audit --strict` |
 
@@ -73,3 +74,5 @@ For the step-by-step version, see [Migrate Existing AI Context Files](migrate-ex
 Pluribus is not trying to make every AI tool identical.
 
 It is trying to keep the stable, intentional parts of your project context from drifting while still letting each tool keep its own interface and strengths.
+
+That means Pluribus handles file-level alignment. Runtime precedence problems — for example, a tool loading a compacted summary above a correct context file — are real, but they belong in the tool's load-order, hooks, or context-priority settings rather than in Pluribus' sync layer.

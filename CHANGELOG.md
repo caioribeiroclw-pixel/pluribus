@@ -11,6 +11,7 @@ All notable changes to Pluribus are documented here.
 - Clarify when Pluribus complements dedicated context linters/drift auditors versus replacing one-way sync maintenance.
 - Expand package keywords for discoverability around `context-drift`, `AGENTS.md`, Cursor rules, and AI coding agents.
 - Add a dedicated GitHub issue template for read-only `pluribus audit` feedback from real repos, plus links to the audit guide and workflow discussion.
+- Clarify that Pluribus detects file-level output drift, not runtime precedence issues where a tool deprioritizes a correct context file after compaction/summarization.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 

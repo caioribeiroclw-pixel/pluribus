@@ -112,15 +112,16 @@ Use `sync --dry-run` to inspect the fix, then `sync` to update generated files.
 
 ## What this does not check
 
-`pluribus audit` is intentionally narrow: it checks whether the files generated from `pluribus.md` are current, missing, or drifted. It is not a general-purpose linter for whether your instructions still match the repository.
+`pluribus audit` is intentionally narrow: it checks whether the files generated from `pluribus.md` are current, missing, or drifted. It is not a general-purpose linter for whether your instructions still match the repository, and it cannot prove how a specific AI tool prioritizes those instructions at runtime.
 
 That distinction matters:
 
 - use `pluribus audit` when you want to know whether `CLAUDE.md`, Cursor rules, Copilot instructions, `AGENTS.md`, Windsurf, Continue, or Zed outputs are still in sync with the same source of truth;
 - use repo-specific checks, tests, or AI-context linters when you want to find stale commands, dead paths, outdated architecture notes, or conflicting nested instruction files;
-- use both if your risk is bigger than copy-paste drift: first keep generated files aligned, then validate that the shared instructions are still true.
+- use tool-specific diagnostics or hooks when the file is correct but the model drifts after compaction, summarization, or context-window reordering;
+- use both if your risk is bigger than copy-paste drift: first keep generated files aligned, then validate that the shared instructions are still true and loaded with the right precedence.
 
-Pluribus solves output drift across tools. It does not prove that the canonical context is correct.
+Pluribus solves output drift across tools. It does not prove that the canonical context is correct or that every tool will give the generated file the same runtime priority.
 
 ## Decision rule
 
