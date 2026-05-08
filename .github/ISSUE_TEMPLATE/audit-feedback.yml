@@ -1,0 +1,88 @@
+name: Audit feedback
+description: Tell us what `pluribus audit` missed, flagged, or made unclear.
+title: "Audit feedback: "
+labels: [documentation, question]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        `pluribus audit` is intentionally read-only. Reports from real repos help tune the first-run workflow before users write generated files.
+
+        Please do not paste secrets, private source code, credentials, customer data, or internal instructions that should not be public.
+  - type: input
+    id: version
+    attributes:
+      label: Pluribus version
+      description: Run `npx pluribus-context --version` or `pluribus --version`.
+      placeholder: "0.3.0"
+    validations:
+      required: true
+  - type: input
+    id: node
+    attributes:
+      label: Node.js version
+      description: Run `node --version`.
+      placeholder: "v22.13.0"
+    validations:
+      required: false
+  - type: dropdown
+    id: repo-state
+    attributes:
+      label: What state was the repo in?
+      options:
+        - No pluribus.md yet, existing tool context files only
+        - pluribus.md exists, generated files missing
+        - pluribus.md exists, generated files drifted
+        - pluribus.md exists, generated files current
+        - other
+    validations:
+      required: true
+  - type: checkboxes
+    id: context-surfaces
+    attributes:
+      label: Existing context surfaces
+      description: Which files or tools were present? Check all that apply.
+      options:
+        - label: CLAUDE.md
+        - label: .cursorrules or .cursor/rules/*.mdc
+        - label: .github/copilot-instructions.md
+        - label: AGENTS.md
+        - label: .windsurf/rules/*.md
+        - label: .continue/rules/*.md
+        - label: .rules / Zed rules
+        - label: Other tool-specific context files
+  - type: textarea
+    id: commands
+    attributes:
+      label: Commands you ran
+      description: Paste the smallest command sequence that shows the confusing or useful behavior.
+      render: shell
+      placeholder: |
+        npx pluribus-context audit
+        npx pluribus-context sync --dry-run
+        npx pluribus-context audit --strict
+    validations:
+      required: true
+  - type: textarea
+    id: output-summary
+    attributes:
+      label: Audit output summary
+      description: Summarize the result instead of pasting private file contents.
+      placeholder: "audit reported CLAUDE.md current, .cursorrules drifted, Copilot instructions missing..."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect the audit to catch or explain?
+      placeholder: "I expected it to distinguish source-of-truth drift from dead path references..."
+    validations:
+      required: true
+  - type: textarea
+    id: missing
+    attributes:
+      label: What was missing, noisy, or unclear?
+      description: Useful examples: false positives, false negatives, unclear next step, confusing wording, missing adapter.
+      placeholder: "It told me .cursorrules was drifted, but I could not tell whether to run sync or edit pluribus.md first."
+    validations:
+      required: false

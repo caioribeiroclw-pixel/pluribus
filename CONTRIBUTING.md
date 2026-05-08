@@ -33,6 +33,16 @@ If you are trying Pluribus as a user, the most useful contribution is a short fr
 
 Even a small note like “I expected `sync --dry-run` to show X, but it showed Y” is useful.
 
+## Audit feedback
+
+If your repo already has `CLAUDE.md`, Cursor rules, Copilot instructions, `AGENTS.md`, or other AI context files, the most useful report is often a read-only audit result:
+
+```bash
+npx pluribus-context audit
+```
+
+Open an [Audit feedback issue](https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=audit-feedback.yml) when the audit misses drift, reports noisy drift, or leaves the next step unclear. Summaries are enough; do not paste secrets, private code, credentials, customer data, or internal instructions that should not be public.
+
 ---
 
 ## Local development

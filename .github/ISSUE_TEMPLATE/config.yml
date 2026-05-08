@@ -3,3 +3,9 @@ contact_links:
   - name: Quickstart docs
     url: https://github.com/caioribeiroclw-pixel/pluribus/blob/main/docs/quickstart.md
     about: Run this first if you want to try Pluribus in a disposable demo project.
+  - name: Context drift audit guide
+    url: https://github.com/caioribeiroclw-pixel/pluribus/blob/main/docs/context-drift-audit.md
+    about: Use this before opening audit feedback if you want to compare existing AI context files safely.
+  - name: Workflow discussion
+    url: https://github.com/caioribeiroclw-pixel/pluribus/discussions/13
+    about: Share broader context-management workflow notes that are not a bug or concrete first-run report.

@@ -10,6 +10,7 @@ All notable changes to Pluribus are documented here.
 - Keep the published path explicit: `npx pluribus-context audit` is now the default first-run check.
 - Clarify when Pluribus complements dedicated context linters/drift auditors versus replacing one-way sync maintenance.
 - Expand package keywords for discoverability around `context-drift`, `AGENTS.md`, Cursor rules, and AI coding agents.
+- Add a dedicated GitHub issue template for read-only `pluribus audit` feedback from real repos, plus links to the audit guide and workflow discussion.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 
