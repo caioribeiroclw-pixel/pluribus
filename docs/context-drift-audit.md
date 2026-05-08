@@ -123,6 +123,18 @@ That distinction matters:
 
 Pluribus solves output drift across tools. It does not prove that the canonical context is correct or that every tool will give the generated file the same runtime priority.
 
+## Verify runtime loading separately
+
+After `pluribus sync`, do one tool-specific sanity check before trusting a new workflow:
+
+1. Open a fresh session in the tool you care about.
+2. Ask it to summarize the project rules or list the files it loaded.
+3. If the tool supports hooks, diagnostics, or load traces, check those too.
+
+Some teams add a short loading canary near the top of their generated context, for example: "Before acting, confirm that you read the project AI instructions." Keep this lightweight. A canary can prove the file was noticed, but it does not prove every instruction will keep priority after compaction, summarization, or a long session.
+
+Use Pluribus to keep the files aligned. Use the tool's own diagnostics to confirm the runtime actually loaded and prioritized them.
+
 ## Decision rule
 
 Adopt Pluribus if the audit finds repeated shared facts across two or more tools and at least one contradiction, stale command, or copy-paste maintenance burden.
