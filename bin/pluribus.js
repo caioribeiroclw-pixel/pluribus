@@ -48,6 +48,7 @@ OPTIONS (audit)
   --update-imports  Refresh remote github:/https:// imports before auditing
   --strict        Exit non-zero when generated files are missing or drifted
   --json          Print machine-readable audit results
+  --output        Write --json results to a file instead of stdout
   --github-annotations  Print GitHub Actions annotations for drift/missing outputs
 
 OPTIONS (watch)
@@ -68,6 +69,7 @@ EXAMPLES
   pluribus audit
   pluribus audit --strict
   pluribus audit --json
+  pluribus audit --strict --json --output pluribus-audit.json
   pluribus audit --strict --github-annotations
   pluribus watch --tools claude,cursor
 

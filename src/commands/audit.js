@@ -35,7 +35,19 @@ export async function runAudit(args) {
   const strict = Boolean(args.strict)
   const json = Boolean(args.json)
   const githubAnnotations = Boolean(args['github-annotations'])
+  const hasJsonOutput = Object.prototype.hasOwnProperty.call(args, 'output')
+  const jsonOutput = typeof args.output === 'string' && args.output.trim() ? args.output : null
   const cwd = process.cwd()
+
+  if (hasJsonOutput && !json) {
+    console.error('❌ --output requires --json.')
+    process.exit(1)
+  }
+
+  if (hasJsonOutput && !jsonOutput) {
+    console.error('❌ --output requires a file path.')
+    process.exit(1)
+  }
   const sourcePath = sourceArg
     ? path.resolve(cwd, sourceArg)
     : path.join(cwd, 'pluribus.md')
@@ -55,7 +67,7 @@ export async function runAudit(args) {
           ? 'Use these files as migration inputs for pluribus init, then run pluribus audit again.'
           : 'Run pluribus init to create a source file, then pluribus sync --dry-run.',
         docs: 'https://github.com/caioribeiroclw-pixel/pluribus/blob/main/docs/migrate-existing-context.md',
-      })
+      }, jsonOutput)
     } else {
       console.log(`ℹ️  No ${displaySource} found.`)
 
@@ -124,7 +136,7 @@ export async function runAudit(args) {
         sourceFound: true,
         errors,
         requiredSections: REQUIRED_SECTIONS,
-      })
+      }, jsonOutput)
     } else {
       console.error(`❌ Cannot audit ${displaySource}:`)
       for (const error of errors) {
@@ -228,7 +240,7 @@ export async function runAudit(args) {
       nextStep: hasProblem
         ? 'Run pluribus sync --dry-run to preview fixes, then pluribus sync to update generated files.'
         : 'Generated context files are in sync.',
-    })
+    }, jsonOutput)
   } else {
     console.log('')
     console.log(`Summary: ${summary.current || 0} current, ${summary.drift || 0} drifted, ${summary.missing || 0} missing, ${summary.error || 0} error(s).`)
@@ -333,6 +345,14 @@ function escapeAnnotationMessage(value) {
     .replace(/\n/g, '%0A')
 }
 
-function writeJson(value) {
-  console.log(JSON.stringify(value, null, 2))
+function writeJson(value, outputPath = null) {
+  const payload = `${JSON.stringify(value, null, 2)}\n`
+  if (outputPath) {
+    const resolvedPath = path.resolve(process.cwd(), outputPath)
+    fs.mkdirSync(path.dirname(resolvedPath), { recursive: true })
+    fs.writeFileSync(resolvedPath, payload, 'utf8')
+    return
+  }
+
+  process.stdout.write(payload)
 }

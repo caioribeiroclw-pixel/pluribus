@@ -197,6 +197,12 @@ For CI scripts, dashboards, or migration tooling, use machine-readable output:
 pluribus audit --strict --json
 ```
 
+To save the JSON as a CI artifact while keeping stdout quiet, add `--output`:
+
+```bash
+pluribus audit --strict --json --output pluribus-audit.json
+```
+
 The JSON shape is documented in [`schemas/audit-result.schema.json`](schemas/audit-result.schema.json) so CI wrappers and dashboards can validate integrations without scraping human output. For a copy-paste workflow file, see the [CI audit example](docs/ci-audit-example.md).
 
 If your project does not have `pluribus.md` yet, `pluribus audit` scans for known AI context files (`CLAUDE.md`, `.cursorrules`, Copilot instructions, `AGENTS.md`, Windsurf, Continue, Zed) so you know what to migrate.

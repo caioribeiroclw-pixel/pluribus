@@ -128,6 +128,40 @@ test('audit can emit GitHub Actions annotations without polluting JSON stdout', 
   assert.match(audit.stderr, /::error file=\.cursorrules,title=Pluribus audit%3A missing::\.cursorrules is missing for cursor/)
 })
 
+test('audit can write JSON results to an output file for CI artifacts', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), validContext)
+
+  const sync = runCli(dir, ['sync'])
+  assert.equal(sync.status, 0, sync.stderr)
+
+  fs.appendFileSync(path.join(dir, 'CLAUDE.md'), '\nmanual edit\n')
+  fs.rmSync(path.join(dir, '.cursorrules'))
+
+  const outputPath = path.join('reports', 'pluribus-audit.json')
+  const audit = runCli(dir, ['audit', '--json', '--strict', '--github-annotations', '--output', outputPath])
+  const payload = JSON.parse(fs.readFileSync(path.join(dir, outputPath), 'utf8'))
+
+  assert.equal(audit.status, 1)
+  assert.equal(audit.stdout, '')
+  assert.equal(payload.summary.drifted, 1)
+  assert.equal(payload.summary.missing, 1)
+  assert.match(audit.stderr, /::error file=CLAUDE\.md,title=Pluribus audit%3A drift/)
+})
+
+test('audit output file requires JSON mode and a file path', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), validContext)
+
+  const withoutJson = runCli(dir, ['audit', '--output', 'pluribus-audit.json'])
+  const withoutPath = runCli(dir, ['audit', '--json', '--output'])
+
+  assert.equal(withoutJson.status, 1)
+  assert.match(withoutJson.stderr, /--output requires --json/)
+  assert.equal(withoutPath.status, 1)
+  assert.match(withoutPath.stderr, /--output requires a file path/)
+})
+
 test('audit without pluribus.md scans existing context files', () => {
   const dir = tempProject()
   writeFile(path.join(dir, 'CLAUDE.md'), '# Existing Claude context')

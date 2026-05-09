@@ -17,6 +17,7 @@ All notable changes to Pluribus are documented here.
 - Add `pluribus audit --json` so CI jobs, smoke scripts, and external tools can consume drift results without parsing emoji/text output.
 - Add `pluribus audit --github-annotations` for inline GitHub Actions check annotations when generated context files are missing or drifted.
 - Add `schemas/audit-result.schema.json` to make the `pluribus audit --json` contract explicit for CI wrappers, dashboards, and migration tools.
+- Add `pluribus audit --json --output <file>` so CI jobs can save audit results as artifacts without shell redirection or noisy stdout.
 - Add a copy-paste CI audit guide and GitHub Actions example for enforcing generated context files in pull requests.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
