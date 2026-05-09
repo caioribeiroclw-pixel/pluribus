@@ -49,7 +49,18 @@ Read the files and separate three kinds of content:
 
 Move project facts and shared conventions into `pluribus.md`. Keep tool-specific quirks as adapter feedback or custom skill work, not as duplicated generic context.
 
-## 2. Scaffold `pluribus.md`
+## 2. Preview and scaffold `pluribus.md`
+
+Preview the scaffold before writing a new source file:
+
+```bash
+npx --yes pluribus-context init --dry-run \
+  --name "Your project" \
+  --description "What this repo does" \
+  --tools claude,cursor,copilot,openclaw
+```
+
+When the preview looks right, create `pluribus.md`:
 
 ```bash
 npx --yes pluribus-context init \

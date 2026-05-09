@@ -19,7 +19,18 @@ mkdir pluribus-demo
 cd pluribus-demo
 ```
 
-## 2. Scaffold context from npm
+## 2. Preview and scaffold context from npm
+
+Start read-only so you can see the template before writing a file:
+
+```bash
+npx --yes pluribus-context init --dry-run \
+  --name "Ana" \
+  --description "A Node.js service" \
+  --tools claude,cursor,copilot
+```
+
+When the scaffold looks right, create it:
 
 ```bash
 npx --yes pluribus-context init \

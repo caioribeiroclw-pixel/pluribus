@@ -71,7 +71,7 @@ And it generates the right files for each tool:
 
 ## Getting Started
 
-> **Version note:** `pluribus audit` is published in `pluribus-context@0.3.0`. The CI-oriented audit flags documented in `main` (`--json`, `--output`, `--github-annotations`, `--ci`) are prepared for the next npm patch release `0.3.1`; until that patch is published, use `@0.3.0` for the basic read-only audit or run from `main` when testing the new CI flags.
+> **Version note:** `pluribus audit` is published in `pluribus-context@0.3.0`. The CI-oriented audit flags and read-only init preview documented in `main` (`--json`, `--output`, `--github-annotations`, `--ci`, `init --dry-run`) are prepared for the next npm patch release `0.3.1`; until that patch is published, use `@0.3.0` for the basic read-only audit or run from `main` when testing the new CI flags.
 
 ### Pick the safe first command
 
@@ -83,9 +83,10 @@ npx --yes pluribus-context audit
 
 It does not write files. Without `pluribus.md`, it lists existing AI context surfaces so you can decide what to migrate. With `pluribus.md`, it reports generated files that are missing or drifted.
 
-If you are starting from scratch, scaffold the source-of-truth file instead:
+If you are starting from scratch, preview the source-of-truth scaffold first, then create it when it looks right:
 
 ```bash
+npx --yes pluribus-context init --dry-run
 npx --yes pluribus-context init
 ```
 
@@ -108,6 +109,7 @@ Want to see exactly what gets generated before adding it to a real project?
 
 ```bash
 mkdir pluribus-demo && cd pluribus-demo
+npx --yes pluribus-context init --dry-run --name "Ana" --description "A Node.js service" --tools claude,cursor,copilot
 npx --yes pluribus-context init --name "Ana" --description "A Node.js service" --tools claude,cursor,copilot
 npx --yes pluribus-context validate
 npx --yes pluribus-context sync --dry-run
@@ -123,14 +125,16 @@ For a fuller walkthrough, see the [Quickstart](docs/quickstart.md). To enforce g
 
 ```bash
 cd your-project/
+pluribus init --dry-run
 pluribus init
 ```
 
-This creates `pluribus.md` with all required sections scaffolded. Fill in your project context.
+The dry-run prints the scaffold without writing files. The second command creates `pluribus.md` with all required sections scaffolded. Fill in your project context.
 
-You can also use flags for non-interactive init:
+You can also use flags for non-interactive init, including the same dry-run preview:
 
 ```bash
+pluribus init --dry-run --name "Ana" --description "A background job runner" --tools claude,cursor,openclaw
 pluribus init --name "Ana" --description "A background job runner" --tools claude,cursor,openclaw
 ```
 

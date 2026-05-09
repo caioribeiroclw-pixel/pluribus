@@ -31,6 +31,7 @@ OPTIONS (init)
   --name          Project/author name
   --description   One-line project description
   --tools         Comma-separated list of tools to enable (claude,cursor,openclaw)
+  --dry-run       Preview the scaffold without writing pluribus.md
 
 OPTIONS (sync)
   --dry-run       Preview output without writing files
@@ -61,6 +62,7 @@ OPTIONS (watch)
 
 EXAMPLES
   pluribus init
+  pluribus init --dry-run
   pluribus init --name "Ana" --description "A task manager" --tools claude,cursor
   pluribus sync
   pluribus sync --dry-run

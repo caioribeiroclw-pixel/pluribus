@@ -1,6 +1,6 @@
 /**
  * pluribus init — create a pluribus.md file in the current directory.
- * Supports --name, --description, --tools flags or interactive prompts.
+ * Supports --name, --description, --tools, --dry-run flags or interactive prompts.
  */
 
 import * as fs from 'fs'
@@ -33,8 +33,11 @@ export async function runInit(args) {
   const targetDir = process.cwd()
   const outputPath = path.join(targetDir, 'pluribus.md')
 
-  // Check if file already exists
-  if (fs.existsSync(outputPath)) {
+  const dryRun = Boolean(args['dry-run'])
+
+  // Check if file already exists. A dry-run stays read-only and can preview the
+  // scaffold even when the project already has a source file.
+  if (!dryRun && fs.existsSync(outputPath)) {
     console.log(`⚠️  pluribus.md already exists at ${outputPath}`)
     console.log('   Delete it first or run \`pluribus sync\` to regenerate outputs.')
     process.exit(1)
@@ -78,11 +81,24 @@ export async function runInit(args) {
 
   const content = generatePluribusTemplate(name, description, tools)
 
+  if (dryRun) {
+    console.log(`# pluribus init --dry-run preview for ${outputPath}`)
+    if (fs.existsSync(outputPath)) {
+      console.log('')
+      console.log('⚠️  pluribus.md already exists. This preview did not modify it.')
+    }
+    console.log('')
+    console.log(content)
+    console.log('')
+    console.log(`Preview only — no files were written. Run \`pluribus init --name \"${name}\" --description \"${description}\" --tools ${tools.join(',')}\` to create pluribus.md.`)
+    return
+  }
+
   fs.writeFileSync(outputPath, content, 'utf8')
 
   console.log(`✅ pluribus.md created at ${outputPath}`)
   console.log(`📝 Edit the file to fill in your project context.`)
-  console.log(`🔄 Run \`pluribus sync\` to generate tool-specific files.`)
+  console.log(`🔄 Run \`pluribus sync --dry-run\` to preview tool-specific files before writing.`)
   console.log(`\n   Tools enabled: ${tools.join(', ')}`)
 }
 
