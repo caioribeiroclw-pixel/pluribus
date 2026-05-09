@@ -48,6 +48,7 @@ OPTIONS (audit)
   --update-imports  Refresh remote github:/https:// imports before auditing
   --strict        Exit non-zero when generated files are missing or drifted
   --json          Print machine-readable audit results
+  --github-annotations  Print GitHub Actions annotations for drift/missing outputs
 
 OPTIONS (watch)
   --source        Path to pluribus.md (default: ./pluribus.md)
@@ -67,6 +68,7 @@ EXAMPLES
   pluribus audit
   pluribus audit --strict
   pluribus audit --json
+  pluribus audit --strict --github-annotations
   pluribus watch --tools claude,cursor
 
 DOCS

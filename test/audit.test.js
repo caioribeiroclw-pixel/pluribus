@@ -108,6 +108,26 @@ test('audit can print machine-readable JSON results', () => {
   assert.match(payload.nextStep, /sync --dry-run/)
 })
 
+test('audit can emit GitHub Actions annotations without polluting JSON stdout', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), validContext)
+
+  const sync = runCli(dir, ['sync'])
+  assert.equal(sync.status, 0, sync.stderr)
+
+  fs.appendFileSync(path.join(dir, 'CLAUDE.md'), '\nmanual edit\n')
+  fs.rmSync(path.join(dir, '.cursorrules'))
+
+  const audit = runCli(dir, ['audit', '--json', '--strict', '--github-annotations'])
+  const payload = JSON.parse(audit.stdout)
+
+  assert.equal(audit.status, 1)
+  assert.equal(payload.summary.drifted, 1)
+  assert.equal(payload.summary.missing, 1)
+  assert.match(audit.stderr, /::error file=CLAUDE\.md,title=Pluribus audit%3A drift::CLAUDE\.md differs from generated claude output/)
+  assert.match(audit.stderr, /::error file=\.cursorrules,title=Pluribus audit%3A missing::\.cursorrules is missing for cursor/)
+})
+
 test('audit without pluribus.md scans existing context files', () => {
   const dir = tempProject()
   writeFile(path.join(dir, 'CLAUDE.md'), '# Existing Claude context')

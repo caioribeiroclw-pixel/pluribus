@@ -2,7 +2,7 @@
 
 Use this when `pluribus.md` is the source of truth and generated context files should stay current in pull requests.
 
-`pluribus audit --strict` is read-only: it fails when a generated file is missing or drifted, but it does not rewrite anything in CI. Pair it with `--json` when you want a machine-readable artifact for dashboards or review comments.
+`pluribus audit --strict` is read-only: it fails when a generated file is missing or drifted, but it does not rewrite anything in CI. Add `--github-annotations` in GitHub Actions so drift appears inline in the check UI. Pair it with `--json` when you want a machine-readable artifact for dashboards or review comments.
 
 ## GitHub Actions
 
@@ -33,14 +33,14 @@ jobs:
           node-version: 22.x
 
       - name: Audit AI context drift
-        run: npx --yes pluribus-context audit --strict
+        run: npx --yes pluribus-context audit --strict --github-annotations
 ```
 
 If you want JSON output as an artifact, use this variant:
 
 ```yaml
       - name: Audit AI context drift as JSON
-        run: npx --yes pluribus-context audit --strict --json > pluribus-audit.json
+        run: npx --yes pluribus-context audit --strict --json --github-annotations > pluribus-audit.json
 
       - name: Upload Pluribus audit result
         if: always()
@@ -59,6 +59,8 @@ npx pluribus-context audit
 npx pluribus-context sync --dry-run
 npx pluribus-context sync
 npx pluribus-context audit --strict
+# In GitHub Actions, use:
+npx pluribus-context audit --strict --github-annotations
 ```
 
 Commit `pluribus.md` and the generated files together, or document that your team regenerates generated files during setup. Do not commit `.pluribus/cache/remote/`; commit `pluribus.lock.json` when you use remote imports.

@@ -185,6 +185,12 @@ This is read-only. It compares existing generated files with what `pluribus.md` 
 pluribus audit --strict
 ```
 
+In GitHub Actions, add annotations so drift appears inline in the check UI:
+
+```bash
+pluribus audit --strict --github-annotations
+```
+
 For CI scripts, dashboards, or migration tooling, use machine-readable output:
 
 ```bash
