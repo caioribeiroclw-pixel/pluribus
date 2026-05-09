@@ -16,6 +16,7 @@ All notable changes to Pluribus are documented here.
 - Add a context drift taxonomy that separates file-level output drift, source-of-truth drift, runtime loading/precedence drift, and behavioral drift so users can choose the right check before adopting Pluribus.
 - Add `pluribus audit --json` so CI jobs, smoke scripts, and external tools can consume drift results without parsing emoji/text output.
 - Add `pluribus audit --github-annotations` for inline GitHub Actions check annotations when generated context files are missing or drifted.
+- Add `pluribus audit --ci` as a shortcut for `--strict --github-annotations` in GitHub Actions.
 - Add `schemas/audit-result.schema.json` to make the `pluribus audit --json` contract explicit for CI wrappers, dashboards, and migration tools.
 - Add `pluribus audit --json --output <file>` so CI jobs can save audit results as artifacts without shell redirection or noisy stdout.
 - Add a copy-paste CI audit guide and GitHub Actions example for enforcing generated context files in pull requests.
@@ -23,6 +24,7 @@ All notable changes to Pluribus are documented here.
 - Make the README and quickstart choose between two safe first commands: read-only `audit` for existing repos and `init` for brand-new repos.
 - Normalize one-off `npx` examples to `npx --yes pluribus-context ...` so copy-paste docs do not pause on npm's install prompt.
 - Add explicit version-availability notes while `main` documents `0.3.1` audit CI flags and npm latest remains `0.3.0`.
+- Use `audit --ci` in the copy-paste GitHub Actions example to reduce command length.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 

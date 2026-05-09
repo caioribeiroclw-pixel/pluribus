@@ -23,6 +23,7 @@ The CI-oriented flags in this guide are prepared in `main` for the next patch re
 - `--json`
 - `--output <file>`
 - `--github-annotations`
+- `--ci`
 
 Until `0.3.1` is published to npm, use `npx --yes pluribus-context@0.3.0 audit` for the stable published audit, or run the latest source when you specifically want to test the new CI flags:
 
@@ -126,6 +127,12 @@ If you want GitHub Actions to show drift inline in the check UI, add `--github-a
 npx --yes pluribus-context audit --strict --github-annotations
 ```
 
+For GitHub Actions, `--ci` is the shorter equivalent of `--strict --github-annotations`:
+
+```bash
+npx --yes pluribus-context audit --ci
+```
+
 If you want machine-readable results for CI, dashboards, or a migration script, add `--json`:
 
 ```bash
@@ -138,7 +145,7 @@ To save that JSON as an artifact without relying on shell redirection, add `--ou
 npx --yes pluribus-context audit --strict --json --output pluribus-audit.json
 ```
 
-The JSON output includes `ok`, `source`, `results`, `summary`, and `nextStep`, so callers can fail on drift without parsing the human emoji output. The schema lives at [`schemas/audit-result.schema.json`](../schemas/audit-result.schema.json) for CI wrappers, dashboards, and migration tools that want a stable contract. `--output` writes the same JSON payload to disk and keeps stdout quiet. `--github-annotations` writes annotations to stderr, so it can be combined with `--json`/`--output` while preserving a clean artifact. See the [CI audit example](ci-audit-example.md) for a copy-paste GitHub Actions workflow and JSON artifact variant. If you want the same guard before commits leave a developer machine, use the [Pre-commit Audit Hook](pre-commit-audit.md).
+The JSON output includes `ok`, `source`, `results`, `summary`, and `nextStep`, so callers can fail on drift without parsing the human emoji output. The schema lives at [`schemas/audit-result.schema.json`](../schemas/audit-result.schema.json) for CI wrappers, dashboards, and migration tools that want a stable contract. `--output` writes the same JSON payload to disk and keeps stdout quiet. `--ci` is a shorthand for `--strict --github-annotations`. `--github-annotations` writes annotations to stderr, so it can be combined with `--json`/`--output` while preserving a clean artifact. See the [CI audit example](ci-audit-example.md) for a copy-paste GitHub Actions workflow and JSON artifact variant. If you want the same guard before commits leave a developer machine, use the [Pre-commit Audit Hook](pre-commit-audit.md).
 
 That catches three common failure modes without writing files:
 

@@ -32,9 +32,10 @@ export async function runAudit(args) {
   const sourceArg = typeof args.source === 'string' ? args.source : null
   const toolsArg = typeof args.tools === 'string' ? args.tools : null
   const updateImports = Boolean(args['update-imports'])
-  const strict = Boolean(args.strict)
+  const ci = Boolean(args.ci)
+  const strict = Boolean(args.strict || ci)
   const json = Boolean(args.json)
-  const githubAnnotations = Boolean(args['github-annotations'])
+  const githubAnnotations = Boolean(args['github-annotations'] || ci)
   const hasJsonOutput = Object.prototype.hasOwnProperty.call(args, 'output')
   const jsonOutput = typeof args.output === 'string' && args.output.trim() ? args.output : null
   const cwd = process.cwd()

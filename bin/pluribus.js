@@ -47,6 +47,7 @@ OPTIONS (audit)
   --tools         Override which tools to audit (comma-separated)
   --update-imports  Refresh remote github:/https:// imports before auditing
   --strict        Exit non-zero when generated files are missing or drifted
+  --ci            Shortcut for --strict --github-annotations
   --json          Print machine-readable audit results
   --output        Write --json results to a file instead of stdout
   --github-annotations  Print GitHub Actions annotations for drift/missing outputs
@@ -68,6 +69,7 @@ EXAMPLES
   pluribus validate
   pluribus audit
   pluribus audit --strict
+  pluribus audit --ci
   pluribus audit --json
   pluribus audit --strict --json --output pluribus-audit.json
   pluribus audit --strict --github-annotations

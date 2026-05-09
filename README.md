@@ -70,7 +70,7 @@ And it generates the right files for each tool:
 
 ## Getting Started
 
-> **Version note:** `pluribus audit` is published in `pluribus-context@0.3.0`. The CI-oriented audit flags documented in `main` (`--json`, `--output`, `--github-annotations`) are prepared for the next npm patch release `0.3.1`; until that patch is published, use `@0.3.0` for the basic read-only audit or run from `main` when testing the new CI flags.
+> **Version note:** `pluribus audit` is published in `pluribus-context@0.3.0`. The CI-oriented audit flags documented in `main` (`--json`, `--output`, `--github-annotations`, `--ci`) are prepared for the next npm patch release `0.3.1`; until that patch is published, use `@0.3.0` for the basic read-only audit or run from `main` when testing the new CI flags.
 
 ### Pick the safe first command
 
@@ -204,6 +204,12 @@ In GitHub Actions, add annotations so drift appears inline in the check UI:
 
 ```bash
 pluribus audit --strict --github-annotations
+```
+
+For GitHub Actions, `--ci` is the shorter equivalent of `--strict --github-annotations`:
+
+```bash
+pluribus audit --ci
 ```
 
 For CI scripts, dashboards, or migration tooling, use machine-readable output:

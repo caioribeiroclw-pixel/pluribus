@@ -77,6 +77,25 @@ test('audit detects drifted and missing generated files in strict mode', () => {
   assert.match(audit.stdout, /Summary: 0 current, 1 drifted, 1 missing, 0 error/)
 })
 
+
+test('audit --ci is a shortcut for strict GitHub Actions annotations', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), validContext)
+
+  const sync = runCli(dir, ['sync'])
+  assert.equal(sync.status, 0, sync.stderr)
+
+  fs.appendFileSync(path.join(dir, 'CLAUDE.md'), '\nmanual edit\n')
+  fs.rmSync(path.join(dir, '.cursorrules'))
+
+  const audit = runCli(dir, ['audit', '--ci'])
+
+  assert.equal(audit.status, 1)
+  assert.match(audit.stdout, /Summary: 0 current, 1 drifted, 1 missing, 0 error/)
+  assert.match(audit.stderr, /::error file=CLAUDE\.md,title=Pluribus audit%3A drift/)
+  assert.match(audit.stderr, /::error file=\.cursorrules,title=Pluribus audit%3A missing/)
+})
+
 test('audit can print machine-readable JSON results', () => {
   const dir = tempProject()
   writeFile(path.join(dir, 'pluribus.md'), validContext)
