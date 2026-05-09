@@ -110,7 +110,7 @@ If you want machine-readable results for CI, dashboards, or a migration script, 
 npx pluribus-context audit --strict --json
 ```
 
-The JSON output includes `ok`, `source`, `results`, `summary`, and `nextStep`, so callers can fail on drift without parsing the human emoji output.
+The JSON output includes `ok`, `source`, `results`, `summary`, and `nextStep`, so callers can fail on drift without parsing the human emoji output. See the [CI audit example](ci-audit-example.md) for a copy-paste GitHub Actions workflow and JSON artifact variant.
 
 That catches three common failure modes without writing files:
 

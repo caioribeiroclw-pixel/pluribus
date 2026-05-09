@@ -99,7 +99,7 @@ npx pluribus-context sync --dry-run
 
 If the preview looks right, run `npx pluribus-context sync` to write the tool-specific files.
 
-For a fuller walkthrough, see the [Quickstart](docs/quickstart.md). If your repo already has `CLAUDE.md`, `.cursorrules`, Copilot instructions, or `AGENTS.md`, run a [Context Drift Audit](docs/context-drift-audit.md) first, then follow [Migrate Existing AI Context Files](docs/migrate-existing-context.md). Before committing shared or generated AI instructions, use the [Context File Review Checklist](docs/context-file-review.md). If you're deciding between Pluribus and a one-way rules converter, see [When to use Pluribus](docs/when-to-use-pluribus.md). If you are debugging "context drift" after compaction or long sessions, start with the [Context Drift Taxonomy](docs/context-drift-taxonomy.md) to separate file drift from runtime precedence drift.
+For a fuller walkthrough, see the [Quickstart](docs/quickstart.md). To enforce generated context files in pull requests, use the [CI audit example](docs/ci-audit-example.md). If your repo already has `CLAUDE.md`, `.cursorrules`, Copilot instructions, or `AGENTS.md`, run a [Context Drift Audit](docs/context-drift-audit.md) first, then follow [Migrate Existing AI Context Files](docs/migrate-existing-context.md). Before committing shared or generated AI instructions, use the [Context File Review Checklist](docs/context-file-review.md). If you're deciding between Pluribus and a one-way rules converter, see [When to use Pluribus](docs/when-to-use-pluribus.md). If you are debugging "context drift" after compaction or long sessions, start with the [Context Drift Taxonomy](docs/context-drift-taxonomy.md) to separate file drift from runtime precedence drift.
 
 ### Usage
 
@@ -190,6 +190,8 @@ For CI scripts, dashboards, or migration tooling, use machine-readable output:
 ```bash
 pluribus audit --strict --json
 ```
+
+For a copy-paste workflow file, see the [CI audit example](docs/ci-audit-example.md).
 
 If your project does not have `pluribus.md` yet, `pluribus audit` scans for known AI context files (`CLAUDE.md`, `.cursorrules`, Copilot instructions, `AGENTS.md`, Windsurf, Continue, Zed) so you know what to migrate.
 
