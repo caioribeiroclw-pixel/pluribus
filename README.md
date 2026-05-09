@@ -46,7 +46,7 @@ pluribus/
 Then:
 
 ```bash
-npx pluribus-context sync
+npx --yes pluribus-context sync
 ```
 
 And it generates the right files for each tool:
@@ -105,12 +105,12 @@ Want to see exactly what gets generated before adding it to a real project?
 
 ```bash
 mkdir pluribus-demo && cd pluribus-demo
-npx pluribus-context init --name "Ana" --description "A Node.js service" --tools claude,cursor,copilot
-npx pluribus-context validate
-npx pluribus-context sync --dry-run
+npx --yes pluribus-context init --name "Ana" --description "A Node.js service" --tools claude,cursor,copilot
+npx --yes pluribus-context validate
+npx --yes pluribus-context sync --dry-run
 ```
 
-If the preview looks right, run `npx pluribus-context sync` to write the tool-specific files.
+If the preview looks right, run `npx --yes pluribus-context sync` to write the tool-specific files.
 
 For a fuller walkthrough, see the [Quickstart](docs/quickstart.md). To enforce generated context files in pull requests, use the [CI audit example](docs/ci-audit-example.md); to catch drift before commits leave your machine, use the [Pre-commit Audit Hook](docs/pre-commit-audit.md). If your repo already has `CLAUDE.md`, `.cursorrules`, Copilot instructions, or `AGENTS.md`, run a [Context Drift Audit](docs/context-drift-audit.md) first, then follow [Migrate Existing AI Context Files](docs/migrate-existing-context.md). Before committing shared or generated AI instructions, use the [Context File Review Checklist](docs/context-file-review.md). If you're deciding between Pluribus and a one-way rules converter, see [When to use Pluribus](docs/when-to-use-pluribus.md). If you are debugging "context drift" after compaction or long sessions, start with the [Context Drift Taxonomy](docs/context-drift-taxonomy.md) to separate file drift from runtime precedence drift.
 

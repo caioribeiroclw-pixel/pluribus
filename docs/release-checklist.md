@@ -69,8 +69,8 @@ Then verify the registry entry and the install path users will see:
 
 ```bash
 npm view pluribus-context version dist.tarball
-npm view pluribus-context readme | grep -E 'npx pluribus-context|60-second smoke test|Published to npm'
-npx pluribus-context --help
+npm view pluribus-context readme | grep -E 'npx --yes pluribus-context|60-second smoke test|Published to npm'
+npx --yes pluribus-context --help
 ```
 
 The npm README is captured at publish time. If the GitHub README changed after the previous publish, confirm the npm package page no longer contains stale pre-release markers such as `once published` before starting distribution.

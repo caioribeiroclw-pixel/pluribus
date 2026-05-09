@@ -7,7 +7,7 @@ All notable changes to Pluribus are documented here.
 ### Changed
 
 - Republish the post-0.3.0 README/docs cleanup so the npm package page no longer tells users that `audit` requires a source install or that npm latest may still be `0.2.0`.
-- Keep the published path explicit: `npx pluribus-context audit` is now the default first-run check.
+- Keep the published path explicit: `npx --yes pluribus-context audit` is now the default first-run check.
 - Clarify when Pluribus complements dedicated context linters/drift auditors versus replacing one-way sync maintenance.
 - Expand package keywords for discoverability around `context-drift`, `AGENTS.md`, Cursor rules, and AI coding agents.
 - Add a dedicated GitHub issue template for read-only `pluribus audit` feedback from real repos, plus links to the audit guide and workflow discussion.
@@ -21,6 +21,7 @@ All notable changes to Pluribus are documented here.
 - Add a copy-paste CI audit guide and GitHub Actions example for enforcing generated context files in pull requests.
 - Add a pre-commit audit guide and sample git hook for catching context drift before commits leave a developer machine.
 - Make the README and quickstart choose between two safe first commands: read-only `audit` for existing repos and `init` for brand-new repos.
+- Normalize one-off `npx` examples to `npx --yes pluribus-context ...` so copy-paste docs do not pause on npm's install prompt.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 
@@ -31,7 +32,7 @@ All notable changes to Pluribus are documented here.
 
 ### Changed
 
-- Align the package README for the npm publish so the npm package page shows the real `npx pluribus-context` install path, npm badge, 60-second smoke test, `audit` workflow, and published-status roadmap.
+- Align the package README for the npm publish so the npm package page shows the real `npx --yes pluribus-context` install path, npm badge, 60-second smoke test, `audit` workflow, and published-status roadmap.
 - Replace temporary source-install notes with the published `pluribus-context@0.3.0` audit path.
 
 ## 0.2.0 — Package-ready CLI release

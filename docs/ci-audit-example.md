@@ -55,12 +55,12 @@ If you want JSON output as an artifact, use this variant:
 When CI fails:
 
 ```bash
-npx pluribus-context audit
-npx pluribus-context sync --dry-run
-npx pluribus-context sync
-npx pluribus-context audit --strict
+npx --yes pluribus-context audit
+npx --yes pluribus-context sync --dry-run
+npx --yes pluribus-context sync
+npx --yes pluribus-context audit --strict
 # In GitHub Actions, use:
-npx pluribus-context audit --strict --github-annotations
+npx --yes pluribus-context audit --strict --github-annotations
 ```
 
 Commit `pluribus.md` and the generated files together, or document that your team regenerates generated files during setup. Do not commit `.pluribus/cache/remote/`; commit `pluribus.lock.json` when you use remote imports.
@@ -70,7 +70,7 @@ Commit `pluribus.md` and the generated files together, or document that your tea
 Normal `audit`, `sync`, and `validate` runs do not fetch remote imports. They use the committed `pluribus.lock.json` plus the local cache. If CI fails because a remote import is unlocked or cache-missing, refresh it locally with:
 
 ```bash
-npx pluribus-context sync --update-imports
+npx --yes pluribus-context sync --update-imports
 ```
 
 Then review and commit the updated `pluribus.lock.json` with the generated outputs. Use `GH_TOKEN`/`GITHUB_TOKEN` only when refreshing private GitHub imports; Pluribus never writes tokens to the lockfile or cache.

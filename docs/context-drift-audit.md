@@ -9,7 +9,7 @@ If you are using "drift" to mean compaction, summarization, load-order, or long-
 Start with the read-only command when you want a quick signal:
 
 ```bash
-npx pluribus-context audit
+npx --yes pluribus-context audit
 ```
 
 If `pluribus.md` exists, this reports generated files that are current, missing, or drifted. If `pluribus.md` does not exist yet, it scans for known AI context files so you can decide what to migrate.
@@ -77,7 +77,7 @@ Keep tool-specific behavior outside the shared layer when it truly belongs to on
 Run the read-only audit first:
 
 ```bash
-npx pluribus-context audit
+npx --yes pluribus-context audit
 ```
 
 If `pluribus.md` exists, this compares generated tool files with the source and reports anything missing or drifted. If `pluribus.md` does not exist yet, it scans for known AI context files so you know what to migrate.
@@ -85,8 +85,8 @@ If `pluribus.md` exists, this compares generated tool files with the source and 
 Then run a dry-run before writing anything:
 
 ```bash
-npx pluribus-context validate
-npx pluribus-context sync --dry-run
+npx --yes pluribus-context validate
+npx --yes pluribus-context sync --dry-run
 ```
 
 Read the previews and ask two questions:
@@ -101,25 +101,25 @@ If the answer to either question is no, edit `pluribus.md` or keep that behavior
 After adoption, the simplest check is:
 
 ```bash
-npx pluribus-context audit --strict
+npx --yes pluribus-context audit --strict
 ```
 
 If you want GitHub Actions to show drift inline in the check UI, add `--github-annotations`:
 
 ```bash
-npx pluribus-context audit --strict --github-annotations
+npx --yes pluribus-context audit --strict --github-annotations
 ```
 
 If you want machine-readable results for CI, dashboards, or a migration script, add `--json`:
 
 ```bash
-npx pluribus-context audit --strict --json
+npx --yes pluribus-context audit --strict --json
 ```
 
 To save that JSON as an artifact without relying on shell redirection, add `--output`:
 
 ```bash
-npx pluribus-context audit --strict --json --output pluribus-audit.json
+npx --yes pluribus-context audit --strict --json --output pluribus-audit.json
 ```
 
 The JSON output includes `ok`, `source`, `results`, `summary`, and `nextStep`, so callers can fail on drift without parsing the human emoji output. The schema lives at [`schemas/audit-result.schema.json`](../schemas/audit-result.schema.json) for CI wrappers, dashboards, and migration tools that want a stable contract. `--output` writes the same JSON payload to disk and keeps stdout quiet. `--github-annotations` writes annotations to stderr, so it can be combined with `--json`/`--output` while preserving a clean artifact. See the [CI audit example](ci-audit-example.md) for a copy-paste GitHub Actions workflow and JSON artifact variant. If you want the same guard before commits leave a developer machine, use the [Pre-commit Audit Hook](pre-commit-audit.md).

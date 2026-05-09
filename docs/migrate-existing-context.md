@@ -52,7 +52,7 @@ Move project facts and shared conventions into `pluribus.md`. Keep tool-specific
 ## 2. Scaffold `pluribus.md`
 
 ```bash
-npx pluribus-context init \
+npx --yes pluribus-context init \
   --name "Your project" \
   --description "What this repo does" \
   --tools claude,cursor,copilot,openclaw
@@ -89,8 +89,8 @@ I am working on <project>. The goal is <goal>.
 Run a dry-run first:
 
 ```bash
-npx pluribus-context validate
-npx pluribus-context sync --dry-run
+npx --yes pluribus-context validate
+npx --yes pluribus-context sync --dry-run
 ```
 
 Check the preview for each target tool. If the generated files would lose important instructions, move that missing context into `pluribus.md` and run the dry-run again.
@@ -100,7 +100,7 @@ Check the preview for each target tool. If the generated files would lose import
 When the preview looks right:
 
 ```bash
-npx pluribus-context sync
+npx --yes pluribus-context sync
 ```
 
 Review the diff carefully:
@@ -120,16 +120,16 @@ Recommended commit shape:
 For local work:
 
 ```bash
-npx pluribus-context watch
+npx --yes pluribus-context watch
 ```
 
 For CI or pre-commit flows, use the read-only audit command in strict mode:
 
 ```bash
-npx pluribus-context audit --strict
+npx --yes pluribus-context audit --strict
 ```
 
-If this fails, someone edited a generated file directly or changed `pluribus.md` without regenerating outputs. Use `npx pluribus-context sync --dry-run` to preview the fix before writing files.
+If this fails, someone edited a generated file directly or changed `pluribus.md` without regenerating outputs. Use `npx --yes pluribus-context sync --dry-run` to preview the fix before writing files.
 
 ## 6. Use imports for team/org context
 
@@ -152,7 +152,7 @@ For cross-repo shared context, use explicit remote imports and pin them with `--
 Then:
 
 ```bash
-npx pluribus-context sync --update-imports
+npx --yes pluribus-context sync --update-imports
 ```
 
 Commit `pluribus.lock.json` so future syncs are deterministic. Do not commit `.pluribus/cache/remote/`; it is a local regenerable cache.

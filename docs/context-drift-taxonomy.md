@@ -13,14 +13,14 @@ Pluribus is intentionally focused on one layer: keeping generated AI context fil
 **Best check:**
 
 ```bash
-npx pluribus-context audit --strict
+npx --yes pluribus-context audit --strict
 ```
 
 **Best fix:** regenerate outputs from the reviewed source:
 
 ```bash
-npx pluribus-context sync --dry-run
-npx pluribus-context sync
+npx --yes pluribus-context sync --dry-run
+npx --yes pluribus-context sync
 ```
 
 This is Pluribus' core job.
@@ -74,10 +74,10 @@ A lightweight canary near the top of a generated file can show that the file was
 
 ## Practical adoption path
 
-1. Run `npx pluribus-context audit` to learn which files exist and whether generated outputs are current.
+1. Run `npx --yes pluribus-context audit` to learn which files exist and whether generated outputs are current.
 2. If multiple tools share the same facts, move those stable facts into `pluribus.md`.
-3. Run `npx pluribus-context sync --dry-run` and review the generated files.
-4. Add `npx pluribus-context audit --strict` to CI or pre-commit if generated files should stay current.
+3. Run `npx --yes pluribus-context sync --dry-run` and review the generated files.
+4. Add `npx --yes pluribus-context audit --strict` to CI or pre-commit if generated files should stay current.
 5. Separately verify that each AI tool actually loads and prioritizes its generated file at runtime.
 
 That separation keeps the promise honest: Pluribus prevents file-level context drift. It complements, rather than replaces, runtime diagnostics and context linters.

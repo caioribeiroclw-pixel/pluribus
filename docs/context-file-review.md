@@ -56,8 +56,8 @@ If someone edits a generated file directly, expect drift.
 Preview generated outputs before changing a real repo:
 
 ```bash
-npx pluribus-context validate
-npx pluribus-context sync --dry-run
+npx --yes pluribus-context validate
+npx --yes pluribus-context sync --dry-run
 ```
 
 Read the preview like a PR diff. Confirm that shared facts appear where they should and that private or tool-specific details did not get flattened into every output.
@@ -67,7 +67,7 @@ Read the preview like a PR diff. Confirm that shared facts appear where they sho
 For repos that commit generated AI context files, add a lightweight check:
 
 ```bash
-npx pluribus-context sync
+npx --yes pluribus-context sync
 git diff --exit-code -- \
   CLAUDE.md \
   .cursorrules \
