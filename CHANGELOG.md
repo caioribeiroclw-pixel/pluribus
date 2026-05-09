@@ -19,6 +19,7 @@ All notable changes to Pluribus are documented here.
 - Add `schemas/audit-result.schema.json` to make the `pluribus audit --json` contract explicit for CI wrappers, dashboards, and migration tools.
 - Add `pluribus audit --json --output <file>` so CI jobs can save audit results as artifacts without shell redirection or noisy stdout.
 - Add a copy-paste CI audit guide and GitHub Actions example for enforcing generated context files in pull requests.
+- Add a pre-commit audit guide and sample git hook for catching context drift before commits leave a developer machine.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 
