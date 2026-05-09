@@ -22,6 +22,7 @@ All notable changes to Pluribus are documented here.
 - Add a pre-commit audit guide and sample git hook for catching context drift before commits leave a developer machine.
 - Make the README and quickstart choose between two safe first commands: read-only `audit` for existing repos and `init` for brand-new repos.
 - Normalize one-off `npx` examples to `npx --yes pluribus-context ...` so copy-paste docs do not pause on npm's install prompt.
+- Add explicit version-availability notes while `main` documents `0.3.1` audit CI flags and npm latest remains `0.3.0`.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 

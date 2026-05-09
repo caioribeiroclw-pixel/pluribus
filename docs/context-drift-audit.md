@@ -14,6 +14,22 @@ npx --yes pluribus-context audit
 
 If `pluribus.md` exists, this reports generated files that are current, missing, or drifted. If `pluribus.md` does not exist yet, it scans for known AI context files so you can decide what to migrate.
 
+## Version availability
+
+The basic read-only `audit` command is published in `pluribus-context@0.3.0`.
+
+The CI-oriented flags in this guide are prepared in `main` for the next patch release `0.3.1`:
+
+- `--json`
+- `--output <file>`
+- `--github-annotations`
+
+Until `0.3.1` is published to npm, use `npx --yes pluribus-context@0.3.0 audit` for the stable published audit, or run the latest source when you specifically want to test the new CI flags:
+
+```bash
+npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus audit --strict --json
+```
+
 ## 1. Find AI context surfaces
 
 From the project root:

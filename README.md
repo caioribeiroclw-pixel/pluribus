@@ -70,6 +70,8 @@ And it generates the right files for each tool:
 
 ## Getting Started
 
+> **Version note:** `pluribus audit` is published in `pluribus-context@0.3.0`. The CI-oriented audit flags documented in `main` (`--json`, `--output`, `--github-annotations`) are prepared for the next npm patch release `0.3.1`; until that patch is published, use `@0.3.0` for the basic read-only audit or run from `main` when testing the new CI flags.
+
 ### Pick the safe first command
 
 If your repo already has AI context files such as `CLAUDE.md`, `.cursorrules`, Copilot instructions, or `AGENTS.md`, start with the read-only audit:

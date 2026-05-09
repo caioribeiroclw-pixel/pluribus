@@ -2,7 +2,9 @@
 
 Use this when `pluribus.md` is the source of truth and generated context files should stay current in pull requests.
 
-`pluribus audit --strict` is read-only: it fails when a generated file is missing or drifted, but it does not rewrite anything in CI. Add `--github-annotations` in GitHub Actions so drift appears inline in the check UI. Pair it with `--json --output pluribus-audit.json` when you want a machine-readable artifact for dashboards or review comments; the output contract is documented in [`schemas/audit-result.schema.json`](../schemas/audit-result.schema.json).
+`pluribus audit --strict` is read-only: it fails when a generated file is missing or drifted, but it does not rewrite anything in CI. The basic audit command is published in `pluribus-context@0.3.0`; the `--github-annotations`, `--json`, and `--output` flags below are prepared in `main` for the next npm patch release `0.3.1`. Until that patch is published, pin CI to `pluribus-context@0.3.0` for the strict text check, or test the new flags from source with `--package github:caioribeiroclw-pixel/pluribus#main`.
+
+Add `--github-annotations` in GitHub Actions so drift appears inline in the check UI. Pair it with `--json --output pluribus-audit.json` when you want a machine-readable artifact for dashboards or review comments; the output contract is documented in [`schemas/audit-result.schema.json`](../schemas/audit-result.schema.json).
 
 ## GitHub Actions
 
