@@ -27,7 +27,8 @@
   "scripts": {
     "start": "node bin/pluribus.js",
     "test": "node --test",
-    "release:smoke": "node scripts/release-smoke.js"
+    "release:smoke": "node scripts/release-smoke.js",
+    "release:verify": "node scripts/release-verify.js"
   },
   "keywords": [
     "agents-md",

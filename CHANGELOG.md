@@ -27,6 +27,7 @@ All notable changes to Pluribus are documented here.
 - Use `audit --ci` in the copy-paste GitHub Actions example to reduce command length.
 - Clarify the README vision so the source of truth is `pluribus.md` plus optional `# @import` files, not an obsolete multi-file `pluribus/` directory layout.
 - Add `pluribus init --dry-run` so first-time users can preview the `pluribus.md` scaffold before writing files.
+- Add `npm run release:verify` to run the full release gate and report whether npm auth is the remaining publish blocker.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 

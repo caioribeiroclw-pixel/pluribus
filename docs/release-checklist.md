@@ -17,13 +17,22 @@ This checklist keeps Pluribus releases reproducible and avoids accidentally publ
 - Update `CHANGELOG.md` with user-facing changes, migration notes, and verification commands.
 - Confirm README install commands use the package name `pluribus-context` and that the binary remains `pluribus`.
 
-## 2. Local checks
+## 2. Local release gate
 
-Run from the repo root:
+Run the consolidated release gate from the repo root:
+
+```bash
+npm run release:verify
+```
+
+The verifier requires a clean `main...origin/main` checkout, reports the local package version versus npm latest, reports whether `npm whoami` is authenticated, then runs `npm test`, `git diff --check`, `npm run release:smoke`, `npm pack --dry-run`, and `npm publish --dry-run`. If npm auth is missing, the verifier still proves the package is technically ready and names auth/2FA as the remaining publish blocker.
+
+If you need to debug an individual step, run it directly:
 
 ```bash
 npm test
 git diff --check
+npm run release:smoke
 npm pack --dry-run
 npm publish --dry-run
 ```
