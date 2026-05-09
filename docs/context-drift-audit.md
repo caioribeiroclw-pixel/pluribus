@@ -4,6 +4,8 @@ Use this before adopting Pluribus when you are not sure whether your AI context 
 
 The goal is not to make every tool identical. The goal is to separate shared project facts from tool-specific behavior so the shared parts can live in `pluribus.md` and be regenerated deliberately.
 
+If you are using "drift" to mean compaction, summarization, load-order, or long-session behavior, read the [Context Drift Taxonomy](context-drift-taxonomy.md) first. Pluribus audits file-level output drift; runtime precedence drift needs tool-specific diagnostics too.
+
 Start with the read-only command when you want a quick signal:
 
 ```bash
@@ -121,7 +123,7 @@ That distinction matters:
 - use tool-specific diagnostics or hooks when the file is correct but the model drifts after compaction, summarization, or context-window reordering;
 - use both if your risk is bigger than copy-paste drift: first keep generated files aligned, then validate that the shared instructions are still true and loaded with the right precedence.
 
-Pluribus solves output drift across tools. It does not prove that the canonical context is correct or that every tool will give the generated file the same runtime priority.
+Pluribus solves output drift across tools. It does not prove that the canonical context is correct or that every tool will give the generated file the same runtime priority. For a fuller split between output drift, source-of-truth drift, runtime loading drift, and behavioral drift, see the [Context Drift Taxonomy](context-drift-taxonomy.md).
 
 ## Verify runtime loading separately
 

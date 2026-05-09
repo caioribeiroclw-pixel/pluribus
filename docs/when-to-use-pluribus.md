@@ -76,3 +76,5 @@ Pluribus is not trying to make every AI tool identical.
 It is trying to keep the stable, intentional parts of your project context from drifting while still letting each tool keep its own interface and strengths.
 
 That means Pluribus handles file-level alignment. Runtime precedence problems — for example, a tool loading a compacted summary above a correct context file — are real, but they belong in the tool's load-order, hooks, or context-priority settings rather than in Pluribus' sync layer.
+
+For a sharper split of the overloaded term "context drift", see the [Context Drift Taxonomy](context-drift-taxonomy.md).
