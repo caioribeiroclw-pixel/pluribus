@@ -33,19 +33,20 @@ You end up maintaining **5+ files** that say roughly the same thing — your pro
 
 **Pluribus** is a universal format for intentional context in AI-assisted development.
 
-Write your project context **once**, in simple `.md` files. Pluribus syncs it to every tool you use — formatted exactly how each tool expects it.
+Write your project context **once**, in `pluribus.md`. Keep it as a single file for small projects, or compose shared team/org Markdown with `# @import` when the context needs to be reused.
 
-```
-pluribus/
-├── context.md        # Your project: stack, architecture, conventions
-├── identity.md       # Who you are, your preferences, tone
-├── skills.md         # What your AI should be good at
-└── rules.md          # Guardrails and constraints
+```text
+your-project/
+├── pluribus.md                  # source of truth
+└── shared/
+    ├── team-context.md          # optional imported conventions
+    └── security-constraints.md  # optional imported guardrails
 ```
 
-Then:
+Then preview or sync:
 
 ```bash
+npx --yes pluribus-context sync --dry-run
 npx --yes pluribus-context sync
 ```
 

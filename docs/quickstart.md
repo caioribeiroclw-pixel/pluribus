@@ -28,7 +28,7 @@ npx --yes pluribus-context init \
   --tools claude,cursor,copilot
 ```
 
-This creates `pluribus.md`. Open it and replace the scaffolded notes with real project context when you are ready.
+This creates `pluribus.md`, the single source-of-truth file Pluribus reads. Open it and replace the scaffolded notes with real project context when you are ready. If you later need team/org reuse, keep the local project sections in `pluribus.md` and import shared Markdown with `# @import ./shared/team-context.md`.
 
 ## 3. Validate before writing generated files
 

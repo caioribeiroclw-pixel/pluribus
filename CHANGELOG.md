@@ -25,6 +25,7 @@ All notable changes to Pluribus are documented here.
 - Normalize one-off `npx` examples to `npx --yes pluribus-context ...` so copy-paste docs do not pause on npm's install prompt.
 - Add explicit version-availability notes while `main` documents `0.3.1` audit CI flags and npm latest remains `0.3.0`.
 - Use `audit --ci` in the copy-paste GitHub Actions example to reduce command length.
+- Clarify the README vision so the source of truth is `pluribus.md` plus optional `# @import` files, not an obsolete multi-file `pluribus/` directory layout.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 
