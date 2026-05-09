@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/caioribeiroclw-pixel/pluribus/main/schemas/audit-result.schema.json",
+  "title": "Pluribus audit JSON result",
+  "description": "Machine-readable output produced by `pluribus audit --json`.",
+  "type": "object",
+  "required": ["ok", "source", "sourceFound", "summary", "nextStep"],
+  "properties": {
+    "ok": {
+      "type": "boolean",
+      "description": "True when the audit found no blocking problem for the selected mode."
+    },
+    "source": {
+      "type": "string",
+      "description": "Source file path as displayed relative to the command working directory."
+    },
+    "sourceFound": {
+      "type": "boolean",
+      "description": "Whether the source file exists."
+    },
+    "tools": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Tool ids audited when a source file exists."
+    },
+    "results": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/result" },
+      "description": "Per-tool/per-file audit results when a source file exists."
+    },
+    "existingContextFiles": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Known AI context files discovered when no source file exists."
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Validation/import/tool errors that prevented a full audit."
+    },
+    "requiredSections": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Required pluribus.md sections when validation fails."
+    },
+    "summary": {
+      "type": "object",
+      "description": "Counts for the audit or discovery result.",
+      "properties": {
+        "current": { "type": "integer", "minimum": 0 },
+        "drifted": { "type": "integer", "minimum": 0 },
+        "missing": { "type": "integer", "minimum": 0 },
+        "errors": { "type": "integer", "minimum": 0 },
+        "existingContextFiles": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    },
+    "nextStep": {
+      "type": "string",
+      "description": "Human-readable suggested next command/action."
+    },
+    "docs": {
+      "type": "string",
+      "format": "uri",
+      "description": "Documentation URL for discovery/migration cases."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "sourceFound": { "const": true } },
+        "required": ["sourceFound"]
+      },
+      "then": {
+        "required": ["tools", "results"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "sourceFound": { "const": false } },
+        "required": ["sourceFound"]
+      },
+      "then": {
+        "required": ["existingContextFiles", "docs"]
+      }
+    }
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "result": {
+      "type": "object",
+      "required": ["toolId", "status", "file"],
+      "properties": {
+        "toolId": {
+          "type": "string",
+          "description": "Tool adapter id, for example claude, cursor, copilot, openclaw, windsurf, continue, or zed."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["current", "missing", "drift", "error"]
+        },
+        "file": {
+          "type": "string",
+          "description": "Generated file path, or a synthetic path such as (sections) for errors."
+        },
+        "message": {
+          "type": "string",
+          "description": "Present for error results and some diagnostics."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

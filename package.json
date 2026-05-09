@@ -20,6 +20,7 @@
     "src/",
     "docs/",
     "spec/",
+    "schemas/",
     "examples/",
     "CHANGELOG.md"
   ],

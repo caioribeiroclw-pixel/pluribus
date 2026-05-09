@@ -116,7 +116,7 @@ If you want machine-readable results for CI, dashboards, or a migration script, 
 npx pluribus-context audit --strict --json
 ```
 
-The JSON output includes `ok`, `source`, `results`, `summary`, and `nextStep`, so callers can fail on drift without parsing the human emoji output. `--github-annotations` writes annotations to stderr, so it can be combined with `--json` while keeping stdout parseable. See the [CI audit example](ci-audit-example.md) for a copy-paste GitHub Actions workflow and JSON artifact variant.
+The JSON output includes `ok`, `source`, `results`, `summary`, and `nextStep`, so callers can fail on drift without parsing the human emoji output. The schema lives at [`schemas/audit-result.schema.json`](../schemas/audit-result.schema.json) for CI wrappers, dashboards, and migration tools that want a stable contract. `--github-annotations` writes annotations to stderr, so it can be combined with `--json` while keeping stdout parseable. See the [CI audit example](ci-audit-example.md) for a copy-paste GitHub Actions workflow and JSON artifact variant.
 
 That catches three common failure modes without writing files:
 

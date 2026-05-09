@@ -16,6 +16,7 @@ All notable changes to Pluribus are documented here.
 - Add a context drift taxonomy that separates file-level output drift, source-of-truth drift, runtime loading/precedence drift, and behavioral drift so users can choose the right check before adopting Pluribus.
 - Add `pluribus audit --json` so CI jobs, smoke scripts, and external tools can consume drift results without parsing emoji/text output.
 - Add `pluribus audit --github-annotations` for inline GitHub Actions check annotations when generated context files are missing or drifted.
+- Add `schemas/audit-result.schema.json` to make the `pluribus audit --json` contract explicit for CI wrappers, dashboards, and migration tools.
 - Add a copy-paste CI audit guide and GitHub Actions example for enforcing generated context files in pull requests.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment

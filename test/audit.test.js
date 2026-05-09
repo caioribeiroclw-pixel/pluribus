@@ -157,3 +157,13 @@ test('audit without pluribus.md can print JSON discovery results', () => {
   assert.equal(payload.summary.existingContextFiles, 2)
   assert.match(payload.docs, /migrate-existing-context\.md/)
 })
+
+test('audit JSON schema is packaged and matches the emitted top-level contract', () => {
+  const schemaPath = path.join(repoRoot, 'schemas', 'audit-result.schema.json')
+  const schema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'))
+
+  assert.equal(schema.title, 'Pluribus audit JSON result')
+  assert.deepEqual(schema.required, ['ok', 'source', 'sourceFound', 'summary', 'nextStep'])
+  assert.equal(schema.properties.results.items.$ref, '#/$defs/result')
+  assert.deepEqual(schema.$defs.result.properties.status.enum, ['current', 'missing', 'drift', 'error'])
+})
