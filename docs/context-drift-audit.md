@@ -104,6 +104,14 @@ After adoption, the simplest check is:
 npx pluribus-context audit --strict
 ```
 
+If you want machine-readable results for CI, dashboards, or a migration script, add `--json`:
+
+```bash
+npx pluribus-context audit --strict --json
+```
+
+The JSON output includes `ok`, `source`, `results`, `summary`, and `nextStep`, so callers can fail on drift without parsing the human emoji output.
+
 That catches three common failure modes without writing files:
 
 - someone edited a generated file directly;

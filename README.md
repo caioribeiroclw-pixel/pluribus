@@ -185,6 +185,12 @@ This is read-only. It compares existing generated files with what `pluribus.md` 
 pluribus audit --strict
 ```
 
+For CI scripts, dashboards, or migration tooling, use machine-readable output:
+
+```bash
+pluribus audit --strict --json
+```
+
 If your project does not have `pluribus.md` yet, `pluribus audit` scans for known AI context files (`CLAUDE.md`, `.cursorrules`, Copilot instructions, `AGENTS.md`, Windsurf, Continue, Zed) so you know what to migrate.
 
 **6. Sync to all your tools**

@@ -47,6 +47,7 @@ OPTIONS (audit)
   --tools         Override which tools to audit (comma-separated)
   --update-imports  Refresh remote github:/https:// imports before auditing
   --strict        Exit non-zero when generated files are missing or drifted
+  --json          Print machine-readable audit results
 
 OPTIONS (watch)
   --source        Path to pluribus.md (default: ./pluribus.md)
@@ -65,6 +66,7 @@ EXAMPLES
   pluribus validate
   pluribus audit
   pluribus audit --strict
+  pluribus audit --json
   pluribus watch --tools claude,cursor
 
 DOCS

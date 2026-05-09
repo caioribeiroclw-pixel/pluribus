@@ -14,6 +14,7 @@ All notable changes to Pluribus are documented here.
 - Clarify that Pluribus detects file-level output drift, not runtime precedence issues where a tool deprioritizes a correct context file after compaction/summarization.
 - Add a lightweight runtime-loading sanity check for users who want to confirm a generated context file is actually loaded before relying on it.
 - Add a context drift taxonomy that separates file-level output drift, source-of-truth drift, runtime loading/precedence drift, and behavioral drift so users can choose the right check before adopting Pluribus.
+- Add `pluribus audit --json` so CI jobs, smoke scripts, and external tools can consume drift results without parsing emoji/text output.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 

@@ -33,6 +33,7 @@ export async function runAudit(args) {
   const toolsArg = typeof args.tools === 'string' ? args.tools : null
   const updateImports = Boolean(args['update-imports'])
   const strict = Boolean(args.strict)
+  const json = Boolean(args.json)
   const cwd = process.cwd()
   const sourcePath = sourceArg
     ? path.resolve(cwd, sourceArg)
@@ -41,23 +42,39 @@ export async function runAudit(args) {
 
   if (!fs.existsSync(sourcePath)) {
     const found = scanKnownContextFiles(cwd)
-    console.log(`ℹ️  No ${displaySource} found.`)
 
-    if (found.length > 0) {
-      console.log('')
-      console.log('Found existing AI context surface(s):')
-      for (const file of found) {
-        console.log(`   • ${file}`)
-      }
-      console.log('')
-      console.log('Use these as migration inputs for `pluribus init`, then run `pluribus audit` again.')
+    if (json) {
+      writeJson({
+        ok: !strict,
+        source: displaySource,
+        sourceFound: false,
+        existingContextFiles: found,
+        summary: { existingContextFiles: found.length },
+        nextStep: found.length > 0
+          ? 'Use these files as migration inputs for pluribus init, then run pluribus audit again.'
+          : 'Run pluribus init to create a source file, then pluribus sync --dry-run.',
+        docs: 'https://github.com/caioribeiroclw-pixel/pluribus/blob/main/docs/migrate-existing-context.md',
+      })
     } else {
-      console.log('')
-      console.log('No known AI context files found in this directory.')
-      console.log('Run `pluribus init` to create a source file, then `pluribus sync --dry-run`.')
+      console.log(`ℹ️  No ${displaySource} found.`)
+
+      if (found.length > 0) {
+        console.log('')
+        console.log('Found existing AI context surface(s):')
+        for (const file of found) {
+          console.log(`   • ${file}`)
+        }
+        console.log('')
+        console.log('Use these as migration inputs for `pluribus init`, then run `pluribus audit` again.')
+      } else {
+        console.log('')
+        console.log('No known AI context files found in this directory.')
+        console.log('Run `pluribus init` to create a source file, then `pluribus sync --dry-run`.')
+      }
+
+      console.log('Docs: https://github.com/caioribeiroclw-pixel/pluribus/blob/main/docs/migrate-existing-context.md')
     }
 
-    console.log('Docs: https://github.com/caioribeiroclw-pixel/pluribus/blob/main/docs/migrate-existing-context.md')
     if (strict) process.exit(1)
     return
   }
@@ -99,16 +116,28 @@ export async function runAudit(args) {
   }
 
   if (errors.length > 0) {
-    console.error(`❌ Cannot audit ${displaySource}:`)
-    for (const error of errors) {
-      console.error(`   • ${error}`)
+    if (json) {
+      writeJson({
+        ok: false,
+        source: displaySource,
+        sourceFound: true,
+        errors,
+        requiredSections: REQUIRED_SECTIONS,
+      })
+    } else {
+      console.error(`❌ Cannot audit ${displaySource}:`)
+      for (const error of errors) {
+        console.error(`   • ${error}`)
+      }
+      console.error(`\n   Complete required sections (${REQUIRED_SECTIONS.join(', ')}) and re-run.`)
     }
-    console.error(`\n   Complete required sections (${REQUIRED_SECTIONS.join(', ')}) and re-run.`)
     process.exit(1)
   }
 
-  console.log(`🔎 Auditing ${displaySource} → ${tools.join(', ')}`)
-  console.log('')
+  if (!json) {
+    console.log(`🔎 Auditing ${displaySource} → ${tools.join(', ')}`)
+    console.log('')
+  }
 
   const results = []
   for (const toolId of tools) {
@@ -157,16 +186,18 @@ export async function runAudit(args) {
     }
   }
 
-  for (const result of results) {
-    const label = `[${result.toolId}] ${result.file}`
-    if (result.status === 'current') {
-      console.log(`   ✅ ${label} is current`)
-    } else if (result.status === 'missing') {
-      console.log(`   ⚠️  ${label} is missing`)
-    } else if (result.status === 'drift') {
-      console.log(`   ⚠️  ${label} differs from generated output`)
-    } else {
-      console.log(`   ❌ ${label}: ${result.message}`)
+  if (!json) {
+    for (const result of results) {
+      const label = `[${result.toolId}] ${result.file}`
+      if (result.status === 'current') {
+        console.log(`   ✅ ${label} is current`)
+      } else if (result.status === 'missing') {
+        console.log(`   ⚠️  ${label} is missing`)
+      } else if (result.status === 'drift') {
+        console.log(`   ⚠️  ${label} differs from generated output`)
+      } else {
+        console.log(`   ❌ ${label}: ${result.message}`)
+      }
     }
   }
 
@@ -175,14 +206,33 @@ export async function runAudit(args) {
     return acc
   }, {})
 
-  console.log('')
-  console.log(`Summary: ${summary.current || 0} current, ${summary.drift || 0} drifted, ${summary.missing || 0} missing, ${summary.error || 0} error(s).`)
-
   const hasProblem = (summary.drift || 0) + (summary.missing || 0) + (summary.error || 0) > 0
-  if (hasProblem) {
-    console.log('Run `pluribus sync --dry-run` to preview fixes, then `pluribus sync` to update generated files.')
+  if (json) {
+    writeJson({
+      ok: !hasProblem,
+      source: displaySource,
+      sourceFound: true,
+      tools,
+      results,
+      summary: {
+        current: summary.current || 0,
+        drifted: summary.drift || 0,
+        missing: summary.missing || 0,
+        errors: summary.error || 0,
+      },
+      nextStep: hasProblem
+        ? 'Run pluribus sync --dry-run to preview fixes, then pluribus sync to update generated files.'
+        : 'Generated context files are in sync.',
+    })
   } else {
-    console.log('✅ Generated context files are in sync.')
+    console.log('')
+    console.log(`Summary: ${summary.current || 0} current, ${summary.drift || 0} drifted, ${summary.missing || 0} missing, ${summary.error || 0} error(s).`)
+
+    if (hasProblem) {
+      console.log('Run `pluribus sync --dry-run` to preview fixes, then `pluribus sync` to update generated files.')
+    } else {
+      console.log('✅ Generated context files are in sync.')
+    }
   }
 
   if ((strict && hasProblem) || (summary.error || 0) > 0) {
@@ -236,4 +286,8 @@ function normalizeGeneratedMetadata(content) {
   return content
     .replace(/Generated by Pluribus ([^\s]+) on \d{4}-\d{2}-\d{2}/g, 'Generated by Pluribus $1 on <date>')
     .replace(/generated by Pluribus ([^\s]+) on \d{4}-\d{2}-\d{2}/g, 'generated by Pluribus $1 on <date>')
+}
+
+function writeJson(value) {
+  console.log(JSON.stringify(value, null, 2))
 }

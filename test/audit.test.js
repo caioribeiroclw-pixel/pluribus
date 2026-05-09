@@ -77,6 +77,37 @@ test('audit detects drifted and missing generated files in strict mode', () => {
   assert.match(audit.stdout, /Summary: 0 current, 1 drifted, 1 missing, 0 error/)
 })
 
+test('audit can print machine-readable JSON results', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), validContext)
+
+  const sync = runCli(dir, ['sync'])
+  assert.equal(sync.status, 0, sync.stderr)
+
+  fs.appendFileSync(path.join(dir, 'CLAUDE.md'), '\nmanual edit\n')
+  fs.rmSync(path.join(dir, '.cursorrules'))
+
+  const audit = runCli(dir, ['audit', '--json', '--strict'])
+  const payload = JSON.parse(audit.stdout)
+
+  assert.equal(audit.status, 1)
+  assert.equal(payload.ok, false)
+  assert.deepEqual(payload.summary, {
+    current: 0,
+    drifted: 1,
+    missing: 1,
+    errors: 0,
+  })
+  assert.deepEqual(
+    payload.results.map((result) => ({ toolId: result.toolId, status: result.status, file: result.file })),
+    [
+      { toolId: 'claude', status: 'drift', file: 'CLAUDE.md' },
+      { toolId: 'cursor', status: 'missing', file: '.cursorrules' },
+    ],
+  )
+  assert.match(payload.nextStep, /sync --dry-run/)
+})
+
 test('audit without pluribus.md scans existing context files', () => {
   const dir = tempProject()
   writeFile(path.join(dir, 'CLAUDE.md'), '# Existing Claude context')
@@ -89,4 +120,20 @@ test('audit without pluribus.md scans existing context files', () => {
   assert.match(audit.stdout, /CLAUDE\.md/)
   assert.match(audit.stdout, /\.github\/copilot-instructions\.md/)
   assert.match(audit.stdout, /migrate-existing-context\.md/)
+})
+
+test('audit without pluribus.md can print JSON discovery results', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'CLAUDE.md'), '# Existing Claude context')
+  writeFile(path.join(dir, '.github', 'copilot-instructions.md'), '# Existing Copilot context')
+
+  const audit = runCli(dir, ['audit', '--json'])
+  const payload = JSON.parse(audit.stdout)
+
+  assert.equal(audit.status, 0, audit.stderr)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.sourceFound, false)
+  assert.deepEqual(payload.existingContextFiles, ['.github/copilot-instructions.md', 'CLAUDE.md'])
+  assert.equal(payload.summary.existingContextFiles, 2)
+  assert.match(payload.docs, /migrate-existing-context\.md/)
 })
