@@ -20,6 +20,7 @@ All notable changes to Pluribus are documented here.
 - Add `pluribus audit --json --output <file>` so CI jobs can save audit results as artifacts without shell redirection or noisy stdout.
 - Add a copy-paste CI audit guide and GitHub Actions example for enforcing generated context files in pull requests.
 - Add a pre-commit audit guide and sample git hook for catching context drift before commits leave a developer machine.
+- Make the README and quickstart choose between two safe first commands: read-only `audit` for existing repos and `init` for brand-new repos.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 

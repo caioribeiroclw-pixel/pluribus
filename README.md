@@ -70,13 +70,26 @@ And it generates the right files for each tool:
 
 ## Getting Started
 
+### Pick the safe first command
+
+If your repo already has AI context files such as `CLAUDE.md`, `.cursorrules`, Copilot instructions, or `AGENTS.md`, start with the read-only audit:
+
+```bash
+npx --yes pluribus-context audit
+```
+
+It does not write files. Without `pluribus.md`, it lists existing AI context surfaces so you can decide what to migrate. With `pluribus.md`, it reports generated files that are missing or drifted.
+
+If you are starting from scratch, scaffold the source-of-truth file instead:
+
+```bash
+npx --yes pluribus-context init
+```
+
 ### Install
 
 ```bash
-# Run directly from npm
-npx pluribus-context init
-
-# Or install globally
+# Install globally if you prefer a persistent `pluribus` command
 npm install -g pluribus-context
 pluribus --help
 
