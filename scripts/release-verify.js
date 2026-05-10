@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execFileSync } from 'node:child_process'
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync, statSync } from 'node:fs'
 import path from 'node:path'
 
 const repoRoot = process.cwd()
@@ -43,6 +43,52 @@ function info(label, value) {
   console.log(`ℹ ${label}: ${value}`)
 }
 
+function walkFiles(paths) {
+  const files = []
+  for (const entry of paths) {
+    const fullPath = path.join(repoRoot, entry)
+    const stat = statSync(fullPath)
+    if (stat.isDirectory()) {
+      for (const child of readdirSync(fullPath)) {
+        files.push(...walkFiles([path.join(entry, child)]))
+      }
+    } else if (stat.isFile()) {
+      files.push(fullPath)
+    }
+  }
+  return files
+}
+
+function assertNoUnreleasedNpmCopyPaste(npmLatestVersion) {
+  if (!npmLatestVersion || npmLatestVersion === pkg.version) return
+
+  const patterns = [
+    /npx --yes pluribus-context\s+audit\b[^\n]*(?:--ci|--json|--output|--github-annotations)/,
+    /npx --yes pluribus-context\s+init\b[^\n]*--dry-run/,
+  ]
+  const checkedPaths = ['README.md', 'CHANGELOG.md', 'docs', 'examples']
+  const offenders = []
+
+  for (const file of walkFiles(checkedPaths)) {
+    const relativePath = path.relative(repoRoot, file)
+    const text = readFileSync(file, 'utf8')
+    text.split(/\r?\n/).forEach((line, index) => {
+      if (patterns.some((pattern) => pattern.test(line))) {
+        offenders.push(`${relativePath}:${index + 1}: ${line.trim()}`)
+      }
+    })
+  }
+
+  if (offenders.length > 0) {
+    console.error(
+      `Found unreleased ${pkg.name}@${pkg.version} copy-paste commands that still use npm latest ${npmLatestVersion}:\n` +
+        offenders.join('\n') +
+        '\nUse an explicit github:caioribeiroclw-pixel/pluribus#main source install until the npm patch is published.',
+    )
+    process.exit(1)
+  }
+}
+
 const gitStatus = required('git status', 'git', ['status', '--short', '--branch'])
 if (!gitStatus.startsWith('## main...origin/main')) {
   console.error(`Expected clean main tracking origin/main. Got:\n${gitStatus}`)
@@ -63,6 +109,7 @@ if (npmLatest.ok) {
     console.error(`${pkg.name}@${pkg.version} already appears to be published. Bump version before publishing again.`)
     process.exit(1)
   }
+  assertNoUnreleasedNpmCopyPaste(npmLatest.output)
 } else {
   info('npm latest', `unavailable (${npmLatest.output || 'npm view failed'})`)
 }
