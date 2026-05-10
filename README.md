@@ -131,8 +131,11 @@ For a fuller walkthrough, see the [Quickstart](docs/quickstart.md). To enforce g
 
 ```bash
 cd your-project/
-pluribus init --dry-run
-pluribus init
+# Unreleased until pluribus-context@0.3.1 is published:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus init --dry-run
+
+# Published npm path; writes pluribus.md:
+npx --yes pluribus-context init
 ```
 
 The dry-run prints the scaffold without writing files. The second command creates `pluribus.md` with all required sections scaffolded. Fill in your project context.
@@ -140,8 +143,11 @@ The dry-run prints the scaffold without writing files. The second command create
 You can also use flags for non-interactive init, including the same dry-run preview:
 
 ```bash
-pluribus init --dry-run --name "Ana" --description "A background job runner" --tools claude,cursor,openclaw
-pluribus init --name "Ana" --description "A background job runner" --tools claude,cursor,openclaw
+# Unreleased until pluribus-context@0.3.1 is published:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus init --dry-run --name "Ana" --description "A background job runner" --tools claude,cursor,openclaw
+
+# Published npm path; writes pluribus.md:
+npx --yes pluribus-context init --name "Ana" --description "A background job runner" --tools claude,cursor,openclaw
 ```
 
 **2. Edit `pluribus.md`**
@@ -214,25 +220,29 @@ pluribus audit --strict
 In GitHub Actions, add annotations so drift appears inline in the check UI:
 
 ```bash
-pluribus audit --strict --github-annotations
+# Unreleased until pluribus-context@0.3.1 is published:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus audit --strict --github-annotations
 ```
 
 For GitHub Actions, `--ci` is the shorter equivalent of `--strict --github-annotations`:
 
 ```bash
-pluribus audit --ci
+# Unreleased until pluribus-context@0.3.1 is published:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus audit --ci
 ```
 
 For CI scripts, dashboards, or migration tooling, use machine-readable output:
 
 ```bash
-pluribus audit --strict --json
+# Unreleased until pluribus-context@0.3.1 is published:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus audit --strict --json
 ```
 
 To save the JSON as a CI artifact while keeping stdout quiet, add `--output`:
 
 ```bash
-pluribus audit --strict --json --output pluribus-audit.json
+# Unreleased until pluribus-context@0.3.1 is published:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus audit --strict --json --output pluribus-audit.json
 ```
 
 The JSON shape is documented in [`schemas/audit-result.schema.json`](schemas/audit-result.schema.json) so CI wrappers and dashboards can validate integrations without scraping human output. For copy-paste enforcement, see the [CI audit example](docs/ci-audit-example.md) and the [Pre-commit Audit Hook](docs/pre-commit-audit.md).

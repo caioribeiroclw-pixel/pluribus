@@ -65,7 +65,10 @@ function assertNoUnreleasedNpmCopyPaste(npmLatestVersion) {
   const patterns = [
     /npx --yes pluribus-context\s+audit\b[^\n]*(?:--ci|--json|--output|--github-annotations)/,
     /npx --yes pluribus-context\s+init\b[^\n]*--dry-run/,
+    /(?:^|[;&|`$()\s])pluribus\s+audit\b[^\n]*(?:--ci|--json|--output|--github-annotations)/,
+    /(?:^|[;&|`$()\s])pluribus\s+init\b[^\n]*--dry-run/,
   ]
+  const sourceInstall = '--package github:caioribeiroclw-pixel/pluribus#main'
   const checkedPaths = ['README.md', 'CHANGELOG.md', 'docs', 'examples']
   const offenders = []
 
@@ -73,6 +76,7 @@ function assertNoUnreleasedNpmCopyPaste(npmLatestVersion) {
     const relativePath = path.relative(repoRoot, file)
     const text = readFileSync(file, 'utf8')
     text.split(/\r?\n/).forEach((line, index) => {
+      if (line.includes(sourceInstall)) return
       if (patterns.some((pattern) => pattern.test(line))) {
         offenders.push(`${relativePath}:${index + 1}: ${line.trim()}`)
       }
@@ -81,7 +85,7 @@ function assertNoUnreleasedNpmCopyPaste(npmLatestVersion) {
 
   if (offenders.length > 0) {
     console.error(
-      `Found unreleased ${pkg.name}@${pkg.version} copy-paste commands that still use npm latest ${npmLatestVersion}:\n` +
+      `Found unreleased ${pkg.name}@${pkg.version} copy-paste commands while npm latest is still ${npmLatestVersion}:\n` +
         offenders.join('\n') +
         '\nUse an explicit github:caioribeiroclw-pixel/pluribus#main source install until the npm patch is published.',
     )
