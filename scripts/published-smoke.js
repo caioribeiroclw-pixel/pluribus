@@ -30,6 +30,35 @@ function assertFileExists(filePath, label) {
   }
 }
 
+function assertFileMissing(filePath, label) {
+  if (existsSync(filePath)) {
+    throw new Error(`${label} unexpectedly created ${filePath}`)
+  }
+}
+
+function assertFails(command, args, expected, options = {}) {
+  try {
+    run(command, args, { ...options, capture: true })
+  } catch (error) {
+    const output = `${error.stdout?.toString?.() ?? ''}${error.stderr?.toString?.() ?? ''}`
+    assertIncludes(output, expected, `${command} ${args.join(' ')}`)
+    return output
+  }
+  throw new Error(`${command} ${args.join(' ')} unexpectedly succeeded`)
+}
+
+function versionAtLeast(actual, expected) {
+  const actualParts = actual.split('.').map((value) => Number.parseInt(value, 10) || 0)
+  const expectedParts = expected.split('.').map((value) => Number.parseInt(value, 10) || 0)
+  for (let index = 0; index < Math.max(actualParts.length, expectedParts.length); index += 1) {
+    const actualPart = actualParts[index] || 0
+    const expectedPart = expectedParts[index] || 0
+    if (actualPart > expectedPart) return true
+    if (actualPart < expectedPart) return false
+  }
+  return true
+}
+
 const latestVersion = run('npm', ['view', pkg.name, 'version'], { capture: true }).trim()
 if (!latestVersion) {
   throw new Error(`Could not resolve npm latest version for ${pkg.name}`)
@@ -53,6 +82,16 @@ try {
     capture: true,
   })
   assertIncludes(helpOutput, `Pluribus v${latestVersion}`, 'published pluribus --help')
+
+  if (versionAtLeast(latestVersion, '0.3.1')) {
+    assertFails(
+      'npx',
+      ['--yes', '--package', packageSpec, 'pluribus', 'init', '--dryrun'],
+      'Unknown option for `init`: --dryrun',
+      { cwd: smokeDir },
+    )
+    assertFileMissing(path.join(smokeDir, 'pluribus.md'), 'published pluribus unknown-flag smoke')
+  }
 
   run('node', ['-e', "require('fs').writeFileSync('CLAUDE.md', '# Claude context\\n'); require('fs').writeFileSync('.cursorrules', '# Cursor rules\\n')"], {
     cwd: smokeDir,
