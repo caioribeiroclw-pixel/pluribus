@@ -37,6 +37,7 @@ All notable changes to Pluribus are documented here.
 - Extend the release verification guardrail to catch bare `pluribus ...` copy-paste examples with unreleased `init --dry-run` or CI/JSON audit flags while npm latest is still behind `main`.
 - Make `npm run release:verify` distinguish missing npm auth from invalid/stale configured tokens, so the 0.3.1 publish path points to the right remediation without exposing credentials.
 - Reject unknown CLI options per command before executing, so typoed or not-yet-published flags fail safely instead of being silently ignored.
+- Make the packaged release smoke verify that unknown init flags fail without creating `pluribus.md`, so fail-safe option parsing is tested from the installed tarball, not only unit tests.
 - Remove the unsupported `init --force` flag from the release smoke so release checks only exercise documented CLI behavior.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment

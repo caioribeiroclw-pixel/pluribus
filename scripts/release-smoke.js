@@ -30,6 +30,18 @@ function assertFileMissing(filePath, label) {
   }
 }
 
+function assertFailsWith(command, args, expected, options = {}) {
+  try {
+    run(command, args, { ...options, capture: true })
+  } catch (error) {
+    const output = `${error.stdout || ''}${error.stderr || ''}`
+    assertIncludes(output, expected, `${command} ${args.join(' ')}`)
+    return output
+  }
+
+  throw new Error(`${command} ${args.join(' ')} unexpectedly succeeded`)
+}
+
 let tarball
 let smokeDir
 
@@ -52,6 +64,11 @@ try {
 
   const helpOutput = run('npx', ['--no-install', 'pluribus', '--help'], { cwd: smokeDir, capture: true })
   assertIncludes(helpOutput, `Pluribus v${expectedVersion}`, 'pluribus --help')
+
+  assertFailsWith('npx', ['--no-install', 'pluribus', 'init', '--dryrun'], 'Unknown option for `init`: --dryrun', {
+    cwd: smokeDir,
+  })
+  assertFileMissing(path.join(smokeDir, 'pluribus.md'), 'pluribus init --dryrun')
 
   const dryRunInitOutput = run('npx', ['--no-install', 'pluribus', 'init', '--dry-run'], {
     cwd: smokeDir,
