@@ -35,14 +35,16 @@ jobs:
           node-version: 22.x
 
       - name: Audit AI context drift
-        run: npx --yes pluribus-context audit --ci
+        # Unreleased until pluribus-context@0.3.1 is published.
+        run: npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus audit --ci
 ```
 
 If you want JSON output as an artifact, use this variant:
 
 ```yaml
       - name: Audit AI context drift as JSON
-        run: npx --yes pluribus-context audit --ci --json --output pluribus-audit.json
+        # Unreleased until pluribus-context@0.3.1 is published.
+        run: npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus audit --ci --json --output pluribus-audit.json
 
       - name: Upload Pluribus audit result
         if: always()
@@ -61,8 +63,8 @@ npx --yes pluribus-context audit
 npx --yes pluribus-context sync --dry-run
 npx --yes pluribus-context sync
 npx --yes pluribus-context audit --strict
-# In GitHub Actions, use:
-npx --yes pluribus-context audit --ci
+# In GitHub Actions with the unreleased 0.3.1 CI flags, use:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus audit --ci
 ```
 
 Commit `pluribus.md` and the generated files together, or document that your team regenerates generated files during setup. Do not commit `.pluribus/cache/remote/`; commit `pluribus.lock.json` when you use remote imports.

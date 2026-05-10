@@ -121,28 +121,28 @@ After adoption, the simplest check is:
 npx --yes pluribus-context audit --strict
 ```
 
-If you want GitHub Actions to show drift inline in the check UI, add `--github-annotations`:
+If you want GitHub Actions to show drift inline in the check UI, add `--github-annotations` from the source install until `pluribus-context@0.3.1` is published:
 
 ```bash
-npx --yes pluribus-context audit --strict --github-annotations
+npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus audit --strict --github-annotations
 ```
 
 For GitHub Actions, `--ci` is the shorter equivalent of `--strict --github-annotations`:
 
 ```bash
-npx --yes pluribus-context audit --ci
+npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus audit --ci
 ```
 
 If you want machine-readable results for CI, dashboards, or a migration script, add `--json`:
 
 ```bash
-npx --yes pluribus-context audit --strict --json
+npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus audit --strict --json
 ```
 
 To save that JSON as an artifact without relying on shell redirection, add `--output`:
 
 ```bash
-npx --yes pluribus-context audit --strict --json --output pluribus-audit.json
+npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus audit --strict --json --output pluribus-audit.json
 ```
 
 The JSON output includes `ok`, `source`, `results`, `summary`, and `nextStep`, so callers can fail on drift without parsing the human emoji output. The schema lives at [`schemas/audit-result.schema.json`](../schemas/audit-result.schema.json) for CI wrappers, dashboards, and migration tools that want a stable contract. `--output` writes the same JSON payload to disk and keeps stdout quiet. `--ci` is a shorthand for `--strict --github-annotations`. `--github-annotations` writes annotations to stderr, so it can be combined with `--json`/`--output` while preserving a clean artifact. See the [CI audit example](ci-audit-example.md) for a copy-paste GitHub Actions workflow and JSON artifact variant. If you want the same guard before commits leave a developer machine, use the [Pre-commit Audit Hook](pre-commit-audit.md).
