@@ -3,11 +3,20 @@ description: Report a reproducible CLI, import, adapter, or generated-output bug
 title: "Bug: "
 labels: [bug]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a reproducible Pluribus bug. Please include the smallest command sequence that shows the problem.
+
+        For the published npm package, prefer `npx --yes pluribus-context@latest ...` in reproductions so the version is explicit and non-interactive.
+
+        Please do not paste secrets, private source code, credentials, customer data, or internal instructions that should not be public.
   - type: input
     id: version
     attributes:
       label: Pluribus version
-      placeholder: "0.2.0"
+      description: Run `npx --yes pluribus-context@latest --version` or `pluribus --version`.
+      placeholder: "0.3.0"
     validations:
       required: true
   - type: input
@@ -30,9 +39,9 @@ body:
       label: Minimal reproduction commands
       render: shell
       placeholder: |
-        npx pluribus-context init --tools claude,cursor
-        npx pluribus-context validate
-        npx pluribus-context sync --dry-run
+        npx --yes pluribus-context@latest init --tools claude,cursor
+        npx --yes pluribus-context@latest validate
+        npx --yes pluribus-context@latest sync --dry-run
     validations:
       required: true
   - type: textarea

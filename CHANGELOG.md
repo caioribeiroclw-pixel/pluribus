@@ -41,6 +41,7 @@ All notable changes to Pluribus are documented here.
 - Remove the unsupported `init --force` flag from the release smoke so release checks only exercise documented CLI behavior.
 - Remove the same unsupported `init --force` flag from the published npm smoke so post-publish validation stays compatible with fail-safe unknown-option parsing.
 - Make the published npm smoke verify fail-safe unknown-option parsing after `0.3.1` is published, so post-publish validation catches a regression back to silently ignored CLI flags.
+- Update the bug report issue template to use non-interactive `pluribus-context@latest` reproduction commands and a current version placeholder, reducing stale first-run reports.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 
