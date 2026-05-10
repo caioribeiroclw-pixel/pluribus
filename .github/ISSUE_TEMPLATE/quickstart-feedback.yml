@@ -7,12 +7,17 @@ body:
     attributes:
       value: |
         Thanks for trying Pluribus. Short, concrete reports are very useful: what you ran, what happened, and what you expected.
+
+        For the published npm package, the safest first command in an existing repo is:
+        `npx --yes pluribus-context@latest audit`
+
+        Please do not paste secrets, private source code, credentials, customer data, or internal instructions that should not be public.
   - type: input
     id: version
     attributes:
       label: Pluribus version
-      description: Run `npx pluribus-context --version` or `pluribus --version`.
-      placeholder: "0.2.0"
+      description: Run `npx --yes pluribus-context@latest --version` or `pluribus --version`.
+      placeholder: "0.3.0"
     validations:
       required: true
   - type: input
@@ -28,7 +33,7 @@ body:
     attributes:
       label: How did you run it?
       options:
-        - npx pluribus-context
+        - npx --yes pluribus-context@latest
         - npm install -g pluribus-context
         - local clone / npm link
         - other
@@ -42,8 +47,8 @@ body:
       render: shell
       placeholder: |
         mkdir pluribus-demo && cd pluribus-demo
-        npx pluribus-context init --tools claude,cursor
-        npx pluribus-context sync --dry-run
+        npx --yes pluribus-context@latest init --tools claude,cursor
+        npx --yes pluribus-context@latest sync --dry-run
     validations:
       required: true
   - type: textarea
