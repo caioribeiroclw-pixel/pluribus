@@ -24,6 +24,7 @@ All notable changes to Pluribus are documented here.
 - Make the README and quickstart choose between two safe first commands: read-only `audit` for existing repos and `init` for brand-new repos.
 - Normalize one-off `npx` examples to `npx --yes pluribus-context ...` so copy-paste docs do not pause on npm's install prompt.
 - Add explicit version-availability notes while `main` documents `0.3.1` audit CI flags and `init --dry-run`, while npm latest remains `0.3.0`.
+- Use exact `github:caioribeiroclw-pixel/pluribus#main` source-install commands for unreleased `init --dry-run` previews so users do not accidentally run npm `0.3.0` commands that still write `pluribus.md`.
 - Use `audit --ci` in the copy-paste GitHub Actions example to reduce command length.
 - Clarify the README vision so the source of truth is `pluribus.md` plus optional `# @import` files, not an obsolete multi-file `pluribus/` directory layout.
 - Add `pluribus init --dry-run` so first-time users can preview the `pluribus.md` scaffold before writing files.

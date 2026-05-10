@@ -51,16 +51,16 @@ Move project facts and shared conventions into `pluribus.md`. Keep tool-specific
 
 ## 2. Preview and scaffold `pluribus.md`
 
-Preview the scaffold before writing a new source file:
+Preview the scaffold before writing a new source file. `init --dry-run` is prepared for `pluribus-context@0.3.1`; until that patch is published, use the source-install command for the preview:
 
 ```bash
-npx --yes pluribus-context init --dry-run \
+npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus init --dry-run \
   --name "Your project" \
   --description "What this repo does" \
   --tools claude,cursor,copilot,openclaw
 ```
 
-When the preview looks right, create `pluribus.md`:
+When the preview looks right, create `pluribus.md` from the published npm package:
 
 ```bash
 npx --yes pluribus-context init \

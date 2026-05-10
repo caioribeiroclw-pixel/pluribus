@@ -71,7 +71,7 @@ And it generates the right files for each tool:
 
 ## Getting Started
 
-> **Version note:** `pluribus audit` is published in `pluribus-context@0.3.0`. The CI-oriented audit flags and read-only init preview documented in `main` (`--json`, `--output`, `--github-annotations`, `--ci`, `init --dry-run`) are prepared for the next npm patch release `0.3.1`; until that patch is published, use `@0.3.0` for the basic read-only audit or run from `main` when testing the new CI flags.
+> **Version note:** `pluribus audit` is published in `pluribus-context@0.3.0`. The CI-oriented audit flags and read-only init preview documented in `main` (`--json`, `--output`, `--github-annotations`, `--ci`, `init --dry-run`) are prepared for the next npm patch release `0.3.1`; until that patch is published, use `@0.3.0` for the basic read-only audit, or use the explicit `github:...#main` source command shown below when testing unreleased read-only preview flags.
 
 ### Pick the safe first command
 
@@ -86,7 +86,10 @@ It does not write files. Without `pluribus.md`, it lists existing AI context sur
 If you are starting from scratch, preview the source-of-truth scaffold first, then create it when it looks right:
 
 ```bash
-npx --yes pluribus-context init --dry-run
+# Unreleased until pluribus-context@0.3.1 is published:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus init --dry-run
+
+# Published npm path; writes pluribus.md:
 npx --yes pluribus-context init
 ```
 
@@ -109,7 +112,10 @@ Want to see exactly what gets generated before adding it to a real project?
 
 ```bash
 mkdir pluribus-demo && cd pluribus-demo
-npx --yes pluribus-context init --dry-run --name "Ana" --description "A Node.js service" --tools claude,cursor,copilot
+# Unreleased until pluribus-context@0.3.1 is published:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus init --dry-run --name "Ana" --description "A Node.js service" --tools claude,cursor,copilot
+
+# Published npm path; writes pluribus.md:
 npx --yes pluribus-context init --name "Ana" --description "A Node.js service" --tools claude,cursor,copilot
 npx --yes pluribus-context validate
 npx --yes pluribus-context sync --dry-run

@@ -19,18 +19,18 @@ mkdir pluribus-demo
 cd pluribus-demo
 ```
 
-## 2. Preview and scaffold context from npm
+## 2. Preview and scaffold context
 
-Start read-only so you can see the template before writing a file:
+Start read-only so you can see the template before writing a file. `init --dry-run` is prepared for `pluribus-context@0.3.1`; until that patch is published, use the source-install command for the preview:
 
 ```bash
-npx --yes pluribus-context init --dry-run \
+npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus init --dry-run \
   --name "Ana" \
   --description "A Node.js service" \
   --tools claude,cursor,copilot
 ```
 
-When the scaffold looks right, create it:
+When the scaffold looks right, create it from the published npm package:
 
 ```bash
 npx --yes pluribus-context init \
