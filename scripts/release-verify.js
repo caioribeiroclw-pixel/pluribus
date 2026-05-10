@@ -63,10 +63,10 @@ function assertNoUnreleasedNpmCopyPaste(npmLatestVersion) {
   if (!npmLatestVersion || npmLatestVersion === pkg.version) return
 
   const patterns = [
-    /npx --yes pluribus-context\s+audit\b[^\n]*(?:--ci|--json|--output|--github-annotations)/,
-    /npx --yes pluribus-context\s+init\b[^\n]*--dry-run/,
-    /(?:^|[;&|`$()\s])pluribus\s+audit\b[^\n]*(?:--ci|--json|--output|--github-annotations)/,
-    /(?:^|[;&|`$()\s])pluribus\s+init\b[^\n]*--dry-run/,
+    /^(?:run:\s*)?npx --yes pluribus-context\s+audit\b[^\n]*(?:--ci|--json|--output|--github-annotations)/,
+    /^(?:run:\s*)?npx --yes pluribus-context\s+init\b[^\n]*--dry-run/,
+    /^(?:run:\s*)?pluribus\s+audit\b[^\n]*(?:--ci|--json|--output|--github-annotations)/,
+    /^(?:run:\s*)?pluribus\s+init\b[^\n]*--dry-run/,
   ]
   const sourceInstall = '--package github:caioribeiroclw-pixel/pluribus#main'
   const checkedPaths = ['README.md', 'CHANGELOG.md', 'docs', 'examples']
@@ -76,9 +76,10 @@ function assertNoUnreleasedNpmCopyPaste(npmLatestVersion) {
     const relativePath = path.relative(repoRoot, file)
     const text = readFileSync(file, 'utf8')
     text.split(/\r?\n/).forEach((line, index) => {
-      if (line.includes(sourceInstall)) return
-      if (patterns.some((pattern) => pattern.test(line))) {
-        offenders.push(`${relativePath}:${index + 1}: ${line.trim()}`)
+      const trimmed = line.trim()
+      if (trimmed.includes(sourceInstall)) return
+      if (patterns.some((pattern) => pattern.test(trimmed))) {
+        offenders.push(`${relativePath}:${index + 1}: ${trimmed}`)
       }
     })
   }
