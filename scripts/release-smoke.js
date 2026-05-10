@@ -61,7 +61,7 @@ try {
   assertIncludes(dryRunInitOutput, '<!-- pluribus:tools:', 'pluribus init --dry-run')
   assertFileMissing(path.join(smokeDir, 'pluribus.md'), 'pluribus init --dry-run')
 
-  run('npx', ['--no-install', 'pluribus', 'init', '--force'], { cwd: smokeDir, capture: true })
+  run('npx', ['--no-install', 'pluribus', 'init'], { cwd: smokeDir, capture: true })
   run('npx', ['--no-install', 'pluribus', 'validate'], { cwd: smokeDir, capture: true })
   const preSyncAudit = run('npx', ['--no-install', 'pluribus', 'audit'], { cwd: smokeDir, capture: true })
   assertIncludes(preSyncAudit, 'missing', 'pluribus audit before sync')

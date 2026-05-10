@@ -81,6 +81,37 @@ DOCS
   https://github.com/caioribeiroclw-pixel/pluribus
 `
 
+const COMMAND_FLAGS = {
+  init: new Set(['name', 'description', 'tools', 'dry-run']),
+  sync: new Set(['dry-run', 'tools', 'source', 'update-imports']),
+  validate: new Set(['source', 'update-imports']),
+  audit: new Set(['source', 'tools', 'update-imports', 'strict', 'ci', 'json', 'output', 'github-annotations']),
+  watch: new Set(['source', 'tools', 'update-imports', 'dry-run', 'once', 'debounce']),
+}
+
+function getFlagNames(argv) {
+  return argv
+    .filter((arg) => arg.startsWith('--') && arg.length > 2)
+    .map((arg) => {
+      const withoutPrefix = arg.slice(2)
+      const eqIdx = withoutPrefix.indexOf('=')
+      return eqIdx === -1 ? withoutPrefix : withoutPrefix.slice(0, eqIdx)
+    })
+}
+
+function validateFlags(command, argv) {
+  const allowed = COMMAND_FLAGS[command]
+  if (!allowed) return
+
+  const unknown = [...new Set(getFlagNames(argv).filter((flag) => !allowed.has(flag)))]
+  if (unknown.length === 0) return
+
+  console.error(`❌ Unknown option${unknown.length === 1 ? '' : 's'} for \`${command}\`: ${unknown.map((flag) => `--${flag}`).join(', ')}`)
+  console.error(`   Supported options: ${[...allowed].map((flag) => `--${flag}`).join(', ')}`)
+  console.error('   Run `pluribus help` for usage.')
+  process.exit(1)
+}
+
 async function main() {
   const args = process.argv.slice(2)
 
@@ -95,7 +126,9 @@ async function main() {
   }
 
   const command = args[0]
-  const parsedArgs = parseArgs(args.slice(1))
+  const commandArgs = args.slice(1)
+  validateFlags(command, commandArgs)
+  const parsedArgs = parseArgs(commandArgs)
 
   try {
     switch (command) {
