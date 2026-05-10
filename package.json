@@ -28,6 +28,7 @@
     "start": "node bin/pluribus.js",
     "test": "node --test",
     "release:smoke": "node scripts/release-smoke.js",
+    "published:smoke": "node scripts/published-smoke.js",
     "release:verify": "node scripts/release-verify.js"
   },
   "keywords": [
