@@ -7,7 +7,7 @@ All notable changes to Pluribus are documented here.
 ### Changed
 
 - Republish the post-0.3.0 README/docs cleanup so the npm package page no longer tells users that `audit` requires a source install or that npm latest may still be `0.2.0`.
-- Keep the published path explicit: `npx --yes pluribus-context audit` is now the default first-run check.
+- Keep the published path explicit: `npx --yes pluribus-context@latest audit` is now the default first-run check.
 - Clarify when Pluribus complements dedicated context linters/drift auditors versus replacing one-way sync maintenance.
 - Expand package keywords for discoverability around `context-drift`, `AGENTS.md`, Cursor rules, and AI coding agents.
 - Add a dedicated GitHub issue template for read-only `pluribus audit` feedback from real repos, plus links to the audit guide and workflow discussion.
@@ -23,7 +23,7 @@ All notable changes to Pluribus are documented here.
 - Add a copy-paste CI audit guide and GitHub Actions example for enforcing generated context files in pull requests.
 - Add a pre-commit audit guide and sample git hook for catching context drift before commits leave a developer machine.
 - Make the README and quickstart choose between two safe first commands: read-only `audit` for existing repos and `init` for brand-new repos.
-- Normalize one-off `npx` examples to `npx --yes pluribus-context ...` so copy-paste docs do not pause on npm's install prompt.
+- Normalize one-off `npx` examples to `npx --yes pluribus-context@latest ...` so copy-paste docs do not pause on npm's install prompt or rely on implicit latest resolution.
 - Add explicit version-availability notes while `main` documents `0.3.1` audit CI flags and `init --dry-run`, while npm latest remains `0.3.0`.
 - Use exact `github:caioribeiroclw-pixel/pluribus#main` source-install commands for unreleased `init --dry-run` previews so users do not accidentally run npm `0.3.0` commands that still write `pluribus.md`.
 - Use exact `github:caioribeiroclw-pixel/pluribus#main` source-install commands for unreleased `audit --ci`, `--json`, `--output`, and `--github-annotations` docs and examples until `0.3.1` is published, so CI copy-paste paths do not imply those flags are available in npm `0.3.0`.
@@ -42,6 +42,7 @@ All notable changes to Pluribus are documented here.
 - Remove the same unsupported `init --force` flag from the published npm smoke so post-publish validation stays compatible with fail-safe unknown-option parsing.
 - Make the published npm smoke verify fail-safe unknown-option parsing after `0.3.1` is published, so post-publish validation catches a regression back to silently ignored CLI flags.
 - Update the bug report issue template to use non-interactive `pluribus-context@latest` reproduction commands and a current version placeholder, reducing stale first-run reports.
+- Standardize README/docs/examples on `npx --yes pluribus-context@latest ...` for published commands and extend the release guard so unreleased flags are blocked with or without `@latest` while npm latest is behind `main`.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 

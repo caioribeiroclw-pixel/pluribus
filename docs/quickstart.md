@@ -7,7 +7,7 @@ Pluribus takes one intentional context file (`pluribus.md`) and generates the to
 Already have one or more of those files? Start with a read-only inventory before replacing anything:
 
 ```bash
-npx --yes pluribus-context audit
+npx --yes pluribus-context@latest audit
 ```
 
 Without `pluribus.md`, audit lists existing AI context surfaces so you can decide what to migrate. Then see [Migrate Existing AI Context Files](migrate-existing-context.md).
@@ -33,7 +33,7 @@ npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus init --dr
 When the scaffold looks right, create it from the published npm package:
 
 ```bash
-npx --yes pluribus-context init \
+npx --yes pluribus-context@latest init \
   --name "Ana" \
   --description "A Node.js service" \
   --tools claude,cursor,copilot
@@ -44,7 +44,7 @@ This creates `pluribus.md`, the single source-of-truth file Pluribus reads. Open
 ## 3. Validate before writing generated files
 
 ```bash
-npx --yes pluribus-context validate
+npx --yes pluribus-context@latest validate
 ```
 
 Validation checks for missing required sections, duplicate top-level sections, broken imports, and unsupported tool names.
@@ -52,7 +52,7 @@ Validation checks for missing required sections, duplicate top-level sections, b
 ## 4. Preview generated outputs
 
 ```bash
-npx --yes pluribus-context sync --dry-run
+npx --yes pluribus-context@latest sync --dry-run
 ```
 
 You should see previews for the selected tools. For the command above, Pluribus targets:
@@ -66,7 +66,7 @@ You should see previews for the selected tools. For the command above, Pluribus 
 ## 5. Audit before writing or in CI
 
 ```bash
-npx --yes pluribus-context audit
+npx --yes pluribus-context@latest audit
 ```
 
 Before generated files exist, audit reports them as missing. After sync, it becomes a read-only drift check. Use `--strict` in CI when you want missing or drifted generated files to fail the build.
@@ -74,7 +74,7 @@ Before generated files exist, audit reports them as missing. After sync, it beco
 ## 6. Write the files when the preview looks right
 
 ```bash
-npx --yes pluribus-context sync
+npx --yes pluribus-context@latest sync
 ```
 
 Commit `pluribus.md` as the source of truth. Commit generated files if your team wants each tool to work immediately after clone; otherwise regenerate them in local setup/CI.
@@ -82,7 +82,7 @@ Commit `pluribus.md` as the source of truth. Commit generated files if your team
 ## 7. Keep files fresh while editing
 
 ```bash
-npx --yes pluribus-context watch
+npx --yes pluribus-context@latest watch
 ```
 
 `watch` re-runs `sync` after edits to `pluribus.md` with a small debounce, so tool-specific files do not drift during normal work.
@@ -103,8 +103,8 @@ Local sections apply after imports, so project-specific context can override sha
 
 ## Common friction
 
-- **`pluribus` command not found after `npx`:** use `npx --yes pluribus-context ...` for one-off runs, or install globally with `npm install -g pluribus-context` and then run `pluribus ...`.
-- **Remote imports fail without `--update-imports`:** network refresh is explicit. Run `npx --yes pluribus-context sync --update-imports` to refresh and pin remote content, then normal `sync` uses the lock/cache offline.
+- **`pluribus` command not found after `npx`:** use `npx --yes pluribus-context@latest ...` for one-off runs, or install globally with `npm install -g pluribus-context` and then run `pluribus ...`.
+- **Remote imports fail without `--update-imports`:** network refresh is explicit. Run `npx --yes pluribus-context@latest sync --update-imports` to refresh and pin remote content, then normal `sync` uses the lock/cache offline.
 - **Private GitHub imports fail:** set `GH_TOKEN`/`GITHUB_TOKEN` or log in with `gh auth login`. Pluribus never writes tokens to `pluribus.lock.json` or cache files.
 - **Generated files look wrong:** edit `pluribus.md`, run `validate`, then use `audit` and `sync --dry-run` before writing files.
 

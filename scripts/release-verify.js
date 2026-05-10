@@ -74,8 +74,8 @@ function assertNoUnreleasedNpmCopyPaste(npmLatestVersion) {
   if (!npmLatestVersion || npmLatestVersion === pkg.version) return
 
   const patterns = [
-    /^(?:run:\s*)?npx --yes pluribus-context\s+audit\b[^\n]*(?:--ci|--json|--output|--github-annotations)/,
-    /^(?:run:\s*)?npx --yes pluribus-context\s+init\b[^\n]*--dry-run/,
+    /^(?:run:\s*)?npx --yes pluribus-context(?:@latest)?\s+audit\b[^\n]*(?:--ci|--json|--output|--github-annotations)/,
+    /^(?:run:\s*)?npx --yes pluribus-context(?:@latest)?\s+init\b[^\n]*--dry-run/,
     /^(?:run:\s*)?pluribus\s+audit\b[^\n]*(?:--ci|--json|--output|--github-annotations)/,
     /^(?:run:\s*)?pluribus\s+init\b[^\n]*--dry-run/,
   ]

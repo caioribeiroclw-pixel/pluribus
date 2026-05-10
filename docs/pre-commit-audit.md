@@ -18,7 +18,7 @@ if [ ! -f pluribus.md ]; then
   exit 0
 fi
 
-npx --yes pluribus-context audit --strict
+npx --yes pluribus-context@latest audit --strict
 EOF
 chmod +x .git/hooks/pre-commit
 ```
@@ -28,8 +28,8 @@ Now commits fail if `CLAUDE.md`, `.cursorrules`, Copilot instructions, `AGENTS.m
 To fix drift:
 
 ```bash
-npx --yes pluribus-context sync --dry-run
-npx --yes pluribus-context sync
+npx --yes pluribus-context@latest sync --dry-run
+npx --yes pluribus-context@latest sync
 ```
 
 Review the generated files, then commit `pluribus.md` and the regenerated outputs together.
@@ -48,7 +48,7 @@ if [ ! -f pluribus.md ]; then
   exit 0
 fi
 
-npx --yes pluribus-context audit --strict
+npx --yes pluribus-context@latest audit --strict
 EOF
 chmod +x .husky/pre-commit
 ```
@@ -58,7 +58,7 @@ chmod +x .husky/pre-commit
 Do not add the hook before the team agrees that generated context files should be kept in sync. For early evaluation, run the read-only command manually first:
 
 ```bash
-npx --yes pluribus-context audit
+npx --yes pluribus-context@latest audit
 ```
 
 If your team prefers server-side enforcement only, use the [CI audit example](ci-audit-example.md) instead.

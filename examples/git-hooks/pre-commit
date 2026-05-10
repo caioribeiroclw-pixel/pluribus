@@ -8,4 +8,4 @@ if [ ! -f pluribus.md ]; then
   exit 0
 fi
 
-npx --yes pluribus-context audit --strict
+npx --yes pluribus-context@latest audit --strict

@@ -46,8 +46,8 @@ your-project/
 Then preview or sync:
 
 ```bash
-npx --yes pluribus-context sync --dry-run
-npx --yes pluribus-context sync
+npx --yes pluribus-context@latest sync --dry-run
+npx --yes pluribus-context@latest sync
 ```
 
 And it generates the right files for each tool:
@@ -78,7 +78,7 @@ And it generates the right files for each tool:
 If your repo already has AI context files such as `CLAUDE.md`, `.cursorrules`, Copilot instructions, or `AGENTS.md`, start with the read-only audit:
 
 ```bash
-npx --yes pluribus-context audit
+npx --yes pluribus-context@latest audit
 ```
 
 It does not write files. Without `pluribus.md`, it lists existing AI context surfaces so you can decide what to migrate. With `pluribus.md`, it reports generated files that are missing or drifted.
@@ -90,7 +90,7 @@ If you are starting from scratch, preview the source-of-truth scaffold first, th
 npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus init --dry-run
 
 # Published npm path; writes pluribus.md:
-npx --yes pluribus-context init
+npx --yes pluribus-context@latest init
 ```
 
 ### Install
@@ -116,12 +116,12 @@ mkdir pluribus-demo && cd pluribus-demo
 npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus init --dry-run --name "Ana" --description "A Node.js service" --tools claude,cursor,copilot
 
 # Published npm path; writes pluribus.md:
-npx --yes pluribus-context init --name "Ana" --description "A Node.js service" --tools claude,cursor,copilot
-npx --yes pluribus-context validate
-npx --yes pluribus-context sync --dry-run
+npx --yes pluribus-context@latest init --name "Ana" --description "A Node.js service" --tools claude,cursor,copilot
+npx --yes pluribus-context@latest validate
+npx --yes pluribus-context@latest sync --dry-run
 ```
 
-If the preview looks right, run `npx --yes pluribus-context sync` to write the tool-specific files.
+If the preview looks right, run `npx --yes pluribus-context@latest sync` to write the tool-specific files.
 
 For a fuller walkthrough, see the [Quickstart](docs/quickstart.md). To enforce generated context files in pull requests, use the [CI audit example](docs/ci-audit-example.md); to catch drift before commits leave your machine, use the [Pre-commit Audit Hook](docs/pre-commit-audit.md). If your repo already has `CLAUDE.md`, `.cursorrules`, Copilot instructions, or `AGENTS.md`, run a [Context Drift Audit](docs/context-drift-audit.md) first, then follow [Migrate Existing AI Context Files](docs/migrate-existing-context.md). Before committing shared or generated AI instructions, use the [Context File Review Checklist](docs/context-file-review.md). If you're deciding between Pluribus and a one-way rules converter, see [When to use Pluribus](docs/when-to-use-pluribus.md). If you are debugging "context drift" after compaction or long sessions, start with the [Context Drift Taxonomy](docs/context-drift-taxonomy.md) to separate file drift from runtime precedence drift.
 
@@ -135,7 +135,7 @@ cd your-project/
 npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus init --dry-run
 
 # Published npm path; writes pluribus.md:
-npx --yes pluribus-context init
+npx --yes pluribus-context@latest init
 ```
 
 The dry-run prints the scaffold without writing files. The second command creates `pluribus.md` with all required sections scaffolded. Fill in your project context.
@@ -147,7 +147,7 @@ You can also use flags for non-interactive init, including the same dry-run prev
 npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus init --dry-run --name "Ana" --description "A background job runner" --tools claude,cursor,openclaw
 
 # Published npm path; writes pluribus.md:
-npx --yes pluribus-context init --name "Ana" --description "A background job runner" --tools claude,cursor,openclaw
+npx --yes pluribus-context@latest init --name "Ana" --description "A background job runner" --tools claude,cursor,openclaw
 ```
 
 **2. Edit `pluribus.md`**

@@ -9,7 +9,7 @@ If you are using "drift" to mean compaction, summarization, load-order, or long-
 Start with the read-only command when you want a quick signal:
 
 ```bash
-npx --yes pluribus-context audit
+npx --yes pluribus-context@latest audit
 ```
 
 If `pluribus.md` exists, this reports generated files that are current, missing, or drifted. If `pluribus.md` does not exist yet, it scans for known AI context files so you can decide what to migrate.
@@ -94,7 +94,7 @@ Keep tool-specific behavior outside the shared layer when it truly belongs to on
 Run the read-only audit first:
 
 ```bash
-npx --yes pluribus-context audit
+npx --yes pluribus-context@latest audit
 ```
 
 If `pluribus.md` exists, this compares generated tool files with the source and reports anything missing or drifted. If `pluribus.md` does not exist yet, it scans for known AI context files so you know what to migrate.
@@ -102,8 +102,8 @@ If `pluribus.md` exists, this compares generated tool files with the source and 
 Then run a dry-run before writing anything:
 
 ```bash
-npx --yes pluribus-context validate
-npx --yes pluribus-context sync --dry-run
+npx --yes pluribus-context@latest validate
+npx --yes pluribus-context@latest sync --dry-run
 ```
 
 Read the previews and ask two questions:
@@ -118,7 +118,7 @@ If the answer to either question is no, edit `pluribus.md` or keep that behavior
 After adoption, the simplest check is:
 
 ```bash
-npx --yes pluribus-context audit --strict
+npx --yes pluribus-context@latest audit --strict
 ```
 
 If you want GitHub Actions to show drift inline in the check UI, add `--github-annotations` from the source install until `pluribus-context@0.3.1` is published:
