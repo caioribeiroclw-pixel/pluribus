@@ -80,7 +80,6 @@ try {
       'A Node.js service',
       '--tools',
       'claude,cursor,copilot',
-      '--force',
     ],
     { cwd: smokeDir, capture: true },
   )

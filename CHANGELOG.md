@@ -39,6 +39,7 @@ All notable changes to Pluribus are documented here.
 - Reject unknown CLI options per command before executing, so typoed or not-yet-published flags fail safely instead of being silently ignored.
 - Make the packaged release smoke verify that unknown init flags fail without creating `pluribus.md`, so fail-safe option parsing is tested from the installed tarball, not only unit tests.
 - Remove the unsupported `init --force` flag from the release smoke so release checks only exercise documented CLI behavior.
+- Remove the same unsupported `init --force` flag from the published npm smoke so post-publish validation stays compatible with fail-safe unknown-option parsing.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 
