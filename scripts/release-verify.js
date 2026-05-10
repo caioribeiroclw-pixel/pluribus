@@ -43,6 +43,17 @@ function info(label, value) {
   console.log(`ℹ ${label}: ${value}`)
 }
 
+function describeNpmAuthFailure(output) {
+  const normalized = output.toLowerCase()
+  if (normalized.includes('token seems to be invalid') || normalized.includes('unable to authenticate')) {
+    return 'invalid/stale npm auth token configured; run npm logout, then npm login/2FA or use a fresh temporary publish token'
+  }
+  if (normalized.includes('not logged in') || normalized.includes('eneedauth') || normalized.includes('e401')) {
+    return 'not logged in; npm publish will remain blocked until npm auth/2FA is completed'
+  }
+  return 'unavailable; npm publish will remain blocked until npm auth/2FA is completed'
+}
+
 function walkFiles(paths) {
   const files = []
   for (const entry of paths) {
@@ -121,10 +132,11 @@ if (npmLatest.ok) {
 }
 
 const npmUser = run('npm', ['whoami'], { capture: true })
+const npmAuthFailure = npmUser.ok ? '' : describeNpmAuthFailure(npmUser.output)
 if (npmUser.ok) {
   info('npm auth', `logged in as ${npmUser.output}`)
 } else {
-  info('npm auth', 'not logged in; npm publish will remain blocked until npm auth/2FA is completed')
+  info('npm auth', npmAuthFailure)
 }
 
 required('npm test', 'npm', ['test'])
@@ -135,5 +147,5 @@ required('npm publish --dry-run', 'npm', ['publish', '--dry-run'])
 
 console.log(`✅ release verification passed for ${pkg.name}@${pkg.version}`)
 if (!npmUser.ok) {
-  console.log('⚠ npm publish is still blocked by npm auth. Complete npm login/2FA, then rerun this command before publishing.')
+  console.log(`⚠ npm publish is still blocked by npm auth: ${npmAuthFailure}. Rerun this command before publishing.`)
 }

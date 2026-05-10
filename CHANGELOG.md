@@ -35,6 +35,7 @@ All notable changes to Pluribus are documented here.
 - Add `npm run published:smoke` to verify the currently published npm `latest` package still has a working public first-run path (`--version`, `--help`, read-only `audit`, `init`, `validate`, and `sync --dry-run`).
 - Run the published npm smoke from `npm run release:verify` whenever a published package exists, so release readiness checks also validate the package users can install today.
 - Extend the release verification guardrail to catch bare `pluribus ...` copy-paste examples with unreleased `init --dry-run` or CI/JSON audit flags while npm latest is still behind `main`.
+- Make `npm run release:verify` distinguish missing npm auth from invalid/stale configured tokens, so the 0.3.1 publish path points to the right remediation without exposing credentials.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 

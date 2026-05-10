@@ -25,7 +25,7 @@ Run the consolidated release gate from the repo root:
 npm run release:verify
 ```
 
-The verifier requires a clean `main...origin/main` checkout, reports the local package version versus npm latest, reports whether `npm whoami` is authenticated, smokes the currently published npm package when one exists, then runs `npm test`, `git diff --check`, `npm run release:smoke`, `npm pack --dry-run`, and `npm publish --dry-run`. If npm auth is missing, the verifier still proves the package is technically ready and names auth/2FA as the remaining publish blocker.
+The verifier requires a clean `main...origin/main` checkout, reports the local package version versus npm latest, classifies the npm auth state from `npm whoami` (logged in, missing auth, or invalid/stale token), smokes the currently published npm package when one exists, then runs `npm test`, `git diff --check`, `npm run release:smoke`, `npm pack --dry-run`, and `npm publish --dry-run`. If npm auth is missing or stale, the verifier still proves the package is technically ready and names the auth/2FA action left before publish.
 
 If you need to debug an individual step, run it directly:
 
@@ -69,7 +69,7 @@ Expected results:
 
 ## 4. Publish
 
-Only publish after npm auth is active and the dry run is clean:
+Only publish after npm auth is active and the dry run is clean. If `npm run release:verify` reports an invalid/stale token, clear it with `npm logout` before logging in again or using a fresh temporary publish token; do not paste tokens into the repo, docs, logs, or shell history.
 
 ```bash
 npm publish --access public
