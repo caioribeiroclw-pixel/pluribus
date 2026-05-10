@@ -115,8 +115,9 @@ if (npmLatest.ok) {
     process.exit(1)
   }
   assertNoUnreleasedNpmCopyPaste(npmLatest.output)
+  required('published npm smoke', 'npm', ['run', 'published:smoke'])
 } else {
-  info('npm latest', `unavailable (${npmLatest.output || 'npm view failed'})`)
+  info('npm latest', `unavailable (${npmLatest.output || 'npm view failed'}); skipping published npm smoke`)
 }
 
 const npmUser = run('npm', ['whoami'], { capture: true })

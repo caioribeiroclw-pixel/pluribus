@@ -25,11 +25,12 @@ Run the consolidated release gate from the repo root:
 npm run release:verify
 ```
 
-The verifier requires a clean `main...origin/main` checkout, reports the local package version versus npm latest, reports whether `npm whoami` is authenticated, then runs `npm test`, `git diff --check`, `npm run release:smoke`, `npm pack --dry-run`, and `npm publish --dry-run`. If npm auth is missing, the verifier still proves the package is technically ready and names auth/2FA as the remaining publish blocker.
+The verifier requires a clean `main...origin/main` checkout, reports the local package version versus npm latest, reports whether `npm whoami` is authenticated, smokes the currently published npm package when one exists, then runs `npm test`, `git diff --check`, `npm run release:smoke`, `npm pack --dry-run`, and `npm publish --dry-run`. If npm auth is missing, the verifier still proves the package is technically ready and names auth/2FA as the remaining publish blocker.
 
 If you need to debug an individual step, run it directly:
 
 ```bash
+npm run published:smoke
 npm test
 git diff --check
 npm run release:smoke
@@ -79,7 +80,7 @@ Then verify the registry entry and the install path users will see:
 ```bash
 npm view pluribus-context version dist.tarball
 npm view pluribus-context readme | grep -E 'npx --yes pluribus-context|60-second smoke test|Published to npm'
-npx --yes pluribus-context --help
+npm run published:smoke
 ```
 
 The npm README is captured at publish time. If the GitHub README changed after the previous publish, confirm the npm package page no longer contains stale pre-release markers such as `once published` before starting distribution.
