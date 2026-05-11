@@ -33,13 +33,18 @@
     "release:publish": "node scripts/release-publish.js"
   },
   "keywords": [
+    "agent-rules",
+    "agents",
     "agents-md",
     "ai",
     "ai-coding-agents",
+    "ai-context",
     "ai-tools",
+    "aider",
     "claude",
     "claude-code",
     "cli",
+    "codex",
     "context",
     "context-drift",
     "context-engineering",
@@ -48,7 +53,9 @@
     "cursor",
     "cursor-rules",
     "developer-tools",
+    "drift-detection",
     "openclaw",
+    "rules",
     "windsurf",
     "zed"
   ],
