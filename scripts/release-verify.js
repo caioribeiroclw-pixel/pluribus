@@ -70,7 +70,7 @@ function walkFiles(paths) {
   return files
 }
 
-const copyPastePaths = ['README.md', 'docs', 'examples', '.github/ISSUE_TEMPLATE']
+const copyPastePaths = ['README.md', 'CONTRIBUTING.md', 'docs', 'examples', '.github/ISSUE_TEMPLATE']
 
 function scanCopyPasteCommands(paths, callback) {
   const offenders = []
