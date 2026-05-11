@@ -71,9 +71,19 @@ Expected results:
 
 Only publish after npm auth is active and the dry run is clean. If `npm run release:verify` reports an invalid/stale token, clear it with `npm logout` before logging in again or using a fresh temporary publish token; do not paste tokens into the repo, docs, logs, or shell history.
 
+Use the guarded publish command so the same release gate runs immediately before publishing, then the published npm smoke runs immediately after:
+
 ```bash
-npm publish --access public
+npm run release:publish
 ```
+
+For a no-publish rehearsal, run:
+
+```bash
+npm run release:publish -- --dry-run
+```
+
+If npm asks for OTP, pass the OTP using npm's normal publish mechanism; do not paste tokens into the repo, docs, logs, or shell history. Avoid raw `_authToken`/token arguments — the guarded script refuses credential-like CLI arguments.
 
 Then verify the registry entry and the install path users will see:
 
