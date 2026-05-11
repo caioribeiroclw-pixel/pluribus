@@ -126,6 +126,28 @@ function assertFeedbackIssueLinks() {
   }
 }
 
+function assertPackageDiscoveryMetadata() {
+  const description = pkg.description.toLowerCase()
+  const requiredDescriptionTerms = ['ai context', 'rules', 'claude code', 'cursor', 'copilot']
+  const missingDescriptionTerms = requiredDescriptionTerms.filter((term) => !description.includes(term))
+
+  const keywords = new Set(pkg.keywords || [])
+  const requiredKeywords = ['ai-context', 'agent-rules', 'claude-code', 'cursor-rules', 'copilot', 'codex', 'aider', 'drift-detection']
+  const missingKeywords = requiredKeywords.filter((keyword) => !keywords.has(keyword))
+
+  if (missingDescriptionTerms.length > 0 || missingKeywords.length > 0) {
+    const messages = []
+    if (missingDescriptionTerms.length > 0) messages.push(`description missing: ${missingDescriptionTerms.join(', ')}`)
+    if (missingKeywords.length > 0) messages.push(`keywords missing: ${missingKeywords.join(', ')}`)
+    console.error(
+      'Package discovery metadata is missing core npm search terms:\n' +
+        messages.join('\n') +
+        '\nKeep package.json aligned with adjacent AI context/rules searches before publishing.',
+    )
+    process.exit(1)
+  }
+}
+
 function assertNoUnreleasedNpmCopyPaste(npmLatestVersion) {
   if (!npmLatestVersion || npmLatestVersion === pkg.version) return
 
@@ -166,6 +188,7 @@ if (dirtyLines.length > 0) {
 }
 
 info('package', `${pkg.name}@${pkg.version}`)
+assertPackageDiscoveryMetadata()
 assertExplicitPublishedNpxCopyPaste()
 assertFeedbackIssueLinks()
 
