@@ -39,6 +39,8 @@ function assertPublishedReadme(latestVersion) {
   assertIncludes(readme, '60-second smoke test', 'published npm README')
   assertIncludes(readme, 'issues/new?template=quickstart-feedback.yml', 'published npm README')
   assertIncludes(readme, 'issues/new?template=audit-feedback.yml', 'published npm README')
+  assertIncludes(readme, 'When to use Pluribus](docs/when-to-use-pluribus.md)', 'published npm README')
+  assertIncludes(readme, 'one-way rules converter', 'published npm README')
   assertNotIncludes(readme, 'npx pluribus-context init', 'published npm README')
   assertNotIncludes(readme, 'npx pluribus-context sync', 'published npm README')
 }

@@ -53,6 +53,7 @@ All notable changes to Pluribus are documented here.
 - Rewrite the npm package description for search-result clarity and verify core discovery metadata in the release gate before publishing.
 - Make the published npm smoke verify discovery description/keywords after `0.3.1` is published, so post-publish validation catches stale registry metadata before distribution pushes.
 - Clarify the "When to use Pluribus" guide for users comparing adjacent rules-sync packages, with a sharper split between lightweight rules sync, tool-native prompt managers, one-way converters, and Pluribus' source-of-truth plus audit workflow.
+- Make the published npm smoke verify that the package README keeps a visible path to the "When to use Pluribus" comparison guide after `0.3.1` is published.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 
