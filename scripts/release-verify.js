@@ -104,6 +104,28 @@ function assertExplicitPublishedNpxCopyPaste() {
   }
 }
 
+function assertFeedbackIssueLinks() {
+  const requiredLinks = [
+    { file: 'README.md', link: 'issues/new?template=quickstart-feedback.yml' },
+    { file: 'README.md', link: 'issues/new?template=audit-feedback.yml' },
+    { file: 'CONTRIBUTING.md', link: 'issues/new?template=quickstart-feedback.yml' },
+    { file: 'CONTRIBUTING.md', link: 'issues/new?template=audit-feedback.yml' },
+    { file: 'docs/quickstart.md', link: 'issues/new?template=quickstart-feedback.yml' },
+    { file: 'docs/quickstart.md', link: 'issues/new?template=audit-feedback.yml' },
+    { file: 'docs/context-drift-audit.md', link: 'issues/new?template=audit-feedback.yml' },
+  ]
+
+  const missing = requiredLinks.filter(({ file, link }) => !readFileSync(path.join(repoRoot, file), 'utf8').includes(link))
+  if (missing.length > 0) {
+    console.error(
+      'Missing first-run feedback issue links:\n' +
+        missing.map(({ file, link }) => `${file}: ${link}`).join('\n') +
+        '\nKeep docs pointed at concrete issue templates so first-run feedback is structured.',
+    )
+    process.exit(1)
+  }
+}
+
 function assertNoUnreleasedNpmCopyPaste(npmLatestVersion) {
   if (!npmLatestVersion || npmLatestVersion === pkg.version) return
 
@@ -145,6 +167,7 @@ if (dirtyLines.length > 0) {
 
 info('package', `${pkg.name}@${pkg.version}`)
 assertExplicitPublishedNpxCopyPaste()
+assertFeedbackIssueLinks()
 
 const npmLatest = run('npm', ['view', pkg.name, 'version'], { capture: true })
 if (npmLatest.ok) {

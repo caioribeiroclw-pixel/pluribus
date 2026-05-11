@@ -180,6 +180,10 @@ Some teams add a short loading canary near the top of their generated context, f
 
 Use Pluribus to keep the files aligned. Use the tool's own diagnostics to confirm the runtime actually loaded and prioritized them.
 
+## Feedback wanted
+
+If the read-only audit misses drift, reports noise, or leaves the next step unclear, open an [audit feedback issue](https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=audit-feedback.yml). Summaries are enough; do not paste secrets, private source code, credentials, customer data, or internal instructions that should not be public.
+
 ## Decision rule
 
 Adopt Pluribus if the audit finds repeated shared facts across two or more tools and at least one contradiction, stale command, or copy-paste maintenance burden.

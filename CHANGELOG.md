@@ -48,6 +48,7 @@ All notable changes to Pluribus are documented here.
 - Extend `npm run release:verify` to check docs, examples, and issue templates for reproducible published npm commands (`npx --yes pluribus-context@latest ...`) and unreleased flags while npm latest is still behind `main`.
 - Include `CONTRIBUTING.md` in the same release verification copy-paste scan, and update its audit feedback command to the reproducible `npx --yes pluribus-context@latest ...` form.
 - Link audit feedback directly from the README/npm package page and make the published README smoke guard the quickstart + audit feedback paths.
+- Link quickstart and audit docs directly to their issue templates, and verify those feedback paths in the release gate so first-run users do not have to choose a generic issue manually.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 

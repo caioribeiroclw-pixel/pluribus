@@ -110,10 +110,12 @@ Local sections apply after imports, so project-specific context can override sha
 
 ## Feedback wanted
 
-If the quickstart fails or the generated files do not match how your team actually uses AI tools, open an issue with:
+If the quickstart fails or the generated files do not match how your team actually uses AI tools, open a [quickstart feedback issue](https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=quickstart-feedback.yml) with:
 
 1. the command you ran;
 2. which tool file felt wrong;
 3. what you expected Pluribus to generate instead.
+
+If the read-only audit was the confusing step, open an [audit feedback issue](https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=audit-feedback.yml) instead and summarize what it missed, flagged, or made unclear.
 
 That feedback is more useful than generic feature requests because it shows where the context format or adapters are not matching real workflows.
