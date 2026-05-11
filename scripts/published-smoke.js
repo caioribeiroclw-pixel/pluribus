@@ -37,6 +37,8 @@ function assertPublishedReadme(latestVersion) {
   assertIncludes(readme, 'npx --yes pluribus-context@latest audit', 'published npm README')
   assertIncludes(readme, 'npx --yes pluribus-context@latest sync --dry-run', 'published npm README')
   assertIncludes(readme, '60-second smoke test', 'published npm README')
+  assertIncludes(readme, 'img.shields.io/npm/dw/pluribus-context', 'published npm README')
+  assertIncludes(readme, 'img.shields.io/github/actions/workflow/status/caioribeiroclw-pixel/pluribus/ci.yml', 'published npm README')
   assertIncludes(readme, 'issues/new?template=quickstart-feedback.yml', 'published npm README')
   assertIncludes(readme, 'issues/new?template=audit-feedback.yml', 'published npm README')
   assertIncludes(readme, 'When to use Pluribus](docs/when-to-use-pluribus.md)', 'published npm README')

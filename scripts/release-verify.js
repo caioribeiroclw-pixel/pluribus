@@ -126,6 +126,26 @@ function assertFeedbackIssueLinks() {
   }
 }
 
+
+function assertReadmeTrustBadges() {
+  const readme = readFileSync(path.join(repoRoot, 'README.md'), 'utf8')
+  const requiredBadges = [
+    'img.shields.io/npm/v/pluribus-context',
+    'img.shields.io/npm/dw/pluribus-context',
+    'img.shields.io/github/actions/workflow/status/caioribeiroclw-pixel/pluribus/ci.yml',
+    'github.com/caioribeiroclw-pixel/pluribus/actions/workflows/ci.yml',
+  ]
+  const missing = requiredBadges.filter((badge) => !readme.includes(badge))
+  if (missing.length > 0) {
+    console.error(
+      'README is missing package trust/distribution badges:\n' +
+        missing.join('\n') +
+        '\nKeep npm version/downloads and CI status visible on GitHub and the npm package page.',
+    )
+    process.exit(1)
+  }
+}
+
 function assertPackageDiscoveryMetadata() {
   const description = pkg.description.toLowerCase()
   const requiredDescriptionTerms = ['ai context', 'rules', 'claude code', 'cursor', 'copilot']
@@ -189,6 +209,7 @@ if (dirtyLines.length > 0) {
 
 info('package', `${pkg.name}@${pkg.version}`)
 assertPackageDiscoveryMetadata()
+assertReadmeTrustBadges()
 assertExplicitPublishedNpxCopyPaste()
 assertFeedbackIssueLinks()
 

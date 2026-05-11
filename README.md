@@ -1,6 +1,8 @@
 # Pluribus
 
 [![npm version](https://img.shields.io/npm/v/pluribus-context?style=flat-square)](https://www.npmjs.com/package/pluribus-context)
+[![npm downloads](https://img.shields.io/npm/dw/pluribus-context?style=flat-square)](https://www.npmjs.com/package/pluribus-context)
+[![CI](https://img.shields.io/github/actions/workflow/status/caioribeiroclw-pixel/pluribus/ci.yml?branch=main&style=flat-square&label=ci)](https://github.com/caioribeiroclw-pixel/pluribus/actions/workflows/ci.yml)
 [![Building in Public](https://img.shields.io/badge/building-in%20public-orange?style=flat-square)](https://x.com/RibeiroCaioCLW)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
