@@ -43,6 +43,24 @@ function assertPublishedReadme(latestVersion) {
   assertNotIncludes(readme, 'npx pluribus-context sync', 'published npm README')
 }
 
+function assertPublishedDiscoveryMetadata(latestVersion) {
+  if (!versionAtLeast(latestVersion, '0.3.1')) return
+
+  const metadata = JSON.parse(run('npm', ['view', pkg.name, 'description', 'keywords', '--json'], { capture: true }))
+  const description = (metadata.description || '').toLowerCase()
+  const requiredDescriptionTerms = ['ai context', 'rules', 'claude code', 'cursor', 'copilot']
+  for (const term of requiredDescriptionTerms) {
+    assertIncludes(description, term, 'published npm description')
+  }
+
+  const keywords = new Set(metadata.keywords || [])
+  const requiredKeywords = ['ai-context', 'agent-rules', 'claude-code', 'cursor-rules', 'copilot', 'codex', 'aider', 'drift-detection']
+  const missingKeywords = requiredKeywords.filter((keyword) => !keywords.has(keyword))
+  if (missingKeywords.length > 0) {
+    throw new Error(`published npm keywords missing: ${missingKeywords.join(', ')}`)
+  }
+}
+
 function assertFileExists(filePath, label) {
   if (!existsSync(filePath)) {
     throw new Error(`${label} did not create ${filePath}`)
@@ -83,6 +101,7 @@ if (!latestVersion) {
   throw new Error(`Could not resolve npm latest version for ${pkg.name}`)
 }
 assertPublishedReadme(latestVersion)
+assertPublishedDiscoveryMetadata(latestVersion)
 
 let smokeDir
 

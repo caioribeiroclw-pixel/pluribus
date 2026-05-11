@@ -51,6 +51,7 @@ All notable changes to Pluribus are documented here.
 - Link quickstart and audit docs directly to their issue templates, and verify those feedback paths in the release gate so first-run users do not have to choose a generic issue manually.
 - Expand npm discovery keywords around agent rules, AI context, Codex/Aider, and drift detection so the package metadata matches the searches that surface adjacent tools.
 - Rewrite the npm package description for search-result clarity and verify core discovery metadata in the release gate before publishing.
+- Make the published npm smoke verify discovery description/keywords after `0.3.1` is published, so post-publish validation catches stale registry metadata before distribution pushes.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 
