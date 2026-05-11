@@ -43,6 +43,7 @@ All notable changes to Pluribus are documented here.
 - Make the published npm smoke verify fail-safe unknown-option parsing after `0.3.1` is published, so post-publish validation catches a regression back to silently ignored CLI flags.
 - Update the bug report issue template to use non-interactive `pluribus-context@latest` reproduction commands and a current version placeholder, reducing stale first-run reports.
 - Standardize README/docs/examples on `npx --yes pluribus-context@latest ...` for published commands and extend the release guard so unreleased flags are blocked with or without `@latest` while npm latest is behind `main`.
+- Make `npm run published:smoke` verify the npm package README after `0.3.1` is published, catching stale package-page copy like `npx pluribus-context init` before future distribution pushes.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 

@@ -24,6 +24,23 @@ function assertIncludes(value, expected, label) {
   }
 }
 
+function assertNotIncludes(value, unexpected, label) {
+  if (value.includes(unexpected)) {
+    throw new Error(`${label} unexpectedly included ${JSON.stringify(unexpected)}. Output:\n${value}`)
+  }
+}
+
+function assertPublishedReadme(latestVersion) {
+  if (!versionAtLeast(latestVersion, '0.3.1')) return
+
+  const readme = run('npm', ['view', pkg.name, 'readme'], { capture: true })
+  assertIncludes(readme, 'npx --yes pluribus-context@latest audit', 'published npm README')
+  assertIncludes(readme, 'npx --yes pluribus-context@latest sync --dry-run', 'published npm README')
+  assertIncludes(readme, '60-second smoke test', 'published npm README')
+  assertNotIncludes(readme, 'npx pluribus-context init', 'published npm README')
+  assertNotIncludes(readme, 'npx pluribus-context sync', 'published npm README')
+}
+
 function assertFileExists(filePath, label) {
   if (!existsSync(filePath)) {
     throw new Error(`${label} did not create ${filePath}`)
@@ -63,6 +80,7 @@ const latestVersion = run('npm', ['view', pkg.name, 'version'], { capture: true 
 if (!latestVersion) {
   throw new Error(`Could not resolve npm latest version for ${pkg.name}`)
 }
+assertPublishedReadme(latestVersion)
 
 let smokeDir
 
