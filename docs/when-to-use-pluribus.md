@@ -28,6 +28,21 @@ The core bet is simple: if multiple AI tools need the same project facts, conven
 - You need chat memory, retrieval, vector search, or agent orchestration.
 - You want a one-time migration and do not plan to keep files synchronized.
 
+## Pluribus vs rules sync tools
+
+There are useful adjacent tools for applying or managing AI rules across editors and agents. If you are comparing packages such as Ruler, vibe-rules, or ai-rules-sync, start with the workflow you want rather than the package name.
+
+Pluribus is a good fit when the source of truth should be reviewed as project context in git, regenerated into several tool-native files, and audited later for drift. It is less useful when you only need to push prompts into one tool's own rules format.
+
+| Need | Better fit |
+|---|---|
+| Apply the same simple rules to several coding agents with minimal ceremony | A rules sync tool may be enough |
+| Manage Cursor/Windsurf prompt snippets without adopting a shared source file | A tool-native rules manager may be enough |
+| Keep Claude, Cursor, Copilot, OpenClaw, Windsurf, Continue, Zed, and AGENTS-style context aligned over time | Pluribus |
+| Review shared project context in PRs and regenerate generated files | Pluribus |
+| Share org/team conventions across repos with pinned imports and a lockfile | Pluribus |
+| Fail CI when generated context files drift from the reviewed source | Pluribus `audit --strict` |
+
 ## Pluribus vs one-way converters
 
 A one-way converter is useful when you want to translate one tool's rule format into another tool's file once.
