@@ -37,6 +37,8 @@ function assertPublishedReadme(latestVersion) {
   assertIncludes(readme, 'npx --yes pluribus-context@latest audit', 'published npm README')
   assertIncludes(readme, 'npx --yes pluribus-context@latest sync --dry-run', 'published npm README')
   assertIncludes(readme, '60-second smoke test', 'published npm README')
+  assertIncludes(readme, 'issues/new?template=quickstart-feedback.yml', 'published npm README')
+  assertIncludes(readme, 'issues/new?template=audit-feedback.yml', 'published npm README')
   assertNotIncludes(readme, 'npx pluribus-context init', 'published npm README')
   assertNotIncludes(readme, 'npx pluribus-context sync', 'published npm README')
 }
