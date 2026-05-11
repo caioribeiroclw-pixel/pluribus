@@ -70,6 +70,40 @@ function walkFiles(paths) {
   return files
 }
 
+const copyPastePaths = ['README.md', 'docs', 'examples', '.github/ISSUE_TEMPLATE']
+
+function scanCopyPasteCommands(paths, callback) {
+  const offenders = []
+
+  for (const file of walkFiles(paths)) {
+    const relativePath = path.relative(repoRoot, file)
+    const text = readFileSync(file, 'utf8')
+    text.split(/\r?\n/).forEach((line, index) => {
+      const trimmed = line.trim()
+      callback(trimmed, relativePath, index + 1, offenders)
+    })
+  }
+
+  return offenders
+}
+
+function assertExplicitPublishedNpxCopyPaste() {
+  const offenders = scanCopyPasteCommands(copyPastePaths, (trimmed, relativePath, lineNumber, matches) => {
+    if (/^(?:run:\s*)?npx --yes pluribus-context\s+/.test(trimmed)) {
+      matches.push(`${relativePath}:${lineNumber}: ${trimmed}`)
+    }
+  })
+
+  if (offenders.length > 0) {
+    console.error(
+      'Found published npx copy-paste commands without @latest:\n' +
+        offenders.join('\n') +
+        '\nUse `npx --yes pluribus-context@latest ...` so docs, examples, and issue templates are reproducible.',
+    )
+    process.exit(1)
+  }
+}
+
 function assertNoUnreleasedNpmCopyPaste(npmLatestVersion) {
   if (!npmLatestVersion || npmLatestVersion === pkg.version) return
 
@@ -80,20 +114,13 @@ function assertNoUnreleasedNpmCopyPaste(npmLatestVersion) {
     /^(?:run:\s*)?pluribus\s+init\b[^\n]*--dry-run/,
   ]
   const sourceInstall = '--package github:caioribeiroclw-pixel/pluribus#main'
-  const checkedPaths = ['README.md', 'CHANGELOG.md', 'docs', 'examples']
-  const offenders = []
-
-  for (const file of walkFiles(checkedPaths)) {
-    const relativePath = path.relative(repoRoot, file)
-    const text = readFileSync(file, 'utf8')
-    text.split(/\r?\n/).forEach((line, index) => {
-      const trimmed = line.trim()
-      if (trimmed.includes(sourceInstall)) return
-      if (patterns.some((pattern) => pattern.test(trimmed))) {
-        offenders.push(`${relativePath}:${index + 1}: ${trimmed}`)
-      }
-    })
-  }
+  const checkedPaths = [...copyPastePaths, 'CHANGELOG.md']
+  const offenders = scanCopyPasteCommands(checkedPaths, (trimmed, relativePath, lineNumber, matches) => {
+    if (trimmed.includes(sourceInstall)) return
+    if (patterns.some((pattern) => pattern.test(trimmed))) {
+      matches.push(`${relativePath}:${lineNumber}: ${trimmed}`)
+    }
+  })
 
   if (offenders.length > 0) {
     console.error(
@@ -117,6 +144,7 @@ if (dirtyLines.length > 0) {
 }
 
 info('package', `${pkg.name}@${pkg.version}`)
+assertExplicitPublishedNpxCopyPaste()
 
 const npmLatest = run('npm', ['view', pkg.name, 'version'], { capture: true })
 if (npmLatest.ok) {

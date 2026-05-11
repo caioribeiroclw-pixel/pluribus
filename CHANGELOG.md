@@ -45,6 +45,7 @@ All notable changes to Pluribus are documented here.
 - Standardize README/docs/examples on `npx --yes pluribus-context@latest ...` for published commands and extend the release guard so unreleased flags are blocked with or without `@latest` while npm latest is behind `main`.
 - Make `npm run published:smoke` verify the npm package README after `0.3.1` is published, catching stale package-page copy like `npx pluribus-context init` before future distribution pushes.
 - Add `npm run release:publish` as the guarded publish path: it runs the full release verification before publishing, refuses credential-like CLI arguments, and runs the published npm smoke after a real publish.
+- Extend `npm run release:verify` to check docs, examples, and issue templates for reproducible published npm commands (`npx --yes pluribus-context@latest ...`) and unreleased flags while npm latest is still behind `main`.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 
