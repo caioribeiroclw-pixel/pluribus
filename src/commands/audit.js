@@ -15,6 +15,8 @@ import { renderTemplate, parseSkillFile } from '../utils/renderer.js'
 import { BUILT_IN_SKILLS, SUPPORTED_TOOLS } from '../skills/built-in.js'
 
 const TOOLS_COMMENT_RE = /<!--\s*pluribus:tools:\s*([^-]+)\s*-->/
+const AUDIT_FEEDBACK_URL = 'https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=audit-feedback.yml'
+
 const KNOWN_CONTEXT_FILES = [
   ...new Set([
     ...Object.values(BUILT_IN_SKILLS).flatMap((skill) => skill.outputFiles),
@@ -68,6 +70,7 @@ export async function runAudit(args) {
           ? 'Use these files as migration inputs for pluribus init, then run pluribus audit again.'
           : 'Run pluribus init to create a source file, then pluribus sync --dry-run.',
         docs: 'https://github.com/caioribeiroclw-pixel/pluribus/blob/main/docs/migrate-existing-context.md',
+        feedback: AUDIT_FEEDBACK_URL,
       }, jsonOutput)
     } else {
       console.log(`ℹ️  No ${displaySource} found.`)
@@ -87,6 +90,7 @@ export async function runAudit(args) {
       }
 
       console.log('Docs: https://github.com/caioribeiroclw-pixel/pluribus/blob/main/docs/migrate-existing-context.md')
+      console.log(`Feedback: ${AUDIT_FEEDBACK_URL}`)
     }
 
     if (strict) process.exit(1)
@@ -241,6 +245,7 @@ export async function runAudit(args) {
       nextStep: hasProblem
         ? 'Run pluribus sync --dry-run to preview fixes, then pluribus sync to update generated files.'
         : 'Generated context files are in sync.',
+      feedback: AUDIT_FEEDBACK_URL,
     }, jsonOutput)
   } else {
     console.log('')
@@ -248,6 +253,7 @@ export async function runAudit(args) {
 
     if (hasProblem) {
       console.log('Run `pluribus sync --dry-run` to preview fixes, then `pluribus sync` to update generated files.')
+      console.log(`Feedback: ${AUDIT_FEEDBACK_URL}`)
     } else {
       console.log('✅ Generated context files are in sync.')
     }

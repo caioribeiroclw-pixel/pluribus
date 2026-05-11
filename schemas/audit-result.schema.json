@@ -63,6 +63,11 @@
       "type": "string",
       "format": "uri",
       "description": "Documentation URL for discovery/migration cases."
+    },
+    "feedback": {
+      "type": "string",
+      "format": "uri",
+      "description": "Issue template URL for reporting audit false positives, noisy output, or confusing next steps."
     }
   },
   "allOf": [

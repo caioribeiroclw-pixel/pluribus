@@ -56,6 +56,7 @@ All notable changes to Pluribus are documented here.
 - Make the published npm smoke verify that the package README keeps a visible path to the "When to use Pluribus" comparison guide after `0.3.1` is published.
 - Run packaged CLI and published npm smoke checks in CI, so distribution regressions are caught on every push instead of only during local release prep.
 - Surface npm weekly downloads and CI status badges in the README/npm package page, and verify those trust/distribution badges in the release and published smoke gates.
+- Surface the audit feedback issue template directly from `pluribus audit` text and JSON output, so noisy first-run results can turn into structured reports without searching the docs.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 

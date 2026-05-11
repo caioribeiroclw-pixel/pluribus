@@ -75,6 +75,7 @@ test('audit detects drifted and missing generated files in strict mode', () => {
   assert.match(audit.stdout, /\[claude\] CLAUDE\.md differs from generated output/)
   assert.match(audit.stdout, /\[cursor\] \.cursorrules is missing/)
   assert.match(audit.stdout, /Summary: 0 current, 1 drifted, 1 missing, 0 error/)
+  assert.match(audit.stdout, /issues\/new\?template=audit-feedback\.yml/)
 })
 
 
@@ -125,6 +126,7 @@ test('audit can print machine-readable JSON results', () => {
     ],
   )
   assert.match(payload.nextStep, /sync --dry-run/)
+  assert.match(payload.feedback, /issues\/new\?template=audit-feedback\.yml/)
 })
 
 test('audit can emit GitHub Actions annotations without polluting JSON stdout', () => {
@@ -193,6 +195,7 @@ test('audit without pluribus.md scans existing context files', () => {
   assert.match(audit.stdout, /CLAUDE\.md/)
   assert.match(audit.stdout, /\.github\/copilot-instructions\.md/)
   assert.match(audit.stdout, /migrate-existing-context\.md/)
+  assert.match(audit.stdout, /issues\/new\?template=audit-feedback\.yml/)
 })
 
 test('audit without pluribus.md can print JSON discovery results', () => {
@@ -209,6 +212,7 @@ test('audit without pluribus.md can print JSON discovery results', () => {
   assert.deepEqual(payload.existingContextFiles, ['.github/copilot-instructions.md', 'CLAUDE.md'])
   assert.equal(payload.summary.existingContextFiles, 2)
   assert.match(payload.docs, /migrate-existing-context\.md/)
+  assert.match(payload.feedback, /issues\/new\?template=audit-feedback\.yml/)
 })
 
 test('audit JSON schema is packaged and matches the emitted top-level contract', () => {
