@@ -153,6 +153,30 @@ function assertFirstRunWriteSafetyCopy() {
   }
 }
 
+
+function assertQuickstartSupportedToolsCopy() {
+  const quickstart = readFileSync(path.join(repoRoot, 'docs/quickstart.md'), 'utf8')
+  const requiredSnippets = [
+    '| `claude` | `CLAUDE.md` |',
+    '| `cursor` | `.cursorrules` |',
+    '| `copilot` | `.github/copilot-instructions.md` |',
+    '| `openclaw` | `AGENTS.md` |',
+    '| `windsurf` | `.windsurf/rules/pluribus.md` |',
+    '| `continue` | `.continue/rules/pluribus.md` |',
+    '| `zed` | `.rules` |',
+    'npx --yes pluribus-context@latest --help',
+  ]
+  const missing = requiredSnippets.filter((snippet) => !quickstart.includes(snippet))
+  if (missing.length > 0) {
+    console.error(
+      'Quickstart is missing supported tool adapter copy:\n' +
+        missing.join('\n') +
+        '\nKeep the first-run docs aligned with the full built-in adapter list so users can discover their tool before trying sync.',
+    )
+    process.exit(1)
+  }
+}
+
 function assertReadmeTrustBadges() {
   const readme = readFileSync(path.join(repoRoot, 'README.md'), 'utf8')
   const requiredBadges = [
@@ -237,6 +261,7 @@ info('package', `${pkg.name}@${pkg.version}`)
 assertPackageDiscoveryMetadata()
 assertReadmeTrustBadges()
 assertFirstRunWriteSafetyCopy()
+assertQuickstartSupportedToolsCopy()
 assertExplicitPublishedInstallCopyPaste()
 assertFeedbackIssueLinks()
 

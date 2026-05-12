@@ -47,6 +47,20 @@ npx --yes pluribus-context@latest init \
 
 This creates `pluribus.md`, the single source-of-truth file Pluribus reads. Open it and replace the scaffolded notes with real project context when you are ready. If you later need team/org reuse, keep the local project sections in `pluribus.md` and import shared Markdown with `# @import ./shared/team-context.md`.
 
+Choose the comma-separated `--tools` list that matches your repo. The built-in adapters are:
+
+| Tool id | Generated file |
+| --- | --- |
+| `claude` | `CLAUDE.md` |
+| `cursor` | `.cursorrules` |
+| `copilot` | `.github/copilot-instructions.md` |
+| `openclaw` | `AGENTS.md` |
+| `windsurf` | `.windsurf/rules/pluribus.md` |
+| `continue` | `.continue/rules/pluribus.md` |
+| `zed` | `.rules` |
+
+You can also run `npx --yes pluribus-context@latest --help` to see the current supported tool ids from the CLI itself.
+
 ## 3. Validate before writing generated files
 
 ```bash
