@@ -87,18 +87,21 @@ function scanCopyPasteCommands(paths, callback) {
   return offenders
 }
 
-function assertExplicitPublishedNpxCopyPaste() {
+function assertExplicitPublishedInstallCopyPaste() {
   const offenders = scanCopyPasteCommands(copyPastePaths, (trimmed, relativePath, lineNumber, matches) => {
     if (/^(?:run:\s*)?npx --yes pluribus-context\s+/.test(trimmed)) {
+      matches.push(`${relativePath}:${lineNumber}: ${trimmed}`)
+    }
+    if (/^(?:run:\s*)?npm install -g pluribus-context(?:\s|$)/.test(trimmed)) {
       matches.push(`${relativePath}:${lineNumber}: ${trimmed}`)
     }
   })
 
   if (offenders.length > 0) {
     console.error(
-      'Found published npx copy-paste commands without @latest:\n' +
+      'Found published npm copy-paste commands without @latest:\n' +
         offenders.join('\n') +
-        '\nUse `npx --yes pluribus-context@latest ...` so docs, examples, and issue templates are reproducible.',
+        '\nUse `npx --yes pluribus-context@latest ...` or `npm install -g pluribus-context@latest` so docs, examples, and issue templates are reproducible.',
     )
     process.exit(1)
   }
@@ -234,7 +237,7 @@ info('package', `${pkg.name}@${pkg.version}`)
 assertPackageDiscoveryMetadata()
 assertReadmeTrustBadges()
 assertFirstRunWriteSafetyCopy()
-assertExplicitPublishedNpxCopyPaste()
+assertExplicitPublishedInstallCopyPaste()
 assertFeedbackIssueLinks()
 
 const npmLatest = run('npm', ['view', pkg.name, 'version'], { capture: true })

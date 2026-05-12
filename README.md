@@ -111,7 +111,7 @@ When in doubt, run `npx --yes pluribus-context@latest audit` or `npx --yes pluri
 
 ```bash
 # Install globally if you prefer a persistent `pluribus` command
-npm install -g pluribus-context
+npm install -g pluribus-context@latest
 pluribus --help
 
 # Or clone and link locally

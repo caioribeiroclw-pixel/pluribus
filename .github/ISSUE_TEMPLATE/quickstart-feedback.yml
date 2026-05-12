@@ -34,7 +34,7 @@ body:
       label: How did you run it?
       options:
         - npx --yes pluribus-context@latest
-        - npm install -g pluribus-context
+        - npm install -g pluribus-context@latest
         - local clone / npm link
         - other
     validations:

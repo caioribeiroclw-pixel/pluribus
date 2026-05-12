@@ -109,7 +109,7 @@ Local sections apply after imports, so project-specific context can override sha
 
 ## Common friction
 
-- **`pluribus` command not found after `npx`:** use `npx --yes pluribus-context@latest ...` for one-off runs, or install globally with `npm install -g pluribus-context` and then run `pluribus ...`.
+- **`pluribus` command not found after `npx`:** use `npx --yes pluribus-context@latest ...` for one-off runs, or install globally with `npm install -g pluribus-context@latest` and then run `pluribus ...`.
 - **Remote imports fail without `--update-imports`:** network refresh is explicit. Run `npx --yes pluribus-context@latest sync --update-imports` to refresh and pin remote content, then normal `sync` uses the lock/cache offline.
 - **Private GitHub imports fail:** set `GH_TOKEN`/`GITHUB_TOKEN` or log in with `gh auth login`. Pluribus never writes tokens to `pluribus.lock.json` or cache files.
 - **Generated files look wrong:** edit `pluribus.md`, run `validate`, then use `audit` and `sync --dry-run` before writing files.
