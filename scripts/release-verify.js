@@ -432,6 +432,7 @@ if (npmUser.ok) {
   info('npm auth', npmAuthFailure)
 }
 
+required('release publish script syntax', 'node', ['--check', 'scripts/release-publish.js'])
 required('npm test', 'npm', ['test'])
 required('git diff --check', 'git', ['diff', '--check'])
 required('release smoke', 'npm', ['run', 'release:smoke'])
