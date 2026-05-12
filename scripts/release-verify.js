@@ -155,27 +155,40 @@ function extractMarkdownLinks(markdown) {
   return links
 }
 
-function assertPackagedReadmeRelativeLinks() {
-  const readme = readFileSync(path.join(repoRoot, 'README.md'), 'utf8')
+function assertPackagedMarkdownRelativeLinks() {
   const packageFiles = readPackageFileList()
+  const markdownFiles = [...packageFiles].filter((file) => file.endsWith('.md'))
   const missing = []
 
-  for (const link of extractMarkdownLinks(readme)) {
-    if (/^(?:https?:|mailto:|#)/i.test(link)) continue
-    const [target] = link.split('#')
-    if (!target || target.startsWith('#')) continue
-    const normalizedTarget = path.posix.normalize(target)
-    if (normalizedTarget.startsWith('..')) continue
-    if (!packageFiles.has(normalizedTarget)) {
-      missing.push(link)
+  for (const markdownFile of markdownFiles) {
+    const markdownPath = path.join(repoRoot, markdownFile)
+    const markdown = readFileSync(markdownPath, 'utf8')
+    const baseDir = path.posix.dirname(markdownFile)
+
+    for (const link of extractMarkdownLinks(markdown)) {
+      if (/^(?:https?:|mailto:|#)/i.test(link)) continue
+      const [target] = link.split('#')
+      if (!target || target.startsWith('#')) continue
+
+      const normalizedTarget = path.posix.normalize(path.posix.join(baseDir, target))
+      if (normalizedTarget.startsWith('..')) {
+        missing.push(`${markdownFile}: ${link} (escapes package root)`)
+        continue
+      }
+
+      const targetPrefix = normalizedTarget.endsWith('/') ? normalizedTarget : `${normalizedTarget}/`
+      const targetExists = packageFiles.has(normalizedTarget) || [...packageFiles].some((file) => file.startsWith(targetPrefix))
+      if (!targetExists) {
+        missing.push(`${markdownFile}: ${link}`)
+      }
     }
   }
 
   if (missing.length > 0) {
     console.error(
-      'README has relative links to files that are not included in the npm package:\n' +
+      'Packaged Markdown has relative links to files/directories that are not included in the npm package:\n' +
         missing.join('\n') +
-        '\nKeep the npm package page links usable by adding linked docs/spec/schema files to package.json files or using absolute GitHub URLs.',
+        '\nKeep README/docs/spec/example links usable by adding linked files to package.json files or using absolute GitHub URLs.',
     )
     process.exit(1)
   }
@@ -396,7 +409,7 @@ assertContributingSupportedToolsCopy()
 assertIssueTemplateVersionPlaceholders()
 assertExplicitPublishedInstallCopyPaste()
 assertFeedbackIssueLinks()
-assertPackagedReadmeRelativeLinks()
+assertPackagedMarkdownRelativeLinks()
 
 const npmLatest = run('npm', ['view', pkg.name, 'version'], { capture: true })
 if (npmLatest.ok) {

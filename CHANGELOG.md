@@ -67,6 +67,7 @@ All notable changes to Pluribus are documented here.
 - Verify all built-in adapter outputs in packaged and published smoke checks, so docs/help cannot claim OpenClaw, Windsurf, Continue, or Zed support while the installed artifact fails to generate their files.
 - Verify README/npm package-page adapter output copy in release and published smoke checks, so the top-of-funnel landing page cannot regress to the old three-tool story while the CLI supports more adapters.
 - Verify that relative links from the README/npm package page point to files included in the npm tarball, so published docs links do not break after packaging.
+- Extend packaged Markdown link verification beyond the README to docs/spec/examples in the npm tarball, so follow-on package-page navigation cannot drift to missing files.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 
