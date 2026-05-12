@@ -177,6 +177,37 @@ function assertQuickstartSupportedToolsCopy() {
   }
 }
 
+
+function assertIssueTemplateVersionPlaceholders() {
+  const templatePaths = [
+    '.github/ISSUE_TEMPLATE/quickstart-feedback.yml',
+    '.github/ISSUE_TEMPLATE/bug-report.yml',
+    '.github/ISSUE_TEMPLATE/audit-feedback.yml',
+  ]
+  const offenders = []
+
+  for (const templatePath of templatePaths) {
+    const text = readFileSync(path.join(repoRoot, templatePath), 'utf8')
+    const versionBlock = text.match(/label: Pluribus version[\s\S]*?(?=\n  - type:|$)/)?.[0] || ''
+    if (!versionBlock.includes('placeholder: "Paste the exact --version output"')) {
+      offenders.push(`${templatePath}: missing exact --version placeholder`)
+    }
+    const semverPlaceholder = versionBlock.match(/placeholder:\s*["']?v?\d+\.\d+\.\d+["']?/)
+    if (semverPlaceholder) {
+      offenders.push(`${templatePath}: stale hard-coded version placeholder (${semverPlaceholder[0]})`)
+    }
+  }
+
+  if (offenders.length > 0) {
+    console.error(
+      'Issue templates should ask for exact --version output instead of hard-coded package versions:\n' +
+        offenders.join('\n') +
+        '\nKeep first-run reports accurate while npm latest and main may differ during release prep.',
+    )
+    process.exit(1)
+  }
+}
+
 function assertReadmeTrustBadges() {
   const readme = readFileSync(path.join(repoRoot, 'README.md'), 'utf8')
   const requiredBadges = [
@@ -262,6 +293,7 @@ assertPackageDiscoveryMetadata()
 assertReadmeTrustBadges()
 assertFirstRunWriteSafetyCopy()
 assertQuickstartSupportedToolsCopy()
+assertIssueTemplateVersionPlaceholders()
 assertExplicitPublishedInstallCopyPaste()
 assertFeedbackIssueLinks()
 

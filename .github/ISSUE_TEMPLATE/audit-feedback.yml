@@ -17,7 +17,7 @@ body:
     attributes:
       label: Pluribus version
       description: Run `npx --yes pluribus-context@latest --version` or `pluribus --version`.
-      placeholder: "0.3.0"
+      placeholder: "Paste the exact --version output"
     validations:
       required: true
   - type: input
