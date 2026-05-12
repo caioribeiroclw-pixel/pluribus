@@ -8,6 +8,7 @@ import path from 'node:path'
 const repoRoot = process.cwd()
 const pkg = JSON.parse(readFileSync(path.join(repoRoot, 'package.json'), 'utf8'))
 const packageSpec = `${pkg.name}@latest`
+const auditFeedbackUrl = 'https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=audit-feedback.yml'
 
 function run(command, args, options = {}) {
   return execFileSync(command, args, {
@@ -147,6 +148,9 @@ try {
   assertIncludes(auditOutput, 'No pluribus.md found', 'published pluribus audit without source')
   assertIncludes(auditOutput, 'CLAUDE.md', 'published pluribus audit without source')
   assertIncludes(auditOutput, '.cursorrules', 'published pluribus audit without source')
+  if (versionAtLeast(latestVersion, '0.3.1')) {
+    assertIncludes(auditOutput, auditFeedbackUrl, 'published pluribus audit without source')
+  }
 
   const initOutput = run(
     'npx',
