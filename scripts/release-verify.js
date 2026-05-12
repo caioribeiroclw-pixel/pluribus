@@ -129,6 +129,57 @@ function assertFeedbackIssueLinks() {
   }
 }
 
+function readPackageFileList() {
+  const output = run('npm', ['pack', '--dry-run', '--json'], { capture: true })
+  if (!output.ok) {
+    console.error(`Could not inspect npm package file list:\n${output.output}`)
+    process.exit(output.status || 1)
+  }
+
+  try {
+    const [packument] = JSON.parse(output.output)
+    return new Set((packument.files || []).map((file) => file.path))
+  } catch (error) {
+    console.error(`Could not parse npm pack --dry-run --json output:\n${output.output}`)
+    process.exit(1)
+  }
+}
+
+function extractMarkdownLinks(markdown) {
+  const links = []
+  const linkPattern = /(?<!!)\[[^\]]+\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g
+  let match
+  while ((match = linkPattern.exec(markdown)) !== null) {
+    links.push(match[1])
+  }
+  return links
+}
+
+function assertPackagedReadmeRelativeLinks() {
+  const readme = readFileSync(path.join(repoRoot, 'README.md'), 'utf8')
+  const packageFiles = readPackageFileList()
+  const missing = []
+
+  for (const link of extractMarkdownLinks(readme)) {
+    if (/^(?:https?:|mailto:|#)/i.test(link)) continue
+    const [target] = link.split('#')
+    if (!target || target.startsWith('#')) continue
+    const normalizedTarget = path.posix.normalize(target)
+    if (normalizedTarget.startsWith('..')) continue
+    if (!packageFiles.has(normalizedTarget)) {
+      missing.push(link)
+    }
+  }
+
+  if (missing.length > 0) {
+    console.error(
+      'README has relative links to files that are not included in the npm package:\n' +
+        missing.join('\n') +
+        '\nKeep the npm package page links usable by adding linked docs/spec/schema files to package.json files or using absolute GitHub URLs.',
+    )
+    process.exit(1)
+  }
+}
 
 function assertFirstRunWriteSafetyCopy() {
   const requiredSnippets = [
@@ -345,6 +396,7 @@ assertContributingSupportedToolsCopy()
 assertIssueTemplateVersionPlaceholders()
 assertExplicitPublishedInstallCopyPaste()
 assertFeedbackIssueLinks()
+assertPackagedReadmeRelativeLinks()
 
 const npmLatest = run('npm', ['view', pkg.name, 'version'], { capture: true })
 if (npmLatest.ok) {
