@@ -6,7 +6,7 @@ Thanks for your interest in contributing. Pluribus is a small, focused tool; con
 
 ## What Pluribus does
 
-Pluribus syncs one intentional context file (`pluribus.md`) to the instruction formats used by different AI coding tools: `CLAUDE.md`, `.cursorrules`, `.github/copilot-instructions.md`, `AGENTS.md`, and similar files.
+Pluribus syncs one intentional context file (`pluribus.md`) to the instruction formats used by different AI coding tools: `CLAUDE.md`, `.cursorrules`, `.github/copilot-instructions.md`, `AGENTS.md`, Windsurf rules, Continue rules, Zed rules, and similar files.
 
 Good contributions:
 - Add or improve a tool adapter.
@@ -35,7 +35,7 @@ Even a small note like “I expected `sync --dry-run` to show X, but it showed Y
 
 ## Audit feedback
 
-If your repo already has `CLAUDE.md`, Cursor rules, Copilot instructions, `AGENTS.md`, or other AI context files, the most useful report is often a read-only audit result:
+If your repo already has `CLAUDE.md`, Cursor rules, Copilot instructions, `AGENTS.md`, Windsurf rules, Continue rules, Zed rules, or other AI context files, the most useful report is often a read-only audit result:
 
 ```bash
 npx --yes pluribus-context@latest audit
@@ -88,6 +88,20 @@ pluribus/
 
 ## Adding or changing a tool adapter
 
+Current built-in adapter ids are:
+
+| Tool id | Generated file |
+| --- | --- |
+| `claude` | `CLAUDE.md` |
+| `cursor` | `.cursorrules` |
+| `copilot` | `.github/copilot-instructions.md` |
+| `openclaw` | `AGENTS.md` |
+| `windsurf` | `.windsurf/rules/pluribus.md` |
+| `continue` | `.continue/rules/pluribus.md` |
+| `zed` | `.rules` |
+
+If your tool is missing, open a [tool integration request](https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=integration-request.yml) with the official docs URL, expected output path, and a minimal public example.
+
 Tool adapters are registered in `src/skills/built-in.js`. Each adapter defines:
 
 - the generated output file path;
@@ -98,7 +112,7 @@ Before opening a PR:
 
 1. Link to the official instruction-file docs for that tool, if available.
 2. Add or update tests that prove the generated file path/content.
-3. Update the supported-tools table in `README.md`.
+3. Update the supported-tool tables in `README.md`, `docs/quickstart.md`, and this contributor guide.
 4. If the format is still unstable, prefer opening an issue first and mark it `future`.
 
 ---

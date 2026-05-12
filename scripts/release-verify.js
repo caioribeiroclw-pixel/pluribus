@@ -178,6 +178,30 @@ function assertQuickstartSupportedToolsCopy() {
 }
 
 
+
+function assertContributingSupportedToolsCopy() {
+  const contributing = readFileSync(path.join(repoRoot, 'CONTRIBUTING.md'), 'utf8')
+  const requiredSnippets = [
+    '| `claude` | `CLAUDE.md` |',
+    '| `cursor` | `.cursorrules` |',
+    '| `copilot` | `.github/copilot-instructions.md` |',
+    '| `openclaw` | `AGENTS.md` |',
+    '| `windsurf` | `.windsurf/rules/pluribus.md` |',
+    '| `continue` | `.continue/rules/pluribus.md` |',
+    '| `zed` | `.rules` |',
+    'issues/new?template=integration-request.yml',
+  ]
+  const missing = requiredSnippets.filter((snippet) => !contributing.includes(snippet))
+  if (missing.length > 0) {
+    console.error(
+      'CONTRIBUTING.md is missing supported adapter / integration request copy:\n' +
+        missing.join('\n') +
+        '\nKeep contributor guidance aligned with built-in adapter coverage so users do not request already-supported tools.',
+    )
+    process.exit(1)
+  }
+}
+
 function assertIssueTemplateVersionPlaceholders() {
   const templatePaths = [
     '.github/ISSUE_TEMPLATE/quickstart-feedback.yml',
@@ -293,6 +317,7 @@ assertPackageDiscoveryMetadata()
 assertReadmeTrustBadges()
 assertFirstRunWriteSafetyCopy()
 assertQuickstartSupportedToolsCopy()
+assertContributingSupportedToolsCopy()
 assertIssueTemplateVersionPlaceholders()
 assertExplicitPublishedInstallCopyPaste()
 assertFeedbackIssueLinks()
