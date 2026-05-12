@@ -154,6 +154,29 @@ function assertFirstRunWriteSafetyCopy() {
 }
 
 
+const supportedToolOutputSnippets = [
+  '`CLAUDE.md`',
+  '`.cursorrules`',
+  '`.github/copilot-instructions.md`',
+  '`AGENTS.md`',
+  '`.windsurf/rules/pluribus.md`',
+  '`.continue/rules/pluribus.md`',
+  '`.rules`',
+]
+
+function assertReadmeSupportedToolsCopy() {
+  const readme = readFileSync(path.join(repoRoot, 'README.md'), 'utf8')
+  const missing = supportedToolOutputSnippets.filter((snippet) => !readme.includes(snippet))
+  if (missing.length > 0) {
+    console.error(
+      'README is missing supported tool output copy:\n' +
+        missing.join('\n') +
+        '\nKeep the GitHub/npm landing page aligned with the full built-in adapter list before publishing.',
+    )
+    process.exit(1)
+  }
+}
+
 function assertQuickstartSupportedToolsCopy() {
   const quickstart = readFileSync(path.join(repoRoot, 'docs/quickstart.md'), 'utf8')
   const requiredSnippets = [
@@ -316,6 +339,7 @@ info('package', `${pkg.name}@${pkg.version}`)
 assertPackageDiscoveryMetadata()
 assertReadmeTrustBadges()
 assertFirstRunWriteSafetyCopy()
+assertReadmeSupportedToolsCopy()
 assertQuickstartSupportedToolsCopy()
 assertContributingSupportedToolsCopy()
 assertIssueTemplateVersionPlaceholders()

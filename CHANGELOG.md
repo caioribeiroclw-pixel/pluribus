@@ -65,6 +65,7 @@ All notable changes to Pluribus are documented here.
 - Make issue templates ask for the exact `--version` output instead of a hard-coded version placeholder, and verify that guard in the release gate so feedback stays accurate while npm latest and `main` differ.
 - Align `CONTRIBUTING.md` with the current built-in adapter list and integration request template, and verify that contributor-facing adapter guidance does not drift behind the CLI.
 - Verify all built-in adapter outputs in packaged and published smoke checks, so docs/help cannot claim OpenClaw, Windsurf, Continue, or Zed support while the installed artifact fails to generate their files.
+- Verify README/npm package-page adapter output copy in release and published smoke checks, so the top-of-funnel landing page cannot regress to the old three-tool story while the CLI supports more adapters.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 

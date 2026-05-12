@@ -50,6 +50,17 @@ function assertPublishedReadme(latestVersion) {
   assertIncludes(readme, '`audit`, `validate`, and `sync --dry-run` are read-only', 'published npm README')
   assertIncludes(readme, '`init` writes `pluribus.md` only', 'published npm README')
   assertIncludes(readme, '`sync` writes only the configured/generated AI context files', 'published npm README')
+  for (const outputPath of [
+    '`CLAUDE.md`',
+    '`.cursorrules`',
+    '`.github/copilot-instructions.md`',
+    '`AGENTS.md`',
+    '`.windsurf/rules/pluribus.md`',
+    '`.continue/rules/pluribus.md`',
+    '`.rules`',
+  ]) {
+    assertIncludes(readme, outputPath, 'published npm README supported tool outputs')
+  }
   assertNotIncludes(readme, 'npx pluribus-context init', 'published npm README')
   assertNotIncludes(readme, 'npx pluribus-context sync', 'published npm README')
 }
