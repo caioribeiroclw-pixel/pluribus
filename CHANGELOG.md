@@ -6,6 +6,7 @@ All notable changes to Pluribus are documented here.
 
 ### Changed
 
+- Run the full `npm run release:verify` gate in CI, with CI-safe detached checkout handling, so local-only release guards for docs, package metadata, npm smoke, tarball smoke, and publish dry-run cannot drift behind the public pipeline.
 - Verify that docs and contributor-facing GitHub issue-template links point to existing `.github/ISSUE_TEMPLATE` files, and that every public feedback template is linked somewhere in the docs, so first-run feedback paths cannot silently 404 or disappear.
 - Make `npm run release:publish` require the public `latest` dist-tag and verify that `npm view pluribus-context version` matches the just-published package before running `published:smoke`, and verify the publish script syntax in `release:verify`, so a publish under the wrong tag cannot look successful.
 - Republish the post-0.3.0 README/docs cleanup so the npm package page no longer tells users that `audit` requires a source install or that npm latest may still be `0.2.0`.

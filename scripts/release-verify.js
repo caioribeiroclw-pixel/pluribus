@@ -427,7 +427,8 @@ function assertNoUnreleasedNpmCopyPaste(npmLatestVersion) {
 }
 
 const gitStatus = required('git status', 'git', ['status', '--short', '--branch'])
-if (!gitStatus.startsWith('## main...origin/main')) {
+const runningInCi = process.env.CI === 'true'
+if (!runningInCi && !gitStatus.startsWith('## main...origin/main')) {
   console.error(`Expected clean main tracking origin/main. Got:\n${gitStatus}`)
   process.exit(1)
 }
@@ -435,6 +436,9 @@ const dirtyLines = gitStatus.split(/\r?\n/).filter((line) => line && !line.start
 if (dirtyLines.length > 0) {
   console.error(`Working tree is not clean:\n${gitStatus}`)
   process.exit(1)
+}
+if (runningInCi) {
+  info('git ref', gitStatus.split(/\r?\n/)[0] || '(unknown)')
 }
 
 info('package', `${pkg.name}@${pkg.version}`)
