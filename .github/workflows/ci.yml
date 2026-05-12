@@ -28,7 +28,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --no-package-lock
 
       - name: Run tests
         run: npm test
@@ -47,7 +47,7 @@ jobs:
           node-version: 22.x
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --no-package-lock
 
       - name: Run full release verification
         run: npm run release:verify
