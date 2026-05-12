@@ -127,6 +127,29 @@ function assertFeedbackIssueLinks() {
 }
 
 
+function assertFirstRunWriteSafetyCopy() {
+  const requiredSnippets = [
+    { file: 'README.md', snippet: '### What Pluribus writes' },
+    { file: 'README.md', snippet: '`audit`, `validate`, and `sync --dry-run` are read-only' },
+    { file: 'README.md', snippet: '`init` writes `pluribus.md` only' },
+    { file: 'README.md', snippet: '`sync` writes only the configured/generated AI context files' },
+    { file: 'README.md', snippet: 'Remote imports only touch `pluribus.lock.json` and `.pluribus/cache/remote/` when you explicitly pass `--update-imports`' },
+    { file: 'docs/quickstart.md', snippet: '## What Pluribus writes' },
+    { file: 'docs/quickstart.md', snippet: 'audit → validate → `sync --dry-run` → `sync`' },
+    { file: 'docs/quickstart.md', snippet: 'Remote imports do not refresh silently' },
+  ]
+
+  const missing = requiredSnippets.filter(({ file, snippet }) => !readFileSync(path.join(repoRoot, file), 'utf8').includes(snippet))
+  if (missing.length > 0) {
+    console.error(
+      'Missing first-run write-safety copy:\n' +
+        missing.map(({ file, snippet }) => `${file}: ${snippet}`).join('\n') +
+        '\nKeep the write surface explicit so users can try Pluribus safely before syncing.',
+    )
+    process.exit(1)
+  }
+}
+
 function assertReadmeTrustBadges() {
   const readme = readFileSync(path.join(repoRoot, 'README.md'), 'utf8')
   const requiredBadges = [
@@ -210,6 +233,7 @@ if (dirtyLines.length > 0) {
 info('package', `${pkg.name}@${pkg.version}`)
 assertPackageDiscoveryMetadata()
 assertReadmeTrustBadges()
+assertFirstRunWriteSafetyCopy()
 assertExplicitPublishedNpxCopyPaste()
 assertFeedbackIssueLinks()
 

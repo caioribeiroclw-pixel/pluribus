@@ -44,6 +44,10 @@ function assertPublishedReadme(latestVersion) {
   assertIncludes(readme, 'issues/new?template=audit-feedback.yml', 'published npm README')
   assertIncludes(readme, 'When to use Pluribus](docs/when-to-use-pluribus.md)', 'published npm README')
   assertIncludes(readme, 'one-way rules converter', 'published npm README')
+  assertIncludes(readme, 'What Pluribus writes', 'published npm README')
+  assertIncludes(readme, '`audit`, `validate`, and `sync --dry-run` are read-only', 'published npm README')
+  assertIncludes(readme, '`init` writes `pluribus.md` only', 'published npm README')
+  assertIncludes(readme, '`sync` writes only the configured/generated AI context files', 'published npm README')
   assertNotIncludes(readme, 'npx pluribus-context init', 'published npm README')
   assertNotIncludes(readme, 'npx pluribus-context sync', 'published npm README')
 }
