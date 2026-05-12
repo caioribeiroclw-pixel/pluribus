@@ -357,6 +357,31 @@ function assertIssueTemplateLinksResolvable() {
   }
 }
 
+function extractFencedBlocks(markdown, language) {
+  const escapedLanguage = language.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const pattern = new RegExp('^```' + escapedLanguage + '\\n([\\s\\S]*?)^```$', 'gm')
+  const blocks = []
+  let match
+  while ((match = pattern.exec(markdown)) !== null) {
+    blocks.push(match[1].trim())
+  }
+  return blocks
+}
+
+function assertCiAuditExampleInSync() {
+  const workflowExample = readFileSync(path.join(repoRoot, 'examples/github-actions/pluribus-audit.yml'), 'utf8').trim()
+  const guide = readFileSync(path.join(repoRoot, 'docs/ci-audit-example.md'), 'utf8')
+  const yamlBlocks = extractFencedBlocks(guide, 'yaml')
+
+  if (!yamlBlocks.includes(workflowExample)) {
+    console.error(
+      'docs/ci-audit-example.md is missing an exact fenced YAML copy of examples/github-actions/pluribus-audit.yml.\n' +
+        'Keep the copy-paste CI guide and packaged workflow example in sync so users do not adopt stale audit commands.',
+    )
+    process.exit(1)
+  }
+}
+
 function assertReadmeTrustBadges() {
   const readme = readFileSync(path.join(repoRoot, 'README.md'), 'utf8')
   const requiredBadges = [
@@ -450,6 +475,7 @@ assertQuickstartSupportedToolsCopy()
 assertContributingSupportedToolsCopy()
 assertIssueTemplateVersionPlaceholders()
 assertIssueTemplateLinksResolvable()
+assertCiAuditExampleInSync()
 assertExplicitPublishedInstallCopyPaste()
 assertFeedbackIssueLinks()
 assertPackagedMarkdownRelativeLinks()
