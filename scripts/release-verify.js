@@ -289,6 +289,12 @@ function assertContributingSupportedToolsCopy() {
   }
 }
 
+function issueTemplatePaths() {
+  return readdirSync(path.join(repoRoot, '.github/ISSUE_TEMPLATE'))
+    .filter((file) => file.endsWith('.yml') && file !== 'config.yml')
+    .map((file) => `.github/ISSUE_TEMPLATE/${file}`)
+}
+
 function assertIssueTemplateVersionPlaceholders() {
   const templatePaths = [
     '.github/ISSUE_TEMPLATE/quickstart-feedback.yml',
@@ -314,6 +320,38 @@ function assertIssueTemplateVersionPlaceholders() {
       'Issue templates should ask for exact --version output instead of hard-coded package versions:\n' +
         offenders.join('\n') +
         '\nKeep first-run reports accurate while npm latest and main may differ during release prep.',
+    )
+    process.exit(1)
+  }
+}
+
+function assertIssueTemplateLinksResolvable() {
+  const templateFiles = new Set(issueTemplatePaths().map((templatePath) => path.basename(templatePath)))
+  const templateLinkPattern = /https:\/\/github\.com\/caioribeiroclw-pixel\/pluribus\/issues\/new\?template=([a-z0-9-]+\.yml)/gi
+  const badLinks = []
+  const linkedTemplates = new Set()
+
+  for (const file of walkFiles(copyPastePaths)) {
+    const relativePath = path.relative(repoRoot, file)
+    const text = readFileSync(file, 'utf8')
+    let match
+    while ((match = templateLinkPattern.exec(text)) !== null) {
+      const template = match[1]
+      linkedTemplates.add(template)
+      if (!templateFiles.has(template)) {
+        badLinks.push(`${relativePath}: issues/new?template=${template}`)
+      }
+    }
+  }
+
+  const unlinkedTemplates = [...templateFiles].filter((template) => !linkedTemplates.has(template))
+  if (badLinks.length > 0 || unlinkedTemplates.length > 0) {
+    const messages = []
+    if (badLinks.length > 0) messages.push(`Broken issue-template links:\n${badLinks.join('\n')}`)
+    if (unlinkedTemplates.length > 0) messages.push(`Issue templates with no public docs link:\n${unlinkedTemplates.join('\n')}`)
+    console.error(
+      messages.join('\n') +
+        '\nKeep README/docs/CONTRIBUTING feedback links aligned with .github/ISSUE_TEMPLATE so first-run users land on working forms.',
     )
     process.exit(1)
   }
@@ -407,6 +445,7 @@ assertReadmeSupportedToolsCopy()
 assertQuickstartSupportedToolsCopy()
 assertContributingSupportedToolsCopy()
 assertIssueTemplateVersionPlaceholders()
+assertIssueTemplateLinksResolvable()
 assertExplicitPublishedInstallCopyPaste()
 assertFeedbackIssueLinks()
 assertPackagedMarkdownRelativeLinks()
