@@ -60,6 +60,7 @@ All notable changes to Pluribus are documented here.
 - Surface the audit feedback issue template directly from `pluribus audit` text and JSON output, so noisy first-run results can turn into structured reports without searching the docs.
 - Verify the audit feedback link in packaged and published smoke checks, so the CLI feedback loop cannot disappear from the installed artifact unnoticed.
 - Make global install examples explicit with `npm install -g pluribus-context@latest`, and have the release gate block ambiguous global install copy-paste commands.
+- Keep `pluribus --help` in sync with the actual built-in tool adapters, and verify that in release/published smoke checks, so first-run users see Copilot, Windsurf, Continue, and Zed as supported `--tools` values instead of the original three-tool default.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 

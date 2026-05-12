@@ -11,7 +11,10 @@ import { runValidate } from '../src/commands/validate.js'
 import { runWatch } from '../src/commands/watch.js'
 import { runAudit } from '../src/commands/audit.js'
 import { parseArgs } from '../src/utils/args.js'
+import { SUPPORTED_TOOLS } from '../src/skills/built-in.js'
 import { VERSION } from '../src/utils/version.js'
+
+const supportedToolsList = SUPPORTED_TOOLS.join(',')
 
 const HELP = `
 Pluribus v${VERSION} — Write your AI context once. Sync it to every tool.
@@ -30,7 +33,7 @@ COMMANDS
 OPTIONS (init)
   --name          Project/author name
   --description   One-line project description
-  --tools         Comma-separated list of tools to enable (claude,cursor,openclaw)
+  --tools         Comma-separated list of tools to enable (${supportedToolsList})
   --dry-run       Preview the scaffold without writing pluribus.md
 
 OPTIONS (sync)

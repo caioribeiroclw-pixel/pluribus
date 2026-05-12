@@ -4,11 +4,13 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
+import { SUPPORTED_TOOLS } from '../src/skills/built-in.js'
 
 const repoRoot = process.cwd()
 const pkg = JSON.parse(readFileSync(path.join(repoRoot, 'package.json'), 'utf8'))
 const expectedVersion = pkg.version
 const auditFeedbackUrl = 'https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=audit-feedback.yml'
+const supportedToolsHelp = `--tools         Comma-separated list of tools to enable (${SUPPORTED_TOOLS.join(',')})`
 
 function run(command, args, options = {}) {
   return execFileSync(command, args, {
@@ -65,6 +67,7 @@ try {
 
   const helpOutput = run('npx', ['--no-install', 'pluribus', '--help'], { cwd: smokeDir, capture: true })
   assertIncludes(helpOutput, `Pluribus v${expectedVersion}`, 'pluribus --help')
+  assertIncludes(helpOutput, supportedToolsHelp, 'pluribus --help supported tools')
 
   assertFailsWith('npx', ['--no-install', 'pluribus', 'init', '--dryrun'], 'Unknown option for `init`: --dryrun', {
     cwd: smokeDir,

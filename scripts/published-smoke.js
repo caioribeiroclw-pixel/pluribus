@@ -4,11 +4,13 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
+import { SUPPORTED_TOOLS } from '../src/skills/built-in.js'
 
 const repoRoot = process.cwd()
 const pkg = JSON.parse(readFileSync(path.join(repoRoot, 'package.json'), 'utf8'))
 const packageSpec = `${pkg.name}@latest`
 const auditFeedbackUrl = 'https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=audit-feedback.yml'
+const supportedToolsHelp = `--tools         Comma-separated list of tools to enable (${SUPPORTED_TOOLS.join(',')})`
 
 function run(command, args, options = {}) {
   return execFileSync(command, args, {
@@ -130,6 +132,9 @@ try {
     capture: true,
   })
   assertIncludes(helpOutput, `Pluribus v${latestVersion}`, 'published pluribus --help')
+  if (versionAtLeast(latestVersion, '0.3.1')) {
+    assertIncludes(helpOutput, supportedToolsHelp, 'published pluribus --help supported tools')
+  }
 
   if (versionAtLeast(latestVersion, '0.3.1')) {
     assertFails(

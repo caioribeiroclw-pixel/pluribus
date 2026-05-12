@@ -5,6 +5,7 @@ import * as os from 'node:os'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawnSync } from 'node:child_process'
+import { SUPPORTED_TOOLS } from '../src/skills/built-in.js'
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const cliPath = path.join(repoRoot, 'bin', 'pluribus.js')
@@ -45,11 +46,15 @@ test('CLI version matches package.json version', () => {
   assert.equal(result.stdout.trim(), packageJson.version)
 })
 
-test('help text shows the package version', () => {
+test('help text shows the package version and supported tools', () => {
   const result = runCli(repoRoot, ['--help'])
 
   assert.equal(result.status, 0, result.stderr)
   assert.match(result.stdout, new RegExp(`Pluribus v${packageJson.version.replaceAll('.', '\\.')}`))
+  assert.match(
+    result.stdout,
+    new RegExp(`--tools\\s+Comma-separated list of tools to enable \\(${SUPPORTED_TOOLS.join(',')}\\)`),
+  )
 })
 
 test('generated tool files use the package version', () => {
