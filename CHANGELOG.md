@@ -64,6 +64,7 @@ All notable changes to Pluribus are documented here.
 - Add the full built-in adapter list to the quickstart and verify it in the release gate, so users can discover OpenClaw, Windsurf, Continue, and Zed before deciding which `--tools` values to try.
 - Make issue templates ask for the exact `--version` output instead of a hard-coded version placeholder, and verify that guard in the release gate so feedback stays accurate while npm latest and `main` differ.
 - Align `CONTRIBUTING.md` with the current built-in adapter list and integration request template, and verify that contributor-facing adapter guidance does not drift behind the CLI.
+- Verify all built-in adapter outputs in packaged and published smoke checks, so docs/help cannot claim OpenClaw, Windsurf, Continue, or Zed support while the installed artifact fails to generate their files.
 
 ## 0.3.0 — Audit workflow and first-run docs alignment
 
