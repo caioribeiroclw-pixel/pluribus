@@ -6,6 +6,7 @@ All notable changes to Pluribus are documented here.
 
 ### Changed
 
+- Verify that `docs/pre-commit-audit.md` embeds the same hook body as `examples/git-hooks/pre-commit`, so the local copy-paste guard and packaged git-hook example cannot drift into different audit commands.
 - Verify that `docs/ci-audit-example.md` includes an exact copy of `examples/github-actions/pluribus-audit.yml`, so the copy-paste CI guide and packaged workflow example cannot drift into different audit commands.
 - Run the full `npm run release:verify` gate in CI, with CI-safe detached checkout handling, so local-only release guards for docs, package metadata, npm smoke, tarball smoke, and publish dry-run cannot drift behind the public pipeline.
 - Verify that docs and contributor-facing GitHub issue-template links point to existing `.github/ISSUE_TEMPLATE` files, and that every public feedback template is linked somewhere in the docs, so first-run feedback paths cannot silently 404 or disappear.

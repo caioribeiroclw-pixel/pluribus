@@ -14,6 +14,9 @@ cat > .git/hooks/pre-commit <<'EOF'
 #!/usr/bin/env sh
 set -eu
 
+# Keep generated AI context files aligned with pluribus.md before committing.
+# Install by copying this file to .git/hooks/pre-commit and running chmod +x.
+
 if [ ! -f pluribus.md ]; then
   exit 0
 fi

@@ -382,6 +382,29 @@ function assertCiAuditExampleInSync() {
   }
 }
 
+function extractHeredocBlock(markdown, startMarker, endMarker) {
+  const start = markdown.indexOf(startMarker)
+  if (start === -1) return ''
+  const contentStart = start + startMarker.length
+  const end = markdown.indexOf(endMarker, contentStart)
+  if (end === -1) return ''
+  return markdown.slice(contentStart, end).trim()
+}
+
+function assertPreCommitHookExampleInSync() {
+  const hookExample = readFileSync(path.join(repoRoot, 'examples/git-hooks/pre-commit'), 'utf8').trim()
+  const guide = readFileSync(path.join(repoRoot, 'docs/pre-commit-audit.md'), 'utf8')
+  const copyPasteHook = extractHeredocBlock(guide, "cat > .git/hooks/pre-commit <<'EOF'\n", '\nEOF')
+
+  if (copyPasteHook !== hookExample) {
+    console.error(
+      'docs/pre-commit-audit.md copy-paste hook does not match examples/git-hooks/pre-commit.\n' +
+        'Keep the local pre-commit guide and packaged hook example in sync so users do not copy stale audit commands.',
+    )
+    process.exit(1)
+  }
+}
+
 function assertReadmeTrustBadges() {
   const readme = readFileSync(path.join(repoRoot, 'README.md'), 'utf8')
   const requiredBadges = [
@@ -476,6 +499,7 @@ assertContributingSupportedToolsCopy()
 assertIssueTemplateVersionPlaceholders()
 assertIssueTemplateLinksResolvable()
 assertCiAuditExampleInSync()
+assertPreCommitHookExampleInSync()
 assertExplicitPublishedInstallCopyPaste()
 assertFeedbackIssueLinks()
 assertPackagedMarkdownRelativeLinks()
