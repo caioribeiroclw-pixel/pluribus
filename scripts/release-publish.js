@@ -83,13 +83,13 @@ rejectSecretLikeArgs(forwardedArgs)
 rejectNonLatestDistTag(forwardedArgs)
 
 run('release verification', 'npm', ['run', 'release:verify'])
+assertReleaseTagMatchesHead()
 
 if (isDryRun) {
-  console.log('✅ dry-run release publish gate passed. release:verify already ran npm publish --dry-run; no package was published.')
+  console.log('✅ dry-run release publish gate passed. release:verify and Git tag alignment passed; no package was published.')
   process.exit(0)
 }
 
-assertReleaseTagMatchesHead()
 run('npm publish', 'npm', ['publish', '--access', 'public', ...forwardedArgs])
 assertPublishedLatestMatchesPackage()
 run('published npm smoke', 'npm', ['run', 'published:smoke'])

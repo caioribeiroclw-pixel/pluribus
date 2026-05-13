@@ -27,10 +27,10 @@ cd pluribus-demo
 
 ## 2. Preview and scaffold context
 
-Start read-only so you can see the template before writing a file. `init --dry-run` is prepared for `pluribus-context@0.3.2`; until that patch is published, use the GitHub tag install command for the preview:
+Start read-only so you can see the template before writing a file. `init --dry-run` is prepared for `pluribus-context@0.3.3`; until that patch is published, use the GitHub tag install command for the preview:
 
 ```bash
-npx --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.2 pluribus init --dry-run \
+npx --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.3 pluribus init --dry-run \
   --name "Ana" \
   --description "A Node.js service" \
   --tools claude,cursor,copilot

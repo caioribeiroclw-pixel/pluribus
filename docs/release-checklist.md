@@ -83,15 +83,17 @@ For a no-publish rehearsal, run:
 npm run release:publish -- --dry-run
 ```
 
+This rehearsal runs the full release verifier and confirms `HEAD` matches the local Git tag `v<package.json version>` before the OTP window. Use it before asking for or entering a live OTP so tag drift is caught without touching npm.
+
 If npm asks for OTP, use a short live OTP window and pass it through npm's normal `--otp` flag; do not paste tokens into the repo, docs, logs, or shell history. Avoid raw `_authToken`/token arguments — the guarded script refuses credential-like CLI arguments.
 
 ```bash
 npm run release:publish -- --otp <one-time-code>
 ```
 
-If a GitHub release or tag was created before npm publish succeeds, pause distribution instead of creating another tag. Leave the existing GitHub release as the source artifact, finish the npm publish with OTP, then verify that npm `latest` matches the tagged version before posting or replying publicly.
+If a GitHub release or tag was created before npm publish succeeds, pause distribution. If `HEAD` still matches `v<package.json version>`, finish the npm publish with OTP/token and verify that npm `latest` matches the tagged version before posting publicly. If commits landed after the GitHub release/tag while npm was blocked, do **not** publish the same version from the newer commit. Reconcile first by publishing from the tagged commit, cutting a new patch version/tag, or intentionally updating the GitHub release/tag, then rerun the guarded publish.
 
-Before the real npm publish, `release:publish` also verifies that `HEAD` matches `v<package.json version>`. If commits landed after the GitHub release/tag while npm was still blocked, do not publish the same version from the newer commit. Reconcile first by publishing from the tagged commit, cutting a new version/tag, or intentionally updating the GitHub release/tag, then rerun the guarded publish.
+Before any real npm publish, `release:publish` verifies that `HEAD` matches `v<package.json version>`; the dry-run rehearsal verifies the same alignment without publishing.
 
 Then verify the registry entry and the install path users will see:
 

@@ -4,6 +4,13 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.3 — Publish-window rehearsal hardening
+
+### Changed
+
+- Make the guarded `release:publish -- --dry-run` rehearsal check the same Git tag/HEAD alignment before any live OTP window, so tag drift is caught without touching npm.
+- Carry the pending source-install documentation forward to the immutable GitHub `v0.3.3` tag while npm `latest` remains `0.3.0`.
+
 ## 0.3.2 — Release artifact reconciliation
 
 ### Changed
