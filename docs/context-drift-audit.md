@@ -14,6 +14,8 @@ npx --yes pluribus-context@latest audit
 
 If `pluribus.md` exists, this reports generated files that are current, missing, or drifted. If `pluribus.md` does not exist yet, it scans for known AI context files so you can decide what to migrate.
 
+Want to see the workflow before touching a real repo? Use the intentionally drifted fixture in [`examples/context-drift-audit`](../examples/context-drift-audit/): it has a `CLAUDE.md` that says Node 20 while `pluribus.md` says Node 22, so `audit --strict` has a concrete mismatch to report.
+
 ## Version availability
 
 The basic read-only `audit` command is published in `pluribus-context@0.3.0`.
