@@ -91,6 +91,8 @@ npm run release:publish -- --otp <one-time-code>
 
 If a GitHub release or tag was created before npm publish succeeds, pause distribution instead of creating another tag. Leave the existing GitHub release as the source artifact, finish the npm publish with OTP, then verify that npm `latest` matches the tagged version before posting or replying publicly.
 
+Before the real npm publish, `release:publish` also verifies that `HEAD` matches `v<package.json version>`. If commits landed after the GitHub release/tag while npm was still blocked, do not publish the same version from the newer commit. Reconcile first by publishing from the tagged commit, cutting a new version/tag, or intentionally updating the GitHub release/tag, then rerun the guarded publish.
+
 Then verify the registry entry and the install path users will see:
 
 ```bash

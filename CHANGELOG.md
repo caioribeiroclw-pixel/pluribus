@@ -1,5 +1,9 @@
 # Changelog
 
+## [Unreleased]
+
+- Guard `release:publish` against publishing an npm package version from a different commit than its matching GitHub release tag.
+
 All notable changes to Pluribus are documented here.
 
 ## 0.3.1 — npm README cleanup

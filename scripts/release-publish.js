@@ -41,6 +41,36 @@ function capture(label, command, args) {
   }).trim()
 }
 
+function captureQuiet(command, args) {
+  try {
+    return execFileSync(command, args, {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim()
+  } catch {
+    return ''
+  }
+}
+
+function assertReleaseTagMatchesHead() {
+  const tagName = `v${pkg.version}`
+  const headSha = captureQuiet('git', ['rev-parse', 'HEAD'])
+  const tagSha = captureQuiet('git', ['rev-parse', tagName])
+
+  if (!tagSha) {
+    console.error(`Refusing to publish ${pkg.name}@${pkg.version}: Git tag ${tagName} does not exist locally. Create/fetch the release tag before publishing so npm latest maps to an immutable source artifact.`)
+    process.exit(1)
+  }
+
+  if (headSha !== tagSha) {
+    console.error(
+      `Refusing to publish ${pkg.name}@${pkg.version}: HEAD (${headSha.slice(0, 7)}) does not match ${tagName} (${tagSha.slice(0, 7)}).\n` +
+        'Do not publish a package version from a different commit than its GitHub release tag. Reconcile the release first: publish from the tagged commit, create a new version/tag, or explicitly update the GitHub release/tag before retrying.',
+    )
+    process.exit(1)
+  }
+}
+
 function assertPublishedLatestMatchesPackage() {
   const npmLatest = capture('verify npm latest dist-tag', 'npm', ['view', pkg.name, 'version'])
   if (npmLatest !== pkg.version) {
@@ -59,6 +89,7 @@ if (isDryRun) {
   process.exit(0)
 }
 
+assertReleaseTagMatchesHead()
 run('npm publish', 'npm', ['publish', '--access', 'public', ...forwardedArgs])
 assertPublishedLatestMatchesPackage()
 run('published npm smoke', 'npm', ['run', 'published:smoke'])
