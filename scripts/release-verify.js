@@ -446,6 +446,38 @@ function assertPackageDiscoveryMetadata() {
   }
 }
 
+function assertNoMovingSourceInstallCopy(npmLatestVersion) {
+  if (!npmLatestVersion || npmLatestVersion === pkg.version) return
+
+  const movingRefs = [
+    'github:caioribeiroclw-pixel/pluribus#main',
+    'github:...#main',
+  ]
+  const offenders = []
+  const checkedPaths = [...copyPastePaths, 'CHANGELOG.md']
+
+  for (const file of walkFiles(checkedPaths)) {
+    const relativePath = path.relative(repoRoot, file)
+    const text = readFileSync(file, 'utf8')
+    text.split(/\r?\n/).forEach((line, index) => {
+      for (const movingRef of movingRefs) {
+        if (line.includes(movingRef)) {
+          offenders.push(`${relativePath}:${index + 1}: ${line.trim()}`)
+        }
+      }
+    })
+  }
+
+  if (offenders.length > 0) {
+    console.error(
+      `Found moving GitHub source-install refs while npm latest is still ${npmLatestVersion} and local package is ${pkg.version}:\n` +
+        offenders.join('\n') +
+        `\nUse the immutable github:caioribeiroclw-pixel/pluribus#v${pkg.version} tag path until the npm patch is published.`,
+    )
+    process.exit(1)
+  }
+}
+
 function assertNoUnreleasedNpmCopyPaste(npmLatestVersion) {
   if (!npmLatestVersion || npmLatestVersion === pkg.version) return
 
@@ -511,6 +543,7 @@ if (npmLatest.ok) {
     console.error(`${pkg.name}@${pkg.version} already appears to be published. Bump version before publishing again.`)
     process.exit(1)
   }
+  assertNoMovingSourceInstallCopy(npmLatest.output)
   assertNoUnreleasedNpmCopyPaste(npmLatest.output)
   required('published npm smoke', 'npm', ['run', 'published:smoke'])
 } else {

@@ -7,6 +7,7 @@ All notable changes to Pluribus are documented here.
 ### Changed
 
 - Pin temporary source-install documentation to the immutable GitHub release tag `v0.3.1` instead of `main` while npm `latest` remains `0.3.0`, and make the release verifier accept the versioned tag path for unreleased `0.3.1` commands.
+- Block moving GitHub source-install references in docs, examples, issue templates, and changelog while npm `latest` is behind the local package, so partial-release copy-paste paths stay tied to the immutable tag.
 - Clarify the npm 2FA publish path in the release checklist, including the guarded `npm run release:publish -- --otp <one-time-code>` command and the rule to pause distribution if a GitHub release exists before npm `latest` is updated.
 - Verify that `docs/pre-commit-audit.md` embeds the same hook body as `examples/git-hooks/pre-commit`, so the local copy-paste guard and packaged git-hook example cannot drift into different audit commands.
 - Verify that `docs/ci-audit-example.md` includes an exact copy of `examples/github-actions/pluribus-audit.yml`, so the copy-paste CI guide and packaged workflow example cannot drift into different audit commands.

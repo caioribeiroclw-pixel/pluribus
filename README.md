@@ -73,7 +73,7 @@ And it generates the right files for each tool:
 
 ## Getting Started
 
-> **Version note:** `pluribus audit` is published in `pluribus-context@0.3.0`. The CI-oriented audit flags and read-only init preview documented in `main` (`--json`, `--output`, `--github-annotations`, `--ci`, `init --dry-run`) are prepared for the next npm patch release `0.3.1`; until that patch is published, use `@0.3.0` for the basic read-only audit, or use the explicit `github:...#main` source command shown below when testing unreleased read-only preview flags.
+> **Version note:** `pluribus audit` is published in `pluribus-context@0.3.0`. The CI-oriented audit flags and read-only init preview documented in the GitHub release tag `v0.3.1` (`--json`, `--output`, `--github-annotations`, `--ci`, `init --dry-run`) are prepared for the next npm patch release `0.3.1`; until that patch is published, use `@0.3.0` for the basic read-only audit, or use the explicit `github:...#v0.3.1` source command shown below when testing the tagged read-only preview flags.
 
 ### Pick the safe first command
 
