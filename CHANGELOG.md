@@ -6,6 +6,7 @@ All notable changes to Pluribus are documented here.
 
 ### Changed
 
+- Pin temporary source-install documentation to the immutable GitHub release tag `v0.3.1` instead of `main` while npm `latest` remains `0.3.0`, and make the release verifier accept the versioned tag path for unreleased `0.3.1` commands.
 - Clarify the npm 2FA publish path in the release checklist, including the guarded `npm run release:publish -- --otp <one-time-code>` command and the rule to pause distribution if a GitHub release exists before npm `latest` is updated.
 - Verify that `docs/pre-commit-audit.md` embeds the same hook body as `examples/git-hooks/pre-commit`, so the local copy-paste guard and packaged git-hook example cannot drift into different audit commands.
 - Verify that `docs/ci-audit-example.md` includes an exact copy of `examples/github-actions/pluribus-audit.yml`, so the copy-paste CI guide and packaged workflow example cannot drift into different audit commands.
@@ -32,8 +33,8 @@ All notable changes to Pluribus are documented here.
 - Make the README and quickstart choose between two safe first commands: read-only `audit` for existing repos and `init` for brand-new repos.
 - Normalize one-off `npx` examples to `npx --yes pluribus-context@latest ...` so copy-paste docs do not pause on npm's install prompt or rely on implicit latest resolution.
 - Add explicit version-availability notes while `main` documents `0.3.1` audit CI flags and `init --dry-run`, while npm latest remains `0.3.0`.
-- Use exact `github:caioribeiroclw-pixel/pluribus#main` source-install commands for unreleased `init --dry-run` previews so users do not accidentally run npm `0.3.0` commands that still write `pluribus.md`.
-- Use exact `github:caioribeiroclw-pixel/pluribus#main` source-install commands for unreleased `audit --ci`, `--json`, `--output`, and `--github-annotations` docs and examples until `0.3.1` is published, so CI copy-paste paths do not imply those flags are available in npm `0.3.0`.
+- Use exact `github:caioribeiroclw-pixel/pluribus#v0.3.1` tag-install commands for `init --dry-run` previews so users do not accidentally run npm `0.3.0` commands that still write `pluribus.md`.
+- Use exact `github:caioribeiroclw-pixel/pluribus#v0.3.1` tag-install commands for `audit --ci`, `--json`, `--output`, and `--github-annotations` docs and examples until `0.3.1` is published to npm, so CI copy-paste paths do not imply those flags are available in npm `0.3.0`.
 - Use `audit --ci` in the copy-paste GitHub Actions example to reduce command length.
 - Clarify the README vision so the source of truth is `pluribus.md` plus optional `# @import` files, not an obsolete multi-file `pluribus/` directory layout.
 - Add `pluribus init --dry-run` so first-time users can preview the `pluribus.md` scaffold before writing files.

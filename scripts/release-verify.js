@@ -455,7 +455,7 @@ function assertNoUnreleasedNpmCopyPaste(npmLatestVersion) {
     /^(?:run:\s*)?pluribus\s+audit\b[^\n]*(?:--ci|--json|--output|--github-annotations)/,
     /^(?:run:\s*)?pluribus\s+init\b[^\n]*--dry-run/,
   ]
-  const sourceInstall = '--package github:caioribeiroclw-pixel/pluribus#main'
+  const sourceInstall = `--package github:caioribeiroclw-pixel/pluribus#v${pkg.version}`
   const checkedPaths = [...copyPastePaths, 'CHANGELOG.md']
   const offenders = scanCopyPasteCommands(checkedPaths, (trimmed, relativePath, lineNumber, matches) => {
     if (trimmed.includes(sourceInstall)) return
@@ -468,7 +468,7 @@ function assertNoUnreleasedNpmCopyPaste(npmLatestVersion) {
     console.error(
       `Found unreleased ${pkg.name}@${pkg.version} copy-paste commands while npm latest is still ${npmLatestVersion}:\n` +
         offenders.join('\n') +
-        '\nUse an explicit github:caioribeiroclw-pixel/pluribus#main source install until the npm patch is published.',
+        '\nUse an explicit github:caioribeiroclw-pixel/pluribus#v${pkg.version} tag install until the npm patch is published.',
     )
     process.exit(1)
   }

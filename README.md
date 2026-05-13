@@ -88,8 +88,8 @@ It does not write files. Without `pluribus.md`, it lists existing AI context sur
 If you are starting from scratch, preview the source-of-truth scaffold first, then create it when it looks right:
 
 ```bash
-# Unreleased until pluribus-context@0.3.1 is published:
-npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus init --dry-run
+# Tagged v0.3.1 path until pluribus-context@0.3.1 is published to npm:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.1 pluribus init --dry-run
 
 # Published npm path; writes pluribus.md:
 npx --yes pluribus-context@latest init
@@ -126,8 +126,8 @@ Want to see exactly what gets generated before adding it to a real project?
 
 ```bash
 mkdir pluribus-demo && cd pluribus-demo
-# Unreleased until pluribus-context@0.3.1 is published:
-npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus init --dry-run --name "Ana" --description "A Node.js service" --tools claude,cursor,copilot
+# Tagged v0.3.1 path until pluribus-context@0.3.1 is published to npm:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.1 pluribus init --dry-run --name "Ana" --description "A Node.js service" --tools claude,cursor,copilot
 
 # Published npm path; writes pluribus.md:
 npx --yes pluribus-context@latest init --name "Ana" --description "A Node.js service" --tools claude,cursor,copilot
@@ -145,8 +145,8 @@ For a fuller walkthrough, see the [Quickstart](docs/quickstart.md). To enforce g
 
 ```bash
 cd your-project/
-# Unreleased until pluribus-context@0.3.1 is published:
-npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus init --dry-run
+# Tagged v0.3.1 path until pluribus-context@0.3.1 is published to npm:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.1 pluribus init --dry-run
 
 # Published npm path; writes pluribus.md:
 npx --yes pluribus-context@latest init
@@ -157,8 +157,8 @@ The dry-run prints the scaffold without writing files. The second command create
 You can also use flags for non-interactive init, including the same dry-run preview:
 
 ```bash
-# Unreleased until pluribus-context@0.3.1 is published:
-npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus init --dry-run --name "Ana" --description "A background job runner" --tools claude,cursor,openclaw
+# Tagged v0.3.1 path until pluribus-context@0.3.1 is published to npm:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.1 pluribus init --dry-run --name "Ana" --description "A background job runner" --tools claude,cursor,openclaw
 
 # Published npm path; writes pluribus.md:
 npx --yes pluribus-context@latest init --name "Ana" --description "A background job runner" --tools claude,cursor,openclaw
@@ -234,29 +234,29 @@ pluribus audit --strict
 In GitHub Actions, add annotations so drift appears inline in the check UI:
 
 ```bash
-# Unreleased until pluribus-context@0.3.1 is published:
-npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus audit --strict --github-annotations
+# Tagged v0.3.1 path until pluribus-context@0.3.1 is published to npm:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.1 pluribus audit --strict --github-annotations
 ```
 
 For GitHub Actions, `--ci` is the shorter equivalent of `--strict --github-annotations`:
 
 ```bash
-# Unreleased until pluribus-context@0.3.1 is published:
-npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus audit --ci
+# Tagged v0.3.1 path until pluribus-context@0.3.1 is published to npm:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.1 pluribus audit --ci
 ```
 
 For CI scripts, dashboards, or migration tooling, use machine-readable output:
 
 ```bash
-# Unreleased until pluribus-context@0.3.1 is published:
-npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus audit --strict --json
+# Tagged v0.3.1 path until pluribus-context@0.3.1 is published to npm:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.1 pluribus audit --strict --json
 ```
 
 To save the JSON as a CI artifact while keeping stdout quiet, add `--output`:
 
 ```bash
-# Unreleased until pluribus-context@0.3.1 is published:
-npx --yes --package github:caioribeiroclw-pixel/pluribus#main pluribus audit --strict --json --output pluribus-audit.json
+# Tagged v0.3.1 path until pluribus-context@0.3.1 is published to npm:
+npx --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.1 pluribus audit --strict --json --output pluribus-audit.json
 ```
 
 The JSON shape is documented in [`schemas/audit-result.schema.json`](schemas/audit-result.schema.json) so CI wrappers and dashboards can validate integrations without scraping human output. For copy-paste enforcement, see the [CI audit example](docs/ci-audit-example.md) and the [Pre-commit Audit Hook](docs/pre-commit-audit.md).
