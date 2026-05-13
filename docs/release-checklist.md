@@ -83,7 +83,13 @@ For a no-publish rehearsal, run:
 npm run release:publish -- --dry-run
 ```
 
-If npm asks for OTP, pass the OTP using npm's normal publish mechanism; do not paste tokens into the repo, docs, logs, or shell history. Avoid raw `_authToken`/token arguments — the guarded script refuses credential-like CLI arguments.
+If npm asks for OTP, use a short live OTP window and pass it through npm's normal `--otp` flag; do not paste tokens into the repo, docs, logs, or shell history. Avoid raw `_authToken`/token arguments — the guarded script refuses credential-like CLI arguments.
+
+```bash
+npm run release:publish -- --otp <one-time-code>
+```
+
+If a GitHub release or tag was created before npm publish succeeds, pause distribution instead of creating another tag. Leave the existing GitHub release as the source artifact, finish the npm publish with OTP, then verify that npm `latest` matches the tagged version before posting or replying publicly.
 
 Then verify the registry entry and the install path users will see:
 
