@@ -2,15 +2,21 @@
 
 ## [Unreleased]
 
-- Guard `release:publish` against publishing an npm package version from a different commit than its matching GitHub release tag.
-
 All notable changes to Pluribus are documented here.
+
+## 0.3.2 — Release artifact reconciliation
+
+### Changed
+
+- Reconcile the npm publish target after the GitHub `v0.3.1` tag drifted from `main`: bump the pending npm release to `0.3.2` so the next publish can map to a fresh immutable GitHub tag instead of reusing the older `v0.3.1` artifact.
+- Guard `release:publish` against publishing an npm package version from a different commit than its matching GitHub release tag.
+- Keep temporary source-install documentation pinned to the immutable GitHub release tag for the package version being prepared while npm `latest` remains `0.3.0`.
 
 ## 0.3.1 — npm README cleanup
 
 ### Changed
 
-- Pin temporary source-install documentation to the immutable GitHub release tag `v0.3.1` instead of `main` while npm `latest` remains `0.3.0`, and make the release verifier accept the versioned tag path for unreleased `0.3.1` commands.
+- Pin temporary source-install documentation to the immutable GitHub release tag `v0.3.2` instead of `main` while npm `latest` remains `0.3.0`, and make the release verifier accept the versioned tag path for unreleased `0.3.2` commands.
 - Block moving GitHub source-install references in docs, examples, issue templates, and changelog while npm `latest` is behind the local package, so partial-release copy-paste paths stay tied to the immutable tag.
 - Clarify the npm 2FA publish path in the release checklist, including the guarded `npm run release:publish -- --otp <one-time-code>` command and the rule to pause distribution if a GitHub release exists before npm `latest` is updated.
 - Verify that `docs/pre-commit-audit.md` embeds the same hook body as `examples/git-hooks/pre-commit`, so the local copy-paste guard and packaged git-hook example cannot drift into different audit commands.
@@ -37,9 +43,9 @@ All notable changes to Pluribus are documented here.
 - Add a pre-commit audit guide and sample git hook for catching context drift before commits leave a developer machine.
 - Make the README and quickstart choose between two safe first commands: read-only `audit` for existing repos and `init` for brand-new repos.
 - Normalize one-off `npx` examples to `npx --yes pluribus-context@latest ...` so copy-paste docs do not pause on npm's install prompt or rely on implicit latest resolution.
-- Add explicit version-availability notes while `main` documents `0.3.1` audit CI flags and `init --dry-run`, while npm latest remains `0.3.0`.
-- Use exact `github:caioribeiroclw-pixel/pluribus#v0.3.1` tag-install commands for `init --dry-run` previews so users do not accidentally run npm `0.3.0` commands that still write `pluribus.md`.
-- Use exact `github:caioribeiroclw-pixel/pluribus#v0.3.1` tag-install commands for `audit --ci`, `--json`, `--output`, and `--github-annotations` docs and examples until `0.3.1` is published to npm, so CI copy-paste paths do not imply those flags are available in npm `0.3.0`.
+- Add explicit version-availability notes while `main` documents `0.3.2` audit CI flags and `init --dry-run`, while npm latest remains `0.3.0`.
+- Use exact `github:caioribeiroclw-pixel/pluribus#v0.3.2` tag-install commands for `init --dry-run` previews so users do not accidentally run npm `0.3.0` commands that still write `pluribus.md`.
+- Use exact `github:caioribeiroclw-pixel/pluribus#v0.3.2` tag-install commands for `audit --ci`, `--json`, `--output`, and `--github-annotations` docs and examples until `0.3.2` is published to npm, so CI copy-paste paths do not imply those flags are available in npm `0.3.0`.
 - Use `audit --ci` in the copy-paste GitHub Actions example to reduce command length.
 - Clarify the README vision so the source of truth is `pluribus.md` plus optional `# @import` files, not an obsolete multi-file `pluribus/` directory layout.
 - Add `pluribus init --dry-run` so first-time users can preview the `pluribus.md` scaffold before writing files.
@@ -48,15 +54,15 @@ All notable changes to Pluribus are documented here.
 - Add `npm run published:smoke` to verify the currently published npm `latest` package still has a working public first-run path (`--version`, `--help`, read-only `audit`, `init`, `validate`, and `sync --dry-run`).
 - Run the published npm smoke from `npm run release:verify` whenever a published package exists, so release readiness checks also validate the package users can install today.
 - Extend the release verification guardrail to catch bare `pluribus ...` copy-paste examples with unreleased `init --dry-run` or CI/JSON audit flags while npm latest is still behind `main`.
-- Make `npm run release:verify` distinguish missing npm auth from invalid/stale configured tokens, so the 0.3.1 publish path points to the right remediation without exposing credentials.
+- Make `npm run release:verify` distinguish missing npm auth from invalid/stale configured tokens, so the 0.3.2 publish path points to the right remediation without exposing credentials.
 - Reject unknown CLI options per command before executing, so typoed or not-yet-published flags fail safely instead of being silently ignored.
 - Make the packaged release smoke verify that unknown init flags fail without creating `pluribus.md`, so fail-safe option parsing is tested from the installed tarball, not only unit tests.
 - Remove the unsupported `init --force` flag from the release smoke so release checks only exercise documented CLI behavior.
 - Remove the same unsupported `init --force` flag from the published npm smoke so post-publish validation stays compatible with fail-safe unknown-option parsing.
-- Make the published npm smoke verify fail-safe unknown-option parsing after `0.3.1` is published, so post-publish validation catches a regression back to silently ignored CLI flags.
+- Make the published npm smoke verify fail-safe unknown-option parsing after `0.3.2` is published, so post-publish validation catches a regression back to silently ignored CLI flags.
 - Update the bug report issue template to use non-interactive `pluribus-context@latest` reproduction commands and a current version placeholder, reducing stale first-run reports.
 - Standardize README/docs/examples on `npx --yes pluribus-context@latest ...` for published commands and extend the release guard so unreleased flags are blocked with or without `@latest` while npm latest is behind `main`.
-- Make `npm run published:smoke` verify the npm package README after `0.3.1` is published, catching stale package-page copy like `npx pluribus-context init` before future distribution pushes.
+- Make `npm run published:smoke` verify the npm package README after `0.3.2` is published, catching stale package-page copy like `npx pluribus-context init` before future distribution pushes.
 - Add `npm run release:publish` as the guarded publish path: it runs the full release verification before publishing, refuses credential-like CLI arguments, and runs the published npm smoke after a real publish.
 - Extend `npm run release:verify` to check docs, examples, and issue templates for reproducible published npm commands (`npx --yes pluribus-context@latest ...`) and unreleased flags while npm latest is still behind `main`.
 - Include `CONTRIBUTING.md` in the same release verification copy-paste scan, and update its audit feedback command to the reproducible `npx --yes pluribus-context@latest ...` form.
@@ -64,9 +70,9 @@ All notable changes to Pluribus are documented here.
 - Link quickstart and audit docs directly to their issue templates, and verify those feedback paths in the release gate so first-run users do not have to choose a generic issue manually.
 - Expand npm discovery keywords around agent rules, AI context, Codex/Aider, and drift detection so the package metadata matches the searches that surface adjacent tools.
 - Rewrite the npm package description for search-result clarity and verify core discovery metadata in the release gate before publishing.
-- Make the published npm smoke verify discovery description/keywords after `0.3.1` is published, so post-publish validation catches stale registry metadata before distribution pushes.
+- Make the published npm smoke verify discovery description/keywords after `0.3.2` is published, so post-publish validation catches stale registry metadata before distribution pushes.
 - Clarify the "When to use Pluribus" guide for users comparing adjacent rules-sync packages, with a sharper split between lightweight rules sync, tool-native prompt managers, one-way converters, and Pluribus' source-of-truth plus audit workflow.
-- Make the published npm smoke verify that the package README keeps a visible path to the "When to use Pluribus" comparison guide after `0.3.1` is published.
+- Make the published npm smoke verify that the package README keeps a visible path to the "When to use Pluribus" comparison guide after `0.3.2` is published.
 - Run packaged CLI and published npm smoke checks in CI, so distribution regressions are caught on every push instead of only during local release prep.
 - Surface npm weekly downloads and CI status badges in the README/npm package page, and verify those trust/distribution badges in the release and published smoke gates.
 - Surface the audit feedback issue template directly from `pluribus audit` text and JSON output, so noisy first-run results can turn into structured reports without searching the docs.
