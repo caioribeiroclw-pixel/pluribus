@@ -201,9 +201,14 @@ function assertFirstRunWriteSafetyCopy() {
     { file: 'README.md', snippet: '`init` writes `pluribus.md` only' },
     { file: 'README.md', snippet: '`sync` writes only the configured/generated AI context files' },
     { file: 'README.md', snippet: 'Remote imports only touch `pluribus.lock.json` and `.pluribus/cache/remote/` when you explicitly pass `--update-imports`' },
+    { file: 'README.md', snippet: 'npm uninstall -g pluribus-context' },
+    { file: 'README.md', snippet: 'Pluribus does **not** make network requests during normal `audit`, `validate`, `sync`, or `sync --dry-run` runs' },
+    { file: 'README.md', snippet: 'Private GitHub imports may use `GH_TOKEN`/`GITHUB_TOKEN` or `gh auth token` during that explicit refresh, but tokens are never written to the lockfile or cache' },
     { file: 'docs/quickstart.md', snippet: '## What Pluribus writes' },
     { file: 'docs/quickstart.md', snippet: 'audit → validate → `sync --dry-run` → `sync`' },
     { file: 'docs/quickstart.md', snippet: 'Remote imports do not refresh silently' },
+    { file: 'docs/quickstart.md', snippet: 'npm uninstall -g pluribus-context' },
+    { file: 'docs/quickstart.md', snippet: 'Normal `audit`, `validate`, `sync`, and `sync --dry-run` runs do not make network requests' },
   ]
 
   const missing = requiredSnippets.filter(({ file, snippet }) => !readFileSync(path.join(repoRoot, file), 'utf8').includes(snippet))

@@ -105,18 +105,31 @@ Pluribus is intentionally narrow about filesystem changes:
 
 When in doubt, run `npx --yes pluribus-context@latest audit` or `npx --yes pluribus-context@latest sync --dry-run` first.
 
-### Install
+### Install, uninstall, and network behavior
 
 ```bash
 # Install globally if you prefer a persistent `pluribus` command
 npm install -g pluribus-context@latest
 pluribus --help
 
-# Or clone and link locally
+# Remove the global CLI later
+npm uninstall -g pluribus-context
+```
+
+For local development:
+
+```bash
 git clone https://github.com/caioribeiroclw-pixel/pluribus.git
 cd pluribus
 npm link
+
+# Remove the local global link later
+npm unlink -g pluribus-context
 ```
+
+One-off `npx --yes pluribus-context@latest ...` commands install into npm's normal temporary cache and do not create a persistent global `pluribus` command.
+
+Pluribus does **not** make network requests during normal `audit`, `validate`, `sync`, or `sync --dry-run` runs. Network access is opt-in for remote imports only when you explicitly pass `--update-imports`; those fetches are limited to `github:`/HTTPS imports, then pinned in `pluribus.lock.json` and cached locally for deterministic offline syncs. Private GitHub imports may use `GH_TOKEN`/`GITHUB_TOKEN` or `gh auth token` during that explicit refresh, but tokens are never written to the lockfile or cache.
 
 ### 60-second smoke test
 

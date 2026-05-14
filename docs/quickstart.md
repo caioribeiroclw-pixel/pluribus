@@ -18,6 +18,20 @@ The safest path is audit → validate → `sync --dry-run` → `sync`. The first
 
 Remote imports do not refresh silently; Pluribus writes `pluribus.lock.json` and `.pluribus/cache/remote/` only when you explicitly pass `--update-imports`.
 
+## Install, uninstall, and network behavior
+
+For one-off use, keep using `npx --yes pluribus-context@latest ...`; npm stores that in its normal temporary cache and does not create a persistent global `pluribus` command.
+
+If you want a persistent CLI:
+
+```bash
+npm install -g pluribus-context@latest
+pluribus --help
+npm uninstall -g pluribus-context
+```
+
+Normal `audit`, `validate`, `sync`, and `sync --dry-run` runs do not make network requests. Network access only happens when remote imports are present and you explicitly pass `--update-imports`; Pluribus then fetches `github:`/HTTPS imports, pins them in `pluribus.lock.json`, and uses the local cache for later offline syncs. Private GitHub imports can use `GH_TOKEN`/`GITHUB_TOKEN` or `gh auth token` during that explicit refresh, but tokens are never stored in the lockfile or cache.
+
 ## 1. Create a disposable demo project
 
 ```bash

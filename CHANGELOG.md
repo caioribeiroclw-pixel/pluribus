@@ -4,6 +4,11 @@
 
 All notable changes to Pluribus are documented here.
 
+### Changed
+
+- Clarify installation, uninstallation, and network behavior in the README and quickstart so first-run reviewers can verify the CLI without guessing what persists or when remote imports make network requests.
+- Add release-gate checks for uninstall/network transparency copy before future docs or package-page updates.
+
 ## 0.3.4 — npm package page README refresh prep
 
 ### Changed
