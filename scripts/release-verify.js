@@ -540,11 +540,11 @@ const npmLatest = run('npm', ['view', pkg.name, 'version'], { capture: true })
 if (npmLatest.ok) {
   info('npm latest', npmLatest.output || '(none)')
   if (npmLatest.output === pkg.version) {
-    console.error(`${pkg.name}@${pkg.version} already appears to be published. Bump version before publishing again.`)
-    process.exit(1)
+    info('published package', `${pkg.name}@${pkg.version} is already npm latest; treating this as a post-publish verification run`)
+  } else {
+    assertNoMovingSourceInstallCopy(npmLatest.output)
+    assertNoUnreleasedNpmCopyPaste(npmLatest.output)
   }
-  assertNoMovingSourceInstallCopy(npmLatest.output)
-  assertNoUnreleasedNpmCopyPaste(npmLatest.output)
   required('published npm smoke', 'npm', ['run', 'published:smoke'])
 } else {
   info('npm latest', `unavailable (${npmLatest.output || 'npm view failed'}); skipping published npm smoke`)
