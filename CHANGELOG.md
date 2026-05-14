@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+### Added
+
+- Add a community review packet with listing copy, safety/removability notes, and a disposable 60-second smoke test for reviewers, curators, and small distribution opportunities.
+
 ## 0.3.5 — trust copy package-page refresh
 
 ### Changed

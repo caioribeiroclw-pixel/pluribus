@@ -1,0 +1,72 @@
+# Community review packet
+
+Use this when reviewing Pluribus for a list, newsletter, package roundup, or tool directory. It is written to be copy-pasteable without requiring private project context.
+
+## One-line description
+
+Pluribus keeps intentional AI coding context in one `pluribus.md` source of truth, then syncs or audits the tool-specific files used by Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, and Zed.
+
+## Short listing copy
+
+Pluribus is an open-source CLI for teams and solo developers who use multiple AI coding tools. It treats project instructions, conventions, constraints, and shared team context as versioned Markdown, then generates each tool's expected context file (`CLAUDE.md`, `.cursorrules`, Copilot instructions, `AGENTS.md`, Windsurf/Continue rules, and Zed rules). The safest first command is a read-only audit:
+
+```bash
+npx --yes pluribus-context@latest audit
+```
+
+## Why it may be useful
+
+- Reduces copy-paste drift between AI tool instruction files.
+- Lets users preview generated files with `sync --dry-run` before writing anything.
+- Supports composable local context and explicit remote imports for shared team/org guidance.
+- Provides CI/pre-commit audit paths so generated context drift is visible in code review.
+
+## Safety and removability
+
+- `audit`, `validate`, and `sync --dry-run` are read-only.
+- `init` writes only `pluribus.md` and refuses to overwrite an existing file.
+- `sync` writes only generated AI context files for the selected tools.
+- Normal `audit`, `validate`, `sync`, and `sync --dry-run` runs do not make network requests.
+- Remote imports fetch only when the user explicitly passes `--update-imports`; fetched content is pinned in `pluribus.lock.json` and cached under `.pluribus/cache/remote/`.
+- A global install can be removed with `npm uninstall -g pluribus-context`; one-off `npx --yes pluribus-context@latest ...` does not create a persistent global `pluribus` command.
+
+## 60-second review smoke
+
+Run this in a disposable directory:
+
+```bash
+mkdir pluribus-review && cd pluribus-review
+npx --yes pluribus-context@latest --version
+npx --yes pluribus-context@latest init --dry-run --name "Review" --description "Disposable review project" --tools claude,cursor,copilot
+npx --yes pluribus-context@latest init --name "Review" --description "Disposable review project" --tools claude,cursor,copilot
+npx --yes pluribus-context@latest validate
+npx --yes pluribus-context@latest sync --dry-run
+npx --yes pluribus-context@latest audit --ci --json --output pluribus-audit.json || test $? -eq 1
+```
+
+Expected result:
+
+- `--version` prints the current npm release.
+- `init --dry-run` previews `pluribus.md` without writing.
+- `init` writes `pluribus.md`.
+- `validate` succeeds.
+- `sync --dry-run` previews generated context files without writing them.
+- `audit --ci` may exit `1` before generated files are synced; that is expected when outputs are missing or drifted.
+
+## Useful links
+
+- npm package: <https://www.npmjs.com/package/pluribus-context>
+- GitHub repo: <https://github.com/caioribeiroclw-pixel/pluribus>
+- Quickstart: <https://github.com/caioribeiroclw-pixel/pluribus/blob/main/docs/quickstart.md>
+- Context drift audit guide: <https://github.com/caioribeiroclw-pixel/pluribus/blob/main/docs/context-drift-audit.md>
+- When to use Pluribus: <https://github.com/caioribeiroclw-pixel/pluribus/blob/main/docs/when-to-use-pluribus.md>
+- First-run audit feedback: <https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=audit-feedback.yml>
+
+## Feedback requested
+
+If you try it on a real repo, please avoid pasting private context or full audit JSON from non-public projects. The most useful report is:
+
+1. OS/shell and exact Pluribus version.
+2. Which context files already existed (`CLAUDE.md`, `.cursorrules`, Copilot instructions, `AGENTS.md`, etc.).
+3. Whether `audit` identified the expected missing/drifted files.
+4. Whether the next safe step was obvious (`init`, edit `pluribus.md`, `sync --dry-run`, or `sync`).
