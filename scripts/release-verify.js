@@ -478,8 +478,29 @@ function assertNoMovingSourceInstallCopy(npmLatestVersion) {
   }
 }
 
+function versionAtLeast(actual, expected) {
+  const actualParts = actual.split('.').map((value) => Number.parseInt(value, 10) || 0)
+  const expectedParts = expected.split('.').map((value) => Number.parseInt(value, 10) || 0)
+  for (let index = 0; index < Math.max(actualParts.length, expectedParts.length); index += 1) {
+    const actualPart = actualParts[index] || 0
+    const expectedPart = expectedParts[index] || 0
+    if (actualPart > expectedPart) return true
+    if (actualPart < expectedPart) return false
+  }
+  return true
+}
+
 function assertNoUnreleasedNpmCopyPaste(npmLatestVersion) {
   if (!npmLatestVersion || npmLatestVersion === pkg.version) return
+
+  const publishedCommandMinimumVersion = pkg.pluribusRelease?.publishedCommandMinimumVersion || pkg.version
+  if (versionAtLeast(npmLatestVersion, publishedCommandMinimumVersion)) {
+    info(
+      'published command compatibility',
+      `copy-paste npm commands require ${pkg.name} >= ${publishedCommandMinimumVersion}; npm latest is ${npmLatestVersion}`,
+    )
+    return
+  }
 
   const patterns = [
     /^(?:run:\s*)?npx --yes pluribus-context(?:@latest)?\s+audit\b[^\n]*(?:--ci|--json|--output|--github-annotations)/,

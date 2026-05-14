@@ -63,6 +63,12 @@ function assertPublishedReadme(latestVersion) {
   }
   assertNotIncludes(readme, 'npx pluribus-context init', 'published npm README')
   assertNotIncludes(readme, 'npx pluribus-context sync', 'published npm README')
+
+  if (versionAtLeast(latestVersion, '0.3.4')) {
+    assertNotIncludes(readme, 'github:caioribeiroclw-pixel/pluribus#v0.3.3', 'published npm README')
+    assertNotIncludes(readme, 'npm latest remains 0.3.0', 'published npm README')
+    assertNotIncludes(readme, 'npm `latest` still resolves to `0.3.0`', 'published npm README')
+  }
 }
 
 function assertPublishedDiscoveryMetadata(latestVersion) {

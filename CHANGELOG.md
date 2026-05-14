@@ -4,10 +4,14 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.4 — npm package page README refresh prep
+
 ### Changed
 
 - Replace pre-publish GitHub-tag workaround commands in README, quickstart, migration, CI audit, and drift-audit docs with the published `pluribus-context@0.3.3` npm path now that `latest` is current.
 - Let `release:verify` run as a post-publish verification gate when npm `latest` already matches `package.json`, while preserving unreleased-copy checks when `main` is ahead of npm.
+- Mark this docs-only patch as copy-paste compatible with `pluribus-context@0.3.3`, so the release gate can prepare a package-page README refresh without forcing temporary GitHub-tag workaround commands back into docs that already work on the current npm package.
+- Extend `published:smoke` to reject the stale `github:caioribeiroclw-pixel/pluribus#v0.3.3` package-page workaround once npm `latest` reaches `0.3.4`.
 
 ## 0.3.3 — Publish-window rehearsal hardening
 
