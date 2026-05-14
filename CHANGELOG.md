@@ -4,6 +4,8 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.5 — trust copy package-page refresh
+
 ### Changed
 
 - Clarify installation, uninstallation, and network behavior in the README and quickstart so first-run reviewers can verify the CLI without guessing what persists or when remote imports make network requests.
