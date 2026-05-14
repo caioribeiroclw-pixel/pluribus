@@ -2,7 +2,7 @@
 
 Use this when `pluribus.md` is the source of truth and generated context files should stay current in pull requests.
 
-`pluribus audit --strict` is read-only: it fails when a generated file is missing or drifted, but it does not rewrite anything in CI. The basic audit command is published in `pluribus-context@0.3.0`; the `--github-annotations`, `--json`, `--output`, and `--ci` flags below are available in the GitHub release tag `v0.3.3` while npm latest waits for the `0.3.3` publish. Until that patch is published, pin CI to `pluribus-context@0.3.0` for the strict text check, or test the new flags from the immutable GitHub tag with `--package github:caioribeiroclw-pixel/pluribus#v0.3.3`.
+`pluribus audit --strict` is read-only: it fails when a generated file is missing or drifted, but it does not rewrite anything in CI. The `--github-annotations`, `--json`, `--output`, and `--ci` flags are published in `pluribus-context@0.3.3` and available through the npm `latest` tag.
 
 Use `--ci` in GitHub Actions when you want the shortest path: it is equivalent to `--strict --github-annotations`, so drift appears inline in the check UI and the job fails on drift. Use the explicit flags when composing custom outputs; pair annotations with `--json --output pluribus-audit.json` when you want a machine-readable artifact for dashboards or review comments. The output contract is documented in [`schemas/audit-result.schema.json`](../schemas/audit-result.schema.json).
 
@@ -35,16 +35,14 @@ jobs:
           node-version: 22.x
 
       - name: Audit AI context drift
-        # Tagged v0.3.3 path until pluribus-context@0.3.3 is published to npm.
-        run: npx --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.3 pluribus audit --ci
+        run: npx --yes pluribus-context@latest audit --ci
 ```
 
 If you want JSON output as an artifact, use this variant:
 
 ```yaml
       - name: Audit AI context drift as JSON
-        # Tagged v0.3.3 path until pluribus-context@0.3.3 is published to npm.
-        run: npx --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.3 pluribus audit --ci --json --output pluribus-audit.json
+        run: npx --yes pluribus-context@latest audit --ci --json --output pluribus-audit.json
 
       - name: Upload Pluribus audit result
         if: always()
@@ -63,8 +61,8 @@ npx --yes pluribus-context@latest audit
 npx --yes pluribus-context@latest sync --dry-run
 npx --yes pluribus-context@latest sync
 npx --yes pluribus-context@latest audit --strict
-# In GitHub Actions with the tagged 0.3.3 CI flags, use:
-npx --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.3 pluribus audit --ci
+# In GitHub Actions, use the CI shorthand:
+npx --yes pluribus-context@latest audit --ci
 ```
 
 Commit `pluribus.md` and the generated files together, or document that your team regenerates generated files during setup. Do not commit `.pluribus/cache/remote/`; commit `pluribus.lock.json` when you use remote imports.

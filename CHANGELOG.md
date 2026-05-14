@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+### Changed
+
+- Replace pre-publish GitHub-tag workaround commands in README, quickstart, migration, CI audit, and drift-audit docs with the published `pluribus-context@0.3.3` npm path now that `latest` is current.
+
 ## 0.3.3 — Publish-window rehearsal hardening
 
 ### Changed

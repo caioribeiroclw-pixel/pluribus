@@ -22,5 +22,4 @@ jobs:
           node-version: 22.x
 
       - name: Audit AI context drift
-        # Tagged v0.3.3 path until pluribus-context@0.3.3 is published to npm.
-        run: npx --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.3 pluribus audit --ci
+        run: npx --yes pluribus-context@latest audit --ci
