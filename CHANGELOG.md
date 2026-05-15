@@ -8,6 +8,10 @@ All notable changes to Pluribus are documented here.
 
 - Add a release-verification guard for the community review packet so directory submission fields, safe first command, privacy guardrails, uninstall/network copy, and the <=280-character blurb cannot silently drift before distribution pushes.
 
+### Changed
+
+- Refresh the context-drift audit example with current published-package commands and generated fixtures so reviewers can reproduce the intended one-file drift signal from `pluribus-context@latest`.
+
 ## 0.3.8 — package-page directory field visibility
 
 ### Changed

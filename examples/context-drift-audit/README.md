@@ -4,10 +4,10 @@ This fixture shows the safest first Pluribus workflow for an existing repo: audi
 
 `pluribus.md` is the source of truth. `CLAUDE.md` is intentionally drifted: it says `Node.js 20 LTS` while `pluribus.md` says `Node.js 22 LTS`. Cursor and Copilot outputs are current.
 
-Run from this directory:
+Run from this directory with the published package:
 
 ```bash
-npx --yes --package ../.. pluribus audit --strict
+npx --yes pluribus-context@latest audit --strict
 ```
 
 Expected result:
@@ -21,11 +21,11 @@ Expected result:
 Preview the fix without writing files:
 
 ```bash
-npx --yes --package ../.. pluribus sync --dry-run
+npx --yes pluribus-context@latest sync --dry-run
 ```
 
 Then apply it when the diff is acceptable:
 
 ```bash
-npx --yes --package ../.. pluribus sync
+npx --yes pluribus-context@latest sync
 ```
