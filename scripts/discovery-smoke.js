@@ -132,6 +132,110 @@ const githubResults = githubQueries.map((query) => {
   }
 })
 
+function githubJson(label, command, args, fallback) {
+  const result = tryRun(command, args)
+  if (!result.ok) {
+    return { ok: false, label, error: result.error || result.stdout }
+  }
+
+  return { ok: true, data: parseJson(result.stdout, fallback) }
+}
+
+function collectGithubSignals() {
+  const repo = githubJson('repo', 'gh', [
+    'repo',
+    'view',
+    'caioribeiroclw-pixel/pluribus',
+    '--json',
+    'nameWithOwner,description,stargazerCount,forkCount,watchers,latestRelease,updatedAt',
+  ], {})
+
+  const issues = githubJson('open issues', 'gh', [
+    'issue',
+    'list',
+    '--repo',
+    'caioribeiroclw-pixel/pluribus',
+    '--state',
+    'open',
+    '--limit',
+    '20',
+    '--json',
+    'number,title,updatedAt,comments,author',
+  ], [])
+
+  const pullRequests = githubJson('open pull requests', 'gh', [
+    'pr',
+    'list',
+    '--repo',
+    'caioribeiroclw-pixel/pluribus',
+    '--state',
+    'open',
+    '--limit',
+    '20',
+    '--json',
+    'number,title,updatedAt,author',
+  ], [])
+
+  const discussionsQuery = `
+    query {
+      repository(owner: "caioribeiroclw-pixel", name: "pluribus") {
+        discussions(first: 10, orderBy: { field: UPDATED_AT, direction: DESC }) {
+          nodes {
+            number
+            title
+            updatedAt
+            comments { totalCount }
+          }
+        }
+      }
+    }
+  `
+  const discussionsResult = githubJson('discussions', 'gh', ['api', 'graphql', '-f', `query=${discussionsQuery}`], {})
+  const discussions = discussionsResult.ok ? discussionsResult.data?.data?.repository?.discussions?.nodes || [] : []
+
+  return {
+    ok: repo.ok && issues.ok && pullRequests.ok && discussionsResult.ok,
+    repo: repo.ok
+      ? {
+          nameWithOwner: repo.data.nameWithOwner,
+          description: repo.data.description,
+          stars: repo.data.stargazerCount,
+          forks: repo.data.forkCount,
+          watchers: repo.data.watchers?.totalCount,
+          latestRelease: repo.data.latestRelease?.tagName || null,
+          updatedAt: repo.data.updatedAt,
+        }
+      : repo,
+    openIssues: issues.ok
+      ? issues.data.map((issue) => ({
+          number: issue.number,
+          title: issue.title,
+          updatedAt: issue.updatedAt,
+          comments: Array.isArray(issue.comments) ? issue.comments.length : issue.comments,
+          author: issue.author?.login,
+        }))
+      : issues,
+    openPullRequests: pullRequests.ok
+      ? pullRequests.data.map((pullRequest) => ({
+          number: pullRequest.number,
+          title: pullRequest.title,
+          updatedAt: pullRequest.updatedAt,
+          author: pullRequest.author?.login,
+        }))
+      : pullRequests,
+    discussions: discussionsResult.ok
+      ? discussions.map((discussion) => ({
+          number: discussion.number,
+          title: discussion.title,
+          updatedAt: discussion.updatedAt,
+          comments: discussion.comments?.totalCount || 0,
+        }))
+      : discussionsResult,
+  }
+}
+
+const githubSignals = collectGithubSignals()
+
 const report = {
   package: {
     name: metadata.name,
@@ -142,10 +246,13 @@ const report = {
   npmDownloads: downloadResults,
   npmSearch: npmResults,
   githubSearch: githubResults,
+  githubSignals,
   interpretation: {
     exactNpmNameVisible: exactNameSearch.rank === 0,
     genericNpmQueriesWithPluribus: npmResults.filter((result) => result.query !== pkg.name && result.rank !== null).length,
     githubQueriesWithPluribus: githubResults.filter((result) => result.ok && result.rank !== null).length,
+    openIssueCount: Array.isArray(githubSignals.openIssues) ? githubSignals.openIssues.length : null,
+    openPullRequestCount: Array.isArray(githubSignals.openPullRequests) ? githubSignals.openPullRequests.length : null,
   },
 }
 
