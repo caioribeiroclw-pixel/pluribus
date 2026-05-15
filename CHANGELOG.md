@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+### Added
+
+- Add `npm run discovery:smoke` and `docs/discovery-smoke.md` so npm/GitHub search visibility can be measured repeatably after metadata, topic, README, or distribution-copy changes.
+
 ### Changed
 
 - Extend the release smoke gate to install the packed CLI globally into a temporary prefix and verify `npm uninstall -g pluribus-context` removes the `pluribus` binary, protecting the first-run removability claim used in trust/review copy.
