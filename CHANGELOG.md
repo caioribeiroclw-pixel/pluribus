@@ -4,6 +4,12 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.8 — package-page directory field visibility
+
+### Changed
+
+- Make the README/npm package page explicitly mention the community review packet's directory submission fields, so curators can find the structured listing copy without opening the packet first.
+
 ## 0.3.7 — directory submission packet refresh
 
 ### Added
