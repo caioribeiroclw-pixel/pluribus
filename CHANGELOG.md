@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+### Changed
+
+- Extend the release smoke gate to install the packed CLI globally into a temporary prefix and verify `npm uninstall -g pluribus-context` removes the `pluribus` binary, protecting the first-run removability claim used in trust/review copy.
+
 ## 0.3.9 — npm discovery metadata refresh
 
 ### Added
