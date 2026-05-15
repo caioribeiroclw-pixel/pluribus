@@ -6,6 +6,7 @@ All notable changes to Pluribus are documented here.
 
 ### Added
 
+- Add recent discussion comment authors and an external-comment count to the discovery smoke report so maintainer-only discussion updates do not look like community feedback.
 - Add GitHub repo signals to the discovery smoke report so adoption/distribution checks track stars, forks, watchers, open issues, open pull requests, and discussions alongside npm search/download signals.
 - Add npm download counts to the discovery smoke report so adoption/distribution checks track search visibility and package activity together.
 - Add `npm run discovery:smoke` and `docs/discovery-smoke.md` so npm/GitHub search visibility can be measured repeatably after metadata, topic, README, or distribution-copy changes.

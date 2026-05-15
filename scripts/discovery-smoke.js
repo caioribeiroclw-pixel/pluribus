@@ -184,7 +184,13 @@ function collectGithubSignals() {
             number
             title
             updatedAt
-            comments { totalCount }
+            comments(first: 20) {
+              totalCount
+              nodes {
+                author { login }
+                updatedAt
+              }
+            }
           }
         }
       }
@@ -224,12 +230,20 @@ function collectGithubSignals() {
         }))
       : pullRequests,
     discussions: discussionsResult.ok
-      ? discussions.map((discussion) => ({
-          number: discussion.number,
-          title: discussion.title,
-          updatedAt: discussion.updatedAt,
-          comments: discussion.comments?.totalCount || 0,
-        }))
+      ? discussions.map((discussion) => {
+          const commentNodes = discussion.comments?.nodes || []
+          const recentCommentAuthors = commentNodes.map((comment) => comment.author?.login).filter(Boolean)
+          const externalRecentComments = recentCommentAuthors.filter((author) => author !== 'caioribeiroclw-pixel').length
+
+          return {
+            number: discussion.number,
+            title: discussion.title,
+            updatedAt: discussion.updatedAt,
+            comments: discussion.comments?.totalCount || 0,
+            recentCommentAuthors,
+            externalRecentComments,
+          }
+        })
       : discussionsResult,
   }
 }
@@ -253,6 +267,9 @@ const report = {
     githubQueriesWithPluribus: githubResults.filter((result) => result.ok && result.rank !== null).length,
     openIssueCount: Array.isArray(githubSignals.openIssues) ? githubSignals.openIssues.length : null,
     openPullRequestCount: Array.isArray(githubSignals.openPullRequests) ? githubSignals.openPullRequests.length : null,
+    externalRecentDiscussionComments: Array.isArray(githubSignals.discussions)
+      ? githubSignals.discussions.reduce((total, discussion) => total + discussion.externalRecentComments, 0)
+      : null,
   },
 }
 
