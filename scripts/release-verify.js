@@ -451,6 +451,46 @@ function assertPackageDiscoveryMetadata() {
   }
 }
 
+
+function assertCommunityReviewPacketDistributionCopy() {
+  const packetPath = path.join(repoRoot, 'docs/community-review-packet.md')
+  const packet = readFileSync(packetPath, 'utf8')
+  const readme = readFileSync(path.join(repoRoot, 'README.md'), 'utf8')
+  const requiredPacketSnippets = [
+    '## Directory submission fields',
+    '| Name | Pluribus |',
+    '| URL | https://github.com/caioribeiroclw-pixel/pluribus |',
+    '| npm | https://www.npmjs.com/package/pluribus-context |',
+    '| Category | AI coding tools / context management |',
+    '| Safe first command | `npx --yes pluribus-context@latest audit` |',
+    'please do not paste secrets, private source code, credentials, customer data, or internal instructions that should not be public.',
+    'npm uninstall -g pluribus-context',
+    'Remote imports fetch only when the user explicitly passes `--update-imports`',
+  ]
+  const missingPacketSnippets = requiredPacketSnippets.filter((snippet) => !packet.includes(snippet))
+
+  const blurbMatch = packet.match(/\| 280-char blurb \| (?<blurb>.*?) \|/)
+  const blurb = blurbMatch?.groups?.blurb || ''
+  const blurbLength = [...blurb].length
+  const blurbTooLong = !blurb || blurbLength > 280
+
+  const readmeSnippets = ['Community Review Packet', 'directory submission fields', 'disposable 60-second smoke test']
+  const missingReadmeSnippets = readmeSnippets.filter((snippet) => !readme.includes(snippet))
+
+  if (missingPacketSnippets.length > 0 || blurbTooLong || missingReadmeSnippets.length > 0) {
+    const messages = []
+    if (missingPacketSnippets.length > 0) messages.push(`packet missing:\n${missingPacketSnippets.join('\n')}`)
+    if (blurbTooLong) messages.push(`280-char blurb missing or too long: ${blurbLength} chars`)
+    if (missingReadmeSnippets.length > 0) messages.push(`README missing:\n${missingReadmeSnippets.join('\n')}`)
+    console.error(
+      'Community review packet distribution copy is incomplete:\n' +
+        messages.join('\n') +
+        '\nKeep reviewer/listing copy, safe first command, removability, network behavior, and privacy guardrails stable before publishing.',
+    )
+    process.exit(1)
+  }
+}
+
 function assertNoMovingSourceInstallCopy(npmLatestVersion) {
   if (!npmLatestVersion || npmLatestVersion === pkg.version) return
 
@@ -549,6 +589,7 @@ if (runningInCi) {
 
 info('package', `${pkg.name}@${pkg.version}`)
 assertPackageDiscoveryMetadata()
+assertCommunityReviewPacketDistributionCopy()
 assertReadmeTrustBadges()
 assertFirstRunWriteSafetyCopy()
 assertReadmeSupportedToolsCopy()

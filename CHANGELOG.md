@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+### Added
+
+- Add a release-verification guard for the community review packet so directory submission fields, safe first command, privacy guardrails, uninstall/network copy, and the <=280-character blurb cannot silently drift before distribution pushes.
+
 ## 0.3.8 — package-page directory field visibility
 
 ### Changed

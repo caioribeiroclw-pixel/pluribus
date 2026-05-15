@@ -79,7 +79,7 @@ Expected result:
 
 ## Feedback requested
 
-If you try it on a real repo, please avoid pasting private context or full audit JSON from non-public projects. The most useful report is:
+If you try it on a real repo, please do not paste secrets, private source code, credentials, customer data, or internal instructions that should not be public. Avoid pasting private context or full audit JSON from non-public projects. The most useful report is:
 
 1. OS/shell and exact Pluribus version.
 2. Which context files already existed (`CLAUDE.md`, `.cursorrules`, Copilot instructions, `AGENTS.md`, etc.).
