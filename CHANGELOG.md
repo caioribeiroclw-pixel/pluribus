@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+### Added
+
+- Add structured directory-submission fields to the community review packet so small distribution/review forms can reuse one safe, consistent Pluribus listing without rewriting install or safety copy.
+
 ## 0.3.6 — community review packet package-page refresh
 
 ### Added

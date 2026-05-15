@@ -14,6 +14,21 @@ Pluribus is an open-source CLI for teams and solo developers who use multiple AI
 npx --yes pluribus-context@latest audit
 ```
 
+## Directory submission fields
+
+Use these fields for directories, awesome lists, or review forms that ask for a concise tool entry. Prefer this over inventing new copy per channel.
+
+| Field | Copy |
+| --- | --- |
+| Name | Pluribus |
+| URL | https://github.com/caioribeiroclw-pixel/pluribus |
+| npm | https://www.npmjs.com/package/pluribus-context |
+| Category | AI coding tools / context management |
+| Tags | `claude-code`, `cursor`, `copilot`, `openclaw`, `windsurf`, `continue`, `zed`, `context-drift` |
+| One sentence | Keep one versioned AI coding context in `pluribus.md`, then audit or sync the generated files used by Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, and Zed. |
+| 280-char blurb | Pluribus is an open-source CLI for intentional AI coding context. It keeps project guidance in one `pluribus.md`, then audits or syncs `CLAUDE.md`, Cursor rules, Copilot instructions, `AGENTS.md`, Windsurf/Continue rules, and Zed rules. |
+| Safe first command | `npx --yes pluribus-context@latest audit` |
+
 ## Why it may be useful
 
 - Reduces copy-paste drift between AI tool instruction files.
