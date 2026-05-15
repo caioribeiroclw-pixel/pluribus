@@ -429,6 +429,27 @@ function assertReadmeTrustBadges() {
   }
 }
 
+function assertReadmeDiscoveryIntro() {
+  const readme = readFileSync(path.join(repoRoot, 'README.md'), 'utf8')
+  const intro = readme.slice(0, readme.indexOf('## The Problem'))
+  const requiredSnippets = [
+    '`pluribus-context` on npm',
+    '`pluribus` on the command line',
+    'AI context sync CLI',
+    'Claude Code, Cursor, GitHub Copilot, OpenClaw, Windsurf, Continue, or Zed',
+  ]
+  const missing = requiredSnippets.filter((snippet) => !intro.includes(snippet))
+
+  if (missing.length > 0) {
+    console.error(
+      'README intro is missing package/discovery positioning copy:\n' +
+        missing.join('\n') +
+        '\nKeep the landing page explicit about the npm package name, CLI name, AI context sync category, and supported tool surface.',
+    )
+    process.exit(1)
+  }
+}
+
 function assertPackageDiscoveryMetadata() {
   const description = pkg.description.toLowerCase()
   const requiredDescriptionTerms = ['ai context', 'rules', 'claude code', 'cursor', 'copilot']
@@ -591,6 +612,7 @@ info('package', `${pkg.name}@${pkg.version}`)
 assertPackageDiscoveryMetadata()
 assertCommunityReviewPacketDistributionCopy()
 assertReadmeTrustBadges()
+assertReadmeDiscoveryIntro()
 assertFirstRunWriteSafetyCopy()
 assertReadmeSupportedToolsCopy()
 assertQuickstartSupportedToolsCopy()

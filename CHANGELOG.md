@@ -10,6 +10,7 @@ All notable changes to Pluribus are documented here.
 
 ### Changed
 
+- Make the README intro say explicitly that `pluribus-context` is an AI context sync CLI and guard that positioning in `release:verify`, improving package-name/problem-query clarity for reviewers and search surfaces.
 - Extend the release smoke gate to install the packed CLI globally into a temporary prefix and verify `npm uninstall -g pluribus-context` removes the `pluribus` binary, protecting the first-run removability claim used in trust/review copy.
 
 ## 0.3.9 — npm discovery metadata refresh

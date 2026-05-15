@@ -8,7 +8,9 @@
 
 > Intentional context across every AI tool you use.
 
-Pluribus keeps project instructions, conventions, constraints, and team context in one versioned source of truth, then syncs that context into the formats each AI tool expects.
+Pluribus (`pluribus-context` on npm, `pluribus` on the command line) is an AI context sync CLI for teams and projects that use Claude Code, Cursor, GitHub Copilot, OpenClaw, Windsurf, Continue, or Zed.
+
+It keeps project instructions, conventions, constraints, and team context in one versioned source of truth, then syncs that context into the formats each AI tool expects.
 
 It is **not** a persistent memory layer, retrieval system, agent orchestrator, or agent-merging framework. Think `CLAUDE.md`, `.cursorrules`, `copilot-instructions.md`, `AGENTS.md` — one intentional context, multiple generated outputs.
 
