@@ -6,6 +6,7 @@ All notable changes to Pluribus are documented here.
 
 ### Added
 
+- Add npm download counts to the discovery smoke report so adoption/distribution checks track search visibility and package activity together.
 - Add `npm run discovery:smoke` and `docs/discovery-smoke.md` so npm/GitHub search visibility can be measured repeatably after metadata, topic, README, or distribution-copy changes.
 
 ### Changed

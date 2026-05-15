@@ -54,6 +54,22 @@ function rankOf(results, selector, expected) {
   return index === -1 ? null : index
 }
 
+async function fetchJson(url) {
+  try {
+    const response = await fetch(url, {
+      headers: { 'user-agent': `${pkg.name}-discovery-smoke` },
+    })
+
+    if (!response.ok) {
+      return { ok: false, error: `HTTP ${response.status}` }
+    }
+
+    return { ok: true, data: await response.json() }
+  } catch (error) {
+    return { ok: false, error: error.message }
+  }
+}
+
 const metadata = parseJson(run('npm', ['view', pkg.name, 'name', 'version', 'description', 'keywords', '--json']), {})
 if (metadata.name !== pkg.name) {
   throw new Error(`npm view returned ${metadata.name || 'unknown package'} instead of ${pkg.name}`)
@@ -73,6 +89,24 @@ const exactNameSearch = npmResults.find((result) => result.query === pkg.name)
 if (!exactNameSearch || exactNameSearch.rank !== 0) {
   throw new Error(`Expected npm search ${pkg.name} to rank ${pkg.name} at position 0. Result: ${JSON.stringify(exactNameSearch)}`)
 }
+
+const downloadRanges = ['last-day', 'last-week', 'last-month']
+const downloadResults = await Promise.all(
+  downloadRanges.map(async (range) => {
+    const result = await fetchJson(`https://api.npmjs.org/downloads/point/${range}/${pkg.name}`)
+    if (!result.ok) {
+      return { range, ok: false, error: result.error }
+    }
+
+    return {
+      range,
+      ok: true,
+      downloads: result.data.downloads,
+      start: result.data.start,
+      end: result.data.end,
+    }
+  }),
+)
 
 const githubResults = githubQueries.map((query) => {
   const result = tryRun('gh', [
@@ -105,6 +139,7 @@ const report = {
     description: metadata.description,
     keywordCount: metadata.keywords?.length || 0,
   },
+  npmDownloads: downloadResults,
   npmSearch: npmResults,
   githubSearch: githubResults,
   interpretation: {
