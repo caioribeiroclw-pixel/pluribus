@@ -435,7 +435,7 @@ function assertPackageDiscoveryMetadata() {
   const missingDescriptionTerms = requiredDescriptionTerms.filter((term) => !description.includes(term))
 
   const keywords = new Set(pkg.keywords || [])
-  const requiredKeywords = ['ai-context', 'agent-rules', 'claude-code', 'cursor-rules', 'copilot', 'codex', 'aider', 'drift-detection']
+  const requiredKeywords = ['ai-context', 'agent-rules', 'claude-code', 'cursor-rules', 'copilot', 'codex', 'aider', 'drift-detection', 'context-sync', 'claude-md', 'ai-rules', 'rules-sync', 'context-files', 'ai-agents']
   const missingKeywords = requiredKeywords.filter((keyword) => !keywords.has(keyword))
 
   if (missingDescriptionTerms.length > 0 || missingKeywords.length > 0) {

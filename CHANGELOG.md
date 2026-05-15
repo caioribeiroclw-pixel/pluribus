@@ -4,8 +4,11 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.9 — npm discovery metadata refresh
+
 ### Added
 
+- Add exact npm discovery keywords for adjacent searches such as `context-sync`, `claude-md`, `ai-rules`, `rules-sync`, `context-files`, and `ai-agents`.
 - Add a release-verification guard for the community review packet so directory submission fields, safe first command, privacy guardrails, uninstall/network copy, and the <=280-character blurb cannot silently drift before distribution pushes.
 
 ### Changed
