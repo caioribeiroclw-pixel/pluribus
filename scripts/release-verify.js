@@ -107,6 +107,31 @@ function assertExplicitPublishedInstallCopyPaste() {
   }
 }
 
+
+function assertNoStaleVersionClaims() {
+  const staleVersionPattern = /published in `pluribus-context@\d+\.\d+\.\d+`|available in `pluribus-context@\d+\.\d+\.\d+`/i
+  const offenders = []
+
+  for (const file of walkFiles(copyPastePaths)) {
+    const relativePath = path.relative(repoRoot, file)
+    const text = readFileSync(file, 'utf8')
+    text.split(/\r?\n/).forEach((line, index) => {
+      if (staleVersionPattern.test(line)) {
+        offenders.push(`${relativePath}:${index + 1}: ${line.trim()}`)
+      }
+    })
+  }
+
+  if (offenders.length > 0) {
+    console.error(
+      'Found stale hard-coded package-version availability claims in public docs:\n' +
+        offenders.join('\n') +
+        '\nUse `pluribus-context@latest` for current npm availability claims, or make the version historical context explicitly non-copy-paste.',
+    )
+    process.exit(1)
+  }
+}
+
 function assertFeedbackIssueLinks() {
   const requiredLinks = [
     { file: 'README.md', link: 'issues/new?template=quickstart-feedback.yml' },
@@ -703,6 +728,7 @@ assertIssueTemplateLinksResolvable()
 assertCiAuditExampleInSync()
 assertPreCommitHookExampleInSync()
 assertExplicitPublishedInstallCopyPaste()
+assertNoStaleVersionClaims()
 assertFeedbackIssueLinks()
 assertPackagedMarkdownRelativeLinks()
 

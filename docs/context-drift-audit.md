@@ -18,7 +18,7 @@ Want to see the workflow before touching a real repo? Use the intentionally drif
 
 ## Version availability
 
-The read-only audit workflow, including `--json`, `--output <file>`, `--github-annotations`, and `--ci`, is published in `pluribus-context@0.3.3` and available through the npm `latest` tag.
+The read-only audit workflow, including `--json`, `--output <file>`, `--github-annotations`, and `--ci`, is available through the npm `latest` tag (`pluribus-context@latest`).
 
 ```bash
 npx --yes pluribus-context@latest audit --strict --json

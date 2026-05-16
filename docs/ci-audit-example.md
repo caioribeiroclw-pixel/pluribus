@@ -2,7 +2,7 @@
 
 Use this when `pluribus.md` is the source of truth and generated context files should stay current in pull requests.
 
-`pluribus audit --strict` is read-only: it fails when a generated file is missing or drifted, but it does not rewrite anything in CI. The `--github-annotations`, `--json`, `--output`, and `--ci` flags are published in `pluribus-context@0.3.3` and available through the npm `latest` tag.
+`pluribus audit --strict` is read-only: it fails when a generated file is missing or drifted, but it does not rewrite anything in CI. The `--github-annotations`, `--json`, `--output`, and `--ci` flags are available through the npm `latest` tag (`pluribus-context@latest`).
 
 Use `--ci` in GitHub Actions when you want the shortest path: it is equivalent to `--strict --github-annotations`, so drift appears inline in the check UI and the job fails on drift. Use the explicit flags when composing custom outputs; pair annotations with `--json --output pluribus-audit.json` when you want a machine-readable artifact for dashboards or review comments. The output contract is documented in [`schemas/audit-result.schema.json`](../schemas/audit-result.schema.json).
 

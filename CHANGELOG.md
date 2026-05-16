@@ -6,6 +6,7 @@ All notable changes to Pluribus are documented here.
 
 ### Changed
 
+- Replace stale current-facing `pluribus-context@0.3.3` availability claims in audit docs with `pluribus-context@latest` and guard public docs against future hard-coded package-version claims that look current.
 - Make `release:verify` detect stale local/remote `v<package version>` tags, so a prepared npm release cannot accidentally drift from its GitHub release artifact.
 - Add an exact awesome-list Markdown entry to the Community Review Packet and guard it in `release:verify`, so contextual list submissions can reuse one honest, tested line instead of rewriting category copy per channel.
 - Add a Fit and boundaries section to the Community Review Packet and guard it in `release:verify`, so reviewers can quickly distinguish Pluribus from one-tool rules managers, one-time converters, memory layers, retrieval, and agent orchestration.
