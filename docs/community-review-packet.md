@@ -38,6 +38,19 @@ Use these fields for directories, awesome lists, or review forms that ask for a 
 - Supports composable local context and explicit remote imports for shared team/org guidance.
 - Provides CI/pre-commit audit paths so generated context drift is visible in code review.
 
+## Fit and boundaries
+
+Use this section when a directory, list maintainer, or reviewer asks how Pluribus differs from adjacent rules-sync or prompt-file tools.
+
+| Question | Short answer |
+| --- | --- |
+| What category is it? | AI coding context management / rules sync CLI. |
+| What is the source of truth? | `pluribus.md`, reviewed in git. |
+| What does it generate? | Tool-native context files for Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, and Zed. |
+| What is the safe first step? | Run `npx --yes pluribus-context@latest audit` to inspect existing context files without writing. |
+| When is another tool enough? | If you only need one tool's native rules format or a one-time converter, a smaller rules manager/converter may be enough. |
+| What is Pluribus not? | Not chat memory, retrieval, vector search, agent orchestration, or agent merging. |
+
 ## Safety and removability
 
 - `audit`, `validate`, and `sync --dry-run` are read-only.
