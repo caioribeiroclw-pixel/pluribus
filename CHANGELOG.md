@@ -6,6 +6,7 @@ All notable changes to Pluribus are documented here.
 
 ### Changed
 
+- Add an exact awesome-list Markdown entry to the Community Review Packet and guard it in `release:verify`, so contextual list submissions can reuse one honest, tested line instead of rewriting category copy per channel.
 - Add a Fit and boundaries section to the Community Review Packet and guard it in `release:verify`, so reviewers can quickly distinguish Pluribus from one-tool rules managers, one-time converters, memory layers, retrieval, and agent orchestration.
 - Add license and install/run fields to the Community Review Packet's directory submission table and guard them in `release:verify`, so curators do not have to infer basic listing metadata before testing Pluribus.
 

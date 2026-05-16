@@ -487,6 +487,8 @@ function assertCommunityReviewPacketDistributionCopy() {
     '| Install / run | `npx --yes pluribus-context@latest audit` or `npm install -g pluribus-context@latest` |',
     '| Category | AI coding tools / context management |',
     '| Safe first command | `npx --yes pluribus-context@latest audit` |',
+    '### Awesome-list Markdown entry',
+    '- [Pluribus](https://github.com/caioribeiroclw-pixel/pluribus) - Open-source CLI that keeps one versioned AI coding context in sync across Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, and Zed.',
     '## Fit and boundaries',
     '| What category is it? | AI coding context management / rules sync CLI. |',
     '| What is the source of truth? | `pluribus.md`, reviewed in git. |',
