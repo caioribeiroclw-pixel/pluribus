@@ -472,6 +472,57 @@ function assertPackageDiscoveryMetadata() {
   }
 }
 
+function parseRemoteTagTarget(lsRemoteOutput, tagName) {
+  const lines = lsRemoteOutput.split(/\r?\n/).filter(Boolean)
+  const dereferenced = lines.find((line) => line.endsWith(`refs/tags/${tagName}^{}`))
+  const direct = lines.find((line) => line.endsWith(`refs/tags/${tagName}`))
+  const selected = dereferenced || direct || ''
+  return selected.split(/\s+/)[0] || ''
+}
+
+function assertVersionTagDoesNotDrift() {
+  const tagName = `v${pkg.version}`
+  const headSha = run('git', ['rev-parse', 'HEAD'], { capture: true })
+  if (!headSha.ok) {
+    console.error(`Could not resolve HEAD while checking ${tagName}:\n${headSha.output}`)
+    process.exit(headSha.status || 1)
+  }
+
+  const localTag = run('git', ['rev-parse', '--verify', `${tagName}^{}`], { capture: true })
+  if (localTag.ok) {
+    if (localTag.output !== headSha.output) {
+      console.error(
+        `Local release tag ${tagName} points at ${localTag.output.slice(0, 7)}, but HEAD is ${headSha.output.slice(0, 7)}.\n` +
+          'Update or delete the local tag before release verification so npm/GitHub release prep cannot accidentally publish an older artifact.',
+      )
+      process.exit(1)
+    }
+    info('local release tag', `${tagName} -> HEAD`)
+  } else {
+    info('local release tag', `${tagName} not present; release:publish will require it before npm publish`)
+  }
+
+  const remoteTag = run('git', ['ls-remote', '--tags', 'origin', tagName, `${tagName}^{}`], { capture: true })
+  if (!remoteTag.ok) {
+    info('remote release tag', `could not check ${tagName} (${remoteTag.output || 'git ls-remote failed'})`)
+    return
+  }
+
+  const remoteTarget = parseRemoteTagTarget(remoteTag.output, tagName)
+  if (!remoteTarget) {
+    info('remote release tag', `${tagName} not published`)
+    return
+  }
+
+  if (remoteTarget !== headSha.output) {
+    console.error(
+      `Remote release tag ${tagName} points at ${remoteTarget.slice(0, 7)}, but HEAD is ${headSha.output.slice(0, 7)}.\n` +
+        'Do not publish or verify a package from a commit that differs from its public GitHub release tag.',
+    )
+    process.exit(1)
+  }
+  info('remote release tag', `${tagName} -> HEAD`)
+}
 
 function assertCommunityReviewPacketDistributionCopy() {
   const packetPath = path.join(repoRoot, 'docs/community-review-packet.md')
@@ -639,6 +690,7 @@ if (runningInCi) {
 
 info('package', `${pkg.name}@${pkg.version}`)
 assertPackageDiscoveryMetadata()
+assertVersionTagDoesNotDrift()
 assertCommunityReviewPacketDistributionCopy()
 assertReadmeTrustBadges()
 assertReadmeDiscoveryIntro()
