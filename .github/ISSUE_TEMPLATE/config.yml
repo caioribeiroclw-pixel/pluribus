@@ -1,5 +1,8 @@
 blank_issues_enabled: true
 contact_links:
+  - name: Community review packet
+    url: https://github.com/caioribeiroclw-pixel/pluribus/blob/main/docs/community-review-packet.md
+    about: Directory/reviewer copy, safety notes, feedback links, and a disposable 60-second smoke test.
   - name: Quickstart docs
     url: https://github.com/caioribeiroclw-pixel/pluribus/blob/main/docs/quickstart.md
     about: Run this first if you want to try Pluribus in a disposable demo project.

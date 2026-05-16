@@ -477,6 +477,7 @@ function assertCommunityReviewPacketDistributionCopy() {
   const packetPath = path.join(repoRoot, 'docs/community-review-packet.md')
   const packet = readFileSync(packetPath, 'utf8')
   const readme = readFileSync(path.join(repoRoot, 'README.md'), 'utf8')
+  const issueTemplateConfig = readFileSync(path.join(repoRoot, '.github/ISSUE_TEMPLATE/config.yml'), 'utf8')
   const requiredPacketSnippets = [
     '## Directory submission fields',
     '| Name | Pluribus |',
@@ -509,11 +510,19 @@ function assertCommunityReviewPacketDistributionCopy() {
   ]
   const missingReadmeSnippets = readmeSnippets.filter((snippet) => !readme.includes(snippet))
 
-  if (missingPacketSnippets.length > 0 || blurbTooLong || missingReadmeSnippets.length > 0) {
+  const issueTemplateConfigSnippets = [
+    'Community review packet',
+    'docs/community-review-packet.md',
+    'disposable 60-second smoke test',
+  ]
+  const missingIssueTemplateConfigSnippets = issueTemplateConfigSnippets.filter((snippet) => !issueTemplateConfig.includes(snippet))
+
+  if (missingPacketSnippets.length > 0 || blurbTooLong || missingReadmeSnippets.length > 0 || missingIssueTemplateConfigSnippets.length > 0) {
     const messages = []
     if (missingPacketSnippets.length > 0) messages.push(`packet missing:\n${missingPacketSnippets.join('\n')}`)
     if (blurbTooLong) messages.push(`280-char blurb missing or too long: ${blurbLength} chars`)
     if (missingReadmeSnippets.length > 0) messages.push(`README missing:\n${missingReadmeSnippets.join('\n')}`)
+    if (missingIssueTemplateConfigSnippets.length > 0) messages.push(`issue template config missing:\n${missingIssueTemplateConfigSnippets.join('\n')}`)
     console.error(
       'Community review packet distribution copy is incomplete:\n' +
         messages.join('\n') +

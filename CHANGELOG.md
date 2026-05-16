@@ -6,6 +6,7 @@ All notable changes to Pluribus are documented here.
 
 ### Added
 
+- Add the Community Review Packet to GitHub's issue/contact chooser and guard that link in `release:verify`, so reviewers who click “New issue” can still find directory copy, safety notes, feedback links, and the 60-second smoke test.
 - Track external distribution PRs in `discovery:smoke`, starting with the contextual `awesome-ai-coding-tools` submission, so manual listing experiments have state/mergeability/comment evidence in the adoption baseline.
 - Add explicit feedback links to the community review packet and guard them in `release:verify`, so reviewers can route audit feedback, quickstart confusion, or broader workflow notes without hunting through the repo.
 - Add recent discussion comment authors and an external-comment count to the discovery smoke report so maintainer-only discussion updates do not look like community feedback.
