@@ -330,6 +330,7 @@ function assertIssueTemplateVersionPlaceholders() {
     '.github/ISSUE_TEMPLATE/quickstart-feedback.yml',
     '.github/ISSUE_TEMPLATE/bug-report.yml',
     '.github/ISSUE_TEMPLATE/audit-feedback.yml',
+    '.github/ISSUE_TEMPLATE/review-feedback.yml',
   ]
   const offenders = []
 
@@ -574,6 +575,7 @@ function assertCommunityReviewPacketDistributionCopy() {
     'npm uninstall -g pluribus-context',
     'Remote imports fetch only when the user explicitly passes `--update-imports`',
     '## Feedback links',
+    'issues/new?template=review-feedback.yml',
     'issues/new?template=audit-feedback.yml',
     'issues/new?template=quickstart-feedback.yml',
     'discussions/13',

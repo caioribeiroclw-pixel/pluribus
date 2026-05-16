@@ -1,0 +1,69 @@
+name: Review/listing feedback
+description: Feedback from a directory, awesome-list, newsletter, or package reviewer.
+title: "Review feedback: "
+labels: [documentation, question]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reviewing Pluribus for a list, newsletter, package roundup, or tool directory. Short routing/copy feedback is useful even when you did not run the CLI.
+
+        If you test the published package, the safest first command is:
+        `npx --yes pluribus-context@latest audit`
+
+        Please do not paste secrets, private source code, credentials, customer data, or internal instructions that should not be public.
+  - type: input
+    id: review-surface
+    attributes:
+      label: Where were you reviewing Pluribus?
+      description: Link to the list, directory, newsletter draft, package roundup, or review context if public.
+      placeholder: "https://..."
+    validations:
+      required: false
+  - type: dropdown
+    id: review-type
+    attributes:
+      label: What kind of feedback is this?
+      options:
+        - Listing/category fit
+        - Description/copy clarity
+        - Install or smoke-test friction
+        - Safety/removability concern
+        - Missing metadata
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Pluribus version
+      description: If you ran the CLI, run `npx --yes pluribus-context@latest --version` or `pluribus --version`.
+      placeholder: "Paste the exact --version output"
+    validations:
+      required: false
+  - type: textarea
+    id: confusing-copy
+    attributes:
+      label: What was unclear or hard to classify?
+      description: Summarize the copy, category, install step, metadata, or safety claim that slowed review.
+      placeholder: "I could not tell whether this belongs under context management, rules sync, memory, or agent orchestration..."
+    validations:
+      required: true
+  - type: textarea
+    id: expected-copy
+    attributes:
+      label: What would have made review easier?
+      placeholder: "A shorter one-line listing, clearer category boundary, license/install field, screenshot, etc."
+    validations:
+      required: false
+  - type: textarea
+    id: commands
+    attributes:
+      label: Commands you ran, if any
+      description: Optional. Paste only disposable/demo commands and summarize private repo results instead of pasting private context.
+      render: shell
+      placeholder: |
+        mkdir pluribus-review && cd pluribus-review
+        npx --yes pluribus-context@latest audit
+    validations:
+      required: false

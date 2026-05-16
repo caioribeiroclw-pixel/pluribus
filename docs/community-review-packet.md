@@ -104,6 +104,7 @@ Expected result:
 
 Use the narrowest public path that matches what you tested:
 
+- Directory/listing/reviewer fit or copy feedback: <https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=review-feedback.yml>
 - Read-only audit result or unclear next step: <https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=audit-feedback.yml>
 - Quickstart/install/setup confusion: <https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=quickstart-feedback.yml>
 - Broader workflow notes about managing AI context across tools: <https://github.com/caioribeiroclw-pixel/pluribus/discussions/13>
