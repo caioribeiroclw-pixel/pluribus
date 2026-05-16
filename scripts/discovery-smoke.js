@@ -21,6 +21,16 @@ const githubQueries = [
   'claude code context sync pluribus-context',
 ]
 
+const trackedExternalDistributions = [
+  {
+    name: 'awesome-ai-coding-tools',
+    repo: 'ai-for-developers/awesome-ai-coding-tools',
+    pullRequest: 326,
+    url: 'https://github.com/ai-for-developers/awesome-ai-coding-tools/pull/326',
+    reason: 'contextual awesome-list submission for AI coding CLI discovery',
+  },
+]
+
 function run(command, args) {
   return execFileSync(command, args, {
     cwd: repoRoot,
@@ -248,7 +258,44 @@ function collectGithubSignals() {
   }
 }
 
+function collectExternalDistributionSignals() {
+  return trackedExternalDistributions.map((distribution) => {
+    const result = githubJson(`external distribution ${distribution.name}`, 'gh', [
+      'pr',
+      'view',
+      String(distribution.pullRequest),
+      '--repo',
+      distribution.repo,
+      '--json',
+      'number,title,state,mergeable,isDraft,reviewDecision,comments,updatedAt,author,url',
+    ], {})
+
+    if (!result.ok) {
+      return {
+        ...distribution,
+        ok: false,
+        error: result.error,
+      }
+    }
+
+    return {
+      ...distribution,
+      ok: true,
+      title: result.data.title,
+      state: result.data.state,
+      mergeable: result.data.mergeable,
+      isDraft: result.data.isDraft,
+      reviewDecision: result.data.reviewDecision || null,
+      comments: Array.isArray(result.data.comments) ? result.data.comments.length : result.data.comments,
+      updatedAt: result.data.updatedAt,
+      author: result.data.author?.login,
+      url: result.data.url || distribution.url,
+    }
+  })
+}
+
 const githubSignals = collectGithubSignals()
+const externalDistributions = collectExternalDistributionSignals()
 
 const report = {
   package: {
@@ -261,6 +308,7 @@ const report = {
   npmSearch: npmResults,
   githubSearch: githubResults,
   githubSignals,
+  externalDistributions,
   interpretation: {
     exactNpmNameVisible: exactNameSearch.rank === 0,
     genericNpmQueriesWithPluribus: npmResults.filter((result) => result.query !== pkg.name && result.rank !== null).length,
@@ -270,6 +318,9 @@ const report = {
     externalRecentDiscussionComments: Array.isArray(githubSignals.discussions)
       ? githubSignals.discussions.reduce((total, discussion) => total + discussion.externalRecentComments, 0)
       : null,
+    trackedExternalDistributions: externalDistributions.length,
+    openExternalDistributionPullRequests: externalDistributions.filter((distribution) => distribution.ok && distribution.state === 'OPEN').length,
+    mergedExternalDistributionPullRequests: externalDistributions.filter((distribution) => distribution.ok && distribution.state === 'MERGED').length,
   },
 }
 

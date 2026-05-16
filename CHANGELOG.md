@@ -6,6 +6,7 @@ All notable changes to Pluribus are documented here.
 
 ### Added
 
+- Track external distribution PRs in `discovery:smoke`, starting with the contextual `awesome-ai-coding-tools` submission, so manual listing experiments have state/mergeability/comment evidence in the adoption baseline.
 - Add explicit feedback links to the community review packet and guard them in `release:verify`, so reviewers can route audit feedback, quickstart confusion, or broader workflow notes without hunting through the repo.
 - Add recent discussion comment authors and an external-comment count to the discovery smoke report so maintainer-only discussion updates do not look like community feedback.
 - Add GitHub repo signals to the discovery smoke report so adoption/distribution checks track stars, forks, watchers, open issues, open pull requests, and discussions alongside npm search/download signals.
