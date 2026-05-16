@@ -77,6 +77,14 @@ Expected result:
 - When to use Pluribus: <https://github.com/caioribeiroclw-pixel/pluribus/blob/main/docs/when-to-use-pluribus.md>
 - First-run audit feedback: <https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=audit-feedback.yml>
 
+## Feedback links
+
+Use the narrowest public path that matches what you tested:
+
+- Read-only audit result or unclear next step: <https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=audit-feedback.yml>
+- Quickstart/install/setup confusion: <https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=quickstart-feedback.yml>
+- Broader workflow notes about managing AI context across tools: <https://github.com/caioribeiroclw-pixel/pluribus/discussions/13>
+
 ## Feedback requested
 
 If you try it on a real repo, please do not paste secrets, private source code, credentials, customer data, or internal instructions that should not be public. Avoid pasting private context or full audit JSON from non-public projects. The most useful report is:

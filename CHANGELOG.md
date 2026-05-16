@@ -6,6 +6,7 @@ All notable changes to Pluribus are documented here.
 
 ### Added
 
+- Add explicit feedback links to the community review packet and guard them in `release:verify`, so reviewers can route audit feedback, quickstart confusion, or broader workflow notes without hunting through the repo.
 - Add recent discussion comment authors and an external-comment count to the discovery smoke report so maintainer-only discussion updates do not look like community feedback.
 - Add GitHub repo signals to the discovery smoke report so adoption/distribution checks track stars, forks, watchers, open issues, open pull requests, and discussions alongside npm search/download signals.
 - Add npm download counts to the discovery smoke report so adoption/distribution checks track search visibility and package activity together.

@@ -487,6 +487,10 @@ function assertCommunityReviewPacketDistributionCopy() {
     'please do not paste secrets, private source code, credentials, customer data, or internal instructions that should not be public.',
     'npm uninstall -g pluribus-context',
     'Remote imports fetch only when the user explicitly passes `--update-imports`',
+    '## Feedback links',
+    'issues/new?template=audit-feedback.yml',
+    'issues/new?template=quickstart-feedback.yml',
+    'discussions/13',
   ]
   const missingPacketSnippets = requiredPacketSnippets.filter((snippet) => !packet.includes(snippet))
 
