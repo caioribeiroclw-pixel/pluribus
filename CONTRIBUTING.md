@@ -33,6 +33,12 @@ If you are trying Pluribus as a user, the most useful contribution is a short fr
 
 Even a small note like “I expected `sync --dry-run` to show X, but it showed Y” is useful.
 
+## Review/listing feedback
+
+If you are reviewing Pluribus for a directory, awesome-list, newsletter, package roundup, or tool catalog, use the [Community Review Packet](docs/community-review-packet.md) for listing copy, category boundaries, safety/removability notes, and a disposable 60-second smoke test.
+
+Open a [Review/listing feedback issue](https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=review-feedback.yml) when the category, listing copy, metadata, install step, or safety claim slows review. Short notes are useful even if you did not run the CLI.
+
 ## Audit feedback
 
 If your repo already has `CLAUDE.md`, Cursor rules, Copilot instructions, `AGENTS.md`, Windsurf rules, Continue rules, Zed rules, or other AI context files, the most useful report is often a read-only audit result:

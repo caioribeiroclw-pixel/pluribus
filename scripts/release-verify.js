@@ -134,8 +134,11 @@ function assertNoStaleVersionClaims() {
 
 function assertFeedbackIssueLinks() {
   const requiredLinks = [
+    { file: 'README.md', link: 'issues/new?template=review-feedback.yml' },
     { file: 'README.md', link: 'issues/new?template=quickstart-feedback.yml' },
     { file: 'README.md', link: 'issues/new?template=audit-feedback.yml' },
+    { file: 'CONTRIBUTING.md', link: 'docs/community-review-packet.md' },
+    { file: 'CONTRIBUTING.md', link: 'issues/new?template=review-feedback.yml' },
     { file: 'CONTRIBUTING.md', link: 'issues/new?template=quickstart-feedback.yml' },
     { file: 'CONTRIBUTING.md', link: 'issues/new?template=audit-feedback.yml' },
     { file: 'docs/quickstart.md', link: 'issues/new?template=quickstart-feedback.yml' },
@@ -146,9 +149,9 @@ function assertFeedbackIssueLinks() {
   const missing = requiredLinks.filter(({ file, link }) => !readFileSync(path.join(repoRoot, file), 'utf8').includes(link))
   if (missing.length > 0) {
     console.error(
-      'Missing first-run feedback issue links:\n' +
+      'Missing structured feedback / review links:\n' +
         missing.map(({ file, link }) => `${file}: ${link}`).join('\n') +
-        '\nKeep docs pointed at concrete issue templates so first-run feedback is structured.',
+        '\nKeep docs pointed at concrete issue templates and the review packet so first-run and listing feedback are structured.',
     )
     process.exit(1)
   }

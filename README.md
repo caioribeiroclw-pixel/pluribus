@@ -381,6 +381,7 @@ Follow along: [@RibeiroCaioCLW](https://x.com/RibeiroCaioCLW)
 
 If you've felt this pain, tell me about your setup. What tools do you use? How do you manage context today? What's broken?
 
+- [Review/listing feedback](https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=review-feedback.yml) — if Pluribus was hard to classify for a directory, awesome-list, newsletter, or package review
 - [Quickstart feedback](https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=quickstart-feedback.yml) — if install, validate, or dry-run felt confusing
 - [Audit feedback](https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=audit-feedback.yml) — if read-only `pluribus audit` missed drift, was noisy, or left the next step unclear
 - [Bug report](https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=bug-report.yml) — if a command failed or generated the wrong output
@@ -410,7 +411,8 @@ This project is just getting started. The best way to help right now:
 2. ⭐ Star the repo if the problem resonates
 3. 🗣️ [Open a quickstart feedback issue](https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=quickstart-feedback.yml) if anything felt confusing
 4. 🔎 [Open an audit feedback issue](https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=audit-feedback.yml) if the read-only audit missed drift or felt noisy
-5. 📣 Share with someone who maintains 3+ AI context files
+5. 🧭 [Open a review/listing feedback issue](https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=review-feedback.yml) if the category, listing copy, or safety/removability claims are unclear
+6. 📣 Share with someone who maintains 3+ AI context files
 
 Looking for first contributions? Check out the [open issues](https://github.com/caioribeiroclw-pixel/pluribus/issues). The next good contributions are CI/CD workflow examples, real-world adapter feedback, and install/quickstart friction reports.
 

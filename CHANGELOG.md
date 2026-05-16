@@ -6,6 +6,7 @@ All notable changes to Pluribus are documented here.
 
 ### Changed
 
+- Link review/listing feedback from the README contribution CTA and CONTRIBUTING guide, and guard those links in `release:verify`, so directory maintainers and package reviewers can find the dedicated route even when they do not start from the Community Review Packet.
 - Add a dedicated review/listing feedback issue template and link it from the Community Review Packet, so directory maintainers and package reviewers can report categorization/copy/safety friction without forcing the feedback into audit or quickstart forms.
 - Replace stale current-facing `pluribus-context@0.3.3` availability claims in audit docs with `pluribus-context@latest` and guard public docs against future hard-coded package-version claims that look current.
 - Make `release:verify` detect stale local/remote `v<package version>` tags, so a prepared npm release cannot accidentally drift from its GitHub release artifact.
