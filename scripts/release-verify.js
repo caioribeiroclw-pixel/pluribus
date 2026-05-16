@@ -499,7 +499,14 @@ function assertCommunityReviewPacketDistributionCopy() {
   const blurbLength = [...blurb].length
   const blurbTooLong = !blurb || blurbLength > 280
 
-  const readmeSnippets = ['Community Review Packet', 'directory submission fields', 'disposable 60-second smoke test']
+  const readmeSnippets = [
+    'Reviewer shortcut:',
+    'Community Review Packet',
+    'copy-paste directory submission fields',
+    'safety/removability notes',
+    'feedback links',
+    'disposable 60-second smoke test',
+  ]
   const missingReadmeSnippets = readmeSnippets.filter((snippet) => !readme.includes(snippet))
 
   if (missingPacketSnippets.length > 0 || blurbTooLong || missingReadmeSnippets.length > 0) {
