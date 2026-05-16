@@ -23,6 +23,8 @@ Use these fields for directories, awesome lists, or review forms that ask for a 
 | Name | Pluribus |
 | URL | https://github.com/caioribeiroclw-pixel/pluribus |
 | npm | https://www.npmjs.com/package/pluribus-context |
+| License | MIT |
+| Install / run | `npx --yes pluribus-context@latest audit` or `npm install -g pluribus-context@latest` |
 | Category | AI coding tools / context management |
 | Tags | `claude-code`, `cursor`, `copilot`, `openclaw`, `windsurf`, `continue`, `zed`, `context-drift` |
 | One sentence | Keep one versioned AI coding context in `pluribus.md`, then audit or sync the generated files used by Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, and Zed. |

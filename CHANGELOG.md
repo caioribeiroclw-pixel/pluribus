@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+### Changed
+
+- Add license and install/run fields to the Community Review Packet's directory submission table and guard them in `release:verify`, so curators do not have to infer basic listing metadata before testing Pluribus.
+
 ## 0.3.10 — discovery and reviewer routing refresh
 
 ### Added

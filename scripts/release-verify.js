@@ -483,6 +483,8 @@ function assertCommunityReviewPacketDistributionCopy() {
     '| Name | Pluribus |',
     '| URL | https://github.com/caioribeiroclw-pixel/pluribus |',
     '| npm | https://www.npmjs.com/package/pluribus-context |',
+    '| License | MIT |',
+    '| Install / run | `npx --yes pluribus-context@latest audit` or `npm install -g pluribus-context@latest` |',
     '| Category | AI coding tools / context management |',
     '| Safe first command | `npx --yes pluribus-context@latest audit` |',
     'please do not paste secrets, private source code, credentials, customer data, or internal instructions that should not be public.',
