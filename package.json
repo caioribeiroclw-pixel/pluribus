@@ -31,7 +31,8 @@
     "published:smoke": "node scripts/published-smoke.js",
     "release:verify": "node scripts/release-verify.js",
     "release:publish": "node scripts/release-publish.js",
-    "discovery:smoke": "node scripts/discovery-smoke.js"
+    "discovery:smoke": "node scripts/discovery-smoke.js",
+    "review:smoke": "node scripts/review-smoke.js"
   },
   "keywords": [
     "agent-rules",

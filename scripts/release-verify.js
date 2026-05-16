@@ -668,8 +668,10 @@ if (npmUser.ok) {
 }
 
 required('release publish script syntax', 'node', ['--check', 'scripts/release-publish.js'])
+required('review smoke script syntax', 'node', ['--check', 'scripts/review-smoke.js'])
 required('npm test', 'npm', ['test'])
 required('git diff --check', 'git', ['diff', '--check'])
+required('community review packet smoke', 'npm', ['run', 'review:smoke'])
 required('release smoke', 'npm', ['run', 'release:smoke'])
 required('npm pack --dry-run', 'npm', ['pack', '--dry-run'])
 required('npm publish --dry-run', 'npm', ['publish', '--dry-run'])
