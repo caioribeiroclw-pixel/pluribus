@@ -4,6 +4,8 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.10 — discovery and reviewer routing refresh
+
 ### Added
 
 - Add the Community Review Packet to GitHub's issue/contact chooser and guard that link in `release:verify`, so reviewers who click “New issue” can still find directory copy, safety notes, feedback links, and the 60-second smoke test.
