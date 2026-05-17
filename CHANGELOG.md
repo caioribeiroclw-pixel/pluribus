@@ -4,6 +4,13 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.14 — coordination contract demo
+
+### Added
+
+- Add a multi-session coordination contract guide and example for teams experimenting with Claude Code event logs, `.coordination/` ledgers, MCP/A2A relays, or parallel agent worktrees.
+- Document authority handoff topics (`authority.claimed`, `authority.delegated`, `authority.released`) so shared schemas, generated clients, release branches, and infra config have explicit owners instead of silent conflict.
+
 ## 0.3.13 — external memory docs tracking
 
 ### Changed
