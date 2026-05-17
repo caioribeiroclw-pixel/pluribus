@@ -74,13 +74,33 @@ The runtime coordination substrate is an append-only event log at `.coordination
 
 The important point is not the exact file names. The important point is that all sessions agree on the same protocol: event schema, ownership model, invalidation rules, and safety boundaries.
 
+## Authority is part of the contract
+
+Multi-session workflows usually fail before the transport fails. Two sessions can both receive the same event and still drift if they disagree about who owns a shared definition.
+
+Make authority explicit:
+
+- which role owns each shared contract: API schema, database migration, deployment config, design token, generated client, release branch;
+- whether ownership is exclusive, delegated, or review-only;
+- which event transfers ownership or requests a handoff;
+- what a session must do when it sees another active owner for the same area;
+- how cross-repo or cross-machine sessions identify the same project/version.
+
+For example:
+
+```json
+{"schemaVersion":"coordination.v1","eventId":"2026-05-17T22:10:00Z-api-owner-1","topic":"authority.claimed","producer":"api-session","createdAt":"2026-05-17T22:10:00Z","projectVersion":"a1b2c3d","payload":{"domain":"api.schema","owner":"api-session","scope":["openapi.yaml","packages/client/src/generated/**"],"expiresAt":"2026-05-17T23:10:00Z"},"invalidates":["dashboard-session.plan","worker-session.plan"]}
+```
+
+A session that sees this event should not edit the same schema or generated client until it either receives an `authority.released` event, gets explicit delegation, or replans around a read-only dependency.
+
 ## Suggested contract fields
 
 For an append-only project event log, define at least:
 
 - `schemaVersion`: version of the event schema;
 - `eventId`: stable unique id for deduplication;
-- `topic`: machine-readable topic such as `infra.endpoint.changed` or `db.migration.completed`;
+- `topic`: machine-readable topic such as `infra.endpoint.changed`, `db.migration.completed`, or `authority.claimed`;
 - `producer`: session id or role that emitted the event;
 - `createdAt`: timestamp;
 - `projectVersion`: git SHA, package version, or config revision when emitted;
@@ -91,7 +111,8 @@ For each session role, define:
 
 - topics it **must read before planning**;
 - topics it **may write**;
-- files or domains it owns;
+- files, domains, schemas, or contracts it owns;
+- events that claim, delegate, release, or revoke authority;
 - when it must pause and ask the coordinator/human;
 - whether event delivery is `at-least-once`, `replay from offset`, or best effort;
 - how to record the last processed offset.

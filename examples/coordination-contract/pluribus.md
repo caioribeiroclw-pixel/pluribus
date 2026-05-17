@@ -43,7 +43,7 @@ Every event appended to `.coordination/events.jsonl` should be one JSON object p
 
 - `schemaVersion`: currently `coordination.v1`.
 - `eventId`: unique and stable for deduplication.
-- `topic`: machine-readable topic such as `infra.endpoint.changed`, `db.migration.completed`, `api.contract.changed`, `worker.blocked`, or `release.published`.
+- `topic`: machine-readable topic such as `infra.endpoint.changed`, `db.migration.completed`, `api.contract.changed`, `authority.claimed`, `authority.released`, `worker.blocked`, or `release.published`.
 - `producer`: session role that emitted the event.
 - `createdAt`: UTC ISO timestamp.
 - `projectVersion`: git SHA, package version, or config revision when emitted.
@@ -63,17 +63,39 @@ Before making or continuing a plan, every session must read from its last proces
 - `infra.endpoint.changed`
 - `db.migration.completed`
 - `api.contract.changed`
+- `authority.claimed`
+- `authority.delegated`
+- `authority.released`
 - `release.published`
 - `security.constraint.changed`
 - `session.blocked`
 
 If one of those topics invalidates the current plan, stop and re-plan before the next tool call.
 
+## Authority and ownership
+
+Shared definitions must have an explicit owner before parallel sessions edit them:
+
+- `api-session` owns `openapi.yaml`, generated API clients, and API compatibility notes while an `authority.claimed` event for `api.schema` is active.
+- `db-session` owns migrations and schema docs while an `authority.claimed` event for `db.schema` is active.
+- `infra-session` owns deployment endpoints, secrets references, and runtime config names while an `authority.claimed` event for `infra.config` is active.
+- Consumer sessions may read those files and adapt local code, but must not rewrite the shared contract unless authority is delegated.
+- Authority should include `domain`, `owner`, `scope`, optional `expiresAt`, and optional `handoffTo` in the event payload.
+
+Example:
+
+```json
+{"schemaVersion":"coordination.v1","eventId":"2026-05-17T22:10:00Z-api-owner-1","topic":"authority.claimed","producer":"api-session","createdAt":"2026-05-17T22:10:00Z","projectVersion":"a1b2c3d","payload":{"domain":"api.schema","owner":"api-session","scope":["openapi.yaml","packages/client/src/generated/**"],"expiresAt":"2026-05-17T23:10:00Z"},"invalidates":["dashboard-session.plan","worker-session.plan"]}
+```
+
+If two sessions claim the same authority domain, pause edits in that domain and resolve ownership before continuing.
+
 ## Allowed write topics
 
 - `infra-session` may write `infra.*` and `release.*` topics.
 - `db-session` may write `db.*` topics.
 - `api-session` may write `api.*` topics.
+- Any owner may write `authority.claimed`, `authority.delegated`, and `authority.released` for its own domain.
 - `worker-session` may write `worker.*` topics.
 - `dashboard-session` may write `dashboard.*` topics.
 - Any session may write `session.blocked`, `session.unblocked`, and `session.question` for its own role.
@@ -87,6 +109,7 @@ Do not write events for another session role unless explicitly delegated in a ti
 - Replay from the recorded offset when a session starts, resumes, or finishes compaction.
 - If the offset file is missing or corrupt, replay from the start of the current day's events and summarize anything relevant before acting.
 - If two events conflict, prefer the newer event only after checking whether both producers had authority over the topic.
+- If two active authority claims overlap, stop editing the overlapping domain until ownership is resolved.
 
 # Workflow
 
