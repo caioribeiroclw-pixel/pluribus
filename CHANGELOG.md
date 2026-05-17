@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+### Changed
+
+- Track the `jqueryscript/awesome-claude-code` distribution PR in `discovery:smoke`, so the second contextual listing attempt is measured alongside the existing AI coding tools PR.
+
 ## 0.3.11 — npm discovery metadata alignment
 
 ### Changed

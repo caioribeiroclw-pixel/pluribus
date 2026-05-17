@@ -29,6 +29,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/ai-for-developers/awesome-ai-coding-tools/pull/326',
     reason: 'contextual awesome-list submission for AI coding CLI discovery',
   },
+  {
+    name: 'awesome-claude-code',
+    repo: 'jqueryscript/awesome-claude-code',
+    pullRequest: 286,
+    url: 'https://github.com/jqueryscript/awesome-claude-code/pull/286',
+    reason: 'contextual Claude Code tools directory submission for CLAUDE.md/context sync discovery',
+  },
 ]
 
 function run(command, args) {
