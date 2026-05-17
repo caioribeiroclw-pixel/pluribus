@@ -296,14 +296,27 @@ function collectExternalDistributionSignals() {
 
 const githubSignals = collectGithubSignals()
 const externalDistributions = collectExternalDistributionSignals()
+const publishedKeywords = new Set(metadata.keywords || [])
+const localKeywords = pkg.keywords || []
+const publicPackage = {
+  name: metadata.name,
+  version: metadata.version,
+  description: metadata.description,
+  keywordCount: metadata.keywords?.length || 0,
+}
+const localPackage = {
+  name: pkg.name,
+  version: pkg.version,
+  description: pkg.description,
+  keywordCount: localKeywords.length,
+  unpublishedKeywords: localKeywords.filter((keyword) => !publishedKeywords.has(keyword)),
+}
 
 const report = {
-  package: {
-    name: metadata.name,
-    version: metadata.version,
-    description: metadata.description,
-    keywordCount: metadata.keywords?.length || 0,
-  },
+  // Backwards-compatible alias for the currently published npm package.
+  package: publicPackage,
+  publicPackage,
+  localPackage,
   npmDownloads: downloadResults,
   npmSearch: npmResults,
   githubSearch: githubResults,
@@ -311,6 +324,10 @@ const report = {
   externalDistributions,
   interpretation: {
     exactNpmNameVisible: exactNameSearch.rank === 0,
+    npmLatestMatchesLocal: metadata.version === pkg.version,
+    pendingNpmPublish: metadata.version !== pkg.version,
+    localDescriptionPublished: metadata.description === pkg.description,
+    unpublishedKeywordCount: localPackage.unpublishedKeywords.length,
     genericNpmQueriesWithPluribus: npmResults.filter((result) => result.query !== pkg.name && result.rank !== null).length,
     githubQueriesWithPluribus: githubResults.filter((result) => result.ok && result.rank !== null).length,
     openIssueCount: Array.isArray(githubSignals.openIssues) ? githubSignals.openIssues.length : null,

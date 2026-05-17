@@ -6,6 +6,7 @@ All notable changes to Pluribus are documented here.
 
 ### Changed
 
+- Make `discovery:smoke` report both the published npm package and the local `package.json` plus a `pendingNpmPublish` summary, so adoption/search evidence is not misread while `0.3.10` metadata is prepared but npm latest is still `0.3.9`.
 - Refresh package discovery metadata for the next npm publish by putting `CLAUDE.md`, `rules sync`, and `Copilot instructions` in the package description and guarding adjacent npm-search keywords in `release:verify`.
 - Link review/listing feedback from the README contribution CTA and CONTRIBUTING guide, and guard those links in `release:verify`, so directory maintainers and package reviewers can find the dedicated route even when they do not start from the Community Review Packet.
 - Add a dedicated review/listing feedback issue template and link it from the Community Review Packet, so directory maintainers and package reviewers can report categorization/copy/safety friction without forcing the feedback into audit or quickstart forms.
