@@ -76,10 +76,12 @@ function assertPublishedDiscoveryMetadata(latestVersion) {
 
   const metadata = JSON.parse(run('npm', ['view', pkg.name, 'description', 'keywords', '--json'], { capture: true }))
   const description = (metadata.description || '').toLowerCase()
-  const requiredDescriptionTerms = ['ai context', 'rules', 'claude code', 'cursor', 'copilot']
+  const requiredDescriptionTerms = ['ai context', 'rules', 'cursor', 'copilot']
   for (const term of requiredDescriptionTerms) {
     assertIncludes(description, term, 'published npm description')
   }
+  const requiredClaudeTerm = versionAtLeast(latestVersion, '0.3.11') ? 'claude code' : 'claude'
+  assertIncludes(description, requiredClaudeTerm, 'published npm description')
 
   const keywords = new Set(metadata.keywords || [])
   const requiredKeywords = ['ai-context', 'agent-rules', 'claude-code', 'cursor-rules', 'copilot', 'codex', 'aider', 'drift-detection']

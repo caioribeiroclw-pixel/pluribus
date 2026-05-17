@@ -481,7 +481,7 @@ function assertReadmeDiscoveryIntro() {
 
 function assertPackageDiscoveryMetadata() {
   const description = pkg.description.toLowerCase()
-  const requiredDescriptionTerms = ['ai context', 'rules sync', 'claude.md', 'cursor', 'copilot instructions']
+  const requiredDescriptionTerms = ['ai context', 'rules sync', 'claude.md', 'claude code', 'cursor', 'copilot instructions']
   const missingDescriptionTerms = requiredDescriptionTerms.filter((term) => !description.includes(term))
 
   const keywords = new Set(pkg.keywords || [])

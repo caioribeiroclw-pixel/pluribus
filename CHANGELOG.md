@@ -4,8 +4,12 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.11 — npm discovery metadata alignment
+
 ### Changed
 
+- Patch the npm package description to include both `CLAUDE.md` and `Claude Code`, keeping the sharpened discovery metadata compatible with the published smoke gate after `0.3.10` exposed the mismatch.
+- Make the published smoke gate tolerate the already-published `0.3.10` metadata while requiring the stricter `Claude Code` description from `0.3.11` onward.
 - Make `discovery:smoke` report both the published npm package and the local `package.json` plus a `pendingNpmPublish` summary, so adoption/search evidence is not misread while `0.3.10` metadata is prepared but npm latest is still `0.3.9`.
 - Refresh package discovery metadata for the next npm publish by putting `CLAUDE.md`, `rules sync`, and `Copilot instructions` in the package description and guarding adjacent npm-search keywords in `release:verify`.
 - Link review/listing feedback from the README contribution CTA and CONTRIBUTING guide, and guard those links in `release:verify`, so directory maintainers and package reviewers can find the dedicated route even when they do not start from the Community Review Packet.
