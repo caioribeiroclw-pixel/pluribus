@@ -4,6 +4,12 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.13 — external memory docs tracking
+
+### Changed
+
+- Track the MemoryGraph docs PR in `discovery:smoke` so adjacent MCP memory feedback is measured alongside awesome-list distribution attempts.
+
 ## 0.3.12 — MCP memory handoff demo
 
 ### Added

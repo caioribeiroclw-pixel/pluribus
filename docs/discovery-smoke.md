@@ -33,7 +33,7 @@ As of 2026-05-17 01:01 UTC, public npm is still `pluribus-context@0.3.9` while t
 - `pendingNpmPublish` is expected to be `true` until npm auth/2FA allows publishing `0.3.10`; generic search results still measure the public `0.3.9` metadata, not the sharpened local `0.3.10` description/keywords.
 - npm downloads are visible through the same smoke report (`last-day`, `last-week`, `last-month`), but current values still include likely noise from release/publish/smoke activity.
 - GitHub adoption signals are visible in the same report: stars/forks/watchers, latest release, open issues, open pull requests, discussion activity, and recent external discussion-comment count.
-- External distribution tracking covers the contextual `awesome-ai-coding-tools` and `awesome-claude-code` PRs and records whether each remains open, mergeable, commented on, or merged.
+- External distribution tracking covers the contextual `awesome-ai-coding-tools`, `awesome-claude-code`, and adjacent `memory-graph` PRs and records whether each remains open, mergeable, commented on, or merged.
 - Generic npm queries still favor adjacent packages such as `sync-ai-context`, `ai-rules-sync`, `cursor2claude`, and `@intellectronica/ruler`.
 - That means exact-name discovery works, but problem-query discovery is still weak and should be treated as a lagging adoption metric, especially while `pendingNpmPublish` is true.
 

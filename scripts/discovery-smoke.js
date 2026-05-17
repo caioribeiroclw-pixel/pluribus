@@ -36,6 +36,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/jqueryscript/awesome-claude-code/pull/286',
     reason: 'contextual Claude Code tools directory submission for CLAUDE.md/context sync discovery',
   },
+  {
+    name: 'memory-graph',
+    repo: 'memory-graph/memory-graph',
+    pullRequest: 10,
+    url: 'https://github.com/memory-graph/memory-graph/pull/10',
+    reason: 'adjacent MCP memory docs contribution about multi-client memory protocol drift',
+  },
 ]
 
 function run(command, args) {
