@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+### Added
+
+- Add an MCP memory handoff demo and guide showing how Pluribus can keep recall/store protocols aligned across Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, and Zed without becoming a memory server.
+
 ### Changed
 
 - Track the `jqueryscript/awesome-claude-code` distribution PR in `discovery:smoke`, so the second contextual listing attempt is measured alongside the existing AI coding tools PR.
