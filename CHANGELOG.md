@@ -4,6 +4,8 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.12 — MCP memory handoff demo
+
 ### Added
 
 - Add an MCP memory handoff demo and guide showing how Pluribus can keep recall/store protocols aligned across Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, and Zed without becoming a memory server.
