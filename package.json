@@ -1,6 +1,6 @@
 {
   "name": "pluribus-context",
-  "version": "0.3.14",
+  "version": "0.3.15",
   "description": "AI context/rules sync for CLAUDE.md, Claude Code, Cursor rules, Copilot instructions, OpenClaw, Windsurf, Continue, and Zed.",
   "type": "module",
   "homepage": "https://github.com/caioribeiroclw-pixel/pluribus#readme",

@@ -4,6 +4,13 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.15 — portability fidelity report demo
+
+### Added
+
+- Add a portability fidelity report guide and example for AI rule/skill bundle maintainers who need evidence-based compatibility claims across `CLAUDE.md`, Cursor, Copilot, and `AGENTS.md` outputs.
+- Link the new report from the README so directory reviewers and skill/rule authors can test portability claims without treating `universal` as a self-attested boolean.
+
 ## 0.3.14 — coordination contract demo
 
 ### Added
