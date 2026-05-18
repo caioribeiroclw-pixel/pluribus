@@ -38,6 +38,7 @@ export async function runAudit(args) {
   const strict = Boolean(args.strict || ci)
   const json = Boolean(args.json)
   const githubAnnotations = Boolean(args['github-annotations'] || ci)
+  const fidelityReportEnabled = Boolean(args['fidelity-report'])
   const hasJsonOutput = Object.prototype.hasOwnProperty.call(args, 'output')
   const jsonOutput = typeof args.output === 'string' && args.output.trim() ? args.output : null
   const cwd = process.cwd()
@@ -225,12 +226,18 @@ export async function runAudit(args) {
   }, {})
 
   const hasProblem = (summary.drift || 0) + (summary.missing || 0) + (summary.error || 0) > 0
+  const fidelityReport = fidelityReportEnabled ? buildFidelityReport({ cwd, sections, tools, loadSkill }) : null
+
+  if (!json && fidelityReport) {
+    printFidelityReport(fidelityReport)
+  }
+
   if (githubAnnotations) {
     writeGitHubAnnotations(results, { strict })
   }
 
   if (json) {
-    writeJson({
+    const payload = {
       ok: !hasProblem,
       source: displaySource,
       sourceFound: true,
@@ -246,7 +253,13 @@ export async function runAudit(args) {
         ? 'Run pluribus sync --dry-run to preview fixes, then pluribus sync to update generated files.'
         : 'Generated context files are in sync.',
       feedback: AUDIT_FEEDBACK_URL,
-    }, jsonOutput)
+    }
+
+    if (fidelityReport) {
+      payload.fidelityReport = fidelityReport
+    }
+
+    writeJson(payload, jsonOutput)
   } else {
     console.log('')
     console.log(`Summary: ${summary.current || 0} current, ${summary.drift || 0} drifted, ${summary.missing || 0} missing, ${summary.error || 0} error(s).`)
@@ -262,6 +275,105 @@ export async function runAudit(args) {
   if ((strict && hasProblem) || (summary.error || 0) > 0) {
     process.exit(1)
   }
+}
+
+function buildFidelityReport({ cwd, sections, tools, loadSkill }) {
+  const presentSections = Object.entries(sections)
+    .filter(([, value]) => String(value || '').trim())
+    .map(([name]) => name)
+    .sort((a, b) => a.localeCompare(b))
+
+  const lowerPresentSections = new Set(presentSections.map((name) => name.toLowerCase()))
+  const targets = tools.map((toolId) => {
+    const skill = loadSkill(cwd, toolId)
+    const representedSections = new Set([...(skill?.required || []), ...(skill?.optional || [])].map((name) => name.toLowerCase()))
+    const unsupportedSections = presentSections.filter((name) => !representedSections.has(name.toLowerCase()))
+
+    return {
+      toolId,
+      files: skill?.outputFiles || [],
+      activation: inferActivation(toolId, skill?.outputFiles || []),
+      representedSections: presentSections.filter((name) => representedSections.has(name.toLowerCase())),
+      unsupportedSections,
+    }
+  })
+
+  const warnings = []
+  for (const target of targets) {
+    if (target.unsupportedSections.length > 0) {
+      warnings.push({
+        code: 'section-not-rendered-by-target',
+        target: target.toolId,
+        message: `${target.toolId} template does not render section(s): ${target.unsupportedSections.join(', ')}`,
+      })
+    }
+  }
+
+  if (targets.some((target) => target.activation.kind === 'flat-project-wide')) {
+    warnings.push({
+      code: 'project-wide-activation-only',
+      target: '*',
+      message: 'Generated outputs are project-wide/always-on; Pluribus does not currently model path-scoped activation, manual attach, or progressive disclosure semantics.',
+    })
+  }
+
+  const advancedSections = ['workflow', 'context', 'examples', 'anti-patterns'].filter((name) => lowerPresentSections.has(name))
+  if (advancedSections.length > 0 && warnings.some((warning) => warning.code === 'section-not-rendered-by-target')) {
+    warnings.push({
+      code: 'portability-claim-needs-evidence',
+      target: '*',
+      message: `Do not claim universal portability without evidence: advanced section(s) ${advancedSections.join(', ')} are not represented equally by every selected target.`,
+    })
+  }
+
+  return {
+    claim: 'project-wide instruction portability evidence for selected targets',
+    sourceSections: presentSections,
+    targets,
+    summary: {
+      targetCount: targets.length,
+      targetsWithUnsupportedSections: targets.filter((target) => target.unsupportedSections.length > 0).length,
+      warningCount: warnings.length,
+    },
+    warnings,
+    nextStep: warnings.length > 0
+      ? 'Review unsupportedSections/warnings before calling this context universal; narrow the tools list, change the source, or document known lossy targets.'
+      : 'Selected targets render the current non-empty source sections with no known Pluribus template loss; still smoke-test behavior in each agent.',
+  }
+}
+
+function inferActivation(toolId, outputFiles) {
+  if (toolId === 'windsurf' || toolId === 'continue') {
+    return {
+      kind: 'project-wide-rule',
+      evidence: outputFiles,
+    }
+  }
+
+  return {
+    kind: 'flat-project-wide',
+    evidence: outputFiles,
+  }
+}
+
+function printFidelityReport(report) {
+  console.log('')
+  console.log('Fidelity report:')
+  console.log(`   Claim: ${report.claim}`)
+  console.log(`   Targets: ${report.targets.map((target) => target.toolId).join(', ')}`)
+
+  for (const target of report.targets) {
+    const unsupported = target.unsupportedSections.length > 0
+      ? `; unsupported sections: ${target.unsupportedSections.join(', ')}`
+      : '; no known section loss'
+    console.log(`   • ${target.toolId}: ${target.activation.kind}${unsupported}`)
+  }
+
+  for (const warning of report.warnings) {
+    console.log(`   ⚠️  ${warning.code}: ${warning.message}`)
+  }
+
+  console.log(`   Next: ${report.nextStep}`)
 }
 
 function getTools(rawContent, toolsArg) {

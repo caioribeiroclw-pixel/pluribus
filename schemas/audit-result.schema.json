@@ -68,6 +68,10 @@
       "type": "string",
       "format": "uri",
       "description": "Issue template URL for reporting audit false positives, noisy output, or confusing next steps."
+    },
+    "fidelityReport": {
+      "$ref": "#/$defs/fidelityReport",
+      "description": "Optional portability/fidelity evidence emitted by `pluribus audit --fidelity-report`."
     }
   },
   "allOf": [
@@ -92,6 +96,80 @@
   ],
   "additionalProperties": false,
   "$defs": {
+    "fidelityReport": {
+      "type": "object",
+      "required": ["claim", "sourceSections", "targets", "summary", "warnings", "nextStep"],
+      "properties": {
+        "claim": { "type": "string" },
+        "sourceSections": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "targets": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/fidelityTarget" }
+        },
+        "summary": {
+          "type": "object",
+          "required": ["targetCount", "targetsWithUnsupportedSections", "warningCount"],
+          "properties": {
+            "targetCount": { "type": "integer", "minimum": 0 },
+            "targetsWithUnsupportedSections": { "type": "integer", "minimum": 0 },
+            "warningCount": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "warnings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/fidelityWarning" }
+        },
+        "nextStep": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "fidelityTarget": {
+      "type": "object",
+      "required": ["toolId", "files", "activation", "representedSections", "unsupportedSections"],
+      "properties": {
+        "toolId": { "type": "string" },
+        "files": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "activation": { "$ref": "#/$defs/fidelityActivation" },
+        "representedSections": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "unsupportedSections": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "fidelityActivation": {
+      "type": "object",
+      "required": ["kind", "evidence"],
+      "properties": {
+        "kind": { "type": "string" },
+        "evidence": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "fidelityWarning": {
+      "type": "object",
+      "required": ["code", "target", "message"],
+      "properties": {
+        "code": { "type": "string" },
+        "target": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
     "result": {
       "type": "object",
       "required": ["toolId", "status", "file"],

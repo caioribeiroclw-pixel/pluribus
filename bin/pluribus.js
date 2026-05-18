@@ -55,6 +55,7 @@ OPTIONS (audit)
   --json          Print machine-readable audit results
   --output        Write --json results to a file instead of stdout
   --github-annotations  Print GitHub Actions annotations for drift/missing outputs
+  --fidelity-report  Include portability/fidelity evidence for selected targets
 
 OPTIONS (watch)
   --source        Path to pluribus.md (default: ./pluribus.md)
@@ -78,6 +79,7 @@ EXAMPLES
   pluribus audit --json
   pluribus audit --strict --json --output pluribus-audit.json
   pluribus audit --strict --github-annotations
+  pluribus audit --json --fidelity-report
   pluribus watch --tools claude,cursor
 
 DOCS
@@ -88,7 +90,7 @@ const COMMAND_FLAGS = {
   init: new Set(['name', 'description', 'tools', 'dry-run']),
   sync: new Set(['dry-run', 'tools', 'source', 'update-imports']),
   validate: new Set(['source', 'update-imports']),
-  audit: new Set(['source', 'tools', 'update-imports', 'strict', 'ci', 'json', 'output', 'github-annotations']),
+  audit: new Set(['source', 'tools', 'update-imports', 'strict', 'ci', 'json', 'output', 'github-annotations', 'fidelity-report']),
   watch: new Set(['source', 'tools', 'update-imports', 'dry-run', 'once', 'debounce']),
 }
 

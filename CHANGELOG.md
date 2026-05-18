@@ -4,6 +4,13 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.16 — audit fidelity evidence
+
+### Added
+
+- Add `pluribus audit --fidelity-report` so maintainers can emit target-by-target portability evidence in JSON or human output: represented sections, unsupported sections, activation shape, warnings, and the next step before claiming a rule/skill bundle is universal.
+- Update the portability fidelity report guide to use `audit --json --fidelity-report` as the reproducible evidence artifact for directory reviewers and rule/skill bundle maintainers.
+
 ## 0.3.15 — portability fidelity report demo
 
 ### Added

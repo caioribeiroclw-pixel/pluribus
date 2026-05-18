@@ -129,6 +129,24 @@ test('audit can print machine-readable JSON results', () => {
   assert.match(payload.feedback, /issues\/new\?template=audit-feedback\.yml/)
 })
 
+test('audit can include a portability fidelity report in JSON output', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), `${validContext}\n# Workflow\nReview generated output before merging.\n# Context\nThis is project-wide context.`)
+
+  const sync = runCli(dir, ['sync'])
+  assert.equal(sync.status, 0, sync.stderr)
+
+  const audit = runCli(dir, ['audit', '--json', '--fidelity-report'])
+  const payload = JSON.parse(audit.stdout)
+
+  assert.equal(audit.status, 0, audit.stderr)
+  assert.equal(payload.fidelityReport.claim, 'project-wide instruction portability evidence for selected targets')
+  assert.equal(payload.fidelityReport.summary.targetCount, 2)
+  assert.ok(payload.fidelityReport.summary.warningCount >= 1)
+  assert.deepEqual(payload.fidelityReport.targets.find((target) => target.toolId === 'cursor').unsupportedSections, ['Context', 'Workflow'])
+  assert.match(payload.fidelityReport.nextStep, /calling this context universal|smoke-test behavior/)
+})
+
 test('audit can emit GitHub Actions annotations without polluting JSON stdout', () => {
   const dir = tempProject()
   writeFile(path.join(dir, 'pluribus.md'), validContext)
