@@ -4,6 +4,13 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.17 — native discovery fidelity evidence
+
+### Changed
+
+- Extend `pluribus audit --fidelity-report` with `nativeDiscoverySurface`, `resolutionAnchor`, `genericFallback`, `manualActivationRequired`, and `semanticDifference` fields so reviewers can distinguish copied files from target-native discovery and semantic preservation.
+- Document the new fidelity report fields for rule/skill bundle maintainers reviewing multi-agent installer claims.
+
 ## 0.3.16 — audit fidelity evidence
 
 ### Added

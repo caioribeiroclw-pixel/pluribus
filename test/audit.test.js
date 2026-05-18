@@ -143,7 +143,12 @@ test('audit can include a portability fidelity report in JSON output', () => {
   assert.equal(payload.fidelityReport.claim, 'project-wide instruction portability evidence for selected targets')
   assert.equal(payload.fidelityReport.summary.targetCount, 2)
   assert.ok(payload.fidelityReport.summary.warningCount >= 1)
-  assert.deepEqual(payload.fidelityReport.targets.find((target) => target.toolId === 'cursor').unsupportedSections, ['Context', 'Workflow'])
+  const cursorTarget = payload.fidelityReport.targets.find((target) => target.toolId === 'cursor')
+  assert.deepEqual(cursorTarget.unsupportedSections, ['Context', 'Workflow'])
+  assert.equal(cursorTarget.nativeDiscoverySurface, '.cursorrules')
+  assert.equal(cursorTarget.resolutionAnchor, 'repo-root')
+  assert.equal(cursorTarget.genericFallback, false)
+  assert.deepEqual(cursorTarget.semanticDifference, ['section-loss', 'project-wide-only'])
   assert.match(payload.fidelityReport.nextStep, /calling this context universal|smoke-test behavior/)
 })
 

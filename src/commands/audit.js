@@ -289,11 +289,21 @@ function buildFidelityReport({ cwd, sections, tools, loadSkill }) {
     const representedSections = new Set([...(skill?.required || []), ...(skill?.optional || [])].map((name) => name.toLowerCase()))
     const unsupportedSections = presentSections.filter((name) => !representedSections.has(name.toLowerCase()))
 
+    const outputFiles = skill?.outputFiles || []
+    const activation = inferActivation(toolId, outputFiles)
+    const discovery = inferDiscovery(toolId, outputFiles)
+    const represented = presentSections.filter((name) => representedSections.has(name.toLowerCase()))
+
     return {
       toolId,
-      files: skill?.outputFiles || [],
-      activation: inferActivation(toolId, skill?.outputFiles || []),
-      representedSections: presentSections.filter((name) => representedSections.has(name.toLowerCase())),
+      files: outputFiles,
+      nativeDiscoverySurface: discovery.nativeDiscoverySurface,
+      resolutionAnchor: discovery.resolutionAnchor,
+      genericFallback: discovery.genericFallback,
+      manualActivationRequired: discovery.manualActivationRequired,
+      activation,
+      semanticDifference: summarizeSemanticDifference({ unsupportedSections, activation, discovery }),
+      representedSections: represented,
       unsupportedSections,
     }
   })
@@ -356,6 +366,48 @@ function inferActivation(toolId, outputFiles) {
   }
 }
 
+function inferDiscovery(toolId, outputFiles) {
+  const primaryFile = outputFiles[0] || null
+  const nativeDiscoverySurfaces = {
+    claude: 'CLAUDE.md',
+    cursor: '.cursorrules',
+    openclaw: 'AGENTS.md',
+    copilot: '.github/copilot-instructions.md',
+    windsurf: '.windsurf/rules/*.md',
+    continue: '.continue/rules/*.md',
+    zed: '.rules',
+  }
+
+  return {
+    nativeDiscoverySurface: nativeDiscoverySurfaces[toolId] || primaryFile,
+    resolutionAnchor: primaryFile ? 'repo-root' : 'unknown',
+    genericFallback: toolId === 'openclaw',
+    manualActivationRequired: false,
+  }
+}
+
+function summarizeSemanticDifference({ unsupportedSections, activation, discovery }) {
+  const differences = []
+
+  if (unsupportedSections.length > 0) {
+    differences.push('section-loss')
+  }
+
+  if (activation.kind === 'flat-project-wide') {
+    differences.push('project-wide-only')
+  }
+
+  if (discovery.genericFallback) {
+    differences.push('generic-agent-file')
+  }
+
+  if (discovery.manualActivationRequired) {
+    differences.push('manual-activation-required')
+  }
+
+  return differences.length > 0 ? differences : ['no-known-template-loss']
+}
+
 function printFidelityReport(report) {
   console.log('')
   console.log('Fidelity report:')
@@ -366,7 +418,13 @@ function printFidelityReport(report) {
     const unsupported = target.unsupportedSections.length > 0
       ? `; unsupported sections: ${target.unsupportedSections.join(', ')}`
       : '; no known section loss'
-    console.log(`   • ${target.toolId}: ${target.activation.kind}${unsupported}`)
+    const discovery = target.nativeDiscoverySurface
+      ? `; surface: ${target.nativeDiscoverySurface}`
+      : ''
+    const semantics = target.semanticDifference?.length
+      ? `; semantic: ${target.semanticDifference.join(', ')}`
+      : ''
+    console.log(`   • ${target.toolId}: ${target.activation.kind}${discovery}${unsupported}${semantics}`)
   }
 
   for (const warning of report.warnings) {

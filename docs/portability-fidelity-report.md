@@ -75,10 +75,22 @@ Pluribus is intentionally narrower than a skill registry or memory layer:
 - `pluribus.md` keeps the claim in one reviewed source of truth.
 - `sync --dry-run` previews target-specific outputs before writing files.
 - generated files carry a warning header so manual edits are visible.
-- `audit --json --fidelity-report` gives CI/reviewers a machine-readable check for missing/drifted outputs plus target-by-target section loss, activation shape, and portability warnings.
+- `audit --json --fidelity-report` gives CI/reviewers a machine-readable check for missing/drifted outputs plus target-by-target section loss, activation shape, native discovery surface, resolution anchor, generic fallback status, and portability warnings.
 - remote imports are opt-in, locked, cached, and digest-checked before becoming shared context.
 
 That does **not** prove runtime behavior. You still need tool-specific smoke tests for load order, path/glob activation, available tools, MCP servers, and permission semantics.
+
+### Fields to inspect in `fidelityReport.targets[]`
+
+For each selected target, the JSON report includes:
+
+- `nativeDiscoverySurface` — the file or directory pattern the target normally discovers, such as `CLAUDE.md`, `.cursorrules`, `.github/copilot-instructions.md`, or `AGENTS.md`.
+- `resolutionAnchor` — where the generated surface is resolved from today (`repo-root` for built-in targets).
+- `genericFallback` — whether the output is a broad agent fallback surface rather than a target-specific native surface.
+- `manualActivationRequired` — whether Pluribus knows the output requires manual activation after generation. Built-in project-wide targets are currently `false`; future scoped/skill targets may differ.
+- `semanticDifference` — a compact list such as `section-loss`, `project-wide-only`, or `generic-agent-file` so reviewers can distinguish “file exists” from “same behavior is preserved.”
+
+These fields are intentionally boring. They help reviewers catch cases like “installed files exist but the agent will not discover them,” or “two targets share a generic file but do not actually have the same loading semantics.”
 
 ## Suggested workflow for maintainers
 
