@@ -4,6 +4,13 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.19 — Bob native discovery target
+
+### Added
+
+- Add a built-in `bob` adapter that writes `.bob/rules/pluribus.md`, so Pluribus can test native discovery surfaces instead of forcing Bob-style rules through generic `AGENTS.md` fallback.
+- Extend public docs, quickstart, contributor guidance, and portability fidelity examples with Bob rules as a target for native-discovery vs generic-fallback review.
+
 ## 0.3.18 — fidelity audit discovery positioning
 
 ### Changed

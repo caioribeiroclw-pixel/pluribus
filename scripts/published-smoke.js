@@ -10,7 +10,14 @@ const repoRoot = process.cwd()
 const pkg = JSON.parse(readFileSync(path.join(repoRoot, 'package.json'), 'utf8'))
 const packageSpec = `${pkg.name}@latest`
 const auditFeedbackUrl = 'https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=audit-feedback.yml'
-const supportedToolsHelp = `--tools         Comma-separated list of tools to enable (${SUPPORTED_TOOLS.join(',')})`
+function parseSupportedToolsFromHelp(helpOutput) {
+  const match = helpOutput.match(/--tools\s+Comma-separated list of tools to enable \(([^)]+)\)/)
+  if (!match) return []
+  return match[1]
+    .split(',')
+    .map((tool) => tool.trim())
+    .filter(Boolean)
+}
 
 function run(command, args, options = {}) {
   return execFileSync(command, args, {
@@ -61,6 +68,9 @@ function assertPublishedReadme(latestVersion) {
   ]) {
     assertIncludes(readme, outputPath, 'published npm README supported tool outputs')
   }
+  if (versionAtLeast(latestVersion, '0.3.19')) {
+    assertIncludes(readme, '`.bob/rules/pluribus.md`', 'published npm README supported tool outputs')
+  }
   assertNotIncludes(readme, 'npx pluribus-context init', 'published npm README')
   assertNotIncludes(readme, 'npx pluribus-context sync', 'published npm README')
 
@@ -85,6 +95,9 @@ function assertPublishedDiscoveryMetadata(latestVersion) {
 
   const keywords = new Set(metadata.keywords || [])
   const requiredKeywords = ['ai-context', 'agent-rules', 'claude-code', 'cursor-rules', 'copilot', 'codex', 'aider', 'drift-detection']
+  if (versionAtLeast(latestVersion, '0.3.19')) {
+    requiredKeywords.push('bob', 'bob-rules')
+  }
   const missingKeywords = requiredKeywords.filter((keyword) => !keywords.has(keyword))
   if (missingKeywords.length > 0) {
     throw new Error(`published npm keywords missing: ${missingKeywords.join(', ')}`)
@@ -103,8 +116,8 @@ function assertFileMissing(filePath, label) {
   }
 }
 
-function assertAllSupportedToolOutputs(projectDir, label) {
-  for (const tool of SUPPORTED_TOOLS) {
+function assertAllSupportedToolOutputs(projectDir, label, tools = SUPPORTED_TOOLS) {
+  for (const tool of tools) {
     const outputFiles = BUILT_IN_SKILLS[tool].outputFiles || []
     for (const outputFile of outputFiles) {
       assertFileExists(path.join(projectDir, outputFile), `${label} ${tool}`)
@@ -160,8 +173,9 @@ try {
     capture: true,
   })
   assertIncludes(helpOutput, `Pluribus v${latestVersion}`, 'published pluribus --help')
-  if (versionAtLeast(latestVersion, '0.3.1')) {
-    assertIncludes(helpOutput, supportedToolsHelp, 'published pluribus --help supported tools')
+  const publishedSupportedTools = parseSupportedToolsFromHelp(helpOutput)
+  if (versionAtLeast(latestVersion, '0.3.1') && publishedSupportedTools.length === 0) {
+    throw new Error(`Could not parse published supported tools from help output:\n${helpOutput}`)
   }
 
   if (versionAtLeast(latestVersion, '0.3.1')) {
@@ -237,7 +251,7 @@ try {
         '--description',
         'A Node.js service',
         '--tools',
-        SUPPORTED_TOOLS.join(','),
+        publishedSupportedTools.join(','),
       ],
       { cwd: allToolsDir, capture: true },
     )
@@ -245,10 +259,10 @@ try {
       cwd: allToolsDir,
       capture: true,
     })
-    for (const tool of SUPPORTED_TOOLS) {
+    for (const tool of publishedSupportedTools) {
       assertIncludes(allToolsSync, `[${tool}]`, 'published pluribus sync all supported tools')
     }
-    assertAllSupportedToolOutputs(allToolsDir, 'published pluribus sync all supported tools')
+    assertAllSupportedToolOutputs(allToolsDir, 'published pluribus sync all supported tools', publishedSupportedTools)
   }
 
   console.log(`✅ published smoke passed for ${pkg.name}@${latestVersion}`)

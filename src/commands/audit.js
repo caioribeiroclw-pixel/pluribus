@@ -376,6 +376,7 @@ function inferDiscovery(toolId, outputFiles) {
     windsurf: '.windsurf/rules/*.md',
     continue: '.continue/rules/*.md',
     zed: '.rules',
+    bob: '.bob/rules/*.md',
   }
 
   return {

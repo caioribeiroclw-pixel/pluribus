@@ -152,6 +152,49 @@ test('audit can include a portability fidelity report in JSON output', () => {
   assert.match(payload.fidelityReport.nextStep, /calling this context universal|smoke-test behavior/)
 })
 
+
+test('audit fidelity report marks bob as native rules surface', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), `
+<!-- pluribus:tools: bob,openclaw -->
+
+# Identity
+Bob audit user
+
+# Stack
+Node.js
+
+# Conventions
+Prefer native discovery surfaces where the agent supports them.
+
+# Goals
+Catch installed-but-not-discoverable rules.
+
+# Constraints
+Do not flatten native rules into generic files without a visible warning.
+
+# Workflow
+Review native discovery and generic fallback separately.
+`)
+
+  const sync = runCli(dir, ['sync'])
+  assert.equal(sync.status, 0, sync.stderr)
+
+  const audit = runCli(dir, ['audit', '--json', '--fidelity-report'])
+  const payload = JSON.parse(audit.stdout)
+
+  assert.equal(audit.status, 0, audit.stderr)
+  const bobTarget = payload.fidelityReport.targets.find((target) => target.toolId === 'bob')
+  const openclawTarget = payload.fidelityReport.targets.find((target) => target.toolId === 'openclaw')
+  assert.equal(bobTarget.nativeDiscoverySurface, '.bob/rules/*.md')
+  assert.equal(bobTarget.genericFallback, false)
+  assert.equal(bobTarget.manualActivationRequired, false)
+  assert.deepEqual(bobTarget.files, ['.bob/rules/pluribus.md'])
+  assert.equal(openclawTarget.nativeDiscoverySurface, 'AGENTS.md')
+  assert.equal(openclawTarget.genericFallback, true)
+  assert.ok(openclawTarget.semanticDifference.includes('generic-agent-file'))
+})
+
 test('audit can emit GitHub Actions annotations without polluting JSON stdout', () => {
   const dir = tempProject()
   writeFile(path.join(dir, 'pluribus.md'), validContext)

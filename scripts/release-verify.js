@@ -259,6 +259,7 @@ const supportedToolOutputSnippets = [
   '`.windsurf/rules/pluribus.md`',
   '`.continue/rules/pluribus.md`',
   '`.rules`',
+  '`.bob/rules/pluribus.md`',
 ]
 
 function assertReadmeSupportedToolsCopy() {
@@ -284,6 +285,7 @@ function assertQuickstartSupportedToolsCopy() {
     '| `windsurf` | `.windsurf/rules/pluribus.md` |',
     '| `continue` | `.continue/rules/pluribus.md` |',
     '| `zed` | `.rules` |',
+    '| `bob` | `.bob/rules/pluribus.md` |',
     'npx --yes pluribus-context@latest --help',
   ]
   const missing = requiredSnippets.filter((snippet) => !quickstart.includes(snippet))
@@ -309,6 +311,7 @@ function assertContributingSupportedToolsCopy() {
     '| `windsurf` | `.windsurf/rules/pluribus.md` |',
     '| `continue` | `.continue/rules/pluribus.md` |',
     '| `zed` | `.rules` |',
+    '| `bob` | `.bob/rules/pluribus.md` |',
     'issues/new?template=integration-request.yml',
   ]
   const missing = requiredSnippets.filter((snippet) => !contributing.includes(snippet))
@@ -465,7 +468,7 @@ function assertReadmeDiscoveryIntro() {
     '`pluribus-context` on npm',
     '`pluribus` on the command line',
     'AI context sync CLI',
-    'Claude Code, Cursor, GitHub Copilot, OpenClaw, Windsurf, Continue, or Zed',
+    'Claude Code, Cursor, GitHub Copilot, OpenClaw, Windsurf, Continue, Zed, or Bob',
   ]
   const missing = requiredSnippets.filter((snippet) => !intro.includes(snippet))
 
@@ -568,7 +571,7 @@ function assertCommunityReviewPacketDistributionCopy() {
     '| Category | AI coding tools / context management |',
     '| Safe first command | `npx --yes pluribus-context@latest audit` |',
     '### Awesome-list Markdown entry',
-    '- [Pluribus](https://github.com/caioribeiroclw-pixel/pluribus) - Open-source CLI that keeps one versioned AI coding context in sync across Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, and Zed.',
+    '- [Pluribus](https://github.com/caioribeiroclw-pixel/pluribus) - Open-source CLI that keeps one versioned AI coding context in sync across Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, Zed, and Bob.',
     '## Fit and boundaries',
     '| What category is it? | AI coding context management / rules sync CLI. |',
     '| What is the source of truth? | `pluribus.md`, reviewed in git. |',

@@ -1,4 +1,4 @@
-<!-- pluribus:tools: claude,cursor,copilot,openclaw -->
+<!-- pluribus:tools: claude,cursor,copilot,openclaw,bob -->
 
 # Identity
 This repository publishes an AI rule or skill bundle that claims portability across Claude Code, Cursor, GitHub Copilot, and AGENTS.md-compatible coding agents.
@@ -7,7 +7,7 @@ The bundle should be treated as portable only when its required capabilities, te
 
 # Stack
 - Source format: Markdown rules/skills maintained in git.
-- Generated targets: `CLAUDE.md`, `.cursorrules`, `.github/copilot-instructions.md`, and `AGENTS.md`.
+- Generated targets: `CLAUDE.md`, `.cursorrules`, `.github/copilot-instructions.md`, `AGENTS.md`, and `.bob/rules/pluribus.md`.
 - Review command: `npx --yes pluribus-context@latest sync --dry-run`.
 - Drift command: `npx --yes pluribus-context@latest audit --json`.
 
@@ -32,6 +32,8 @@ portability:
       evidence: generated .github/copilot-instructions.md smoke-reviewed
     - target: agents-md
       evidence: generated AGENTS.md smoke-reviewed
+    - target: bob
+      evidence: generated .bob/rules/pluribus.md smoke-reviewed
   requiredCapabilities:
     - load repository instructions before planning
     - preserve generated-file warning

@@ -1,7 +1,7 @@
 {
   "name": "pluribus-context",
-  "version": "0.3.18",
-  "description": "AI context/rules sync and fidelity audit CLI for CLAUDE.md, Claude Code, Cursor rules, Copilot instructions, OpenClaw, Windsurf, Continue, and Zed semantic drift.",
+  "version": "0.3.19",
+  "description": "AI context/rules sync and fidelity audit CLI for CLAUDE.md, Claude Code, Cursor rules, Copilot instructions, OpenClaw, Windsurf, Continue, Zed, Bob, and semantic drift.",
   "type": "module",
   "homepage": "https://github.com/caioribeiroclw-pixel/pluribus#readme",
   "repository": {
@@ -77,7 +77,9 @@
     "semantic-loss",
     "native-discovery",
     "agent-context-audit",
-    "agent-memory"
+    "agent-memory",
+    "bob",
+    "bob-rules"
   ],
   "author": "Caio Ribeiro",
   "license": "MIT",

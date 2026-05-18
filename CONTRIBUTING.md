@@ -6,7 +6,7 @@ Thanks for your interest in contributing. Pluribus is a small, focused tool; con
 
 ## What Pluribus does
 
-Pluribus syncs one intentional context file (`pluribus.md`) to the instruction formats used by different AI coding tools: `CLAUDE.md`, `.cursorrules`, `.github/copilot-instructions.md`, `AGENTS.md`, Windsurf rules, Continue rules, Zed rules, and similar files.
+Pluribus syncs one intentional context file (`pluribus.md`) to the instruction formats used by different AI coding tools: `CLAUDE.md`, `.cursorrules`, `.github/copilot-instructions.md`, `AGENTS.md`, Windsurf rules, Continue rules, Zed rules, Bob rules, and similar files.
 
 Good contributions:
 - Add or improve a tool adapter.
@@ -41,7 +41,7 @@ Open a [Review/listing feedback issue](https://github.com/caioribeiroclw-pixel/p
 
 ## Audit feedback
 
-If your repo already has `CLAUDE.md`, Cursor rules, Copilot instructions, `AGENTS.md`, Windsurf rules, Continue rules, Zed rules, or other AI context files, the most useful report is often a read-only audit result:
+If your repo already has `CLAUDE.md`, Cursor rules, Copilot instructions, `AGENTS.md`, Windsurf rules, Continue rules, Zed rules, Bob rules, or other AI context files, the most useful report is often a read-only audit result:
 
 ```bash
 npx --yes pluribus-context@latest audit
@@ -105,6 +105,7 @@ Current built-in adapter ids are:
 | `windsurf` | `.windsurf/rules/pluribus.md` |
 | `continue` | `.continue/rules/pluribus.md` |
 | `zed` | `.rules` |
+| `bob` | `.bob/rules/pluribus.md` |
 
 If your tool is missing, open a [tool integration request](https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=integration-request.yml) with the official docs URL, expected output path, and a minimal public example.
 

@@ -1,6 +1,6 @@
 # Portability Fidelity Report
 
-Use this when a rule pack, skill bundle, `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, or Copilot instruction file claims to be portable across AI coding tools.
+Use this when a rule pack, skill bundle, `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, Bob `.bob/rules/*.md`, or Copilot instruction file claims to be portable across AI coding tools.
 
 The goal is not to prove that every tool behaves identically. The goal is to make portability claims falsifiable: which tools were tested, which capabilities are required, where semantics are lossy, and what evidence a reviewer can inspect.
 
@@ -46,6 +46,8 @@ portability:
       evidence: generated .cursorrules smoke-reviewed on 2026-05-18
     - target: github-copilot
       evidence: generated .github/copilot-instructions.md smoke-reviewed on 2026-05-18
+    - target: bob
+      evidence: generated .bob/rules/pluribus.md smoke-reviewed on 2026-05-18
   requiredCapabilities:
     - read repository instructions before planning
     - preserve generated-file warning
@@ -84,7 +86,7 @@ That does **not** prove runtime behavior. You still need tool-specific smoke tes
 
 For each selected target, the JSON report includes:
 
-- `nativeDiscoverySurface` — the file or directory pattern the target normally discovers, such as `CLAUDE.md`, `.cursorrules`, `.github/copilot-instructions.md`, or `AGENTS.md`.
+- `nativeDiscoverySurface` — the file or directory pattern the target normally discovers, such as `CLAUDE.md`, `.cursorrules`, `.github/copilot-instructions.md`, `AGENTS.md`, or Bob `.bob/rules/*.md`.
 - `resolutionAnchor` — where the generated surface is resolved from today (`repo-root` for built-in targets).
 - `genericFallback` — whether the output is a broad agent fallback surface rather than a target-specific native surface.
 - `manualActivationRequired` — whether Pluribus knows the output requires manual activation after generation. Built-in project-wide targets are currently `false`; future scoped/skill targets may differ.
