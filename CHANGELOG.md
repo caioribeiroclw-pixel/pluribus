@@ -4,6 +4,13 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.18 — fidelity audit discovery positioning
+
+### Changed
+
+- Reposition npm and README copy around AI-agent context fidelity audit and semantic drift detection, so package/directory discovery surfaces see the current wedge before generic context sync.
+- Track npm/GitHub discovery queries for `AI agent context fidelity audit` and `semantic drift agent context`, making the new positioning falsifiable instead of subjective.
+
 ## 0.3.17 — native discovery fidelity evidence
 
 ### Changed

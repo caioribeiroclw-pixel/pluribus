@@ -6,15 +6,15 @@
 [![Building in Public](https://img.shields.io/badge/building-in%20public-orange?style=flat-square)](https://x.com/RibeiroCaioCLW)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
-> Intentional context across every AI tool you use.
+> Detect where AI-agent context loses fidelity across tools — then sync the parts that can be safely shared.
 
-Pluribus (`pluribus-context` on npm, `pluribus` on the command line) is an AI context sync CLI for teams and projects that use Claude Code, Cursor, GitHub Copilot, OpenClaw, Windsurf, Continue, or Zed.
+Pluribus (`pluribus-context` on npm, `pluribus` on the command line) is an AI context sync CLI with AI-agent context fidelity audit for teams and projects that use Claude Code, Cursor, GitHub Copilot, OpenClaw, Windsurf, Continue, or Zed.
 
-It keeps project instructions, conventions, constraints, and team context in one versioned source of truth, then syncs that context into the formats each AI tool expects.
+It shows where instructions keep their semantics, where they are downgraded to a generic fallback, and where manual activation or native discovery matters — then keeps project instructions, conventions, constraints, and team context in one versioned source of truth.
 
 It is **not** a persistent memory layer, retrieval system, agent orchestrator, or agent-merging framework. Think `CLAUDE.md`, `.cursorrules`, `copilot-instructions.md`, `AGENTS.md` — one intentional context, multiple generated outputs.
 
-**Reviewer shortcut:** evaluating Pluribus for a list, newsletter, package roundup, or tool directory? Use the [Community Review Packet](docs/community-review-packet.md) for copy-paste directory submission fields, safety/removability notes, feedback links, and a disposable 60-second smoke test.
+**Reviewer shortcut:** evaluating Pluribus for a list, newsletter, package roundup, or tool directory? Use the [Community Review Packet](docs/community-review-packet.md) for copy-paste directory submission fields, safety/removability notes, feedback links, and a disposable 60-second smoke test. If you only run one command, try `npx --yes pluribus-context@latest audit --json --fidelity-report` to see native discovery surfaces, generic fallbacks, manual activation requirements, and semantic differences.
 
 ---
 

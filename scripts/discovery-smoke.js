@@ -13,12 +13,15 @@ const npmQueries = [
   'claude code context sync',
   'context-sync ai-rules claude-md',
   'rules-sync context-files ai-agents',
+  'AI agent context fidelity audit',
+  'semantic drift agent context',
 ]
 
 const githubQueries = [
   pkg.name,
   'AI context sync Claude Cursor',
   'claude code context sync pluribus-context',
+  'AI agent context fidelity audit',
 ]
 
 const trackedExternalDistributions = [

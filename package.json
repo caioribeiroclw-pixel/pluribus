@@ -1,7 +1,7 @@
 {
   "name": "pluribus-context",
-  "version": "0.3.17",
-  "description": "AI context/rules sync for CLAUDE.md, Claude Code, Cursor rules, Copilot instructions, OpenClaw, Windsurf, Continue, and Zed.",
+  "version": "0.3.18",
+  "description": "AI context/rules sync and fidelity audit CLI for CLAUDE.md, Claude Code, Cursor rules, Copilot instructions, OpenClaw, Windsurf, Continue, and Zed semantic drift.",
   "type": "module",
   "homepage": "https://github.com/caioribeiroclw-pixel/pluribus#readme",
   "repository": {
@@ -70,7 +70,14 @@
     "windsurf",
     "windsurf-rules",
     "zed",
-    "zed-rules"
+    "zed-rules",
+    "fidelity-audit",
+    "context-fidelity",
+    "semantic-drift",
+    "semantic-loss",
+    "native-discovery",
+    "agent-context-audit",
+    "agent-memory"
   ],
   "author": "Caio Ribeiro",
   "license": "MIT",
