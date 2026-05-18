@@ -91,6 +91,24 @@ Expected result:
 - `sync --dry-run` previews generated context files without writing them.
 - `audit --ci` may exit `1` before generated files are synced; that is expected when outputs are missing or drifted.
 
+## 60-second native-vs-fallback smoke
+
+Use this when reviewing the fidelity-audit positioning. It demonstrates the difference between a native tool discovery surface and a generic fallback in a clean directory:
+
+```bash
+mkdir pluribus-fidelity && cd pluribus-fidelity
+npx --yes pluribus-context@latest init --name "Fidelity review" --description "Native vs fallback smoke" --tools bob,openclaw
+npx --yes pluribus-context@latest sync
+npx --yes pluribus-context@latest audit --json --fidelity-report --output fidelity.json
+node -e "const r=require('./fidelity.json'); console.log(r.fidelityReport.targets.map(t => ({ toolId: t.toolId, file: t.files[0], nativeDiscoverySurface: t.nativeDiscoverySurface, genericFallback: t.genericFallback, manualActivationRequired: t.manualActivationRequired })))"
+```
+
+Expected result:
+
+- Bob writes `.bob/rules/pluribus.md` and reports `nativeDiscoverySurface: ".bob/rules/*.md"`, `genericFallback: false`, `manualActivationRequired: false`.
+- OpenClaw writes `AGENTS.md` and reports `nativeDiscoverySurface: "AGENTS.md"`, `genericFallback: true`, `manualActivationRequired: false`.
+- This is the core Pluribus distinction for reviewers: generated file exists is not enough; the report should show whether the target uses native discovery or a generic fallback.
+
 ## Useful links
 
 - npm package: <https://www.npmjs.com/package/pluribus-context>

@@ -18,6 +18,13 @@ const reviewCommands = [
   `npx --yes ${packageSpec} sync --dry-run`,
   `npx --yes ${packageSpec} audit --ci --json --output pluribus-audit.json || test $? -eq 1`,
 ]
+const fidelityCommands = [
+  'mkdir pluribus-fidelity && cd pluribus-fidelity',
+  `npx --yes ${packageSpec} init --name "Fidelity review" --description "Native vs fallback smoke" --tools bob,openclaw`,
+  `npx --yes ${packageSpec} sync`,
+  `npx --yes ${packageSpec} audit --json --fidelity-report --output fidelity.json`,
+  `node -e "const r=require('./fidelity.json'); console.log(r.fidelityReport.targets.map(t => ({ toolId: t.toolId, file: t.files[0], nativeDiscoverySurface: t.nativeDiscoverySurface, genericFallback: t.genericFallback, manualActivationRequired: t.manualActivationRequired })))"`,
+]
 
 function run(command, args, options = {}) {
   return execFileSync(command, args, {
@@ -62,7 +69,8 @@ function assertFileMissing(filePath, label) {
 function assertPacketDocumentsSmoke() {
   const packet = readFileSync(packetPath, 'utf8')
   assertIncludes(packet, '## 60-second review smoke', 'community review packet')
-  for (const command of reviewCommands) {
+  assertIncludes(packet, '## 60-second native-vs-fallback smoke', 'community review packet')
+  for (const command of [...reviewCommands, ...fidelityCommands]) {
     assertIncludes(packet, command, 'community review packet smoke command')
   }
 }
@@ -154,6 +162,74 @@ try {
     throw new Error(`Unexpected review smoke audit JSON:\n${JSON.stringify(auditJson, null, 2)}`)
   }
   assertIncludes(auditJson.feedback || '', 'issues/new?template=audit-feedback.yml', 'review smoke audit feedback URL')
+
+  const fidelityDir = path.join(smokeDir, 'pluribus-fidelity')
+  mkdirSync(fidelityDir)
+
+  const fidelityInit = run(
+    'npx',
+    [
+      '--yes',
+      packageSpec,
+      'init',
+      '--name',
+      'Fidelity review',
+      '--description',
+      'Native vs fallback smoke',
+      '--tools',
+      'bob,openclaw',
+    ],
+    { cwd: fidelityDir, capture: true },
+  )
+  assertIncludes(fidelityInit, 'pluribus.md created', 'native-vs-fallback smoke init')
+
+  const fidelitySync = run('npx', ['--yes', packageSpec, 'sync'], { cwd: fidelityDir, capture: true })
+  assertIncludes(fidelitySync, '.bob/rules/pluribus.md', 'native-vs-fallback smoke sync')
+  assertIncludes(fidelitySync, 'AGENTS.md', 'native-vs-fallback smoke sync')
+  assertFileExists(path.join(fidelityDir, '.bob/rules/pluribus.md'), 'native-vs-fallback smoke sync')
+  assertFileExists(path.join(fidelityDir, 'AGENTS.md'), 'native-vs-fallback smoke sync')
+
+  const fidelityAudit = run(
+    'npx',
+    ['--yes', packageSpec, 'audit', '--json', '--fidelity-report', '--output', 'fidelity.json'],
+    { cwd: fidelityDir, capture: true },
+  )
+  if (fidelityAudit.trim()) {
+    throw new Error(`Expected native-vs-fallback audit --output to keep stdout empty. Output:
+${fidelityAudit}`)
+  }
+  const fidelityJsonPath = path.join(fidelityDir, 'fidelity.json')
+  assertFileExists(fidelityJsonPath, 'native-vs-fallback smoke audit --output')
+  const fidelityJson = JSON.parse(readFileSync(fidelityJsonPath, 'utf8'))
+  const targetById = Object.fromEntries((fidelityJson.fidelityReport?.targets || []).map((target) => [target.toolId, target]))
+
+  const bob = targetById.bob
+  if (!bob) {
+    throw new Error(`Expected fidelity report to include Bob target:
+${JSON.stringify(fidelityJson, null, 2)}`)
+  }
+  if (bob.nativeDiscoverySurface !== '.bob/rules/*.md' || bob.genericFallback !== false || bob.manualActivationRequired !== false) {
+    throw new Error(`Unexpected Bob fidelity fields:
+${JSON.stringify(bob, null, 2)}`)
+  }
+  if (bob.files?.[0] !== '.bob/rules/pluribus.md') {
+    throw new Error(`Unexpected Bob target file:
+${JSON.stringify(bob, null, 2)}`)
+  }
+
+  const openclaw = targetById.openclaw
+  if (!openclaw) {
+    throw new Error(`Expected fidelity report to include OpenClaw target:
+${JSON.stringify(fidelityJson, null, 2)}`)
+  }
+  if (openclaw.nativeDiscoverySurface !== 'AGENTS.md' || openclaw.genericFallback !== true || openclaw.manualActivationRequired !== false) {
+    throw new Error(`Unexpected OpenClaw fidelity fields:
+${JSON.stringify(openclaw, null, 2)}`)
+  }
+  if (openclaw.files?.[0] !== 'AGENTS.md') {
+    throw new Error(`Unexpected OpenClaw target file:
+${JSON.stringify(openclaw, null, 2)}`)
+  }
 
   console.log(`✅ community review packet smoke passed for ${pkg.name}@latest (${latestVersion})`)
 } finally {

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.20 - 2026-05-18
+
+- Added a 60-second native-vs-fallback smoke to the community review packet so directory/list reviewers can see Bob native `.bob/rules/*.md` differ from OpenClaw/AGENTS.md generic fallback.
+- Extended `npm run review:smoke` to execute that fidelity demo against the published npm package and assert `nativeDiscoverySurface`, `genericFallback`, and `manualActivationRequired` fields.
+
 ## [Unreleased]
 
 All notable changes to Pluribus are documented here.
