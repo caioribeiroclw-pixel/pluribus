@@ -100,14 +100,15 @@ mkdir pluribus-fidelity && cd pluribus-fidelity
 npx --yes pluribus-context@latest init --name "Fidelity review" --description "Native vs fallback smoke" --tools bob,openclaw
 npx --yes pluribus-context@latest sync
 npx --yes pluribus-context@latest audit --json --fidelity-report --output fidelity.json
-node -e "const r=require('./fidelity.json'); console.log(r.fidelityReport.targets.map(t => ({ toolId: t.toolId, file: t.files[0], nativeDiscoverySurface: t.nativeDiscoverySurface, genericFallback: t.genericFallback, manualActivationRequired: t.manualActivationRequired })))"
+node -e "const r=require('./fidelity.json'); console.log(r.fidelityReport.targets.map(t => ({ toolId: t.toolId, file: t.files[0], nativeDiscoverySurface: t.nativeDiscoverySurface, genericFallback: t.genericFallback, manualActivationRequired: t.manualActivationRequired, effectiveContextScope: t.effectiveContext?.scope })))"
 ```
 
 Expected result:
 
 - Bob writes `.bob/rules/pluribus.md` and reports `nativeDiscoverySurface: ".bob/rules/*.md"`, `genericFallback: false`, `manualActivationRequired: false`.
 - OpenClaw writes `AGENTS.md` and reports `nativeDiscoverySurface: "AGENTS.md"`, `genericFallback: true`, `manualActivationRequired: false`.
-- This is the core Pluribus distinction for reviewers: generated file exists is not enough; the report should show whether the target uses native discovery or a generic fallback.
+- Both targets report `effectiveContext.scope: "repo-root"` and `pathScoped: false`; for monorepos this is a warning that subdirectory inheritance/isolation still needs a separate smoke.
+- This is the core Pluribus distinction for reviewers: generated file exists is not enough; the report should show whether the target uses native discovery or a generic fallback, and what effective context scope has actually been proven.
 
 ## Useful links
 

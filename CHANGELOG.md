@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.21 - 2026-05-19
+
+- Extended `pluribus audit --fidelity-report` with `effectiveContext` evidence so monorepo reviewers can see that built-in targets currently prove repo-root context only, not root→subpath inheritance or path isolation.
+- Added an explicit `effective-context-is-repo-root` warning and `no-path-scope-evidence` semantic marker to avoid treating generated root instruction files as proof of subdirectory behavior.
+- Updated the community review packet and portability fidelity docs to frame monorepo path scope as an evidence question: what context does the agent actually load from `apps/client/`?
+
 ## 0.3.20 - 2026-05-18
 
 - Added a 60-second native-vs-fallback smoke to the community review packet so directory/list reviewers can see Bob native `.bob/rules/*.md` differ from OpenClaw/AGENTS.md generic fallback.

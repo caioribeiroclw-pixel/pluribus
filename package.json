@@ -1,6 +1,6 @@
 {
   "name": "pluribus-context",
-  "version": "0.3.20",
+  "version": "0.3.21",
   "description": "AI context/rules sync and fidelity audit CLI for CLAUDE.md, Claude Code, Cursor rules, Copilot instructions, OpenClaw, Windsurf, Continue, Zed, Bob, and semantic drift.",
   "type": "module",
   "homepage": "https://github.com/caioribeiroclw-pixel/pluribus#readme",

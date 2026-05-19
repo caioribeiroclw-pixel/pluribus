@@ -77,7 +77,7 @@ Pluribus is intentionally narrower than a skill registry or memory layer:
 - `pluribus.md` keeps the claim in one reviewed source of truth.
 - `sync --dry-run` previews target-specific outputs before writing files.
 - generated files carry a warning header so manual edits are visible.
-- `audit --json --fidelity-report` gives CI/reviewers a machine-readable check for missing/drifted outputs plus target-by-target section loss, activation shape, native discovery surface, resolution anchor, generic fallback status, and portability warnings.
+- `audit --json --fidelity-report` gives CI/reviewers a machine-readable check for missing/drifted outputs plus target-by-target section loss, activation shape, native discovery surface, resolution anchor, generic fallback status, effective context scope, and portability warnings.
 - remote imports are opt-in, locked, cached, and digest-checked before becoming shared context.
 
 That does **not** prove runtime behavior. You still need tool-specific smoke tests for load order, path/glob activation, available tools, MCP servers, and permission semantics.
@@ -90,9 +90,10 @@ For each selected target, the JSON report includes:
 - `resolutionAnchor` — where the generated surface is resolved from today (`repo-root` for built-in targets).
 - `genericFallback` — whether the output is a broad agent fallback surface rather than a target-specific native surface.
 - `manualActivationRequired` — whether Pluribus knows the output requires manual activation after generation. Built-in project-wide targets are currently `false`; future scoped/skill targets may differ.
-- `semanticDifference` — a compact list such as `section-loss`, `project-wide-only`, or `generic-agent-file` so reviewers can distinguish “file exists” from “same behavior is preserved.”
+- `effectiveContext` — what Pluribus can prove about the context a target receives. Built-in targets currently report `scope: repo-root`, `pathScoped: false`, `inheritance: none-modeled`, and `overrideBehavior: none-modeled`; this is explicit evidence that monorepo path inheritance/isolation still needs a separate smoke.
+- `semanticDifference` — a compact list such as `section-loss`, `project-wide-only`, `no-path-scope-evidence`, or `generic-agent-file` so reviewers can distinguish “file exists” from “same behavior is preserved.”
 
-These fields are intentionally boring. They help reviewers catch cases like “installed files exist but the agent will not discover them,” or “two targets share a generic file but do not actually have the same loading semantics.”
+These fields are intentionally boring. They help reviewers catch cases like “installed files exist but the agent will not discover them,” “two targets share a generic file but do not actually have the same loading semantics,” or “root and subfolder instruction files exist but nobody has proven the effective context for `apps/client/`.”
 
 ## Suggested workflow for maintainers
 
@@ -100,7 +101,8 @@ These fields are intentionally boring. They help reviewers catch cases like “i
 2. Generate target outputs with `sync --dry-run` and inspect semantic loss.
 3. Keep target-native instructions when a semantic cannot be represented everywhere.
 4. Commit a small audit artifact (`pluribus audit --json --fidelity-report --output reports/pluribus-audit.json`) when you want CI/review evidence.
-5. Update the claim whenever a new target is added, a tool changes capability names, or a permission/security default changes.
+5. For monorepos, treat `effectiveContext.scope: repo-root` as a warning, not proof. Add a target-specific smoke for the path you care about, for example `apps/client/` should load root + client context but not `apps/auth/` rules.
+6. Update the claim whenever a new target is added, a tool changes capability names, a subdirectory context is introduced, or a permission/security default changes.
 
 ## Feedback wanted
 

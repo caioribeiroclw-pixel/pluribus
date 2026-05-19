@@ -23,7 +23,7 @@ const fidelityCommands = [
   `npx --yes ${packageSpec} init --name "Fidelity review" --description "Native vs fallback smoke" --tools bob,openclaw`,
   `npx --yes ${packageSpec} sync`,
   `npx --yes ${packageSpec} audit --json --fidelity-report --output fidelity.json`,
-  `node -e "const r=require('./fidelity.json'); console.log(r.fidelityReport.targets.map(t => ({ toolId: t.toolId, file: t.files[0], nativeDiscoverySurface: t.nativeDiscoverySurface, genericFallback: t.genericFallback, manualActivationRequired: t.manualActivationRequired })))"`,
+  `node -e "const r=require('./fidelity.json'); console.log(r.fidelityReport.targets.map(t => ({ toolId: t.toolId, file: t.files[0], nativeDiscoverySurface: t.nativeDiscoverySurface, genericFallback: t.genericFallback, manualActivationRequired: t.manualActivationRequired, effectiveContextScope: t.effectiveContext?.scope })))"`,
 ]
 
 function run(command, args, options = {}) {

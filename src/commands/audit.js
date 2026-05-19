@@ -294,6 +294,8 @@ function buildFidelityReport({ cwd, sections, tools, loadSkill }) {
     const discovery = inferDiscovery(toolId, outputFiles)
     const represented = presentSections.filter((name) => representedSections.has(name.toLowerCase()))
 
+    const effectiveContext = inferEffectiveContext(toolId, outputFiles)
+
     return {
       toolId,
       files: outputFiles,
@@ -302,7 +304,8 @@ function buildFidelityReport({ cwd, sections, tools, loadSkill }) {
       genericFallback: discovery.genericFallback,
       manualActivationRequired: discovery.manualActivationRequired,
       activation,
-      semanticDifference: summarizeSemanticDifference({ unsupportedSections, activation, discovery }),
+      effectiveContext,
+      semanticDifference: summarizeSemanticDifference({ unsupportedSections, activation, discovery, effectiveContext }),
       representedSections: represented,
       unsupportedSections,
     }
@@ -324,6 +327,14 @@ function buildFidelityReport({ cwd, sections, tools, loadSkill }) {
       code: 'project-wide-activation-only',
       target: '*',
       message: 'Generated outputs are project-wide/always-on; Pluribus does not currently model path-scoped activation, manual attach, or progressive disclosure semantics.',
+    })
+  }
+
+  if (targets.some((target) => target.effectiveContext?.scope === 'repo-root')) {
+    warnings.push({
+      code: 'effective-context-is-repo-root',
+      target: '*',
+      message: 'Effective context evidence is repo-root only; Pluribus does not currently prove root→subpath inheritance, overrides, or path isolation for monorepos.',
     })
   }
 
@@ -387,7 +398,19 @@ function inferDiscovery(toolId, outputFiles) {
   }
 }
 
-function summarizeSemanticDifference({ unsupportedSections, activation, discovery }) {
+function inferEffectiveContext(toolId, outputFiles) {
+  return {
+    scope: 'repo-root',
+    pathScoped: false,
+    inheritance: 'none-modeled',
+    overrideBehavior: 'none-modeled',
+    isolationEvidence: 'not-modeled',
+    entrypoints: outputFiles,
+    note: `${toolId} output is audited as repo-root context only; verify subdirectory load order separately in monorepos.`,
+  }
+}
+
+function summarizeSemanticDifference({ unsupportedSections, activation, discovery, effectiveContext }) {
   const differences = []
 
   if (unsupportedSections.length > 0) {
@@ -396,6 +419,10 @@ function summarizeSemanticDifference({ unsupportedSections, activation, discover
 
   if (activation.kind === 'flat-project-wide') {
     differences.push('project-wide-only')
+  }
+
+  if (effectiveContext?.pathScoped === false) {
+    differences.push('no-path-scope-evidence')
   }
 
   if (discovery.genericFallback) {
@@ -422,10 +449,13 @@ function printFidelityReport(report) {
     const discovery = target.nativeDiscoverySurface
       ? `; surface: ${target.nativeDiscoverySurface}`
       : ''
+    const scope = target.effectiveContext?.scope
+      ? `; effective context: ${target.effectiveContext.scope}`
+      : ''
     const semantics = target.semanticDifference?.length
       ? `; semantic: ${target.semanticDifference.join(', ')}`
       : ''
-    console.log(`   • ${target.toolId}: ${target.activation.kind}${discovery}${unsupported}${semantics}`)
+    console.log(`   • ${target.toolId}: ${target.activation.kind}${discovery}${scope}${unsupported}${semantics}`)
   }
 
   for (const warning of report.warnings) {
