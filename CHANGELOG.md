@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.23 - 2026-05-19
+
+- Extended `pluribus audit --fidelity-report` with `duplicateLoadEvidence` so reviewers can see the generated candidate, content hash, inferred selected load, and the explicit fact that runtime scanner roots/caches/plugin duplicates are not yet inspected.
+- Added `duplicate-load-selection-not-proven` warnings and semantic markers to avoid treating multi-root skill/rule discovery as safe without a selection/suppression receipt.
+- Updated the audit JSON schema and fidelity docs for duplicate skill/context load receipts inspired by Cursor/Claude duplicate-context reports.
+
 ## 0.3.22 - 2026-05-19
 
 - Extended `pluribus audit --fidelity-report` with `loadEvidence` receipts so reviewers can see whether generated context is expected to enter through native file discovery or a generic agent fallback.

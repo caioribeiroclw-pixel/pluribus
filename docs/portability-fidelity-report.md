@@ -77,7 +77,7 @@ Pluribus is intentionally narrower than a skill registry or memory layer:
 - `pluribus.md` keeps the claim in one reviewed source of truth.
 - `sync --dry-run` previews target-specific outputs before writing files.
 - generated files carry a warning header so manual edits are visible.
-- `audit --json --fidelity-report` gives CI/reviewers a machine-readable check for missing/drifted outputs plus target-by-target section loss, activation shape, native discovery surface, resolution anchor, generic fallback status, load evidence, effective context scope, and portability warnings.
+- `audit --json --fidelity-report` gives CI/reviewers a machine-readable check for missing/drifted outputs plus target-by-target section loss, activation shape, native discovery surface, resolution anchor, generic fallback status, load evidence, duplicate-load selection evidence, effective context scope, and portability warnings.
 - remote imports are opt-in, locked, cached, and digest-checked before becoming shared context.
 
 That does **not** prove runtime behavior. You still need tool-specific smoke tests for load order, path/glob activation, available tools, MCP servers, and permission semantics.
@@ -91,6 +91,7 @@ For each selected target, the JSON report includes:
 - `genericFallback` — whether the output is a broad agent fallback surface rather than a target-specific native surface.
 - `manualActivationRequired` — whether Pluribus knows the output requires manual activation after generation. Built-in project-wide targets are currently `false`; future scoped/skill targets may differ.
 - `loadEvidence` — how the generated context is expected to enter the agent session. Built-in targets currently report `loadedBy` (`native-file-discovery` or `generic-agent-file`), `effectiveSource`, `deliveryMechanism`, `hookInstalled: false`, `injectedOnSessionStart: false`, `resumeBehavior: not-proven`, and `dedupeRisk: unknown`; this makes native-vs-hook-vs-manual duplication an explicit evidence question instead of an assumption.
+- `duplicateLoadEvidence` — which generated candidate Pluribus can identify for duplicate-load review. Built-in targets currently report a `contentIdentity` hash, one `candidateLoads[]` item, a matching `selectedLoad`, empty `suppressedLoads`, `crossRootScanMode: not-inspected`, and `duplicateRisk: unknown`; this is a receipt shape for Cursor/Claude-style duplicate skill or duplicate `CLAUDE.md` loads, not proof of runtime suppression.
 - `effectiveContext` — what Pluribus can prove about the context a target receives. Built-in targets currently report `scope: repo-root`, `pathScoped: false`, `inheritance: none-modeled`, `overrideBehavior: none-modeled`, plus the inferred `loadedBy` and `effectiveSource`; this is explicit evidence that monorepo path inheritance/isolation still needs a separate smoke.
 - `semanticDifference` — a compact list such as `section-loss`, `project-wide-only`, `no-path-scope-evidence`, `generic-agent-file`, or `runtime-load-dedupe-not-proven` so reviewers can distinguish “file exists” from “same behavior is preserved.”
 
@@ -103,7 +104,8 @@ These fields are intentionally boring. They help reviewers catch cases like “i
 3. Keep target-native instructions when a semantic cannot be represented everywhere.
 4. Commit a small audit artifact (`pluribus audit --json --fidelity-report --output reports/pluribus-audit.json`) when you want CI/review evidence.
 5. For hook/native/manual mixes, treat `loadEvidence.dedupeRisk: unknown` as a warning, not proof. Add a target-specific receipt for `loadedBy`, `hookInstalled`, `injectedOnSessionStart`, and resume behavior before claiming deduplication.
-6. For monorepos, treat `effectiveContext.scope: repo-root` as a warning, not proof. Add a target-specific smoke for the path you care about, for example `apps/client/` should load root + client context but not `apps/auth/` rules.
+6. For multi-root skill/rule scans, treat `duplicateLoadEvidence.duplicateRisk: unknown` as a warning, not proof. Add a target-specific receipt for `candidateLoads`, `selectedLoad`, `suppressedLoads`, discovery roots, and content hashes before claiming duplicate suppression.
+7. For monorepos, treat `effectiveContext.scope: repo-root` as a warning, not proof. Add a target-specific smoke for the path you care about, for example `apps/client/` should load root + client context but not `apps/auth/` rules.
 7. Update the claim whenever a new target is added, a tool changes capability names, a subdirectory context is introduced, a hook/manual injection path changes, or a permission/security default changes.
 
 ## Feedback wanted

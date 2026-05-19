@@ -4,7 +4,13 @@
   "title": "Pluribus audit JSON result",
   "description": "Machine-readable output produced by `pluribus audit --json`.",
   "type": "object",
-  "required": ["ok", "source", "sourceFound", "summary", "nextStep"],
+  "required": [
+    "ok",
+    "source",
+    "sourceFound",
+    "summary",
+    "nextStep"
+  ],
   "properties": {
     "ok": {
       "type": "boolean",
@@ -20,40 +26,68 @@
     },
     "tools": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "description": "Tool ids audited when a source file exists."
     },
     "results": {
       "type": "array",
-      "items": { "$ref": "#/$defs/result" },
+      "items": {
+        "$ref": "#/$defs/result"
+      },
       "description": "Per-tool/per-file audit results when a source file exists."
     },
     "existingContextFiles": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "description": "Known AI context files discovered when no source file exists."
     },
     "errors": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "description": "Validation/import/tool errors that prevented a full audit."
     },
     "requiredSections": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "description": "Required pluribus.md sections when validation fails."
     },
     "summary": {
       "type": "object",
       "description": "Counts for the audit or discovery result.",
       "properties": {
-        "current": { "type": "integer", "minimum": 0 },
-        "drifted": { "type": "integer", "minimum": 0 },
-        "missing": { "type": "integer", "minimum": 0 },
-        "errors": { "type": "integer", "minimum": 0 },
-        "existingContextFiles": { "type": "integer", "minimum": 0 }
+        "current": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "drifted": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "missing": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "errors": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "existingContextFiles": {
+          "type": "integer",
+          "minimum": 0
+        }
       },
-      "additionalProperties": { "type": "integer", "minimum": 0 }
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
     },
     "nextStep": {
       "type": "string",
@@ -77,20 +111,38 @@
   "allOf": [
     {
       "if": {
-        "properties": { "sourceFound": { "const": true } },
-        "required": ["sourceFound"]
+        "properties": {
+          "sourceFound": {
+            "const": true
+          }
+        },
+        "required": [
+          "sourceFound"
+        ]
       },
       "then": {
-        "required": ["tools", "results"]
+        "required": [
+          "tools",
+          "results"
+        ]
       }
     },
     {
       "if": {
-        "properties": { "sourceFound": { "const": false } },
-        "required": ["sourceFound"]
+        "properties": {
+          "sourceFound": {
+            "const": false
+          }
+        },
+        "required": [
+          "sourceFound"
+        ]
       },
       "then": {
-        "required": ["existingContextFiles", "docs"]
+        "required": [
+          "existingContextFiles",
+          "docs"
+        ]
       }
     }
   ],
@@ -98,32 +150,62 @@
   "$defs": {
     "fidelityReport": {
       "type": "object",
-      "required": ["claim", "sourceSections", "targets", "summary", "warnings", "nextStep"],
+      "required": [
+        "claim",
+        "sourceSections",
+        "targets",
+        "summary",
+        "warnings",
+        "nextStep"
+      ],
       "properties": {
-        "claim": { "type": "string" },
+        "claim": {
+          "type": "string"
+        },
         "sourceSections": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "targets": {
           "type": "array",
-          "items": { "$ref": "#/$defs/fidelityTarget" }
+          "items": {
+            "$ref": "#/$defs/fidelityTarget"
+          }
         },
         "summary": {
           "type": "object",
-          "required": ["targetCount", "targetsWithUnsupportedSections", "warningCount"],
+          "required": [
+            "targetCount",
+            "targetsWithUnsupportedSections",
+            "warningCount"
+          ],
           "properties": {
-            "targetCount": { "type": "integer", "minimum": 0 },
-            "targetsWithUnsupportedSections": { "type": "integer", "minimum": 0 },
-            "warningCount": { "type": "integer", "minimum": 0 }
+            "targetCount": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "targetsWithUnsupportedSections": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "warningCount": {
+              "type": "integer",
+              "minimum": 0
+            }
           },
           "additionalProperties": false
         },
         "warnings": {
           "type": "array",
-          "items": { "$ref": "#/$defs/fidelityWarning" }
+          "items": {
+            "$ref": "#/$defs/fidelityWarning"
+          }
         },
-        "nextStep": { "type": "string" }
+        "nextStep": {
+          "type": "string"
+        }
       },
       "additionalProperties": false
     },
@@ -138,35 +220,66 @@
         "manualActivationRequired",
         "activation",
         "loadEvidence",
+        "duplicateLoadEvidence",
         "effectiveContext",
         "semanticDifference",
         "representedSections",
         "unsupportedSections"
       ],
       "properties": {
-        "toolId": { "type": "string" },
+        "toolId": {
+          "type": "string"
+        },
         "files": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "nativeDiscoverySurface": { "type": ["string", "null"] },
-        "resolutionAnchor": { "type": "string" },
-        "genericFallback": { "type": "boolean" },
-        "manualActivationRequired": { "type": "boolean" },
-        "activation": { "$ref": "#/$defs/fidelityActivation" },
-        "loadEvidence": { "$ref": "#/$defs/loadEvidence" },
-        "effectiveContext": { "$ref": "#/$defs/effectiveContext" },
+        "nativeDiscoverySurface": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "resolutionAnchor": {
+          "type": "string"
+        },
+        "genericFallback": {
+          "type": "boolean"
+        },
+        "manualActivationRequired": {
+          "type": "boolean"
+        },
+        "activation": {
+          "$ref": "#/$defs/fidelityActivation"
+        },
+        "loadEvidence": {
+          "$ref": "#/$defs/loadEvidence"
+        },
+        "effectiveContext": {
+          "$ref": "#/$defs/effectiveContext"
+        },
         "semanticDifference": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "representedSections": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "unsupportedSections": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
+        },
+        "duplicateLoadEvidence": {
+          "$ref": "#/$defs/duplicateLoadEvidence"
         }
       },
       "additionalProperties": false
@@ -188,21 +301,51 @@
         "note"
       ],
       "properties": {
-        "loadedBy": { "type": "string" },
-        "effectiveSource": { "type": ["string", "null"] },
-        "deliveryPath": { "type": ["string", "null"] },
-        "deliveryMechanism": { "type": "string" },
-        "hookInstalled": { "type": "boolean" },
-        "injectedOnSessionStart": { "type": "boolean" },
-        "manualInjectionRequired": { "type": "boolean" },
-        "resumeBehavior": { "type": "string" },
-        "dedupeKey": { "type": "string" },
-        "dedupeRisk": { "type": "string" },
+        "loadedBy": {
+          "type": "string"
+        },
+        "effectiveSource": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "deliveryPath": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "deliveryMechanism": {
+          "type": "string"
+        },
+        "hookInstalled": {
+          "type": "boolean"
+        },
+        "injectedOnSessionStart": {
+          "type": "boolean"
+        },
+        "manualInjectionRequired": {
+          "type": "boolean"
+        },
+        "resumeBehavior": {
+          "type": "string"
+        },
+        "dedupeKey": {
+          "type": "string"
+        },
+        "dedupeRisk": {
+          "type": "string"
+        },
         "evidence": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "note": { "type": "string" }
+        "note": {
+          "type": "string"
+        }
       },
       "additionalProperties": false
     },
@@ -220,46 +363,88 @@
         "note"
       ],
       "properties": {
-        "scope": { "type": "string" },
-        "pathScoped": { "type": "boolean" },
-        "inheritance": { "type": "string" },
-        "overrideBehavior": { "type": "string" },
-        "isolationEvidence": { "type": "string" },
+        "scope": {
+          "type": "string"
+        },
+        "pathScoped": {
+          "type": "boolean"
+        },
+        "inheritance": {
+          "type": "string"
+        },
+        "overrideBehavior": {
+          "type": "string"
+        },
+        "isolationEvidence": {
+          "type": "string"
+        },
         "entrypoints": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "loadedBy": { "type": "string" },
-        "effectiveSource": { "type": ["string", "null"] },
-        "note": { "type": "string" }
+        "loadedBy": {
+          "type": "string"
+        },
+        "effectiveSource": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "note": {
+          "type": "string"
+        }
       },
       "additionalProperties": false
     },
     "fidelityActivation": {
       "type": "object",
-      "required": ["kind", "evidence"],
+      "required": [
+        "kind",
+        "evidence"
+      ],
       "properties": {
-        "kind": { "type": "string" },
+        "kind": {
+          "type": "string"
+        },
         "evidence": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false
     },
     "fidelityWarning": {
       "type": "object",
-      "required": ["code", "target", "message"],
+      "required": [
+        "code",
+        "target",
+        "message"
+      ],
       "properties": {
-        "code": { "type": "string" },
-        "target": { "type": "string" },
-        "message": { "type": "string" }
+        "code": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
       },
       "additionalProperties": false
     },
     "result": {
       "type": "object",
-      "required": ["toolId", "status", "file"],
+      "required": [
+        "toolId",
+        "status",
+        "file"
+      ],
       "properties": {
         "toolId": {
           "type": "string",
@@ -267,7 +452,12 @@
         },
         "status": {
           "type": "string",
-          "enum": ["current", "missing", "drift", "error"]
+          "enum": [
+            "current",
+            "missing",
+            "drift",
+            "error"
+          ]
         },
         "file": {
           "type": "string",
@@ -276,6 +466,154 @@
         "message": {
           "type": "string",
           "description": "Present for error results and some diagnostics."
+        }
+      },
+      "additionalProperties": false
+    },
+    "duplicateLoadEvidence": {
+      "type": "object",
+      "required": [
+        "contentIdentity",
+        "candidateLoads",
+        "selectedLoad",
+        "suppressedLoads",
+        "selectionPolicy",
+        "crossRootScanMode",
+        "duplicateRisk",
+        "invariant",
+        "note"
+      ],
+      "properties": {
+        "contentIdentity": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "candidateLoads": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/duplicateLoadCandidate"
+          }
+        },
+        "selectedLoad": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/selectedDuplicateLoad"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "suppressedLoads": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/duplicateLoadCandidate"
+          }
+        },
+        "selectionPolicy": {
+          "type": "string"
+        },
+        "crossRootScanMode": {
+          "type": "string"
+        },
+        "duplicateRisk": {
+          "type": "string"
+        },
+        "invariant": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "duplicateLoadCandidate": {
+      "type": "object",
+      "required": [
+        "path",
+        "contentHash",
+        "toolOwner",
+        "loadedBy",
+        "discoveryRoot",
+        "priority",
+        "source"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "contentHash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "toolOwner": {
+          "type": "string"
+        },
+        "loadedBy": {
+          "type": "string"
+        },
+        "discoveryRoot": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "priority": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "selectedDuplicateLoad": {
+      "type": "object",
+      "required": [
+        "path",
+        "contentHash",
+        "toolOwner",
+        "loadedBy",
+        "discoveryRoot",
+        "priority",
+        "source",
+        "selectionReason"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "contentHash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "toolOwner": {
+          "type": "string"
+        },
+        "loadedBy": {
+          "type": "string"
+        },
+        "discoveryRoot": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "priority": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "selectionReason": {
+          "type": "string"
         }
       },
       "additionalProperties": false

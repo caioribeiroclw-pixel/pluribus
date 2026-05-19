@@ -23,7 +23,7 @@ const fidelityCommands = [
   `npx --yes ${packageSpec} init --name "Fidelity review" --description "Native vs fallback smoke" --tools bob,openclaw`,
   `npx --yes ${packageSpec} sync`,
   `npx --yes ${packageSpec} audit --json --fidelity-report --output fidelity.json`,
-  `node -e "const r=require('./fidelity.json'); console.log(r.fidelityReport.targets.map(t => ({ toolId: t.toolId, file: t.files[0], nativeDiscoverySurface: t.nativeDiscoverySurface, genericFallback: t.genericFallback, manualActivationRequired: t.manualActivationRequired, effectiveContextScope: t.effectiveContext?.scope, loadedBy: t.loadEvidence?.loadedBy, dedupeRisk: t.loadEvidence?.dedupeRisk })))"`,
+  `node -e "const r=require('./fidelity.json'); console.log(r.fidelityReport.targets.map(t => ({ toolId: t.toolId, file: t.files[0], nativeDiscoverySurface: t.nativeDiscoverySurface, genericFallback: t.genericFallback, manualActivationRequired: t.manualActivationRequired, effectiveContextScope: t.effectiveContext?.scope, loadedBy: t.loadEvidence?.loadedBy, dedupeRisk: t.loadEvidence?.dedupeRisk, duplicateRisk: t.duplicateLoadEvidence?.duplicateRisk, selectedLoad: t.duplicateLoadEvidence?.selectedLoad?.path })))"`,
 ]
 
 function run(command, args, options = {}) {
@@ -94,6 +94,7 @@ if (!latestVersion) {
   throw new Error(`Could not resolve npm latest version for ${pkg.name}`)
 }
 const latestSupportsLoadEvidence = versionAtLeast(latestVersion, '0.3.22')
+const latestSupportsDuplicateLoadEvidence = versionAtLeast(latestVersion, '0.3.23')
 
 let smokeDir
 
@@ -233,6 +234,10 @@ ${JSON.stringify(bob, null, 2)}`)
     throw new Error(`Unexpected Bob load evidence:
 ${JSON.stringify(bob, null, 2)}`)
   }
+  if (latestSupportsDuplicateLoadEvidence && (bob.duplicateLoadEvidence?.duplicateRisk !== 'unknown' || bob.duplicateLoadEvidence?.selectedLoad?.path !== '.bob/rules/pluribus.md')) {
+    throw new Error(`Unexpected Bob duplicate load evidence:
+${JSON.stringify(bob, null, 2)}`)
+  }
 
   const openclaw = targetById.openclaw
   if (!openclaw) {
@@ -249,6 +254,10 @@ ${JSON.stringify(openclaw, null, 2)}`)
   }
   if (latestSupportsLoadEvidence && (openclaw.loadEvidence?.loadedBy !== 'generic-agent-file' || openclaw.loadEvidence?.deliveryMechanism !== 'generated-generic-fallback')) {
     throw new Error(`Unexpected OpenClaw load evidence:
+${JSON.stringify(openclaw, null, 2)}`)
+  }
+  if (latestSupportsDuplicateLoadEvidence && (openclaw.duplicateLoadEvidence?.duplicateRisk !== 'unknown' || openclaw.duplicateLoadEvidence?.selectedLoad?.path !== 'AGENTS.md')) {
+    throw new Error(`Unexpected OpenClaw duplicate load evidence:
 ${JSON.stringify(openclaw, null, 2)}`)
   }
 

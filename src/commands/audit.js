@@ -9,6 +9,7 @@
 
 import * as fs from 'fs'
 import * as path from 'path'
+import { createHash } from 'crypto'
 import { parsePluribusFile, validateSections, REQUIRED_SECTIONS } from '../utils/parser.js'
 import { resolveImportsAsync } from '../utils/imports.js'
 import { renderTemplate, parseSkillFile } from '../utils/renderer.js'
@@ -294,7 +295,9 @@ function buildFidelityReport({ cwd, sections, tools, loadSkill }) {
     const discovery = inferDiscovery(toolId, outputFiles)
     const represented = presentSections.filter((name) => representedSections.has(name.toLowerCase()))
 
+    const rendered = renderTemplate(skill.template, sections, 'pluribus.md')
     const loadEvidence = inferLoadEvidence(toolId, outputFiles, discovery, activation)
+    const duplicateLoadEvidence = inferDuplicateLoadEvidence(toolId, outputFiles, loadEvidence, rendered)
     const effectiveContext = inferEffectiveContext(toolId, outputFiles, loadEvidence)
 
     return {
@@ -306,8 +309,9 @@ function buildFidelityReport({ cwd, sections, tools, loadSkill }) {
       manualActivationRequired: discovery.manualActivationRequired,
       activation,
       loadEvidence,
+      duplicateLoadEvidence,
       effectiveContext,
-      semanticDifference: summarizeSemanticDifference({ unsupportedSections, activation, discovery, effectiveContext, loadEvidence }),
+      semanticDifference: summarizeSemanticDifference({ unsupportedSections, activation, discovery, effectiveContext, loadEvidence, duplicateLoadEvidence }),
       representedSections: represented,
       unsupportedSections,
     }
@@ -345,6 +349,14 @@ function buildFidelityReport({ cwd, sections, tools, loadSkill }) {
       code: 'load-dedupe-not-proven',
       target: '*',
       message: 'Load evidence records the expected delivery path, but Pluribus does not currently prove runtime deduplication across native files, hooks, generated imports, or manual injection.',
+    })
+  }
+
+  if (targets.some((target) => target.duplicateLoadEvidence?.duplicateRisk === 'unknown')) {
+    warnings.push({
+      code: 'duplicate-load-selection-not-proven',
+      target: '*',
+      message: 'Duplicate load evidence records the Pluribus generated candidate, but does not inspect runtime scanner roots, caches, plugins, or sibling tool directories to prove which duplicate candidate the agent selected or suppressed.',
     })
   }
 
@@ -428,6 +440,48 @@ function inferLoadEvidence(toolId, outputFiles, discovery, activation) {
   }
 }
 
+
+function inferDuplicateLoadEvidence(toolId, outputFiles, loadEvidence, rendered) {
+  const primaryFile = outputFiles[0] || null
+  const contentHash = typeof rendered === 'string'
+    ? `sha256:${createHash('sha256').update(rendered, 'utf8').digest('hex')}`
+    : null
+  const candidateLoads = primaryFile
+    ? [{
+        path: primaryFile,
+        contentHash,
+        toolOwner: toolId,
+        loadedBy: loadEvidence.loadedBy,
+        discoveryRoot: inferDiscoveryRoot(primaryFile),
+        priority: 'not-modeled',
+        source: 'pluribus-generated-output',
+      }]
+    : []
+
+  return {
+    contentIdentity: contentHash,
+    candidateLoads,
+    selectedLoad: candidateLoads[0]
+      ? {
+          ...candidateLoads[0],
+          selectionReason: 'only-pluribus-generated-output-for-target',
+        }
+      : null,
+    suppressedLoads: [],
+    selectionPolicy: 'not-proven-runtime-selection',
+    crossRootScanMode: 'not-inspected',
+    duplicateRisk: 'unknown',
+    invariant: 'For each session_id + logical context or skill name + content hash, inject at most one effective definition unless the second load is explicitly marked as replace or supplement.',
+    note: `${toolId} duplicate-load evidence covers the Pluribus generated output only; verify runtime scanner roots, caches, plugins, hooks, imports, and sibling tool directories before claiming duplicate suppression.`,
+  }
+}
+
+function inferDiscoveryRoot(file) {
+  if (!file) return null
+  const dirname = path.dirname(file)
+  return dirname === '.' ? 'repo-root' : dirname
+}
+
 function inferEffectiveContext(toolId, outputFiles, loadEvidence) {
   return {
     scope: 'repo-root',
@@ -442,7 +496,7 @@ function inferEffectiveContext(toolId, outputFiles, loadEvidence) {
   }
 }
 
-function summarizeSemanticDifference({ unsupportedSections, activation, discovery, effectiveContext, loadEvidence }) {
+function summarizeSemanticDifference({ unsupportedSections, activation, discovery, effectiveContext, loadEvidence, duplicateLoadEvidence }) {
   const differences = []
 
   if (unsupportedSections.length > 0) {
@@ -469,6 +523,10 @@ function summarizeSemanticDifference({ unsupportedSections, activation, discover
     differences.push('runtime-load-dedupe-not-proven')
   }
 
+  if (duplicateLoadEvidence?.duplicateRisk === 'unknown') {
+    differences.push('duplicate-load-selection-not-proven')
+  }
+
   return differences.length > 0 ? differences : ['no-known-template-loss']
 }
 
@@ -491,10 +549,13 @@ function printFidelityReport(report) {
     const loadedBy = target.loadEvidence?.loadedBy
       ? `; loaded by: ${target.loadEvidence.loadedBy}`
       : ''
+    const duplicateSelection = target.duplicateLoadEvidence?.duplicateRisk
+      ? `; duplicate selection: ${target.duplicateLoadEvidence.duplicateRisk}`
+      : ''
     const semantics = target.semanticDifference?.length
       ? `; semantic: ${target.semanticDifference.join(', ')}`
       : ''
-    console.log(`   • ${target.toolId}: ${target.activation.kind}${discovery}${scope}${loadedBy}${unsupported}${semantics}`)
+    console.log(`   • ${target.toolId}: ${target.activation.kind}${discovery}${scope}${loadedBy}${duplicateSelection}${unsupported}${semantics}`)
   }
 
   for (const warning of report.warnings) {
