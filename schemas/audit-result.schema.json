@@ -129,14 +129,37 @@
     },
     "fidelityTarget": {
       "type": "object",
-      "required": ["toolId", "files", "activation", "representedSections", "unsupportedSections"],
+      "required": [
+        "toolId",
+        "files",
+        "nativeDiscoverySurface",
+        "resolutionAnchor",
+        "genericFallback",
+        "manualActivationRequired",
+        "activation",
+        "loadEvidence",
+        "effectiveContext",
+        "semanticDifference",
+        "representedSections",
+        "unsupportedSections"
+      ],
       "properties": {
         "toolId": { "type": "string" },
         "files": {
           "type": "array",
           "items": { "type": "string" }
         },
+        "nativeDiscoverySurface": { "type": ["string", "null"] },
+        "resolutionAnchor": { "type": "string" },
+        "genericFallback": { "type": "boolean" },
+        "manualActivationRequired": { "type": "boolean" },
         "activation": { "$ref": "#/$defs/fidelityActivation" },
+        "loadEvidence": { "$ref": "#/$defs/loadEvidence" },
+        "effectiveContext": { "$ref": "#/$defs/effectiveContext" },
+        "semanticDifference": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
         "representedSections": {
           "type": "array",
           "items": { "type": "string" }
@@ -145,6 +168,70 @@
           "type": "array",
           "items": { "type": "string" }
         }
+      },
+      "additionalProperties": false
+    },
+    "loadEvidence": {
+      "type": "object",
+      "required": [
+        "loadedBy",
+        "effectiveSource",
+        "deliveryPath",
+        "deliveryMechanism",
+        "hookInstalled",
+        "injectedOnSessionStart",
+        "manualInjectionRequired",
+        "resumeBehavior",
+        "dedupeKey",
+        "dedupeRisk",
+        "evidence",
+        "note"
+      ],
+      "properties": {
+        "loadedBy": { "type": "string" },
+        "effectiveSource": { "type": ["string", "null"] },
+        "deliveryPath": { "type": ["string", "null"] },
+        "deliveryMechanism": { "type": "string" },
+        "hookInstalled": { "type": "boolean" },
+        "injectedOnSessionStart": { "type": "boolean" },
+        "manualInjectionRequired": { "type": "boolean" },
+        "resumeBehavior": { "type": "string" },
+        "dedupeKey": { "type": "string" },
+        "dedupeRisk": { "type": "string" },
+        "evidence": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "note": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "effectiveContext": {
+      "type": "object",
+      "required": [
+        "scope",
+        "pathScoped",
+        "inheritance",
+        "overrideBehavior",
+        "isolationEvidence",
+        "entrypoints",
+        "loadedBy",
+        "effectiveSource",
+        "note"
+      ],
+      "properties": {
+        "scope": { "type": "string" },
+        "pathScoped": { "type": "boolean" },
+        "inheritance": { "type": "string" },
+        "overrideBehavior": { "type": "string" },
+        "isolationEvidence": { "type": "string" },
+        "entrypoints": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "loadedBy": { "type": "string" },
+        "effectiveSource": { "type": ["string", "null"] },
+        "note": { "type": "string" }
       },
       "additionalProperties": false
     },

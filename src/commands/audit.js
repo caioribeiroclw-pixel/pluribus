@@ -294,7 +294,8 @@ function buildFidelityReport({ cwd, sections, tools, loadSkill }) {
     const discovery = inferDiscovery(toolId, outputFiles)
     const represented = presentSections.filter((name) => representedSections.has(name.toLowerCase()))
 
-    const effectiveContext = inferEffectiveContext(toolId, outputFiles)
+    const loadEvidence = inferLoadEvidence(toolId, outputFiles, discovery, activation)
+    const effectiveContext = inferEffectiveContext(toolId, outputFiles, loadEvidence)
 
     return {
       toolId,
@@ -304,8 +305,9 @@ function buildFidelityReport({ cwd, sections, tools, loadSkill }) {
       genericFallback: discovery.genericFallback,
       manualActivationRequired: discovery.manualActivationRequired,
       activation,
+      loadEvidence,
       effectiveContext,
-      semanticDifference: summarizeSemanticDifference({ unsupportedSections, activation, discovery, effectiveContext }),
+      semanticDifference: summarizeSemanticDifference({ unsupportedSections, activation, discovery, effectiveContext, loadEvidence }),
       representedSections: represented,
       unsupportedSections,
     }
@@ -335,6 +337,14 @@ function buildFidelityReport({ cwd, sections, tools, loadSkill }) {
       code: 'effective-context-is-repo-root',
       target: '*',
       message: 'Effective context evidence is repo-root only; Pluribus does not currently prove root→subpath inheritance, overrides, or path isolation for monorepos.',
+    })
+  }
+
+  if (targets.some((target) => target.loadEvidence?.dedupeRisk === 'unknown')) {
+    warnings.push({
+      code: 'load-dedupe-not-proven',
+      target: '*',
+      message: 'Load evidence records the expected delivery path, but Pluribus does not currently prove runtime deduplication across native files, hooks, generated imports, or manual injection.',
     })
   }
 
@@ -398,7 +408,27 @@ function inferDiscovery(toolId, outputFiles) {
   }
 }
 
-function inferEffectiveContext(toolId, outputFiles) {
+function inferLoadEvidence(toolId, outputFiles, discovery, activation) {
+  const primaryFile = outputFiles[0] || null
+  const loadedBy = discovery.genericFallback ? 'generic-agent-file' : 'native-file-discovery'
+
+  return {
+    loadedBy,
+    effectiveSource: primaryFile,
+    deliveryPath: primaryFile,
+    deliveryMechanism: discovery.genericFallback ? 'generated-generic-fallback' : 'generated-native-surface',
+    hookInstalled: false,
+    injectedOnSessionStart: false,
+    manualInjectionRequired: discovery.manualActivationRequired,
+    resumeBehavior: 'not-proven',
+    dedupeKey: primaryFile ? `${toolId}:${loadedBy}:${primaryFile}` : `${toolId}:${loadedBy}:unknown`,
+    dedupeRisk: 'unknown',
+    evidence: outputFiles,
+    note: `${toolId} load path is inferred from generated files and known discovery surfaces; verify runtime loading/deduplication in the target agent when hooks, imports, or manual injection are also used.`,
+  }
+}
+
+function inferEffectiveContext(toolId, outputFiles, loadEvidence) {
   return {
     scope: 'repo-root',
     pathScoped: false,
@@ -406,11 +436,13 @@ function inferEffectiveContext(toolId, outputFiles) {
     overrideBehavior: 'none-modeled',
     isolationEvidence: 'not-modeled',
     entrypoints: outputFiles,
+    loadedBy: loadEvidence.loadedBy,
+    effectiveSource: loadEvidence.effectiveSource,
     note: `${toolId} output is audited as repo-root context only; verify subdirectory load order separately in monorepos.`,
   }
 }
 
-function summarizeSemanticDifference({ unsupportedSections, activation, discovery, effectiveContext }) {
+function summarizeSemanticDifference({ unsupportedSections, activation, discovery, effectiveContext, loadEvidence }) {
   const differences = []
 
   if (unsupportedSections.length > 0) {
@@ -433,6 +465,10 @@ function summarizeSemanticDifference({ unsupportedSections, activation, discover
     differences.push('manual-activation-required')
   }
 
+  if (loadEvidence?.dedupeRisk === 'unknown') {
+    differences.push('runtime-load-dedupe-not-proven')
+  }
+
   return differences.length > 0 ? differences : ['no-known-template-loss']
 }
 
@@ -452,10 +488,13 @@ function printFidelityReport(report) {
     const scope = target.effectiveContext?.scope
       ? `; effective context: ${target.effectiveContext.scope}`
       : ''
+    const loadedBy = target.loadEvidence?.loadedBy
+      ? `; loaded by: ${target.loadEvidence.loadedBy}`
+      : ''
     const semantics = target.semanticDifference?.length
       ? `; semantic: ${target.semanticDifference.join(', ')}`
       : ''
-    console.log(`   • ${target.toolId}: ${target.activation.kind}${discovery}${scope}${unsupported}${semantics}`)
+    console.log(`   • ${target.toolId}: ${target.activation.kind}${discovery}${scope}${loadedBy}${unsupported}${semantics}`)
   }
 
   for (const warning of report.warnings) {

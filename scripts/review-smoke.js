@@ -23,7 +23,7 @@ const fidelityCommands = [
   `npx --yes ${packageSpec} init --name "Fidelity review" --description "Native vs fallback smoke" --tools bob,openclaw`,
   `npx --yes ${packageSpec} sync`,
   `npx --yes ${packageSpec} audit --json --fidelity-report --output fidelity.json`,
-  `node -e "const r=require('./fidelity.json'); console.log(r.fidelityReport.targets.map(t => ({ toolId: t.toolId, file: t.files[0], nativeDiscoverySurface: t.nativeDiscoverySurface, genericFallback: t.genericFallback, manualActivationRequired: t.manualActivationRequired, effectiveContextScope: t.effectiveContext?.scope })))"`,
+  `node -e "const r=require('./fidelity.json'); console.log(r.fidelityReport.targets.map(t => ({ toolId: t.toolId, file: t.files[0], nativeDiscoverySurface: t.nativeDiscoverySurface, genericFallback: t.genericFallback, manualActivationRequired: t.manualActivationRequired, effectiveContextScope: t.effectiveContext?.scope, loadedBy: t.loadEvidence?.loadedBy, dedupeRisk: t.loadEvidence?.dedupeRisk })))"`,
 ]
 
 function run(command, args, options = {}) {
@@ -66,6 +66,18 @@ function assertFileMissing(filePath, label) {
   }
 }
 
+function versionAtLeast(actual, expected) {
+  const actualParts = actual.split('.').map((value) => Number.parseInt(value, 10) || 0)
+  const expectedParts = expected.split('.').map((value) => Number.parseInt(value, 10) || 0)
+  for (let index = 0; index < Math.max(actualParts.length, expectedParts.length); index += 1) {
+    const actualPart = actualParts[index] || 0
+    const expectedPart = expectedParts[index] || 0
+    if (actualPart > expectedPart) return true
+    if (actualPart < expectedPart) return false
+  }
+  return true
+}
+
 function assertPacketDocumentsSmoke() {
   const packet = readFileSync(packetPath, 'utf8')
   assertIncludes(packet, '## 60-second review smoke', 'community review packet')
@@ -81,6 +93,7 @@ const latestVersion = run('npm', ['view', pkg.name, 'version'], { capture: true 
 if (!latestVersion) {
   throw new Error(`Could not resolve npm latest version for ${pkg.name}`)
 }
+const latestSupportsLoadEvidence = versionAtLeast(latestVersion, '0.3.22')
 
 let smokeDir
 
@@ -216,6 +229,10 @@ ${JSON.stringify(bob, null, 2)}`)
     throw new Error(`Unexpected Bob target file:
 ${JSON.stringify(bob, null, 2)}`)
   }
+  if (latestSupportsLoadEvidence && (bob.loadEvidence?.loadedBy !== 'native-file-discovery' || bob.loadEvidence?.dedupeRisk !== 'unknown')) {
+    throw new Error(`Unexpected Bob load evidence:
+${JSON.stringify(bob, null, 2)}`)
+  }
 
   const openclaw = targetById.openclaw
   if (!openclaw) {
@@ -228,6 +245,10 @@ ${JSON.stringify(openclaw, null, 2)}`)
   }
   if (openclaw.files?.[0] !== 'AGENTS.md') {
     throw new Error(`Unexpected OpenClaw target file:
+${JSON.stringify(openclaw, null, 2)}`)
+  }
+  if (latestSupportsLoadEvidence && (openclaw.loadEvidence?.loadedBy !== 'generic-agent-file' || openclaw.loadEvidence?.deliveryMechanism !== 'generated-generic-fallback')) {
+    throw new Error(`Unexpected OpenClaw load evidence:
 ${JSON.stringify(openclaw, null, 2)}`)
   }
 

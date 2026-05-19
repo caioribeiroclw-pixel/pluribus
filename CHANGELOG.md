@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.22 - 2026-05-19
+
+- Extended `pluribus audit --fidelity-report` with `loadEvidence` receipts so reviewers can see whether generated context is expected to enter through native file discovery or a generic agent fallback.
+- Added explicit runtime dedupe uncertainty via `load-dedupe-not-proven` warnings and `runtime-load-dedupe-not-proven` semantic markers, making native-vs-hook-vs-manual duplication an evidence question.
+- Updated the audit JSON schema, community review packet, README shortcut, and portability fidelity docs with `loadedBy`, `effectiveSource`, hook/session-start flags, resume behavior, and dedupe risk.
+
 ## 0.3.21 - 2026-05-19
 
 - Extended `pluribus audit --fidelity-report` with `effectiveContext` evidence so monorepo reviewers can see that built-in targets currently prove repo-root context only, not root→subpath inheritance or path isolation.

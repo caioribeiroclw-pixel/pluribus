@@ -14,7 +14,7 @@ It shows where instructions keep their semantics, where they are downgraded to a
 
 It is **not** a persistent memory layer, retrieval system, agent orchestrator, or agent-merging framework. Think `CLAUDE.md`, `.cursorrules`, `copilot-instructions.md`, `AGENTS.md` — one intentional context, multiple generated outputs.
 
-**Reviewer shortcut:** evaluating Pluribus for a list, newsletter, package roundup, or tool directory? Use the [Community Review Packet](docs/community-review-packet.md) for copy-paste directory submission fields, safety/removability notes, feedback links, and a disposable 60-second smoke test. If you only run one command, try `npx --yes pluribus-context@latest audit --json --fidelity-report` to see native discovery surfaces, generic fallbacks, manual activation requirements, and semantic differences.
+**Reviewer shortcut:** evaluating Pluribus for a list, newsletter, package roundup, or tool directory? Use the [Community Review Packet](docs/community-review-packet.md) for copy-paste directory submission fields, safety/removability notes, feedback links, and a disposable 60-second smoke test. If you only run one command, try `npx --yes pluribus-context@latest audit --json --fidelity-report` to see native discovery surfaces, generic fallbacks, load evidence, manual activation requirements, effective context scope, and semantic differences.
 
 ---
 
