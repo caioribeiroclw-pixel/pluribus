@@ -27,6 +27,8 @@
 
 All notable changes to Pluribus are documented here.
 
+- Added an orchestration-layer search receipt sketch for evaluating code-search/MCP retrieval/RAG tools from the harness layer with privacy-preserving counts, paths, hashes, fallback reads, and loop evidence.
+
 ## 0.3.19 — Bob native discovery target
 
 ### Added
