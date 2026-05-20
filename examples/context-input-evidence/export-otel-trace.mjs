@@ -92,6 +92,7 @@ const otlpTrace = {
               endTimeUnixNano: `${BigInt(endTimeMs) * 1_000_000n}`,
               attributes: attributesToOtel({
                 'session.id': sessionId,
+                'gen_ai.conversation.id': sessionId,
                 'gen_ai.agent.name': 'context-input-evidence-demo',
                 'gen_ai.operation.name': 'agent_session'
               }),

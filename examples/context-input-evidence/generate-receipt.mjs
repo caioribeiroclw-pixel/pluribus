@@ -136,6 +136,7 @@ const events = deliveries.map((delivery) => {
       'context.input.source.canonicalization': source.canonicalization.join(','),
       'context.input.delivered.hash': deliveredHash,
       'session.id': sessionId,
+      'gen_ai.conversation.id': sessionId,
       'context.input.delivered.full_render.hash': fullRenderHash ?? '',
       'context.input.delivered.full_render.status': fullRenderStatus,
       'context.input.delivered.template_hash': delivery.templateHash ?? '',

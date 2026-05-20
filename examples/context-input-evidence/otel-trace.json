@@ -46,6 +46,12 @@
                   }
                 },
                 {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "demo-session-context-input-evidence"
+                  }
+                },
+                {
                   "key": "gen_ai.agent.name",
                   "value": {
                     "stringValue": "context-input-evidence-demo"
@@ -107,6 +113,12 @@
                     },
                     {
                       "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-context-input-evidence"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
                       "value": {
                         "stringValue": "demo-session-context-input-evidence"
                       }
@@ -280,6 +292,12 @@
                       }
                     },
                     {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-session-context-input-evidence"
+                      }
+                    },
+                    {
                       "key": "context.input.delivered.full_render.hash",
                       "value": {
                         "stringValue": "sha256:ca458f2c36f994caeff939de900edec725931ce812971b6e7ce3da252e5d5567"
@@ -443,6 +461,12 @@
                     },
                     {
                       "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-context-input-evidence"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
                       "value": {
                         "stringValue": "demo-session-context-input-evidence"
                       }
@@ -616,6 +640,12 @@
                       }
                     },
                     {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-session-context-input-evidence"
+                      }
+                    },
+                    {
                       "key": "context.input.delivered.full_render.hash",
                       "value": {
                         "stringValue": "sha256:20049bf6fbec1d5dd218404c622bc1daa22d199e504c7f81f036fac96b34fd63"
@@ -784,6 +814,12 @@
                       }
                     },
                     {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-session-context-input-evidence"
+                      }
+                    },
+                    {
                       "key": "context.input.delivered.full_render.hash",
                       "value": {
                         "stringValue": "sha256:ca458f2c36f994caeff939de900edec725931ce812971b6e7ce3da252e5d5567"
@@ -947,6 +983,12 @@
                     },
                     {
                       "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-context-input-evidence"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
                       "value": {
                         "stringValue": "demo-session-context-input-evidence"
                       }
