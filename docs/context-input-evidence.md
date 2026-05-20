@@ -103,6 +103,14 @@ It writes `receipt.ndjson` and prints a summary showing five failure modes:
 
 That is why `source.*`, `delivered.*`, canonical form, truncation status, explicit session identity, dedupe scope, and suppression policy should be explicit in any agent trace convention.
 
+To see the same receipts as OpenTelemetry-style trace data, run:
+
+```bash
+node examples/context-input-evidence/export-otel-trace.mjs
+```
+
+It reads `receipt.ndjson` and writes `otel-trace.json` with one `agent.session` span and six `context.input.loaded` SpanEvents. The fixture keeps the default privacy posture: paths, hashes, categorical fields, session identity, full-render status, and suppression policy; no raw prompt text, raw skill text, secrets, memory contents, or transcript bodies.
+
 ## How this relates to Pluribus
 
 Pluribus already reports load and duplicate-load evidence in its fidelity report. This sketch moves the same idea into trace vocabulary: an auditor should be able to answer which context entered a session, why it was loaded, how it was transformed, and whether duplicate suppression is actually provable.
