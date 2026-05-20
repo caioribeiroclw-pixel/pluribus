@@ -11,10 +11,12 @@ A single `content.hash` is not enough for cross-tool context evidence. The same 
 Use separate identities:
 
 - `source.bytes_hash` — hash of the source bytes on disk or at the URI. Use this for forensic identity.
-- `source.canonical_hash` — optional hash after declared canonicalization, such as UTF-8 decode, Unicode NFC, CRLF→LF, and frontmatter policy. Use this when comparing vendors that agree on a canonical form.
-- `delivered.hash` — hash of what the harness believes was actually delivered to the model after template expansion, stripping, generated headers, or merge/render steps. Use this for dedupe and “what did the model see?” evidence.
+- `source.canonical.form` + `source.canonical.hash` — hash after a named canonical form, such as `otel.context.source.nfc_lf.v1_candidate`. The form identifier is part of the comparison key. A hash without the canonical form can silently compare different vendor policies.
+- `delivered.hash` — hash of what the harness believes was actually delivered to the model after template expansion, stripping, generated headers, merge/render steps, or clipping. Use this for “what did the model see?” evidence.
+- `delivered.full_render_hash` — hash of the full rendered payload before context-window clipping, when available.
+- `delivered.template_hash` — hash of the deterministic template or render recipe, when generated headers or timestamps make `delivered.hash` unstable.
 
-Without that split, a `duplicate.dedupe_key` can silently lie: two tools may start from byte-identical `AGENTS.md`, then deliver different text after template expansion or normalization.
+Without that split, a `duplicate.dedupe_key` can silently lie: two tools may start from byte-identical `AGENTS.md`, then deliver different text after template expansion, normalization, generated headers, or truncation.
 
 ## SpanEvent, not child span
 
@@ -39,15 +41,21 @@ This avoids inflating traces with one child span per context file while still pr
     "context.input.kind": "agent_instructions",
     "context.input.source.path": "AGENTS.md",
     "context.input.source.bytes_hash": "sha256:...",
-    "context.input.source.canonical_hash": "sha256:...",
+    "context.input.source.canonical.form": "otel.context.source.nfc_lf.v1_candidate",
+    "context.input.source.canonical.hash": "sha256:...",
     "context.input.delivered.hash": "sha256:...",
+    "context.input.delivered.full_render_hash": "sha256:...",
+    "context.input.delivered.template_hash": "sha256:...",
+    "context.input.delivered.nondeterministic": "false",
+    "context.input.delivered.truncated": "false",
     "context.input.loaded_by": "native-file-discovery",
     "context.input.activation": "session_start",
     "context.input.scope": "repo",
     "context.input.applies_to": "codex",
     "context.input.why_loaded": "shared invariant guidance",
     "context.input.expected_benefit": "align agent behavior with repository conventions",
-    "context.input.duplicate.dedupe_key": "sha256:...",
+    "context.input.duplicate.dedupe_key": "session:sha256:...",
+    "context.input.duplicate.dedupe_scope": "session",
     "context.input.duplicate.role": "selected",
     "context.input.duplicate.risk": "unknown"
   }
@@ -74,7 +82,14 @@ Run:
 node examples/context-input-evidence/generate-receipt.mjs
 ```
 
-It writes `receipt.ndjson` and prints a summary showing that `source.bytes_hash` can match while `delivered.hash` diverges. That is the reason `source.*` and `delivered.*` should be separate in any agent trace convention.
+It writes `receipt.ndjson` and prints a summary showing four failure modes:
+
+1. `source.bytes_hash` can match while `delivered.hash` diverges.
+2. A canonical hash is only comparable when the `source.canonical.form` identifier also matches.
+3. Generated headers/timestamps can make `delivered.hash` non-deterministic, so `delivered.template_hash` may be needed.
+4. A clipped payload needs both `delivered.hash` and `delivered.full_render_hash`, because dedupe at clip-length N does not prove the full render was identical.
+
+That is why `source.*`, `delivered.*`, canonical form, truncation, and dedupe scope should be explicit in any agent trace convention.
 
 ## How this relates to Pluribus
 
