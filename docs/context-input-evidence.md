@@ -111,6 +111,14 @@ node examples/context-input-evidence/export-otel-trace.mjs
 
 It reads `receipt.ndjson` and writes `otel-trace.json` with one `agent.session` span and six `context.input.loaded` SpanEvents. The fixture keeps the default privacy posture: paths, hashes, categorical fields, session identity, full-render status, and suppression policy; no raw prompt text, raw skill text, secrets, memory contents, or transcript bodies.
 
+To test the post-hoc observability path — closer to tools that reconstruct Claude Code/Cursor/Codex sessions from JSONL logs — run:
+
+```bash
+node examples/context-input-evidence/convert-session-log.mjs
+```
+
+It reads `sample-session-log.jsonl` and writes both `session-receipt.ndjson` and `session-otel-trace.json`. The sample session includes one upfront `AGENTS.md` load, one MCP-memory retrieval result, and two tool calls. The exported receipt keeps only paths/URIs, hashes, counts, categorical fields, and session/conversation identifiers. It intentionally does **not** copy raw context text, prompts, memory contents, tool arguments, secrets, or transcript bodies into the receipt/trace.
+
 ## How this relates to Pluribus
 
 Pluribus already reports load and duplicate-load evidence in its fidelity report. This sketch moves the same idea into trace vocabulary: an auditor should be able to answer which context entered a session, why it was loaded, how it was transformed, and whether duplicate suppression is actually provable.

@@ -1,0 +1,411 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-session-log-context-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.session_log_demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "686a1c435a5e237f0431086ee6cac547",
+              "spanId": "fa9f5773ae94c717",
+              "parentSpanId": "",
+              "name": "agent.session",
+              "kind": 1,
+              "startTimeUnixNano": "1779314400000000000",
+              "endTimeUnixNano": "1779314410000000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "demo-session-posthoc-context-receipts"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "demo-session-posthoc-context-receipts"
+                  }
+                },
+                {
+                  "key": "gen_ai.agent.name",
+                  "value": {
+                    "stringValue": "claude-code"
+                  }
+                },
+                {
+                  "key": "gen_ai.operation.name",
+                  "value": {
+                    "stringValue": "agent_session"
+                  }
+                },
+                {
+                  "key": "code.repository.name",
+                  "value": {
+                    "stringValue": "example-service"
+                  }
+                },
+                {
+                  "key": "pluribus.session_log.tool_call.count",
+                  "value": {
+                    "intValue": "2"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "context.input.loaded",
+                  "timeUnixNano": "1779314402000000000",
+                  "attributes": [
+                    {
+                      "key": "context.input.kind",
+                      "value": {
+                        "stringValue": "agent_instructions"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.path",
+                      "value": {
+                        "stringValue": "AGENTS.md"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.bytes_hash",
+                      "value": {
+                        "stringValue": "sha256:68f534cad05eafaf6c74474a941bb2426669cbdd9b9a966db3d6159d1cdc6d9a"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.canonical.form",
+                      "value": {
+                        "stringValue": "otel.context.source.nfc_lf.v1_candidate"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.canonical.hash",
+                      "value": {
+                        "stringValue": "sha256:68f534cad05eafaf6c74474a941bb2426669cbdd9b9a966db3d6159d1cdc6d9a"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.canonicalization",
+                      "value": {
+                        "stringValue": "utf8,unicode_nfc,crlf_to_lf"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.hash",
+                      "value": {
+                        "stringValue": "sha256:68f534cad05eafaf6c74474a941bb2426669cbdd9b9a966db3d6159d1cdc6d9a"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.full_render.hash",
+                      "value": {
+                        "stringValue": "sha256:68f534cad05eafaf6c74474a941bb2426669cbdd9b9a966db3d6159d1cdc6d9a"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.full_render.status",
+                      "value": {
+                        "stringValue": "available"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.template_hash",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.transform",
+                      "value": {
+                        "stringValue": "as-recorded-by-session-log"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.nondeterministic",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.truncated",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "context.input.loaded_by",
+                      "value": {
+                        "stringValue": "native-file-discovery"
+                      }
+                    },
+                    {
+                      "key": "context.input.activation",
+                      "value": {
+                        "stringValue": "session_start"
+                      }
+                    },
+                    {
+                      "key": "context.input.scope",
+                      "value": {
+                        "stringValue": "repo"
+                      }
+                    },
+                    {
+                      "key": "context.input.applies_to",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "context.input.why_loaded",
+                      "value": {
+                        "stringValue": "shared invariant guidance"
+                      }
+                    },
+                    {
+                      "key": "context.input.expected_benefit",
+                      "value": {
+                        "stringValue": "align agent behavior with repository test and safety rules"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_key",
+                      "value": {
+                        "stringValue": "demo-session-posthoc-context-receipts:sha256:68f534cad05eafaf6c74474a941bb2426669cbdd9b9a966db3d6159d1cdc6d9a"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_scope",
+                      "value": {
+                        "stringValue": "conversation"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.suppression_policy",
+                      "value": {
+                        "stringValue": "suppress_equal_dedupe_key_within_scope"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.role",
+                      "value": {
+                        "stringValue": "selected"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.risk",
+                      "value": {
+                        "stringValue": "unknown"
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-posthoc-context-receipts"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-session-posthoc-context-receipts"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.input.loaded",
+                  "timeUnixNano": "1779314406000000000",
+                  "attributes": [
+                    {
+                      "key": "context.input.kind",
+                      "value": {
+                        "stringValue": "retrieved_context"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.uri",
+                      "value": {
+                        "stringValue": "mcp://local-memory/project/example-service/testing-policy"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.bytes_hash",
+                      "value": {
+                        "stringValue": "sha256:05207c7e52cc275d824b615c1f88f6f5727640af2c86673676ee4dc64311f889"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.canonical.form",
+                      "value": {
+                        "stringValue": "otel.context.source.nfc_lf.v1_candidate"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.canonical.hash",
+                      "value": {
+                        "stringValue": "sha256:05207c7e52cc275d824b615c1f88f6f5727640af2c86673676ee4dc64311f889"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.canonicalization",
+                      "value": {
+                        "stringValue": "utf8,unicode_nfc,crlf_to_lf"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.hash",
+                      "value": {
+                        "stringValue": "sha256:05207c7e52cc275d824b615c1f88f6f5727640af2c86673676ee4dc64311f889"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.full_render.hash",
+                      "value": {
+                        "stringValue": "sha256:05207c7e52cc275d824b615c1f88f6f5727640af2c86673676ee4dc64311f889"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.full_render.status",
+                      "value": {
+                        "stringValue": "available"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.template_hash",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.transform",
+                      "value": {
+                        "stringValue": "as-recorded-by-session-log"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.nondeterministic",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.truncated",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "context.input.loaded_by",
+                      "value": {
+                        "stringValue": "mcp-memory-retrieval"
+                      }
+                    },
+                    {
+                      "key": "context.input.activation",
+                      "value": {
+                        "stringValue": "retrieval_result"
+                      }
+                    },
+                    {
+                      "key": "context.input.scope",
+                      "value": {
+                        "stringValue": "task"
+                      }
+                    },
+                    {
+                      "key": "context.input.applies_to",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "context.input.why_loaded",
+                      "value": {
+                        "stringValue": "task-specific retrieval"
+                      }
+                    },
+                    {
+                      "key": "context.input.expected_benefit",
+                      "value": {
+                        "stringValue": "choose the smallest verification gate before claiming success"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_key",
+                      "value": {
+                        "stringValue": "demo-session-posthoc-context-receipts:sha256:05207c7e52cc275d824b615c1f88f6f5727640af2c86673676ee4dc64311f889"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_scope",
+                      "value": {
+                        "stringValue": "conversation"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.suppression_policy",
+                      "value": {
+                        "stringValue": "suppress_equal_dedupe_key_within_scope"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.role",
+                      "value": {
+                        "stringValue": "selected"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.risk",
+                      "value": {
+                        "stringValue": "unknown"
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-posthoc-context-receipts"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-session-posthoc-context-receipts"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
