@@ -46,6 +46,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/memory-graph/memory-graph/pull/10',
     reason: 'adjacent MCP memory docs contribution about multi-client memory protocol drift',
   },
+  {
+    name: 'awesome-ai-memory-systems',
+    repo: 'brandonhimpfen/awesome-ai-memory-systems',
+    pullRequest: 9,
+    url: 'https://github.com/brandonhimpfen/awesome-ai-memory-systems/pull/9',
+    reason: 'contextual directory submission for context portability/load-evidence receipts among AI memory systems',
+  },
 ]
 
 function run(command, args) {
