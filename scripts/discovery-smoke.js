@@ -60,6 +60,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/RoggeOhta/awesome-codex-cli/pull/46',
     reason: 'contextual Codex CLI directory submission for AGENTS.md context receipts and cross-agent audit',
   },
+  {
+    name: 'agents.md',
+    repo: 'agentsmd/agents.md',
+    pullRequest: 190,
+    url: 'https://github.com/agentsmd/agents.md/pull/190',
+    reason: 'upstream AGENTS.md guidance for context budget/diet and focused instructions',
+  },
 ]
 
 function run(command, args) {
