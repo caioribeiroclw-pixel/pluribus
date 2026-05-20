@@ -53,6 +53,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/brandonhimpfen/awesome-ai-memory-systems/pull/9',
     reason: 'contextual directory submission for context portability/load-evidence receipts among AI memory systems',
   },
+  {
+    name: 'awesome-codex-cli',
+    repo: 'RoggeOhta/awesome-codex-cli',
+    pullRequest: 46,
+    url: 'https://github.com/RoggeOhta/awesome-codex-cli/pull/46',
+    reason: 'contextual Codex CLI directory submission for AGENTS.md context receipts and cross-agent audit',
+  },
 ]
 
 function run(command, args) {
