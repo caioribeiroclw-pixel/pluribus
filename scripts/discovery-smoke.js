@@ -74,6 +74,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/MinishLab/semble/issues/123',
     reason: 'contextual code-search/agent-eval feedback about per-task search receipts',
   },
+  {
+    name: 'semantic-conventions-genai',
+    repo: 'open-telemetry/semantic-conventions-genai',
+    issueNumber: 181,
+    url: 'https://github.com/open-telemetry/semantic-conventions-genai/issues/181',
+    reason: 'upstream OpenTelemetry GenAI proposal for privacy-first context input evidence in agent traces',
+  },
 ]
 
 function run(command, args) {
