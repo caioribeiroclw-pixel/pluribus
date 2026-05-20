@@ -67,6 +67,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/agentsmd/agents.md/pull/190',
     reason: 'upstream AGENTS.md guidance for context budget/diet and focused instructions',
   },
+  {
+    name: 'semble',
+    repo: 'MinishLab/semble',
+    issueNumber: 123,
+    url: 'https://github.com/MinishLab/semble/issues/123',
+    reason: 'contextual code-search/agent-eval feedback about per-task search receipts',
+  },
 ]
 
 function run(command, args) {
@@ -298,19 +305,23 @@ function collectGithubSignals() {
 
 function collectExternalDistributionSignals() {
   return trackedExternalDistributions.map((distribution) => {
+    const isIssue = Boolean(distribution.issueNumber)
     const result = githubJson(`external distribution ${distribution.name}`, 'gh', [
-      'pr',
+      isIssue ? 'issue' : 'pr',
       'view',
-      String(distribution.pullRequest),
+      String(isIssue ? distribution.issueNumber : distribution.pullRequest),
       '--repo',
       distribution.repo,
       '--json',
-      'number,title,state,mergeable,isDraft,reviewDecision,comments,updatedAt,author,url',
+      isIssue
+        ? 'number,title,state,comments,updatedAt,author,url'
+        : 'number,title,state,mergeable,isDraft,reviewDecision,comments,updatedAt,author,url',
     ], {})
 
     if (!result.ok) {
       return {
         ...distribution,
+        type: isIssue ? 'issue' : 'pullRequest',
         ok: false,
         error: result.error,
       }
@@ -318,12 +329,13 @@ function collectExternalDistributionSignals() {
 
     return {
       ...distribution,
+      type: isIssue ? 'issue' : 'pullRequest',
       ok: true,
       title: result.data.title,
       state: result.data.state,
-      mergeable: result.data.mergeable,
-      isDraft: result.data.isDraft,
-      reviewDecision: result.data.reviewDecision || null,
+      mergeable: isIssue ? null : result.data.mergeable,
+      isDraft: isIssue ? null : result.data.isDraft,
+      reviewDecision: isIssue ? null : result.data.reviewDecision || null,
       comments: Array.isArray(result.data.comments) ? result.data.comments.length : result.data.comments,
       updatedAt: result.data.updatedAt,
       author: result.data.author?.login,
@@ -374,8 +386,9 @@ const report = {
       ? githubSignals.discussions.reduce((total, discussion) => total + discussion.externalRecentComments, 0)
       : null,
     trackedExternalDistributions: externalDistributions.length,
-    openExternalDistributionPullRequests: externalDistributions.filter((distribution) => distribution.ok && distribution.state === 'OPEN').length,
-    mergedExternalDistributionPullRequests: externalDistributions.filter((distribution) => distribution.ok && distribution.state === 'MERGED').length,
+    openExternalDistributionPullRequests: externalDistributions.filter((distribution) => distribution.ok && distribution.type === 'pullRequest' && distribution.state === 'OPEN').length,
+    openExternalDistributionIssues: externalDistributions.filter((distribution) => distribution.ok && distribution.type === 'issue' && distribution.state === 'OPEN').length,
+    mergedExternalDistributionPullRequests: externalDistributions.filter((distribution) => distribution.ok && distribution.type === 'pullRequest' && distribution.state === 'MERGED').length,
   },
 }
 
