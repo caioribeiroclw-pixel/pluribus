@@ -129,6 +129,19 @@ It reads `skill-invocation-log.jsonl` and writes `skill-receipt.ndjson` plus `sk
 
 That split matters for Claude/Cowork-style telemetry: tool spans can prove MCP/tool calls happened, but skills may be expanded as invisible prompt context. A useful receipt should show both “which skill was invoked?” and “what prompt-like context entered the session?” without requiring raw skill bodies in the OTEL stream.
 
+To test shared-memory and MCP recall flows — where Cursor, Claude Code, and other clients may all query the same memory backend — run:
+
+```bash
+node examples/context-input-evidence/convert-memory-log.mjs
+```
+
+It reads `sample-memory-retrieval-log.jsonl` and writes `memory-receipt.ndjson` plus `memory-otel-trace.json`. The sample emits two event types:
+
+- `memory.search.returned` — what the memory layer returned: provider, client, query hash, project hash, result count, result identity hashes, score bucket, snapshot hash, and latency.
+- `context.input.loaded` — what the client/harness actually loaded from those results: memory/result identity hashes, delivered hash, activation, scope, expected benefit, duplicate role, and suppression policy.
+
+The split is intentional. A shared-memory server can prove “these memories were returned for this query/snapshot,” but only the client or harness can prove “this returned memory entered the prompt/context.” The fixture redacts raw query text, raw memory text, prompts, tool arguments, secrets, and transcript bodies from the receipt/trace.
+
 ## How this relates to Pluribus
 
 Pluribus already reports load and duplicate-load evidence in its fidelity report. This sketch moves the same idea into trace vocabulary: an auditor should be able to answer which context entered a session, why it was loaded, how it was transformed, and whether duplicate suppression is actually provable.

@@ -1,0 +1,645 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-shared-memory-receipt-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.memory_receipt_demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "7db8273c9ea646b50fc1e7860d3499b3",
+              "spanId": "222c7fc93a43ac64",
+              "parentSpanId": "",
+              "name": "agent.session",
+              "kind": 1,
+              "startTimeUnixNano": "1779375600000000000",
+              "endTimeUnixNano": "1779375608000000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "demo-shared-memory-receipts"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "conv-shared-memory-receipts"
+                  }
+                },
+                {
+                  "key": "gen_ai.agent.name",
+                  "value": {
+                    "stringValue": "claude-code"
+                  }
+                },
+                {
+                  "key": "gen_ai.operation.name",
+                  "value": {
+                    "stringValue": "agent_session"
+                  }
+                },
+                {
+                  "key": "code.repository.name",
+                  "value": {
+                    "stringValue": "checkout-service"
+                  }
+                },
+                {
+                  "key": "pluribus.memory_search.count",
+                  "value": {
+                    "intValue": "2"
+                  }
+                },
+                {
+                  "key": "pluribus.memory_load.count",
+                  "value": {
+                    "intValue": "2"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "memory.search.returned",
+                  "timeUnixNano": "1779375601000000000",
+                  "attributes": [
+                    {
+                      "key": "memory.provider",
+                      "value": {
+                        "stringValue": "supermemory-mcp"
+                      }
+                    },
+                    {
+                      "key": "memory.client",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "memory.project.hash",
+                      "value": {
+                        "stringValue": "sha256:b201e758be78"
+                      }
+                    },
+                    {
+                      "key": "memory.retrieval.id_hash",
+                      "value": {
+                        "stringValue": "sha256:d774333941d2"
+                      }
+                    },
+                    {
+                      "key": "memory.query.hash",
+                      "value": {
+                        "stringValue": "sha256:b5a2e08368b25744a4128117656fbc97f8f6fa98928cc0afd8cb903c4653251c"
+                      }
+                    },
+                    {
+                      "key": "memory.snapshot.id_hash",
+                      "value": {
+                        "stringValue": "sha256:4e102eb94d93"
+                      }
+                    },
+                    {
+                      "key": "memory.result.count",
+                      "value": {
+                        "intValue": "2"
+                      }
+                    },
+                    {
+                      "key": "memory.result.ids_hash",
+                      "value": {
+                        "stringValue": "sha256:48c8b58cf32ee16490b0104d48dd9934c1f30addc91e064301183a42c5e429ab"
+                      }
+                    },
+                    {
+                      "key": "memory.result.payloads_hash",
+                      "value": {
+                        "stringValue": "sha256:24e4ba284b48b53982d533177888e427b60a29f29cf90c66b7a9b01888629a2e"
+                      }
+                    },
+                    {
+                      "key": "memory.result.top.id_hash",
+                      "value": {
+                        "stringValue": "sha256:0fbf9e7a2e62"
+                      }
+                    },
+                    {
+                      "key": "memory.result.top.score_bucket",
+                      "value": {
+                        "stringValue": "very_high"
+                      }
+                    },
+                    {
+                      "key": "memory.latency_ms",
+                      "value": {
+                        "intValue": "42"
+                      }
+                    },
+                    {
+                      "key": "memory.privacy.raw_query_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "memory.privacy.raw_result_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-shared-memory-receipts"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-shared-memory-receipts"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.input.loaded",
+                  "timeUnixNano": "1779375602000000000",
+                  "attributes": [
+                    {
+                      "key": "context.input.kind",
+                      "value": {
+                        "stringValue": "mcp_memory"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.uri_hash",
+                      "value": {
+                        "stringValue": "sha256:3b6ab8a75fd5"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.memory_id_hash",
+                      "value": {
+                        "stringValue": "sha256:0fbf9e7a2e62"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.bytes_hash",
+                      "value": {
+                        "stringValue": "sha256:00f7bc7be2725eb4963ac5fd331b1653bd365bc16d17f86cad15dc7115f37a59"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.canonical.form",
+                      "value": {
+                        "stringValue": "otel.context.source.nfc_lf.v1_candidate"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.canonical.hash",
+                      "value": {
+                        "stringValue": "sha256:00f7bc7be2725eb4963ac5fd331b1653bd365bc16d17f86cad15dc7115f37a59"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.canonicalization",
+                      "value": {
+                        "stringValue": "utf8,unicode_nfc,crlf_to_lf"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.hash",
+                      "value": {
+                        "stringValue": "sha256:00f7bc7be2725eb4963ac5fd331b1653bd365bc16d17f86cad15dc7115f37a59"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.full_render.hash",
+                      "value": {
+                        "stringValue": "sha256:00f7bc7be2725eb4963ac5fd331b1653bd365bc16d17f86cad15dc7115f37a59"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.full_render.status",
+                      "value": {
+                        "stringValue": "available"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.transform",
+                      "value": {
+                        "stringValue": "as-returned-by-memory-client"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.nondeterministic",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.truncated",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "context.input.loaded_by",
+                      "value": {
+                        "stringValue": "mcp-memory-client"
+                      }
+                    },
+                    {
+                      "key": "context.input.activation",
+                      "value": {
+                        "stringValue": "recall_before_edit"
+                      }
+                    },
+                    {
+                      "key": "context.input.scope",
+                      "value": {
+                        "stringValue": "project"
+                      }
+                    },
+                    {
+                      "key": "context.input.applies_to",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "context.input.why_loaded",
+                      "value": {
+                        "stringValue": "top-ranked memory result for checkout retry edit"
+                      }
+                    },
+                    {
+                      "key": "context.input.expected_benefit",
+                      "value": {
+                        "stringValue": "avoid violating payment retry invariant"
+                      }
+                    },
+                    {
+                      "key": "context.input.retrieval.id_hash",
+                      "value": {
+                        "stringValue": "sha256:d774333941d2"
+                      }
+                    },
+                    {
+                      "key": "context.input.memory.id_hash",
+                      "value": {
+                        "stringValue": "sha256:0fbf9e7a2e62"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_key",
+                      "value": {
+                        "stringValue": "conv-shared-memory-receipts:sha256:00f7bc7be2725eb4963ac5fd331b1653bd365bc16d17f86cad15dc7115f37a59"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_scope",
+                      "value": {
+                        "stringValue": "conversation"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.suppression_policy",
+                      "value": {
+                        "stringValue": "suppress_equal_dedupe_key_within_scope"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.role",
+                      "value": {
+                        "stringValue": "selected"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.risk",
+                      "value": {
+                        "stringValue": "unknown"
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-shared-memory-receipts"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-shared-memory-receipts"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "memory.search.returned",
+                  "timeUnixNano": "1779375605000000000",
+                  "attributes": [
+                    {
+                      "key": "memory.provider",
+                      "value": {
+                        "stringValue": "supermemory-mcp"
+                      }
+                    },
+                    {
+                      "key": "memory.client",
+                      "value": {
+                        "stringValue": "cursor"
+                      }
+                    },
+                    {
+                      "key": "memory.project.hash",
+                      "value": {
+                        "stringValue": "sha256:b201e758be78"
+                      }
+                    },
+                    {
+                      "key": "memory.retrieval.id_hash",
+                      "value": {
+                        "stringValue": "sha256:39018a6f3e6e"
+                      }
+                    },
+                    {
+                      "key": "memory.query.hash",
+                      "value": {
+                        "stringValue": "sha256:7f6c5cf3f52cd6d7a6863c686aa8fa420d69322686bd41a2edaf3de3a9286d6d"
+                      }
+                    },
+                    {
+                      "key": "memory.snapshot.id_hash",
+                      "value": {
+                        "stringValue": "sha256:4e102eb94d93"
+                      }
+                    },
+                    {
+                      "key": "memory.result.count",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "memory.result.ids_hash",
+                      "value": {
+                        "stringValue": "sha256:1e66c6e66013b2fbe4063d0f233dca9b3ae249fc1b63b6aad8a23658035f091b"
+                      }
+                    },
+                    {
+                      "key": "memory.result.payloads_hash",
+                      "value": {
+                        "stringValue": "sha256:1eaabfc18b8336d6bd29278cbc8ce5b1e9e9517a0e252131340a959b185cba45"
+                      }
+                    },
+                    {
+                      "key": "memory.result.top.id_hash",
+                      "value": {
+                        "stringValue": "sha256:0fbf9e7a2e62"
+                      }
+                    },
+                    {
+                      "key": "memory.result.top.score_bucket",
+                      "value": {
+                        "stringValue": "high"
+                      }
+                    },
+                    {
+                      "key": "memory.latency_ms",
+                      "value": {
+                        "intValue": "39"
+                      }
+                    },
+                    {
+                      "key": "memory.privacy.raw_query_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "memory.privacy.raw_result_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-shared-memory-receipts"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-shared-memory-receipts"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.input.loaded",
+                  "timeUnixNano": "1779375606000000000",
+                  "attributes": [
+                    {
+                      "key": "context.input.kind",
+                      "value": {
+                        "stringValue": "mcp_memory"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.uri_hash",
+                      "value": {
+                        "stringValue": "sha256:3b6ab8a75fd5"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.memory_id_hash",
+                      "value": {
+                        "stringValue": "sha256:0fbf9e7a2e62"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.bytes_hash",
+                      "value": {
+                        "stringValue": "sha256:00f7bc7be2725eb4963ac5fd331b1653bd365bc16d17f86cad15dc7115f37a59"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.canonical.form",
+                      "value": {
+                        "stringValue": "otel.context.source.nfc_lf.v1_candidate"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.canonical.hash",
+                      "value": {
+                        "stringValue": "sha256:00f7bc7be2725eb4963ac5fd331b1653bd365bc16d17f86cad15dc7115f37a59"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.canonicalization",
+                      "value": {
+                        "stringValue": "utf8,unicode_nfc,crlf_to_lf"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.hash",
+                      "value": {
+                        "stringValue": "sha256:00f7bc7be2725eb4963ac5fd331b1653bd365bc16d17f86cad15dc7115f37a59"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.full_render.hash",
+                      "value": {
+                        "stringValue": "sha256:00f7bc7be2725eb4963ac5fd331b1653bd365bc16d17f86cad15dc7115f37a59"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.full_render.status",
+                      "value": {
+                        "stringValue": "available"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.transform",
+                      "value": {
+                        "stringValue": "as-returned-by-memory-client"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.nondeterministic",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.truncated",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "context.input.loaded_by",
+                      "value": {
+                        "stringValue": "cursor-memory-client"
+                      }
+                    },
+                    {
+                      "key": "context.input.activation",
+                      "value": {
+                        "stringValue": "recall_before_edit"
+                      }
+                    },
+                    {
+                      "key": "context.input.scope",
+                      "value": {
+                        "stringValue": "project"
+                      }
+                    },
+                    {
+                      "key": "context.input.applies_to",
+                      "value": {
+                        "stringValue": "cursor"
+                      }
+                    },
+                    {
+                      "key": "context.input.why_loaded",
+                      "value": {
+                        "stringValue": "same shared memory result surfaced in a second client"
+                      }
+                    },
+                    {
+                      "key": "context.input.expected_benefit",
+                      "value": {
+                        "stringValue": "compare cross-client recall without exposing memory body"
+                      }
+                    },
+                    {
+                      "key": "context.input.retrieval.id_hash",
+                      "value": {
+                        "stringValue": "sha256:39018a6f3e6e"
+                      }
+                    },
+                    {
+                      "key": "context.input.memory.id_hash",
+                      "value": {
+                        "stringValue": "sha256:0fbf9e7a2e62"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_key",
+                      "value": {
+                        "stringValue": "conv-shared-memory-receipts:sha256:00f7bc7be2725eb4963ac5fd331b1653bd365bc16d17f86cad15dc7115f37a59"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_scope",
+                      "value": {
+                        "stringValue": "conversation"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.suppression_policy",
+                      "value": {
+                        "stringValue": "keep_distinct_cross_client_load_until_loaded_receipt_proves_suppression"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.role",
+                      "value": {
+                        "stringValue": "candidate_duplicate"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.risk",
+                      "value": {
+                        "stringValue": "cross_client_duplicate_possible"
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-shared-memory-receipts"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-shared-memory-receipts"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
