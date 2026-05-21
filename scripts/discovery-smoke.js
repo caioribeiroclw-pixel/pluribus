@@ -116,6 +116,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/liaohch3/claude-tap/issues/203',
     reason: 'contextual local trace viewer feedback about privacy-safe context receipt exports',
   },
+  {
+    name: 'claude-code-cowork-skill-tracking',
+    repo: 'anthropics/claude-code',
+    issueNumber: 41845,
+    url: 'https://github.com/anthropics/claude-code/issues/41845',
+    reason: 'contextual Claude/Cowork OTel feedback about privacy-first skill invocation receipts',
+  },
 ]
 
 function run(command, args) {

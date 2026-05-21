@@ -31,6 +31,7 @@ All notable changes to Pluribus are documented here.
 - Added a context input evidence sketch and executable demo showing why agent traces should separate `source.bytes_hash`, `source.canonical_hash`, and `delivered.hash` instead of using one ambiguous `content.hash`.
 - Added an OpenTelemetry-style trace fixture for context input receipts, with one `agent.session` span and `context.input.loaded` SpanEvents carrying hashes, session identity, full-render status, and suppression policy without raw prompt text.
 - Added a post-hoc session-log conversion demo that turns a small JSONL agent session into privacy-first `context.input.loaded` receipts and an OTel-style trace without copying raw context, prompts, tool arguments, memory contents, or transcripts into the output.
+- Added a skill/plugin invocation receipt demo that turns a small skill log into privacy-first `context.skill.invoked` events with activation mode, hook event, source/delivered hashes, suppression policy, expected benefit, and eval gap without copying raw skill prompts.
 
 ## 0.3.19 — Bob native discovery target
 

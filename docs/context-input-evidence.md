@@ -119,6 +119,16 @@ node examples/context-input-evidence/convert-session-log.mjs
 
 It reads `sample-session-log.jsonl` and writes both `session-receipt.ndjson` and `session-otel-trace.json`. The sample session includes one upfront `AGENTS.md` load, one MCP-memory retrieval result, and two tool calls. The exported receipt keeps only paths/URIs, hashes, counts, categorical fields, and session/conversation identifiers. It intentionally does **not** copy raw context text, prompts, memory contents, tool arguments, secrets, or transcript bodies into the receipt/trace.
 
+To test skill/plugin observability — where a skill is prompt-like context, not a normal MCP/tool call — run:
+
+```bash
+node examples/context-input-evidence/convert-skill-log.mjs
+```
+
+It reads `skill-invocation-log.jsonl` and writes `skill-receipt.ndjson` plus `skill-otel-trace.json`. The sample covers one manual slash-command skill invocation, one post-commit hook-driven skill load, and one duplicate skill candidate suppressed from a global cache. The emitted `context.skill.invoked` events include activation mode, hook event, skill/plugin identity, source and delivered hashes, suppression policy, expected benefit, and an explicit `eval_gap`. They do **not** copy raw skill text, raw prompt text, tool arguments, memory contents, or transcripts.
+
+That split matters for Claude/Cowork-style telemetry: tool spans can prove MCP/tool calls happened, but skills may be expanded as invisible prompt context. A useful receipt should show both “which skill was invoked?” and “what prompt-like context entered the session?” without requiring raw skill bodies in the OTEL stream.
+
 ## How this relates to Pluribus
 
 Pluribus already reports load and duplicate-load evidence in its fidelity report. This sketch moves the same idea into trace vocabulary: an auditor should be able to answer which context entered a session, why it was loaded, how it was transformed, and whether duplicate suppression is actually provable.

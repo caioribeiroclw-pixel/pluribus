@@ -1,0 +1,548 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-context-input-evidence"
+            }
+          },
+          {
+            "key": "telemetry.sdk.language",
+            "value": {
+              "stringValue": "javascript"
+            }
+          },
+          {
+            "key": "pluribus.demo",
+            "value": {
+              "stringValue": "skill-context-receipts"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context-input-evidence",
+            "version": "0.0.0-demo"
+          },
+          "spans": [
+            {
+              "traceId": "demo-trace-skill-context-receipts",
+              "spanId": "demo-session-skill-receipts",
+              "name": "agent.session",
+              "kind": "SPAN_KIND_INTERNAL",
+              "startTimeUnixNano": "0",
+              "endTimeUnixNano": "0",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "demo-session-skill-receipts"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "demo-session-skill-receipts"
+                  }
+                },
+                {
+                  "key": "agent.name",
+                  "value": {
+                    "stringValue": "cowork"
+                  }
+                },
+                {
+                  "key": "workspace.name",
+                  "value": {
+                    "stringValue": "example-org"
+                  }
+                },
+                {
+                  "key": "privacy.raw_context_recorded",
+                  "value": {
+                    "boolValue": false
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "context.skill.invoked",
+                  "timeUnixNano": "0",
+                  "attributes": [
+                    {
+                      "key": "context.input.kind",
+                      "value": {
+                        "stringValue": "skill"
+                      }
+                    },
+                    {
+                      "key": "context.skill.id",
+                      "value": {
+                        "stringValue": "knowledge-work.weekly-brief"
+                      }
+                    },
+                    {
+                      "key": "context.skill.name",
+                      "value": {
+                        "stringValue": "weekly-brief"
+                      }
+                    },
+                    {
+                      "key": "context.skill.plugin",
+                      "value": {
+                        "stringValue": "knowledge-work-plugins"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.path",
+                      "value": {
+                        "stringValue": ".claude/plugins/knowledge-work/weekly-brief/SKILL.md"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.bytes_hash",
+                      "value": {
+                        "stringValue": "sha256:830061a54d44c390714c42b3190c26ee33de83b555f9cd4c31803a3dc6990b2d"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.hash",
+                      "value": {
+                        "stringValue": "sha256:e4cb05b1c118c2047ae4a3a602446afa70e4611a6d6ef86f947f8fddba5a104d"
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-skill-receipts"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-session-skill-receipts"
+                      }
+                    },
+                    {
+                      "key": "context.input.loaded_by",
+                      "value": {
+                        "stringValue": "skill-runtime"
+                      }
+                    },
+                    {
+                      "key": "context.input.activation",
+                      "value": {
+                        "stringValue": "manual_slash_command"
+                      }
+                    },
+                    {
+                      "key": "context.input.hook_event",
+                      "value": {
+                        "stringValue": "none"
+                      }
+                    },
+                    {
+                      "key": "context.input.scope",
+                      "value": {
+                        "stringValue": "plugin"
+                      }
+                    },
+                    {
+                      "key": "context.input.applies_to",
+                      "value": {
+                        "stringValue": "cowork"
+                      }
+                    },
+                    {
+                      "key": "context.input.why_loaded",
+                      "value": {
+                        "stringValue": "/weekly-brief"
+                      }
+                    },
+                    {
+                      "key": "context.input.expected_benefit",
+                      "value": {
+                        "stringValue": "make skill adoption and ROI visible without logging the skill body"
+                      }
+                    },
+                    {
+                      "key": "context.input.eval_gap",
+                      "value": {
+                        "stringValue": "outcome quality still requires a downstream task-result/eval metric"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_key",
+                      "value": {
+                        "stringValue": "conversation:knowledge-work.weekly-brief:manual_slash_command:none:sha256:e4cb05b1c118c2047ae4a3a602446afa70e4611a6d6ef86f947f8fddba5a104d"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_scope",
+                      "value": {
+                        "stringValue": "conversation"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.suppression_policy",
+                      "value": {
+                        "stringValue": "suppress_equal_dedupe_key_within_scope"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.role",
+                      "value": {
+                        "stringValue": "selected"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.candidate_count",
+                      "value": {
+                        "intValue": 1
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_context_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_args_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.skill.invoked",
+                  "timeUnixNano": "0",
+                  "attributes": [
+                    {
+                      "key": "context.input.kind",
+                      "value": {
+                        "stringValue": "skill"
+                      }
+                    },
+                    {
+                      "key": "context.skill.id",
+                      "value": {
+                        "stringValue": "engineering.review-checklist"
+                      }
+                    },
+                    {
+                      "key": "context.skill.name",
+                      "value": {
+                        "stringValue": "review-checklist"
+                      }
+                    },
+                    {
+                      "key": "context.skill.plugin",
+                      "value": {
+                        "stringValue": "repo-local-skills"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.path",
+                      "value": {
+                        "stringValue": ".agents/skills/review-checklist/SKILL.md"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.bytes_hash",
+                      "value": {
+                        "stringValue": "sha256:5cf40439ab667da8d5870d2497d84531ab73eb7f2aca64bf090fbbc1a4b9de19"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.hash",
+                      "value": {
+                        "stringValue": "sha256:18f762dbea51098adddca46b83c209f3d53752b1f62946d0f0e05635c03dce48"
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-skill-receipts"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-session-skill-receipts"
+                      }
+                    },
+                    {
+                      "key": "context.input.loaded_by",
+                      "value": {
+                        "stringValue": "hook"
+                      }
+                    },
+                    {
+                      "key": "context.input.activation",
+                      "value": {
+                        "stringValue": "hook_post_commit"
+                      }
+                    },
+                    {
+                      "key": "context.input.hook_event",
+                      "value": {
+                        "stringValue": "post_commit"
+                      }
+                    },
+                    {
+                      "key": "context.input.scope",
+                      "value": {
+                        "stringValue": "repo"
+                      }
+                    },
+                    {
+                      "key": "context.input.applies_to",
+                      "value": {
+                        "stringValue": "cowork"
+                      }
+                    },
+                    {
+                      "key": "context.input.why_loaded",
+                      "value": {
+                        "stringValue": "git:post-commit"
+                      }
+                    },
+                    {
+                      "key": "context.input.expected_benefit",
+                      "value": {
+                        "stringValue": "prove deterministic hook-driven skill loads separately from manual skill use"
+                      }
+                    },
+                    {
+                      "key": "context.input.eval_gap",
+                      "value": {
+                        "stringValue": "trace proves load; it does not prove review quality without follow-up outcome events"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_key",
+                      "value": {
+                        "stringValue": "conversation:engineering.review-checklist:hook_post_commit:post_commit:sha256:18f762dbea51098adddca46b83c209f3d53752b1f62946d0f0e05635c03dce48"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_scope",
+                      "value": {
+                        "stringValue": "conversation"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.suppression_policy",
+                      "value": {
+                        "stringValue": "suppress_equal_dedupe_key_within_scope"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.role",
+                      "value": {
+                        "stringValue": "selected"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.candidate_count",
+                      "value": {
+                        "intValue": 2
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_context_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_args_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.skill.invoked",
+                  "timeUnixNano": "0",
+                  "attributes": [
+                    {
+                      "key": "context.input.kind",
+                      "value": {
+                        "stringValue": "skill"
+                      }
+                    },
+                    {
+                      "key": "context.skill.id",
+                      "value": {
+                        "stringValue": "engineering.review-checklist"
+                      }
+                    },
+                    {
+                      "key": "context.skill.name",
+                      "value": {
+                        "stringValue": "review-checklist"
+                      }
+                    },
+                    {
+                      "key": "context.skill.plugin",
+                      "value": {
+                        "stringValue": "global-skill-cache"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.path",
+                      "value": {
+                        "stringValue": "~/.claude/skills/review-checklist/SKILL.md"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.bytes_hash",
+                      "value": {
+                        "stringValue": "sha256:5cf40439ab667da8d5870d2497d84531ab73eb7f2aca64bf090fbbc1a4b9de19"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.hash",
+                      "value": {
+                        "stringValue": "sha256:18f762dbea51098adddca46b83c209f3d53752b1f62946d0f0e05635c03dce48"
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-skill-receipts"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-session-skill-receipts"
+                      }
+                    },
+                    {
+                      "key": "context.input.loaded_by",
+                      "value": {
+                        "stringValue": "hook"
+                      }
+                    },
+                    {
+                      "key": "context.input.activation",
+                      "value": {
+                        "stringValue": "hook_post_commit"
+                      }
+                    },
+                    {
+                      "key": "context.input.hook_event",
+                      "value": {
+                        "stringValue": "post_commit"
+                      }
+                    },
+                    {
+                      "key": "context.input.scope",
+                      "value": {
+                        "stringValue": "plugin"
+                      }
+                    },
+                    {
+                      "key": "context.input.applies_to",
+                      "value": {
+                        "stringValue": "cowork"
+                      }
+                    },
+                    {
+                      "key": "context.input.why_loaded",
+                      "value": {
+                        "stringValue": "git:post-commit"
+                      }
+                    },
+                    {
+                      "key": "context.input.expected_benefit",
+                      "value": {
+                        "stringValue": "avoid loading duplicate skill prompts from cache and repo roots"
+                      }
+                    },
+                    {
+                      "key": "context.input.eval_gap",
+                      "value": {
+                        "stringValue": "suppression receipt does not prove the runtime actually suppressed every scanner root"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_key",
+                      "value": {
+                        "stringValue": "conversation:engineering.review-checklist:hook_post_commit:post_commit:sha256:18f762dbea51098adddca46b83c209f3d53752b1f62946d0f0e05635c03dce48"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_scope",
+                      "value": {
+                        "stringValue": "conversation"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.suppression_policy",
+                      "value": {
+                        "stringValue": "suppress_equal_dedupe_key_within_scope"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.role",
+                      "value": {
+                        "stringValue": "suppressed"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.candidate_count",
+                      "value": {
+                        "intValue": 2
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_context_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_args_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
