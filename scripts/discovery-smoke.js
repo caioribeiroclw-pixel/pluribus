@@ -109,6 +109,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/namphuongtran/awesome-ai-coding-agent-tools/pull/14',
     reason: 'contextual directory submission under observability for context receipts and fidelity audit tooling',
   },
+  {
+    name: 'claude-tap-context-receipts',
+    repo: 'liaohch3/claude-tap',
+    issueNumber: 203,
+    url: 'https://github.com/liaohch3/claude-tap/issues/203',
+    reason: 'contextual local trace viewer feedback about privacy-safe context receipt exports',
+  },
 ]
 
 function run(command, args) {
