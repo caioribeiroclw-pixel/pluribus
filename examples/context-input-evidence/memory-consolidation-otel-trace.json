@@ -1,0 +1,492 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-memory-consolidation-receipt-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.memory_consolidation_demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "9e9f0d2944df7cacae490bb5cebd5bcf",
+              "spanId": "ff9a153652f2ab06",
+              "parentSpanId": "",
+              "name": "agent.session.memory.consolidation",
+              "kind": 1,
+              "startTimeUnixNano": "1779400981000000000",
+              "endTimeUnixNano": "1779400986000000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "demo-session-memory-consolidation"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "conv-memory-consolidation-001"
+                  }
+                },
+                {
+                  "key": "agent.name",
+                  "value": {
+                    "stringValue": "claude-code"
+                  }
+                },
+                {
+                  "key": "workspace.name",
+                  "value": {
+                    "stringValue": "checkout-service"
+                  }
+                },
+                {
+                  "key": "gen_ai.request.model",
+                  "value": {
+                    "stringValue": "claude-opus-4.5"
+                  }
+                },
+                {
+                  "key": "memory.consolidation.mode",
+                  "value": {
+                    "stringValue": "incremental"
+                  }
+                },
+                {
+                  "key": "memory.consolidation.trigger",
+                  "value": {
+                    "stringValue": "session_end_hook"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "memory.consolidation.precheck",
+                  "timeUnixNano": "1779400981000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-memory-consolidation"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-memory-consolidation-001"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "memory.provider",
+                      "value": {
+                        "stringValue": "mcp-memory-service"
+                      }
+                    },
+                    {
+                      "key": "memory.client",
+                      "value": {
+                        "stringValue": "claude-code-stop-hook"
+                      }
+                    },
+                    {
+                      "key": "memory.project.hash",
+                      "value": {
+                        "stringValue": "sha256:b201e758be78"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.mode",
+                      "value": {
+                        "stringValue": "incremental"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.trigger",
+                      "value": {
+                        "stringValue": "session_end_hook"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.horizon",
+                      "value": {
+                        "stringValue": "incremental"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.last_run_at_hash",
+                      "value": {
+                        "stringValue": "sha256:6fa4f8db83e4"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.candidate_count",
+                      "value": {
+                        "intValue": "7"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.candidate_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.candidate_ids_hash",
+                      "value": {
+                        "stringValue": "sha256:3a8e07fcf597224d433a0b7927f19d1f432220f19b7f4360328a2bd4589a242d"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.project_path_hash",
+                      "value": {
+                        "stringValue": "sha256:40b7949cdc39c7bac6bc8459e704df6adfde115f3e79dd12ea14b016b86d558e"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.precheck_latency_bucket",
+                      "value": {
+                        "stringValue": "under_1s"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_candidate_text_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_project_path_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "memory.consolidation.cluster.selected",
+                  "timeUnixNano": "1779400982000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-memory-consolidation"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-memory-consolidation-001"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.cluster.hash",
+                      "value": {
+                        "stringValue": "sha256:6ac5775289a2"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.cluster.strategy",
+                      "value": {
+                        "stringValue": "semantic_similarity_recent_only"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.cluster.source_count",
+                      "value": {
+                        "intValue": "3"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.cluster.source_ids_hash",
+                      "value": {
+                        "stringValue": "sha256:656de53a20ba50d99398149fcfbb619a9dbc8af6b77ebc36321838cece2105d8"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.cluster.topic_hash",
+                      "value": {
+                        "stringValue": "sha256:5e987bafa92903ad016d759a61b6fe1b7e235627e3d4bfaff5fb70e7f03ec38c"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.cluster.similarity_bucket",
+                      "value": {
+                        "stringValue": "high"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.cluster.max_source_age_minutes_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_cluster_notes_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_memory_text_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "memory.consolidation.output.created",
+                  "timeUnixNano": "1779400985000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-memory-consolidation"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-memory-consolidation-001"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.output.hash",
+                      "value": {
+                        "stringValue": "sha256:bc3549d4c19f"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.cluster.hash",
+                      "value": {
+                        "stringValue": "sha256:6ac5775289a2"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.output.source_ids_hash",
+                      "value": {
+                        "stringValue": "sha256:656de53a20ba50d99398149fcfbb619a9dbc8af6b77ebc36321838cece2105d8"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.output.memory_type",
+                      "value": {
+                        "stringValue": "runbook"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.output.lineage_edge",
+                      "value": {
+                        "stringValue": "CONSOLIDATED_FROM"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.output.content_hash",
+                      "value": {
+                        "stringValue": "sha256:935570ce28816bf02086a4f0e279be5674fcd5320e973a2030d3ccc52f82ee67"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.quality_score_before_bucket",
+                      "value": {
+                        "stringValue": "medium"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.quality_score_after_bucket",
+                      "value": {
+                        "stringValue": "high"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.changed_entity_count_bucket",
+                      "value": {
+                        "stringValue": "under_5"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.changed_entities_hash",
+                      "value": {
+                        "stringValue": "sha256:44de31988396739fbde8aa35604c41f3afa6faf29deb9fdae37459ce4b3557c5"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.output_latency_bucket",
+                      "value": {
+                        "stringValue": "under_10s"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_consolidated_memory_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_entity_names_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "memory.consolidation.completed",
+                  "timeUnixNano": "1779400986000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-memory-consolidation"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-memory-consolidation-001"
+                      }
+                    },
+                    {
+                      "key": "memory.provider",
+                      "value": {
+                        "stringValue": "mcp-memory-service"
+                      }
+                    },
+                    {
+                      "key": "memory.client",
+                      "value": {
+                        "stringValue": "claude-code-stop-hook"
+                      }
+                    },
+                    {
+                      "key": "memory.project.hash",
+                      "value": {
+                        "stringValue": "sha256:b201e758be78"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.mode",
+                      "value": {
+                        "stringValue": "incremental"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.trigger",
+                      "value": {
+                        "stringValue": "session_end_hook"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.candidate_count",
+                      "value": {
+                        "intValue": "7"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.cluster_count",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.consolidated_count",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.skipped_count",
+                      "value": {
+                        "intValue": "4"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.duration_bucket",
+                      "value": {
+                        "stringValue": "under_10s"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.latency_budget_bucket",
+                      "value": {
+                        "stringValue": "under_60s"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.within_latency_budget",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.status",
+                      "value": {
+                        "stringValue": "completed"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.next_cursor_hash",
+                      "value": {
+                        "stringValue": "sha256:1ff11bee84fd"
+                      }
+                    },
+                    {
+                      "key": "memory.consolidation.audit_gap",
+                      "value": {
+                        "stringValue": "receipt_proves_bounded_run_and_lineage_not_summary_correctness"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_operator_note_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_memory_text_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                }
+              ],
+              "status": {
+                "code": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

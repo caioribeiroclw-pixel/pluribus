@@ -196,6 +196,21 @@ It reads `sample-compaction-log.jsonl` and writes `compaction-receipt.ndjson` pl
 
 This is for reliability/auditability work where users need to know whether the original engineering objective survived compaction. The receipt should prove the compaction boundary and item decisions without exposing raw prompts, private instructions, tool outputs, memory bodies, summaries, customer data, or transcripts.
 
+To test incremental memory consolidation — where a shared-memory server runs a hook-safe pass after a session and turns several recent memories into one consolidated memory with lineage — run:
+
+```bash
+node examples/context-input-evidence/convert-memory-consolidation-log.mjs
+```
+
+It reads `sample-memory-consolidation-log.jsonl` and writes `memory-consolidation-receipt.ndjson` plus `memory-consolidation-otel-trace.json`. The sample emits four event types:
+
+- `memory.consolidation.precheck` — trigger, horizon, last-run cursor, candidate count, candidate identity hash, and proof that raw paths/candidate text are not recorded.
+- `memory.consolidation.cluster.selected` — strategy, source-count, source identity hash, topic hash, similarity bucket, and source-age bucket.
+- `memory.consolidation.output.created` — consolidated memory identity, lineage edge, output content hash, quality-score buckets, changed-entity count/hash, and no raw memory body.
+- `memory.consolidation.completed` — candidate/cluster/consolidated/skipped counts, duration bucket, latency budget, status, next-cursor hash, and the explicit audit gap that the receipt proves bounded execution and lineage, not summary correctness.
+
+This is for MCP/shared-memory systems that want `incremental` or Stop-hook consolidation without scanning the full corpus. The useful receipt should prove “the hook ran under budget over these recent candidates and produced this lineage-preserving consolidation” without exposing memory contents, customer data, project paths, secrets, or operator notes.
+
 ## How this relates to Pluribus
 
 Pluribus already reports load and duplicate-load evidence in its fidelity report. This sketch moves the same idea into trace vocabulary: an auditor should be able to answer which context entered a session, why it was loaded, how it was transformed, and whether duplicate suppression is actually provable.

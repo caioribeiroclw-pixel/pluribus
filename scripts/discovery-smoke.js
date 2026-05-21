@@ -165,6 +165,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/aiocean/claude-plugins/issues/14',
     reason: 'contextual Claude Code plugin ecosystem feedback about deferred MCP Tool Search receipts and context-budget evidence',
   },
+  {
+    name: 'mcp-memory-service-incremental-consolidation-receipts',
+    repo: 'doobidoo/mcp-memory-service',
+    issueNumber: 983,
+    url: 'https://github.com/doobidoo/mcp-memory-service/issues/983',
+    reason: 'contextual MCP memory-service feedback about hook-safe incremental consolidation receipts and lineage evidence',
+  },
 ]
 
 function run(command, args) {
