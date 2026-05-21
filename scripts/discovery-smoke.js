@@ -130,6 +130,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/supermemoryai/supermemory/issues/985',
     reason: 'contextual shared-memory/MCP feedback about privacy-safe memory retrieval receipts',
   },
+  {
+    name: 'memorix-memory-handoff-receipts',
+    repo: 'AVIDS2/memorix',
+    issueNumber: 95,
+    url: 'https://github.com/AVIDS2/memorix/issues/95',
+    reason: 'contextual cross-agent MCP memory feedback about privacy-safe handoff/write/search receipts',
+  },
 ]
 
 function run(command, args) {
