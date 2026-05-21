@@ -95,6 +95,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/TechNickAI/claude_telemetry/pull/9',
     reason: 'external implementation PR for opt-in context.input.loaded events in a Claude Code telemetry wrapper',
   },
+  {
+    name: 'claude-context-search-receipts',
+    repo: 'zilliztech/claude-context',
+    issueNumber: 382,
+    url: 'https://github.com/zilliztech/claude-context/issues/382',
+    reason: 'contextual MCP code-search feedback about privacy-preserving search/result receipts',
+  },
 ]
 
 function run(command, args) {
