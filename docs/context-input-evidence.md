@@ -142,6 +142,21 @@ It reads `sample-memory-retrieval-log.jsonl` and writes `memory-receipt.ndjson` 
 
 The split is intentional. A shared-memory server can prove “these memories were returned for this query/snapshot,” but only the client or harness can prove “this returned memory entered the prompt/context.” The fixture redacts raw query text, raw memory text, prompts, tool arguments, secrets, and transcript bodies from the receipt/trace.
 
+To test self-remediating memory/knowledge-graph flows — where a brain runs a doctor/autopilot/repair pass with a target score and budget cap — run:
+
+```bash
+node examples/context-input-evidence/convert-brain-remediation-log.mjs
+```
+
+It reads `sample-brain-remediation-log.jsonl` and writes `brain-remediation-receipt.ndjson` plus `brain-remediation-otel-trace.json`. The sample emits four event types:
+
+- `brain.doctor.precheck.completed` — the before score, issue count/category hash, and before-snapshot hash.
+- `brain.doctor.remediation.plan.selected` — the selected plan identity, step count, spend bucket, expected score delta, and whether protected phases are involved.
+- `brain.doctor.remediation.job.evaluated` — each submitted, skipped, or refused job with kind, status, protected-phase flag, spend bucket, changed-entity count, and refusal/skip reason.
+- `brain.doctor.remediation.completed` — the final score/outcome, submitted/skipped/refused counts, cost bucket, after-snapshot hash, and privacy flags.
+
+This is for systems that let agents maintain their own memory or knowledge graph. The receipt should prove pre-check → plan → jobs → cost boundary → post-check without exposing raw brain pages, graph nodes, plan text, candidate deletes, operator notes, or transcripts.
+
 ## How this relates to Pluribus
 
 Pluribus already reports load and duplicate-load evidence in its fidelity report. This sketch moves the same idea into trace vocabulary: an auditor should be able to answer which context entered a session, why it was loaded, how it was transformed, and whether duplicate suppression is actually provable.

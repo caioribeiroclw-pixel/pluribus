@@ -33,7 +33,8 @@ All notable changes to Pluribus are documented here.
 - Added a post-hoc session-log conversion demo that turns a small JSONL agent session into privacy-first `context.input.loaded` receipts and an OTel-style trace without copying raw context, prompts, tool arguments, memory contents, or transcripts into the output.
 - Added a skill/plugin invocation receipt demo that turns a small skill log into privacy-first `context.skill.invoked` events with activation mode, hook event, source/delivered hashes, suppression policy, expected benefit, and eval gap without copying raw skill prompts.
 - Added a shared-memory retrieval receipt demo that separates `memory.search.returned` from `context.input.loaded`, so MCP/shared-memory systems can prove what was returned and what was actually loaded without copying raw queries or memory bodies.
-- Tracked the Memorix memory handoff receipt issue in discovery smoke so cross-agent MCP memory feedback is measured alongside Supermemory, Claude/Cowork skills, trace viewers, and OTel context receipt channels.
+- Added a self-remediating brain/doctor receipt demo that proves pre-check, selected plan, submitted/skipped/refused jobs, protected phases, cost boundary, and post-check without copying raw brain pages, graph nodes, plan text, candidate deletes, or operator notes.
+- Tracked the Memorix and GBrain receipt issues in discovery smoke so cross-agent memory handoff and self-remediating memory feedback are measured alongside Supermemory, Claude/Cowork skills, trace viewers, and OTel context receipt channels.
 
 ## 0.3.19 — Bob native discovery target
 

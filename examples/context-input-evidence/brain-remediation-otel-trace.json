@@ -1,0 +1,645 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-brain-remediation-receipt-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.brain_remediation_demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "50ddbdd46b410f0b48dbcf30c6bb4283",
+              "spanId": "c7e344570f099bee",
+              "parentSpanId": "",
+              "name": "agent.memory.doctor",
+              "kind": 1,
+              "startTimeUnixNano": "1779386400000000000",
+              "endTimeUnixNano": "1779386440000000000",
+              "attributes": [
+                {
+                  "key": "brain.instance.id_hash",
+                  "value": {
+                    "stringValue": "sha256:4c77e531d037"
+                  }
+                },
+                {
+                  "key": "brain.doctor.run.id_hash",
+                  "value": {
+                    "stringValue": "sha256:ac33c4e222ad"
+                  }
+                },
+                {
+                  "key": "brain.doctor.mode",
+                  "value": {
+                    "stringValue": "doctor.remediate"
+                  }
+                },
+                {
+                  "key": "brain.doctor.target_score",
+                  "value": {
+                    "intValue": "90"
+                  }
+                },
+                {
+                  "key": "brain.remediation.cost.cap_bucket",
+                  "value": {
+                    "stringValue": "over_5_usd"
+                  }
+                },
+                {
+                  "key": "brain.remediation.job.count",
+                  "value": {
+                    "intValue": "4"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "brain.doctor.precheck.completed",
+                  "timeUnixNano": "1779386403000000000",
+                  "attributes": [
+                    {
+                      "key": "brain.instance.id_hash",
+                      "value": {
+                        "stringValue": "sha256:4c77e531d037"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.run.id_hash",
+                      "value": {
+                        "stringValue": "sha256:ac33c4e222ad"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.mode",
+                      "value": {
+                        "stringValue": "doctor.remediate"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.score.before",
+                      "value": {
+                        "intValue": "72"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.score.before_bucket",
+                      "value": {
+                        "stringValue": "degraded"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.issue.count.before",
+                      "value": {
+                        "intValue": "4"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.issue.categories_hash",
+                      "value": {
+                        "stringValue": "sha256:95efbffaf5176005971a15133f1e48bdbc4d22fa26774616c935995671819705"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.snapshot.before_hash",
+                      "value": {
+                        "stringValue": "sha256:ce581b34bb6c"
+                      }
+                    },
+                    {
+                      "key": "brain.privacy.raw_brain_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "brain.privacy.raw_issue_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "brain.doctor.remediation.plan.selected",
+                  "timeUnixNano": "1779386408000000000",
+                  "attributes": [
+                    {
+                      "key": "brain.instance.id_hash",
+                      "value": {
+                        "stringValue": "sha256:4c77e531d037"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.run.id_hash",
+                      "value": {
+                        "stringValue": "sha256:ac33c4e222ad"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.plan.id_hash",
+                      "value": {
+                        "stringValue": "sha256:425ecad46025"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.plan.summary_hash",
+                      "value": {
+                        "stringValue": "sha256:0e16c6339f4b5632482a187d62165ade9b792896cd72e581586e752cda3fd4b4"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.plan.step_count",
+                      "value": {
+                        "intValue": "4"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.plan.estimated_spend_bucket",
+                      "value": {
+                        "stringValue": "under_5_usd"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.plan.expected_score_delta",
+                      "value": {
+                        "intValue": "14"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.plan.requires_protected_phase",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.protected_phases_hash",
+                      "value": {
+                        "stringValue": "sha256:266a11b56996b5d3f92a382ca9722922d7984b3ae033e078b2261eab0f088ac0"
+                      }
+                    },
+                    {
+                      "key": "brain.privacy.raw_plan_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "brain.doctor.remediation.job.evaluated",
+                  "timeUnixNano": "1779386412000000000",
+                  "attributes": [
+                    {
+                      "key": "brain.instance.id_hash",
+                      "value": {
+                        "stringValue": "sha256:4c77e531d037"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.run.id_hash",
+                      "value": {
+                        "stringValue": "sha256:ac33c4e222ad"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.id_hash",
+                      "value": {
+                        "stringValue": "sha256:72016b090cd4"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.kind",
+                      "value": {
+                        "stringValue": "refresh_edges"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.status",
+                      "value": {
+                        "stringValue": "submitted"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.protected_phase",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.estimated_spend_bucket",
+                      "value": {
+                        "stringValue": "under_1_usd"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.actual_spend_bucket",
+                      "value": {
+                        "stringValue": "under_1_usd"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.changed_entity_count",
+                      "value": {
+                        "intValue": "12"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.refusal_reason",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.skip_reason",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "brain.privacy.raw_change_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "brain.doctor.remediation.job.evaluated",
+                  "timeUnixNano": "1779386418000000000",
+                  "attributes": [
+                    {
+                      "key": "brain.instance.id_hash",
+                      "value": {
+                        "stringValue": "sha256:4c77e531d037"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.run.id_hash",
+                      "value": {
+                        "stringValue": "sha256:ac33c4e222ad"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.id_hash",
+                      "value": {
+                        "stringValue": "sha256:416df2986b9f"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.kind",
+                      "value": {
+                        "stringValue": "dedupe_facts"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.status",
+                      "value": {
+                        "stringValue": "submitted"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.protected_phase",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.estimated_spend_bucket",
+                      "value": {
+                        "stringValue": "under_1_usd"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.actual_spend_bucket",
+                      "value": {
+                        "stringValue": "under_1_usd"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.changed_entity_count",
+                      "value": {
+                        "intValue": "7"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.refusal_reason",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.skip_reason",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "brain.privacy.raw_change_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "brain.doctor.remediation.job.evaluated",
+                  "timeUnixNano": "1779386423000000000",
+                  "attributes": [
+                    {
+                      "key": "brain.instance.id_hash",
+                      "value": {
+                        "stringValue": "sha256:4c77e531d037"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.run.id_hash",
+                      "value": {
+                        "stringValue": "sha256:ac33c4e222ad"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.id_hash",
+                      "value": {
+                        "stringValue": "sha256:038f3afb0a78"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.kind",
+                      "value": {
+                        "stringValue": "delete_low_confidence"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.status",
+                      "value": {
+                        "stringValue": "refused"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.protected_phase",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.estimated_spend_bucket",
+                      "value": {
+                        "stringValue": "under_1_usd"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.actual_spend_bucket",
+                      "value": {
+                        "stringValue": "zero"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.changed_entity_count",
+                      "value": {
+                        "intValue": "0"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.refusal_reason",
+                      "value": {
+                        "stringValue": "protected_phase_requires_human_or_explicit_flag"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.skip_reason",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "brain.privacy.raw_change_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "brain.doctor.remediation.job.evaluated",
+                  "timeUnixNano": "1779386429000000000",
+                  "attributes": [
+                    {
+                      "key": "brain.instance.id_hash",
+                      "value": {
+                        "stringValue": "sha256:4c77e531d037"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.run.id_hash",
+                      "value": {
+                        "stringValue": "sha256:ac33c4e222ad"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.id_hash",
+                      "value": {
+                        "stringValue": "sha256:dc02eb5bc400"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.kind",
+                      "value": {
+                        "stringValue": "link_project_clusters"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.status",
+                      "value": {
+                        "stringValue": "skipped"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.protected_phase",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.estimated_spend_bucket",
+                      "value": {
+                        "stringValue": "under_1_usd"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.actual_spend_bucket",
+                      "value": {
+                        "stringValue": "zero"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.changed_entity_count",
+                      "value": {
+                        "intValue": "0"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.refusal_reason",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.job.skip_reason",
+                      "value": {
+                        "stringValue": "target_score_reached_by_prior_jobs"
+                      }
+                    },
+                    {
+                      "key": "brain.privacy.raw_change_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "brain.doctor.remediation.completed",
+                  "timeUnixNano": "1779386440000000000",
+                  "attributes": [
+                    {
+                      "key": "brain.instance.id_hash",
+                      "value": {
+                        "stringValue": "sha256:4c77e531d037"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.run.id_hash",
+                      "value": {
+                        "stringValue": "sha256:ac33c4e222ad"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.outcome",
+                      "value": {
+                        "stringValue": "target_reached"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.target_score",
+                      "value": {
+                        "intValue": "90"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.score.before",
+                      "value": {
+                        "intValue": "72"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.score.after",
+                      "value": {
+                        "intValue": "91"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.score.after_bucket",
+                      "value": {
+                        "stringValue": "healthy"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.target_reached",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.issue.count.after",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.issue.categories_after_hash",
+                      "value": {
+                        "stringValue": "sha256:814e2f4dffc198979efa6fc6c5c539f16b108ad93049907bc12d7c546c24dbb7"
+                      }
+                    },
+                    {
+                      "key": "brain.doctor.snapshot.after_hash",
+                      "value": {
+                        "stringValue": "sha256:c82886e59374"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.jobs.submitted",
+                      "value": {
+                        "intValue": "2"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.jobs.skipped",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.jobs.refused",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.cost.cap_bucket",
+                      "value": {
+                        "stringValue": "over_5_usd"
+                      }
+                    },
+                    {
+                      "key": "brain.remediation.cost.actual_bucket",
+                      "value": {
+                        "stringValue": "under_1_usd"
+                      }
+                    },
+                    {
+                      "key": "brain.privacy.raw_brain_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "brain.privacy.raw_operator_note_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
