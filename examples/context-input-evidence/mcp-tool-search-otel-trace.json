@@ -1,0 +1,477 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-mcp-tool-search-receipt-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.mcp_tool_search_demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "4789227ad83ce0e9ec757d0b42969d93",
+              "spanId": "d80b9f987f119cda",
+              "parentSpanId": "",
+              "name": "agent.session.mcp.tool_search",
+              "kind": 1,
+              "startTimeUnixNano": "1779397322000000000",
+              "endTimeUnixNano": "1779397519000000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "sess-mcp-tool-search-demo"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "conv-tool-search-001"
+                  }
+                },
+                {
+                  "key": "agent.name",
+                  "value": {
+                    "stringValue": "claude-code"
+                  }
+                },
+                {
+                  "key": "workspace.name",
+                  "value": {
+                    "stringValue": "checkout-service"
+                  }
+                },
+                {
+                  "key": "gen_ai.request.model",
+                  "value": {
+                    "stringValue": "claude-opus-4.6"
+                  }
+                },
+                {
+                  "key": "mcp.tool_loading.strategy",
+                  "value": {
+                    "stringValue": "deferred_tool_loading"
+                  }
+                },
+                {
+                  "key": "mcp.server.count",
+                  "value": {
+                    "intValue": "2"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "mcp.tool_index.loaded",
+                  "timeUnixNano": "1779397322000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess-mcp-tool-search-demo"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-tool-search-001"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "mcp.server.name_hash",
+                      "value": {
+                        "stringValue": "sha256:72d2ff97a5d5"
+                      }
+                    },
+                    {
+                      "key": "mcp.transport",
+                      "value": {
+                        "stringValue": "stdio"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_loading.strategy",
+                      "value": {
+                        "stringValue": "deferred_tool_loading"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.names_hash",
+                      "value": {
+                        "stringValue": "sha256:ccd485858abcc8901621ba77a013a0f7151eda36566d5f924d7ce3f3107c3dcf"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.count",
+                      "value": {
+                        "intValue": "4"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.full_definitions.loaded_at_startup",
+                      "value": {
+                        "intValue": "0"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.definition_token_count_bucket",
+                      "value": {
+                        "stringValue": "under_50k"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.index_token_count_bucket",
+                      "value": {
+                        "stringValue": "under_1k"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.index_only",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_definitions_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_descriptions_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "mcp.tool_index.loaded",
+                  "timeUnixNano": "1779397323000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess-mcp-tool-search-demo"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-tool-search-001"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "mcp.server.name_hash",
+                      "value": {
+                        "stringValue": "sha256:51cc17c0e419"
+                      }
+                    },
+                    {
+                      "key": "mcp.transport",
+                      "value": {
+                        "stringValue": "http"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_loading.strategy",
+                      "value": {
+                        "stringValue": "deferred_tool_loading"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.names_hash",
+                      "value": {
+                        "stringValue": "sha256:ea59ee5e428e861511c82cafe23b06a0ddab0b99ad6ace823fe291f7c367108f"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.count",
+                      "value": {
+                        "intValue": "4"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.full_definitions.loaded_at_startup",
+                      "value": {
+                        "intValue": "0"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.definition_token_count_bucket",
+                      "value": {
+                        "stringValue": "under_50k"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.index_token_count_bucket",
+                      "value": {
+                        "stringValue": "under_1k"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.index_only",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_definitions_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_descriptions_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "mcp.tool_search.performed",
+                  "timeUnixNano": "1779397510000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess-mcp-tool-search-demo"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-tool-search-001"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_search.query_hash",
+                      "value": {
+                        "stringValue": "sha256:469147828f80b6da9fd77217a51495e8a0b3a97e8453495f90d17066241850a7"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_search.candidate_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_search.selected_server_hash",
+                      "value": {
+                        "stringValue": "sha256:51cc17c0e419"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_search.selected_tool_hash",
+                      "value": {
+                        "stringValue": "sha256:a6eab88bf060"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_search.selection_policy",
+                      "value": {
+                        "stringValue": "least_privilege_relevant_tool"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_search.loaded_definition_count",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_search.unselected_definitions_loaded",
+                      "value": {
+                        "intValue": "0"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_query_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_candidate_rationale_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "mcp.tool_definition.loaded",
+                  "timeUnixNano": "1779397511000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess-mcp-tool-search-demo"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-tool-search-001"
+                      }
+                    },
+                    {
+                      "key": "mcp.server.name_hash",
+                      "value": {
+                        "stringValue": "sha256:51cc17c0e419"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.name_hash",
+                      "value": {
+                        "stringValue": "sha256:a6eab88bf060"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.definition_hash",
+                      "value": {
+                        "stringValue": "sha256:4c7078d642ccf323f18dcdcbd868703e37189701380b44c54a5025a1ff5de697"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.definition_load_reason",
+                      "value": {
+                        "stringValue": "selected_by_tool_search"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.definition_token_count_bucket",
+                      "value": {
+                        "stringValue": "under_10k"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.definition_loaded_on_demand",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_definition_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "mcp.tool_call.completed",
+                  "timeUnixNano": "1779397519000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess-mcp-tool-search-demo"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-tool-search-001"
+                      }
+                    },
+                    {
+                      "key": "mcp.server.name_hash",
+                      "value": {
+                        "stringValue": "sha256:51cc17c0e419"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.name_hash",
+                      "value": {
+                        "stringValue": "sha256:a6eab88bf060"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_call.status",
+                      "value": {
+                        "stringValue": "success"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_call.result_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_call.arguments_hash",
+                      "value": {
+                        "stringValue": "sha256:7e6a4776c1ec0bef7a8b3cf91b917cf162cc891ab9b401eb9ff340f5ebcf7d0a"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_call.result_sample_hash",
+                      "value": {
+                        "stringValue": "sha256:7f9f0536d9f6a3d086cc5a1d7f32a318184f013c1efddf222258c6c5ad12e5ec"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_search.audit_gap",
+                      "value": {
+                        "stringValue": "receipt_proves_loaded_boundary_not_selection_optimality"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_arguments_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_results_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -158,6 +158,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/anthropics/claude-code/issues/50513',
     reason: 'contextual Claude Code reliability/auditability feedback about privacy-safe context compaction receipts and objective continuity',
   },
+  {
+    name: 'claude-plugins-mcp-tool-search-receipts',
+    repo: 'aiocean/claude-plugins',
+    issueNumber: 14,
+    url: 'https://github.com/aiocean/claude-plugins/issues/14',
+    reason: 'contextual Claude Code plugin ecosystem feedback about deferred MCP Tool Search receipts and context-budget evidence',
+  },
 ]
 
 function run(command, args) {

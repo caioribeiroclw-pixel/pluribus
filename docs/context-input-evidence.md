@@ -139,6 +139,21 @@ It reads `agent-overlay-log.jsonl` and writes `agent-overlay-receipt.ndjson` plu
 
 This is the evidence shape needed for an overlay standard: naming files is not enough. Reviewers need to know which base and overlay were loaded, in what order, which agent they applied to, and which non-target overlays were suppressed.
 
+To test deferred MCP Tool Search / tool loading — where many MCP servers are connected but full tool definitions should only load on demand — run:
+
+```bash
+node examples/context-input-evidence/convert-mcp-tool-search-log.mjs
+```
+
+It reads `sample-mcp-tool-search-log.jsonl` and writes `mcp-tool-search-receipt.ndjson` plus `mcp-tool-search-otel-trace.json`. The sample emits four event types:
+
+- `mcp.tool_index.loaded` — each connected MCP server's tool-name index, startup loading strategy, tool count, index token bucket, and proof that full definitions were not loaded at startup.
+- `mcp.tool_search.performed` — query hash, candidate-count bucket, selected server/tool hashes, selection policy, and how many full definitions were expanded.
+- `mcp.tool_definition.loaded` — the single full tool definition loaded on demand, with definition hash and token bucket.
+- `mcp.tool_call.completed` — call status, argument/result hashes, result-count bucket, and the audit gap that receipts prove the loading boundary, not selection optimality.
+
+This is for Claude Code/MCP context-budget work where Tool Search reduces context bloat but still needs verifiable boundaries. The receipt should prove “only indexes were loaded up front; this one definition was loaded when needed; private query/arguments/results stayed out of the trace.”
+
 To test shared-memory and MCP recall flows — where Cursor, Claude Code, and other clients may all query the same memory backend — run:
 
 ```bash
