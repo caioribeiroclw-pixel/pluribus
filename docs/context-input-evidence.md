@@ -167,6 +167,20 @@ It reads `sample-brain-remediation-log.jsonl` and writes `brain-remediation-rece
 
 This is for systems that let agents maintain their own memory or knowledge graph. The receipt should prove pre-check → plan → jobs → cost boundary → post-check without exposing raw brain pages, graph nodes, plan text, candidate deletes, operator notes, or transcripts.
 
+To test long-session context compaction — where an agent drops, summarizes, or preserves old instructions/tool results/memory under context-window pressure — run:
+
+```bash
+node examples/context-input-evidence/convert-compaction-log.mjs
+```
+
+It reads `sample-compaction-log.jsonl` and writes `compaction-receipt.ndjson` plus `compaction-otel-trace.json`. The sample emits three event types:
+
+- `context.compaction.started` — reason, trigger, token-window bucket, and a hashed before-objective.
+- `context.compaction.item.evaluated` — item kind/source/semantic role, action (`preserved`, `summarized`, `dropped`, or `preserved_hash_only`), token bucket, drop reason, and raw-text hash.
+- `context.compaction.completed` — after-token bucket, summary hash, after-objective hash, item counts, and the explicit audit gap that semantic equivalence is not proven without eval.
+
+This is for reliability/auditability work where users need to know whether the original engineering objective survived compaction. The receipt should prove the compaction boundary and item decisions without exposing raw prompts, private instructions, tool outputs, memory bodies, summaries, customer data, or transcripts.
+
 ## How this relates to Pluribus
 
 Pluribus already reports load and duplicate-load evidence in its fidelity report. This sketch moves the same idea into trace vocabulary: an auditor should be able to answer which context entered a session, why it was loaded, how it was transformed, and whether duplicate suppression is actually provable.

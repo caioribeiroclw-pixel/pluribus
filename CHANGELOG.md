@@ -35,7 +35,8 @@ All notable changes to Pluribus are documented here.
 - Added an agent-specific `AGENTS.md` overlay receipt demo that proves base + target overlay load order, target-agent applicability, fallback policy, and suppressed non-target overlays without copying raw instruction text.
 - Added a shared-memory retrieval receipt demo that separates `memory.search.returned` from `context.input.loaded`, so MCP/shared-memory systems can prove what was returned and what was actually loaded without copying raw queries or memory bodies.
 - Added a self-remediating brain/doctor receipt demo that proves pre-check, selected plan, submitted/skipped/refused jobs, protected phases, cost boundary, and post-check without copying raw brain pages, graph nodes, plan text, candidate deletes, or operator notes.
-- Tracked the Memorix and GBrain receipt issues in discovery smoke so cross-agent memory handoff and self-remediating memory feedback are measured alongside Supermemory, Claude/Cowork skills, trace viewers, and OTel context receipt channels.
+- Added a context compaction receipt demo that proves compaction trigger, item-level preserve/summarize/drop decisions, objective continuity hashes, and audit gaps without copying raw prompts, private context, tool outputs, memory bodies, summaries, or transcripts.
+- Tracked the Memorix, GBrain, and Claude Code auditability receipt issues in discovery smoke so cross-agent memory handoff, self-remediating memory, and compaction/objective-continuity feedback are measured alongside Supermemory, Claude/Cowork skills, trace viewers, and OTel context receipt channels.
 
 ## 0.3.19 — Bob native discovery target
 

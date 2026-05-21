@@ -1,0 +1,711 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-context-compaction-receipt-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.compaction_demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "b114e37ddabd418e3b5923f1d450419b",
+              "spanId": "d5bb33f2d4e47385",
+              "parentSpanId": "",
+              "name": "agent.session.context.compaction",
+              "kind": 1,
+              "startTimeUnixNano": "1779396120000000000",
+              "endTimeUnixNano": "1779396127000000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "cc-session-compaction-demo"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "conv-compaction-demo"
+                  }
+                },
+                {
+                  "key": "agent.name",
+                  "value": {
+                    "stringValue": "claude-code"
+                  }
+                },
+                {
+                  "key": "workspace.name",
+                  "value": {
+                    "stringValue": "payments-service"
+                  }
+                },
+                {
+                  "key": "gen_ai.request.model",
+                  "value": {
+                    "stringValue": "claude-opus-4.7"
+                  }
+                },
+                {
+                  "key": "context.compaction.id_hash",
+                  "value": {
+                    "stringValue": "sha256:a9d76c33b957"
+                  }
+                },
+                {
+                  "key": "context.compaction.reason",
+                  "value": {
+                    "stringValue": "context_window_pressure"
+                  }
+                },
+                {
+                  "key": "context.compaction.trigger",
+                  "value": {
+                    "stringValue": "auto_compact_threshold"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "context.compaction.started",
+                  "timeUnixNano": "1779396120000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "cc-session-compaction-demo"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-compaction-demo"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.id_hash",
+                      "value": {
+                        "stringValue": "sha256:a9d76c33b957"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.reason",
+                      "value": {
+                        "stringValue": "context_window_pressure"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.trigger",
+                      "value": {
+                        "stringValue": "auto_compact_threshold"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.token_count.before_bucket",
+                      "value": {
+                        "stringValue": "over_50k"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.token_threshold_bucket",
+                      "value": {
+                        "stringValue": "over_50k"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.window_bucket",
+                      "value": {
+                        "stringValue": "near_limit"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.objective.before_hash",
+                      "value": {
+                        "stringValue": "sha256:9ba7841fb5937a230ca939d954270b8dd6a97ce7865de32d5b69e92fcfeccb9e"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_context_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.compaction.item.evaluated",
+                  "timeUnixNano": "1779396121000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "cc-session-compaction-demo"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-compaction-demo"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.id_hash",
+                      "value": {
+                        "stringValue": "sha256:a9d76c33b957"
+                      }
+                    },
+                    {
+                      "key": "context.item.id_hash",
+                      "value": {
+                        "stringValue": "sha256:4844ae62f2b3"
+                      }
+                    },
+                    {
+                      "key": "context.item.kind",
+                      "value": {
+                        "stringValue": "system_instructions"
+                      }
+                    },
+                    {
+                      "key": "context.item.source",
+                      "value": {
+                        "stringValue": "CLAUDE.md"
+                      }
+                    },
+                    {
+                      "key": "context.item.source.hash",
+                      "value": {
+                        "stringValue": "sha256:6ebdb617a8104a7756d0cf36578ab01103dc9f07e4dc6feb751296b9c402faf7"
+                      }
+                    },
+                    {
+                      "key": "context.item.semantic_role",
+                      "value": {
+                        "stringValue": "project_invariants"
+                      }
+                    },
+                    {
+                      "key": "context.item.action",
+                      "value": {
+                        "stringValue": "preserved"
+                      }
+                    },
+                    {
+                      "key": "context.item.token_count_bucket",
+                      "value": {
+                        "stringValue": "under_10k"
+                      }
+                    },
+                    {
+                      "key": "context.item.summary_token_count_bucket",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "context.item.drop_reason",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "context.item.raw_text_hash",
+                      "value": {
+                        "stringValue": "sha256:458ce883acaa084ed112ead055254de22b0fe3f6a8caedeb833a48f3e4e59b6b"
+                      }
+                    },
+                    {
+                      "key": "context.item.raw_text_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "context.item.reconstructable_from_hash",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_context_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.compaction.item.evaluated",
+                  "timeUnixNano": "1779396122000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "cc-session-compaction-demo"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-compaction-demo"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.id_hash",
+                      "value": {
+                        "stringValue": "sha256:a9d76c33b957"
+                      }
+                    },
+                    {
+                      "key": "context.item.id_hash",
+                      "value": {
+                        "stringValue": "sha256:4bc8d608411f"
+                      }
+                    },
+                    {
+                      "key": "context.item.kind",
+                      "value": {
+                        "stringValue": "skill"
+                      }
+                    },
+                    {
+                      "key": "context.item.source",
+                      "value": {
+                        "stringValue": "skills/payment-debug/SKILL.md"
+                      }
+                    },
+                    {
+                      "key": "context.item.source.hash",
+                      "value": {
+                        "stringValue": "sha256:e8967e35c8dc7f47a346b1b7093c558c80221d7b320fef7680d68581e12058e0"
+                      }
+                    },
+                    {
+                      "key": "context.item.semantic_role",
+                      "value": {
+                        "stringValue": "debugging_method"
+                      }
+                    },
+                    {
+                      "key": "context.item.action",
+                      "value": {
+                        "stringValue": "summarized"
+                      }
+                    },
+                    {
+                      "key": "context.item.token_count_bucket",
+                      "value": {
+                        "stringValue": "under_10k"
+                      }
+                    },
+                    {
+                      "key": "context.item.summary_token_count_bucket",
+                      "value": {
+                        "stringValue": "under_1k"
+                      }
+                    },
+                    {
+                      "key": "context.item.drop_reason",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "context.item.raw_text_hash",
+                      "value": {
+                        "stringValue": "sha256:09e17bbb81a251d366637b22b552a713eb98a29be209554efb5ed42157ab7560"
+                      }
+                    },
+                    {
+                      "key": "context.item.raw_text_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "context.item.reconstructable_from_hash",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_context_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.compaction.item.evaluated",
+                  "timeUnixNano": "1779396123000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "cc-session-compaction-demo"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-compaction-demo"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.id_hash",
+                      "value": {
+                        "stringValue": "sha256:a9d76c33b957"
+                      }
+                    },
+                    {
+                      "key": "context.item.id_hash",
+                      "value": {
+                        "stringValue": "sha256:abecb190b0ea"
+                      }
+                    },
+                    {
+                      "key": "context.item.kind",
+                      "value": {
+                        "stringValue": "tool_result"
+                      }
+                    },
+                    {
+                      "key": "context.item.source",
+                      "value": {
+                        "stringValue": "bash:test-output"
+                      }
+                    },
+                    {
+                      "key": "context.item.source.hash",
+                      "value": {
+                        "stringValue": "sha256:91e2a0301cffc358beea0b9ed1d23d286b83f42b34f7ffe1ab22e027bd0018a6"
+                      }
+                    },
+                    {
+                      "key": "context.item.semantic_role",
+                      "value": {
+                        "stringValue": "bulk_log_output"
+                      }
+                    },
+                    {
+                      "key": "context.item.action",
+                      "value": {
+                        "stringValue": "dropped"
+                      }
+                    },
+                    {
+                      "key": "context.item.token_count_bucket",
+                      "value": {
+                        "stringValue": "over_50k"
+                      }
+                    },
+                    {
+                      "key": "context.item.summary_token_count_bucket",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "context.item.drop_reason",
+                      "value": {
+                        "stringValue": "reconstructable_from_command_and_artifact_hash"
+                      }
+                    },
+                    {
+                      "key": "context.item.raw_text_hash",
+                      "value": {
+                        "stringValue": "sha256:b1f8a98f19ed91b4ab4ce0d4509e6e3aaa5b8a9c804f4defd12a827746480d75"
+                      }
+                    },
+                    {
+                      "key": "context.item.raw_text_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "context.item.reconstructable_from_hash",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_context_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.compaction.item.evaluated",
+                  "timeUnixNano": "1779396124000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "cc-session-compaction-demo"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-compaction-demo"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.id_hash",
+                      "value": {
+                        "stringValue": "sha256:a9d76c33b957"
+                      }
+                    },
+                    {
+                      "key": "context.item.id_hash",
+                      "value": {
+                        "stringValue": "sha256:37a8b3a07424"
+                      }
+                    },
+                    {
+                      "key": "context.item.kind",
+                      "value": {
+                        "stringValue": "mcp_memory"
+                      }
+                    },
+                    {
+                      "key": "context.item.source",
+                      "value": {
+                        "stringValue": "mcp://memory/project/payments"
+                      }
+                    },
+                    {
+                      "key": "context.item.source.hash",
+                      "value": {
+                        "stringValue": "sha256:921c8939159f676422ca672db2894f4dfd2324b99fad66f3c86ca964679f5b72"
+                      }
+                    },
+                    {
+                      "key": "context.item.semantic_role",
+                      "value": {
+                        "stringValue": "prior_decision"
+                      }
+                    },
+                    {
+                      "key": "context.item.action",
+                      "value": {
+                        "stringValue": "preserved_hash_only"
+                      }
+                    },
+                    {
+                      "key": "context.item.token_count_bucket",
+                      "value": {
+                        "stringValue": "under_10k"
+                      }
+                    },
+                    {
+                      "key": "context.item.summary_token_count_bucket",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "context.item.drop_reason",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "context.item.raw_text_hash",
+                      "value": {
+                        "stringValue": "sha256:3face426faae65f26a76d0840c61fa56affd0c0b0318b0f186ff84f3c5111f50"
+                      }
+                    },
+                    {
+                      "key": "context.item.raw_text_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "context.item.reconstructable_from_hash",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_context_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.compaction.completed",
+                  "timeUnixNano": "1779396127000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "cc-session-compaction-demo"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-compaction-demo"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.id_hash",
+                      "value": {
+                        "stringValue": "sha256:a9d76c33b957"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.token_count.after_bucket",
+                      "value": {
+                        "stringValue": "over_50k"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.summary.hash",
+                      "value": {
+                        "stringValue": "sha256:1c98c76de94127fe2e2a0972bbfb6e4c918f97cc9e565470d5f73bf857e598d2"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.objective.after_hash",
+                      "value": {
+                        "stringValue": "sha256:73b9a724c15213fb555b3de5b33d49c50bb40a4cee526379729a3562ab814bf9"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.item.count",
+                      "value": {
+                        "intValue": "4"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.items.dropped",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.items.summarized",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.items.preserved",
+                      "value": {
+                        "intValue": "2"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.audit_gap",
+                      "value": {
+                        "stringValue": "cannot_prove_semantic_equivalence_without_eval"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_summary_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_context_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -151,6 +151,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/garrytan/gbrain/issues/1273',
     reason: 'contextual self-remediating memory/knowledge-graph feedback about privacy-safe doctor/remediation receipts',
   },
+  {
+    name: 'claude-code-context-compaction-auditability',
+    repo: 'anthropics/claude-code',
+    issueNumber: 50513,
+    url: 'https://github.com/anthropics/claude-code/issues/50513',
+    reason: 'contextual Claude Code reliability/auditability feedback about privacy-safe context compaction receipts and objective continuity',
+  },
 ]
 
 function run(command, args) {
