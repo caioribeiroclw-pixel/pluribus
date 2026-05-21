@@ -102,6 +102,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/zilliztech/claude-context/issues/382',
     reason: 'contextual MCP code-search feedback about privacy-preserving search/result receipts',
   },
+  {
+    name: 'awesome-ai-coding-agent-tools',
+    repo: 'namphuongtran/awesome-ai-coding-agent-tools',
+    pullRequest: 14,
+    url: 'https://github.com/namphuongtran/awesome-ai-coding-agent-tools/pull/14',
+    reason: 'contextual directory submission under observability for context receipts and fidelity audit tooling',
+  },
 ]
 
 function run(command, args) {
