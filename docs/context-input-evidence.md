@@ -129,6 +129,16 @@ It reads `skill-invocation-log.jsonl` and writes `skill-receipt.ndjson` plus `sk
 
 That split matters for Claude/Cowork-style telemetry: tool spans can prove MCP/tool calls happened, but skills may be expanded as invisible prompt context. A useful receipt should show both “which skill was invoked?” and “what prompt-like context entered the session?” without requiring raw skill bodies in the OTEL stream.
 
+To test agent-specific `AGENTS.md` overlays — where a shared base file is combined with one target-specific file such as `AGENTS.cursor.md`, `AGENTS.codex.md`, or another future standard — run:
+
+```bash
+node examples/context-input-evidence/convert-agent-overlay-log.mjs
+```
+
+It reads `agent-overlay-log.jsonl` and writes `agent-overlay-receipt.ndjson` plus `agent-overlay-otel-trace.json`. The sample emits two loaded context inputs (`AGENTS.md` base + `AGENTS.cursor.md` overlay) and one suppressed candidate (`AGENTS.codex.md`) for a Cursor session. The receipt records source role, target agent, load order, composition policy, fallback policy, expected benefit, source/delivered hashes, and suppression reason. It does **not** copy raw instruction text, prompt text, tool arguments, secrets, or transcripts.
+
+This is the evidence shape needed for an overlay standard: naming files is not enough. Reviewers need to know which base and overlay were loaded, in what order, which agent they applied to, and which non-target overlays were suppressed.
+
 To test shared-memory and MCP recall flows — where Cursor, Claude Code, and other clients may all query the same memory backend — run:
 
 ```bash

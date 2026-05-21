@@ -1,0 +1,548 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-context-input-evidence"
+            }
+          },
+          {
+            "key": "telemetry.sdk.language",
+            "value": {
+              "stringValue": "javascript"
+            }
+          },
+          {
+            "key": "pluribus.demo",
+            "value": {
+              "stringValue": "agent-overlay-receipts"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context-input-evidence",
+            "version": "0.0.0-demo"
+          },
+          "spans": [
+            {
+              "traceId": "demo-trace-agent-overlays",
+              "spanId": "demo-session-agent-overlays",
+              "name": "agent.session",
+              "kind": "SPAN_KIND_INTERNAL",
+              "startTimeUnixNano": "0",
+              "endTimeUnixNano": "0",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "demo-session-agent-overlays"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "demo-conversation-agent-overlays"
+                  }
+                },
+                {
+                  "key": "agent.name",
+                  "value": {
+                    "stringValue": "cursor"
+                  }
+                },
+                {
+                  "key": "workspace.name",
+                  "value": {
+                    "stringValue": "example/portable-agent-context"
+                  }
+                },
+                {
+                  "key": "privacy.raw_context_recorded",
+                  "value": {
+                    "boolValue": false
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "context.input.loaded",
+                  "timeUnixNano": "0",
+                  "attributes": [
+                    {
+                      "key": "context.input.kind",
+                      "value": {
+                        "stringValue": "agent_instructions"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.path",
+                      "value": {
+                        "stringValue": "AGENTS.md"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.role",
+                      "value": {
+                        "stringValue": "base"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.bytes_hash",
+                      "value": {
+                        "stringValue": "sha256:9749e3bc4fe5a6b650ac7b189eb9481f33b31b8547f6206c369760dad15d30f5"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.hash",
+                      "value": {
+                        "stringValue": "sha256:9749e3bc4fe5a6b650ac7b189eb9481f33b31b8547f6206c369760dad15d30f5"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.truncated",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-agent-overlays"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-conversation-agent-overlays"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "cursor"
+                      }
+                    },
+                    {
+                      "key": "workspace.name",
+                      "value": {
+                        "stringValue": "example/portable-agent-context"
+                      }
+                    },
+                    {
+                      "key": "context.input.loaded_by",
+                      "value": {
+                        "stringValue": "native-file-discovery"
+                      }
+                    },
+                    {
+                      "key": "context.input.activation",
+                      "value": {
+                        "stringValue": "native-file-discovery"
+                      }
+                    },
+                    {
+                      "key": "context.input.scope",
+                      "value": {
+                        "stringValue": "repo"
+                      }
+                    },
+                    {
+                      "key": "context.input.applies_to",
+                      "value": {
+                        "stringValue": "all"
+                      }
+                    },
+                    {
+                      "key": "context.input.load_order",
+                      "value": {
+                        "intValue": 1
+                      }
+                    },
+                    {
+                      "key": "context.input.composition_policy",
+                      "value": {
+                        "stringValue": "base_then_agent_overlay"
+                      }
+                    },
+                    {
+                      "key": "context.input.fallback_policy",
+                      "value": {
+                        "stringValue": "base_only_when_overlay_missing"
+                      }
+                    },
+                    {
+                      "key": "context.input.why_loaded",
+                      "value": {
+                        "stringValue": "shared repository invariants"
+                      }
+                    },
+                    {
+                      "key": "context.input.expected_benefit",
+                      "value": {
+                        "stringValue": "keep cross-agent behavior aligned while avoiding duplicated per-agent rules"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_scope",
+                      "value": {
+                        "stringValue": "conversation"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.suppression_policy",
+                      "value": {
+                        "stringValue": "keep_distinct_source_roles_in_order"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.role",
+                      "value": {
+                        "stringValue": "selected"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_context_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_args_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.input.loaded",
+                  "timeUnixNano": "0",
+                  "attributes": [
+                    {
+                      "key": "context.input.kind",
+                      "value": {
+                        "stringValue": "agent_instructions"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.path",
+                      "value": {
+                        "stringValue": "AGENTS.cursor.md"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.role",
+                      "value": {
+                        "stringValue": "agent_overlay"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.bytes_hash",
+                      "value": {
+                        "stringValue": "sha256:e9abda725bbbaf941c8b515081c72bd3a977db2856310d36782950f46ffa1e53"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.hash",
+                      "value": {
+                        "stringValue": "sha256:e9abda725bbbaf941c8b515081c72bd3a977db2856310d36782950f46ffa1e53"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.truncated",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-agent-overlays"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-conversation-agent-overlays"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "cursor"
+                      }
+                    },
+                    {
+                      "key": "workspace.name",
+                      "value": {
+                        "stringValue": "example/portable-agent-context"
+                      }
+                    },
+                    {
+                      "key": "context.input.loaded_by",
+                      "value": {
+                        "stringValue": "native-file-discovery"
+                      }
+                    },
+                    {
+                      "key": "context.input.activation",
+                      "value": {
+                        "stringValue": "native-file-discovery"
+                      }
+                    },
+                    {
+                      "key": "context.input.scope",
+                      "value": {
+                        "stringValue": "repo"
+                      }
+                    },
+                    {
+                      "key": "context.input.applies_to",
+                      "value": {
+                        "stringValue": "cursor"
+                      }
+                    },
+                    {
+                      "key": "context.input.load_order",
+                      "value": {
+                        "intValue": 2
+                      }
+                    },
+                    {
+                      "key": "context.input.composition_policy",
+                      "value": {
+                        "stringValue": "base_then_agent_overlay"
+                      }
+                    },
+                    {
+                      "key": "context.input.fallback_policy",
+                      "value": {
+                        "stringValue": "base_only_when_overlay_missing"
+                      }
+                    },
+                    {
+                      "key": "context.input.why_loaded",
+                      "value": {
+                        "stringValue": "Cursor-specific rule semantics and workspace hints"
+                      }
+                    },
+                    {
+                      "key": "context.input.expected_benefit",
+                      "value": {
+                        "stringValue": "preserve agent-specific activation semantics without forking the shared repository guidance"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_scope",
+                      "value": {
+                        "stringValue": "conversation"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.suppression_policy",
+                      "value": {
+                        "stringValue": "keep_distinct_source_roles_in_order"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.role",
+                      "value": {
+                        "stringValue": "selected"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_context_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_args_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.input.candidate_suppressed",
+                  "timeUnixNano": "0",
+                  "attributes": [
+                    {
+                      "key": "context.input.kind",
+                      "value": {
+                        "stringValue": "agent_instructions"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.path",
+                      "value": {
+                        "stringValue": "AGENTS.codex.md"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.role",
+                      "value": {
+                        "stringValue": "agent_overlay_candidate"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.bytes_hash",
+                      "value": {
+                        "stringValue": "sha256:6b9c84a7222925b0738d7d6eb6848c6527615b3be25e227eaca8aec51e1194ca"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.hash",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.truncated",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-agent-overlays"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-conversation-agent-overlays"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "cursor"
+                      }
+                    },
+                    {
+                      "key": "workspace.name",
+                      "value": {
+                        "stringValue": "example/portable-agent-context"
+                      }
+                    },
+                    {
+                      "key": "context.input.loaded_by",
+                      "value": {
+                        "stringValue": "overlay-selector"
+                      }
+                    },
+                    {
+                      "key": "context.input.activation",
+                      "value": {
+                        "stringValue": "not_loaded_wrong_agent"
+                      }
+                    },
+                    {
+                      "key": "context.input.scope",
+                      "value": {
+                        "stringValue": "repo"
+                      }
+                    },
+                    {
+                      "key": "context.input.applies_to",
+                      "value": {
+                        "stringValue": "codex"
+                      }
+                    },
+                    {
+                      "key": "context.input.load_order",
+                      "value": {
+                        "intValue": 0
+                      }
+                    },
+                    {
+                      "key": "context.input.composition_policy",
+                      "value": {
+                        "stringValue": "base_then_agent_overlay"
+                      }
+                    },
+                    {
+                      "key": "context.input.fallback_policy",
+                      "value": {
+                        "stringValue": "base_only_when_overlay_missing"
+                      }
+                    },
+                    {
+                      "key": "context.input.why_loaded",
+                      "value": {
+                        "stringValue": "candidate discovered but not applicable to Cursor session"
+                      }
+                    },
+                    {
+                      "key": "context.input.expected_benefit",
+                      "value": {
+                        "stringValue": "avoid mixing Codex-only instructions into Cursor context"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.dedupe_scope",
+                      "value": {
+                        "stringValue": "conversation"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.suppression_policy",
+                      "value": {
+                        "stringValue": "suppress_overlay_for_non_target_agent"
+                      }
+                    },
+                    {
+                      "key": "context.input.duplicate.role",
+                      "value": {
+                        "stringValue": "suppressed"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_context_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_args_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

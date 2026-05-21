@@ -68,6 +68,13 @@ const trackedExternalDistributions = [
     reason: 'upstream AGENTS.md guidance for context budget/diet and focused instructions',
   },
   {
+    name: 'agents-md-agent-overlays',
+    repo: 'agentsmd/agents.md',
+    issueNumber: 185,
+    url: 'https://github.com/agentsmd/agents.md/issues/185',
+    reason: 'upstream AGENTS.md discussion about agent-specific overlays and evidence for base/overlay composition',
+  },
+  {
     name: 'semble',
     repo: 'MinishLab/semble',
     issueNumber: 123,
