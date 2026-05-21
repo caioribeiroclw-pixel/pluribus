@@ -82,11 +82,18 @@ const trackedExternalDistributions = [
     reason: 'upstream OpenTelemetry GenAI proposal for privacy-first context input evidence in agent traces',
   },
   {
-    name: 'claude-telemetry',
+    name: 'claude-telemetry-issue',
     repo: 'TechNickAI/claude_telemetry',
     issueNumber: 8,
     url: 'https://github.com/TechNickAI/claude_telemetry/issues/8',
     reason: 'contextual Claude Code OTel wrapper feedback about privacy-preserving context input events',
+  },
+  {
+    name: 'claude-telemetry-pr',
+    repo: 'TechNickAI/claude_telemetry',
+    pullRequest: 9,
+    url: 'https://github.com/TechNickAI/claude_telemetry/pull/9',
+    reason: 'external implementation PR for opt-in context.input.loaded events in a Claude Code telemetry wrapper',
   },
 ]
 
