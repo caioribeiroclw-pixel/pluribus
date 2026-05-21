@@ -137,6 +137,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/AVIDS2/memorix/issues/95',
     reason: 'contextual cross-agent MCP memory feedback about privacy-safe handoff/write/search receipts',
   },
+  {
+    name: 'gbrain-doctor-remediation-receipts',
+    repo: 'garrytan/gbrain',
+    issueNumber: 1273,
+    url: 'https://github.com/garrytan/gbrain/issues/1273',
+    reason: 'contextual self-remediating memory/knowledge-graph feedback about privacy-safe doctor/remediation receipts',
+  },
 ]
 
 function run(command, args) {
