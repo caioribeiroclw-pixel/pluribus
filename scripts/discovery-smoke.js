@@ -172,6 +172,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/doobidoo/mcp-memory-service/issues/983',
     reason: 'contextual MCP memory-service feedback about hook-safe incremental consolidation receipts and lineage evidence',
   },
+  {
+    name: 'agent-skills-router-benchmark-receipts',
+    repo: 'muratcankoylan/Agent-Skills-for-Context-Engineering',
+    pullRequest: 87,
+    url: 'https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering/pull/87',
+    reason: 'contextual Agent Skills feedback about privacy-safe skill routing benchmark receipts and lazy skill body loading evidence',
+  },
 ]
 
 function run(command, args) {

@@ -1,0 +1,567 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-skill-routing-receipt-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.skill_routing_demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "64cef50bc214e80e43a818b8af38a6e5",
+              "spanId": "c9801b2c0c402faa",
+              "parentSpanId": "",
+              "name": "agent.session.skill.routing_benchmark",
+              "kind": 1,
+              "startTimeUnixNano": "1779404460000000000",
+              "endTimeUnixNano": "1779404472000000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "demo-session-skill-routing-receipt"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "demo-conversation-skill-routing"
+                  }
+                },
+                {
+                  "key": "agent.name",
+                  "value": {
+                    "stringValue": "claude-code"
+                  }
+                },
+                {
+                  "key": "workspace.name",
+                  "value": {
+                    "stringValue": "agent-skills-benchmark-fixture"
+                  }
+                },
+                {
+                  "key": "gen_ai.request.model",
+                  "value": {
+                    "stringValue": "router-eval-model"
+                  }
+                },
+                {
+                  "key": "skill.router.version_hash",
+                  "value": {
+                    "stringValue": "sha256:0aea98d97835"
+                  }
+                },
+                {
+                  "key": "skill.router.case_count",
+                  "value": {
+                    "intValue": "3"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "skill.router.index.loaded",
+                  "timeUnixNano": "1779404461000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-skill-routing-receipt"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-conversation-skill-routing"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "skill.catalog.id_hash",
+                      "value": {
+                        "stringValue": "sha256:e2d6a68c4242"
+                      }
+                    },
+                    {
+                      "key": "skill.catalog.skill_count",
+                      "value": {
+                        "intValue": "4"
+                      }
+                    },
+                    {
+                      "key": "skill.catalog.names_hash",
+                      "value": {
+                        "stringValue": "sha256:8d183d41a1fa44f02fc6343bed88dd47c38196f21e6702d8b4351d0d42ec3d8a"
+                      }
+                    },
+                    {
+                      "key": "skill.router.startup_strategy",
+                      "value": {
+                        "stringValue": "description_index_only"
+                      }
+                    },
+                    {
+                      "key": "skill.router.description_token_count_bucket",
+                      "value": {
+                        "stringValue": "under_1k"
+                      }
+                    },
+                    {
+                      "key": "skill.router.full_body_token_count_bucket",
+                      "value": {
+                        "stringValue": "under_50k"
+                      }
+                    },
+                    {
+                      "key": "skill.router.full_bodies_loaded_at_startup",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_skill_descriptions_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_skill_bodies_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "skill.router.case.evaluated",
+                  "timeUnixNano": "1779404464000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-skill-routing-receipt"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-conversation-skill-routing"
+                      }
+                    },
+                    {
+                      "key": "skill.router.benchmark.id_hash",
+                      "value": {
+                        "stringValue": "sha256:9b63a57126cd"
+                      }
+                    },
+                    {
+                      "key": "skill.router.case.id_hash",
+                      "value": {
+                        "stringValue": "sha256:e1ad9bf98d3a"
+                      }
+                    },
+                    {
+                      "key": "skill.router.prompt_hash",
+                      "value": {
+                        "stringValue": "sha256:9b3c85947416c97046881635928ab149e9e05ca4fb22de45b9da4315579f448b"
+                      }
+                    },
+                    {
+                      "key": "skill.router.expected_skill_hash",
+                      "value": {
+                        "stringValue": "sha256:291f08887af0"
+                      }
+                    },
+                    {
+                      "key": "skill.router.selected_skill_hash",
+                      "value": {
+                        "stringValue": "sha256:291f08887af0"
+                      }
+                    },
+                    {
+                      "key": "skill.router.top_k_hash",
+                      "value": {
+                        "stringValue": "sha256:531a8459fdd15efb45966916891175cf87c888e1d8042180abe9ad14599ab466"
+                      }
+                    },
+                    {
+                      "key": "skill.router.match",
+                      "value": {
+                        "stringValue": "top1"
+                      }
+                    },
+                    {
+                      "key": "skill.router.confidence_bucket",
+                      "value": {
+                        "stringValue": "gte_0_75"
+                      }
+                    },
+                    {
+                      "key": "skill.router.reason_hash",
+                      "value": {
+                        "stringValue": "sha256:bb735d654b66dafdd437dc7804e6961f49e73eb0490ec15f1f521695d5ed6730"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_selection_reason_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "skill.router.case.evaluated",
+                  "timeUnixNano": "1779404466000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-skill-routing-receipt"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-conversation-skill-routing"
+                      }
+                    },
+                    {
+                      "key": "skill.router.benchmark.id_hash",
+                      "value": {
+                        "stringValue": "sha256:9b63a57126cd"
+                      }
+                    },
+                    {
+                      "key": "skill.router.case.id_hash",
+                      "value": {
+                        "stringValue": "sha256:636fd1543c8d"
+                      }
+                    },
+                    {
+                      "key": "skill.router.prompt_hash",
+                      "value": {
+                        "stringValue": "sha256:1f719b758e30e8f246bb7c51ef15c3b74957a56f1c5b07e82e5b42971d1b9cd5"
+                      }
+                    },
+                    {
+                      "key": "skill.router.expected_skill_hash",
+                      "value": {
+                        "stringValue": "sha256:21253146a983"
+                      }
+                    },
+                    {
+                      "key": "skill.router.selected_skill_hash",
+                      "value": {
+                        "stringValue": "sha256:21253146a983"
+                      }
+                    },
+                    {
+                      "key": "skill.router.top_k_hash",
+                      "value": {
+                        "stringValue": "sha256:b7d1a408e012dc5f723f81ca9438e0838a954bc4438b07ab693400edc41ecd16"
+                      }
+                    },
+                    {
+                      "key": "skill.router.match",
+                      "value": {
+                        "stringValue": "top1"
+                      }
+                    },
+                    {
+                      "key": "skill.router.confidence_bucket",
+                      "value": {
+                        "stringValue": "gte_0_75"
+                      }
+                    },
+                    {
+                      "key": "skill.router.reason_hash",
+                      "value": {
+                        "stringValue": "sha256:21162d5681490fd8d453bd3d170930682d49a1b4fb0520f94603dd9e76759fca"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_selection_reason_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "skill.router.case.evaluated",
+                  "timeUnixNano": "1779404468000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-skill-routing-receipt"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-conversation-skill-routing"
+                      }
+                    },
+                    {
+                      "key": "skill.router.benchmark.id_hash",
+                      "value": {
+                        "stringValue": "sha256:9b63a57126cd"
+                      }
+                    },
+                    {
+                      "key": "skill.router.case.id_hash",
+                      "value": {
+                        "stringValue": "sha256:144621dce308"
+                      }
+                    },
+                    {
+                      "key": "skill.router.prompt_hash",
+                      "value": {
+                        "stringValue": "sha256:f7a5d57c62a008eee15ba0cadfbede4cb5bc1d0bd440bdb7948210f6445c3bde"
+                      }
+                    },
+                    {
+                      "key": "skill.router.expected_skill_hash",
+                      "value": {
+                        "stringValue": "sha256:2f8e0ed343f4"
+                      }
+                    },
+                    {
+                      "key": "skill.router.selected_skill_hash",
+                      "value": {
+                        "stringValue": "sha256:291f08887af0"
+                      }
+                    },
+                    {
+                      "key": "skill.router.top_k_hash",
+                      "value": {
+                        "stringValue": "sha256:531a8459fdd15efb45966916891175cf87c888e1d8042180abe9ad14599ab466"
+                      }
+                    },
+                    {
+                      "key": "skill.router.match",
+                      "value": {
+                        "stringValue": "top2"
+                      }
+                    },
+                    {
+                      "key": "skill.router.confidence_bucket",
+                      "value": {
+                        "stringValue": "gte_0_50"
+                      }
+                    },
+                    {
+                      "key": "skill.router.reason_hash",
+                      "value": {
+                        "stringValue": "sha256:05ddd0a6c9aa1e8c1a59436fe3f32b7aa171557eeddc26b293239cf1627bcfa4"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_selection_reason_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "skill.body.loaded",
+                  "timeUnixNano": "1779404469000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-skill-routing-receipt"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-conversation-skill-routing"
+                      }
+                    },
+                    {
+                      "key": "skill.router.case.id_hash",
+                      "value": {
+                        "stringValue": "sha256:e1ad9bf98d3a"
+                      }
+                    },
+                    {
+                      "key": "skill.name_hash",
+                      "value": {
+                        "stringValue": "sha256:291f08887af0"
+                      }
+                    },
+                    {
+                      "key": "skill.body.hash",
+                      "value": {
+                        "stringValue": "sha256:f1e47296b79c0fed5a99f6fdfdce319fca1bb2fc8eb5f1f11d3f64db4c99b450"
+                      }
+                    },
+                    {
+                      "key": "skill.body.load_reason",
+                      "value": {
+                        "stringValue": "top1_selected"
+                      }
+                    },
+                    {
+                      "key": "skill.body.loaded_after_route",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_skill_body_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "skill.router.benchmark.completed",
+                  "timeUnixNano": "1779404472000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-skill-routing-receipt"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-conversation-skill-routing"
+                      }
+                    },
+                    {
+                      "key": "skill.router.benchmark.id_hash",
+                      "value": {
+                        "stringValue": "sha256:9b63a57126cd"
+                      }
+                    },
+                    {
+                      "key": "skill.router.golden_set_hash",
+                      "value": {
+                        "stringValue": "sha256:7e3e39a2b2f5"
+                      }
+                    },
+                    {
+                      "key": "skill.router.records_total",
+                      "value": {
+                        "intValue": "3"
+                      }
+                    },
+                    {
+                      "key": "skill.router.usable_records",
+                      "value": {
+                        "intValue": "3"
+                      }
+                    },
+                    {
+                      "key": "skill.router.format_failures",
+                      "value": {
+                        "intValue": "0"
+                      }
+                    },
+                    {
+                      "key": "skill.router.top1_rate_bucket",
+                      "value": {
+                        "stringValue": "gte_0_50"
+                      }
+                    },
+                    {
+                      "key": "skill.router.top2_rate_bucket",
+                      "value": {
+                        "stringValue": "gte_0_95"
+                      }
+                    },
+                    {
+                      "key": "skill.router.model_results_hash",
+                      "value": {
+                        "stringValue": "sha256:8ce3763abce2175a48af094585769d766f959ec9af40b18c155646f8b7fb2a0b"
+                      }
+                    },
+                    {
+                      "key": "skill.router.next_action_hash",
+                      "value": {
+                        "stringValue": "sha256:5478efdcb7e778c66bc231dad57fc4bcae5a5b4e1ad472ebdc23d56ce75c3fcd"
+                      }
+                    },
+                    {
+                      "key": "skill.router.audit_gap",
+                      "value": {
+                        "stringValue": "receipt_proves_routing_boundary_not_task_effectiveness"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_benchmark_prompts_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_skill_text_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

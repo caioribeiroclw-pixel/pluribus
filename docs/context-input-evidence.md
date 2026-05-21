@@ -211,6 +211,21 @@ It reads `sample-memory-consolidation-log.jsonl` and writes `memory-consolidatio
 
 This is for MCP/shared-memory systems that want `incremental` or Stop-hook consolidation without scanning the full corpus. The useful receipt should prove “the hook ran under budget over these recent candidates and produced this lineage-preserving consolidation” without exposing memory contents, customer data, project paths, secrets, or operator notes.
 
+To test skill routing benchmark evidence — where an agent or plugin marketplace loads a cheap description index, routes activation cases, and expands full skill bodies only after selection — run:
+
+```bash
+node examples/context-input-evidence/convert-skill-routing-log.mjs
+```
+
+It reads `sample-skill-routing-log.jsonl` and writes `skill-routing-receipt.ndjson` plus `skill-routing-otel-trace.json`. The sample emits four event types:
+
+- `skill.router.index.loaded` — catalog identity, skill count, description-index hash, token buckets, startup strategy, and proof that full skill bodies were not loaded up front.
+- `skill.router.case.evaluated` — per-case prompt hash, expected/selected skill hashes, top-k hash, match tier, confidence bucket, and reason hash.
+- `skill.body.loaded` — selected skill identity hash, body hash, load reason, and proof that body expansion happened after routing.
+- `skill.router.benchmark.completed` — usable/format-failure counts, top-1/top-2 buckets, model-results hash, next-action hash, and the explicit audit gap that routing correctness is not the same as task effectiveness.
+
+This is for Claude Code/plugin/agent-skill ecosystems where skill routing and lazy loading reduce prompt bloat but still need verifiable boundaries. A useful receipt should prove “these skill descriptions were available, this skill won for this activation case, this full body expanded after routing, and private prompts/skill bodies stayed out of the trace.”
+
 ## How this relates to Pluribus
 
 Pluribus already reports load and duplicate-load evidence in its fidelity report. This sketch moves the same idea into trace vocabulary: an auditor should be able to answer which context entered a session, why it was loaded, how it was transformed, and whether duplicate suppression is actually provable.
