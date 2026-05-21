@@ -123,6 +123,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/anthropics/claude-code/issues/41845',
     reason: 'contextual Claude/Cowork OTel feedback about privacy-first skill invocation receipts',
   },
+  {
+    name: 'supermemory-retrieval-receipts',
+    repo: 'supermemoryai/supermemory',
+    issueNumber: 985,
+    url: 'https://github.com/supermemoryai/supermemory/issues/985',
+    reason: 'contextual shared-memory/MCP feedback about privacy-safe memory retrieval receipts',
+  },
 ]
 
 function run(command, args) {
