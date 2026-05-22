@@ -154,6 +154,23 @@ It reads `sample-mcp-tool-search-log.jsonl` and writes `mcp-tool-search-receipt.
 
 This is for Claude Code/MCP context-budget work where Tool Search reduces context bloat but still needs verifiable boundaries. The receipt should prove “only indexes were loaded up front; this one definition was loaded when needed; private query/arguments/results stayed out of the trace.”
 
+
+To test GitHub MCP secret scanning receipts — where an agent asks the GitHub MCP server to scan current changes before commit or PR, and findings may exist only in the agent session rather than as persisted GitHub alerts — run:
+
+```bash
+node examples/context-input-evidence/convert-secret-scanning-log.mjs
+```
+
+It reads `sample-secret-scanning-log.jsonl` and writes `secret-scanning-receipt.ndjson` plus `secret-scanning-otel-trace.json`. The sample emits five event types:
+
+- `security.secret_scanning.requested` — trigger, toolset/tool, scan scope, diff-path hash, prompt hash, push-protection customization, and whether findings were persisted as GitHub alerts.
+- `security.secret_scanning.completed` — status, scanned file/count buckets, detector count, finding count, engine snapshot, latency bucket, and tool-response hash.
+- `security.secret_scanning.finding.presented` — redacted finding identity, secret type, severity, path/line buckets, secret hash, remediation hash, push-protection action, and bypass policy.
+- `security.secret_scanning.bypass.evaluated` — policy identity, bypass request/allowance, decision, and operator-note hash.
+- `security.secret_scanning.remediation.verified` — rescan identity, clean status, changed-path hash, finding count after remediation, rotation-ticket hash, and the explicit audit gap that a clean rescan does not prove external secret revocation finished.
+
+This is for AI coding agents that run secret scanning via MCP before commit/PR. A useful receipt should prove “the scan ran, these redacted findings were shown, the bypass policy was evaluated, and a clean rescan happened” without exporting raw secrets, private paths, prompts, tool responses, ticket text, or customer data.
+
 To test shared-memory and MCP recall flows — where Cursor, Claude Code, and other clients may all query the same memory backend — run:
 
 ```bash

@@ -180,6 +180,13 @@ const trackedExternalDistributions = [
     reason: 'contextual persistent memory feedback about privacy-safe governance/delete receipts for forget skills and audit logs',
   },
   {
+    name: 'github-mcp-secret-scanning-receipts',
+    repo: 'github/github-mcp-server',
+    issueNumber: 1921,
+    url: 'https://github.com/github/github-mcp-server/issues/1921',
+    reason: 'contextual GitHub MCP security feedback about privacy-safe secret scanning receipts for session-only findings and bypass policy evidence',
+  },
+  {
     name: 'agent-skills-router-benchmark-receipts',
     repo: 'muratcankoylan/Agent-Skills-for-Context-Engineering',
     pullRequest: 87,
