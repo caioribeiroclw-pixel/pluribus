@@ -139,6 +139,20 @@ It reads `agent-overlay-log.jsonl` and writes `agent-overlay-receipt.ndjson` plu
 
 This is the evidence shape needed for an overlay standard: naming files is not enough. Reviewers need to know which base and overlay were loaded, in what order, which agent they applied to, and which non-target overlays were suppressed.
 
+To test over-selection in coding-agent loops — the failure mode where the harness selects several plausible context inputs when only one ends up mattering — run:
+
+```bash
+node examples/context-input-evidence/convert-context-selection-log.mjs
+```
+
+It reads `sample-context-selection-log.jsonl` and writes `context-selection-receipt.ndjson` plus `context-selection-otel-trace.json`. The sample emits:
+
+- `context.input.selection.evaluated` with candidate, selected, suppressed, and delivered-hash counts;
+- five `context.input.loaded` events for the selected/delivered inputs; and
+- an optional `context.decision.relevance.evaluated` event showing that a later human review found only one selected input was supporting.
+
+The important pre-verifier signal is cheap: `selected_count`, `suppressed_count`, and `delivered_hash_count` answer “did we load too much context, or the wrong context?” without storing the raw prompt, raw memory bodies, private paths, ticket text, tool output, secrets, or customer data.
+
 The receipt should stay narrower than the overlay standard itself. It does **not** require the standard to add frontmatter, classify user intent, or protect users from writing bad target-specific guidance. The minimum useful contract is behavioral:
 
 1. which candidate files the harness discovered;

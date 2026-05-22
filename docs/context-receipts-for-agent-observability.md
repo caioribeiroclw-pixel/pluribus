@@ -113,6 +113,15 @@ For example:
 
 Keep `selected_count` and `suppressed_count` separate. Over-selection and duplicate discovery are different failure modes, and collapsing them makes stale-context/debug reports less useful.
 
+A cheap bridge before a full relevance evaluator exists is a selection receipt that answers the operator question: **did we load too much context, or the wrong context?** The minimal fields are:
+
+- `context.input.selected_count`;
+- `context.input.suppressed_count`;
+- `context.input.delivered_hash_count`; and
+- optional `context.decision.relevance_evaluator` when a later relevance event exists.
+
+This does not prove which input mattered. It does make over-selection visible immediately: five delivered inputs for one coding-agent decision is a different failure mode from one delivered input that was simply the wrong one.
+
 ## Privacy defaults
 
 Default to safe evidence:
@@ -154,6 +163,7 @@ node examples/context-input-evidence/export-otel-trace.mjs
 node examples/context-input-evidence/convert-mcp-tool-search-log.mjs
 node examples/context-input-evidence/convert-memory-log.mjs
 node examples/context-input-evidence/convert-compaction-log.mjs
+node examples/context-input-evidence/convert-context-selection-log.mjs
 ```
 
 The point is deliberately narrow: prove what crossed the context boundary, preserve enough identity to join with traces, and keep raw sensitive content out of the shared artifact.
