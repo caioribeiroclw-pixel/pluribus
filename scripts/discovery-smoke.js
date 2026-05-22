@@ -89,6 +89,13 @@ const trackedExternalDistributions = [
     reason: 'upstream OpenTelemetry GenAI proposal for privacy-first context input evidence in agent traces',
   },
   {
+    name: 'mcp-protocol-otel-context-receipts',
+    repo: 'modelcontextprotocol/modelcontextprotocol',
+    discussionNumber: 269,
+    url: 'https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/269',
+    reason: 'contextual MCP/OpenTelemetry discussion about trace correlation versus privacy-safe context/run receipts across trust boundaries',
+  },
+  {
     name: 'claude-telemetry-issue',
     repo: 'TechNickAI/claude_telemetry',
     issueNumber: 8,
@@ -446,6 +453,67 @@ function collectGithubSignals() {
 function collectExternalDistributionSignals() {
   return trackedExternalDistributions.map((distribution) => {
     const isIssue = Boolean(distribution.issueNumber)
+    const isDiscussion = Boolean(distribution.discussionNumber)
+
+    if (isDiscussion) {
+      const [owner, name] = distribution.repo.split('/')
+      const discussionQuery = `
+        query {
+          repository(owner: "${owner}", name: "${name}") {
+            discussion(number: ${distribution.discussionNumber}) {
+              title
+              url
+              updatedAt
+              comments(last: 20) {
+                totalCount
+                nodes {
+                  author { login }
+                  createdAt
+                }
+              }
+            }
+          }
+        }
+      `
+      const result = githubJson(`external distribution ${distribution.name}`, 'gh', [
+        'api',
+        'graphql',
+        '-f',
+        `query=${discussionQuery}`,
+      ], {})
+      const discussion = result.ok ? result.data?.data?.repository?.discussion : null
+
+      if (!result.ok || !discussion) {
+        return {
+          ...distribution,
+          type: 'discussion',
+          ok: false,
+          error: result.error || 'discussion not found',
+        }
+      }
+
+      const commentAuthors = (discussion.comments?.nodes || [])
+        .map((comment) => comment.author?.login)
+        .filter(Boolean)
+
+      return {
+        ...distribution,
+        type: 'discussion',
+        ok: true,
+        title: discussion.title,
+        state: 'OPEN',
+        mergeable: null,
+        isDraft: null,
+        reviewDecision: null,
+        comments: discussion.comments?.totalCount || 0,
+        updatedAt: discussion.updatedAt,
+        author: null,
+        recentCommentAuthors: commentAuthors,
+        externalRecentComments: commentAuthors.filter((author) => author !== 'caioribeiroclw-pixel').length,
+        url: discussion.url || distribution.url,
+      }
+    }
+
     const result = githubJson(`external distribution ${distribution.name}`, 'gh', [
       isIssue ? 'issue' : 'pr',
       'view',
@@ -528,6 +596,7 @@ const report = {
     trackedExternalDistributions: externalDistributions.length,
     openExternalDistributionPullRequests: externalDistributions.filter((distribution) => distribution.ok && distribution.type === 'pullRequest' && distribution.state === 'OPEN').length,
     openExternalDistributionIssues: externalDistributions.filter((distribution) => distribution.ok && distribution.type === 'issue' && distribution.state === 'OPEN').length,
+    trackedExternalDiscussions: externalDistributions.filter((distribution) => distribution.ok && distribution.type === 'discussion').length,
     mergedExternalDistributionPullRequests: externalDistributions.filter((distribution) => distribution.ok && distribution.type === 'pullRequest' && distribution.state === 'MERGED').length,
   },
 }
