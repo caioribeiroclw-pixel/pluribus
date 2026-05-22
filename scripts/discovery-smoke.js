@@ -221,6 +221,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/anomalyco/opencode/issues/8625',
     reason: 'contextual opencode MCP lazy/tool-search discussion about context-budget receipts for deferred tool definitions',
   },
+  {
+    name: 'dash0-agent-context-otel-skill',
+    repo: 'dash0hq/agent-skills',
+    pullRequest: 14,
+    url: 'https://github.com/dash0hq/agent-skills/pull/14',
+    reason: 'external OpenTelemetry Agent Skill contribution for privacy-safe context-boundary evidence in AI coding agent traces',
+  },
 ]
 
 function run(command, args) {
