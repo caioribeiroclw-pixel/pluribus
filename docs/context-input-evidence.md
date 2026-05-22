@@ -139,6 +139,17 @@ It reads `agent-overlay-log.jsonl` and writes `agent-overlay-receipt.ndjson` plu
 
 This is the evidence shape needed for an overlay standard: naming files is not enough. Reviewers need to know which base and overlay were loaded, in what order, which agent they applied to, and which non-target overlays were suppressed.
 
+The receipt should stay narrower than the overlay standard itself. It does **not** require the standard to add frontmatter, classify user intent, or protect users from writing bad target-specific guidance. The minimum useful contract is behavioral:
+
+1. which candidate files the harness discovered;
+2. which base file loaded;
+3. which target overlay loaded;
+4. which non-target overlays were explicitly suppressed;
+5. the load order and fallback behavior; and
+6. privacy-safe identities for what was delivered.
+
+That keeps the standard focused on the behavior users need interoperably — “do not load another harness's instructions into this harness” — while still leaving room for Pluribus or another observer to audit composition after the fact.
+
 To test deferred MCP Tool Search / tool loading — where many MCP servers are connected but full tool definitions should only load on demand — run:
 
 ```bash
