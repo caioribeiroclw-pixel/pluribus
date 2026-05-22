@@ -173,6 +173,13 @@ const trackedExternalDistributions = [
     reason: 'contextual MCP memory-service feedback about hook-safe incremental consolidation receipts and lineage evidence',
   },
   {
+    name: 'agentmemory-governance-delete-receipts',
+    repo: 'rohitg00/agentmemory',
+    issueNumber: 595,
+    url: 'https://github.com/rohitg00/agentmemory/issues/595',
+    reason: 'contextual persistent memory feedback about privacy-safe governance/delete receipts for forget skills and audit logs',
+  },
+  {
     name: 'agent-skills-router-benchmark-receipts',
     repo: 'muratcankoylan/Agent-Skills-for-Context-Engineering',
     pullRequest: 87,
