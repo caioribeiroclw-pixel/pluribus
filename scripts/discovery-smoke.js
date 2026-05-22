@@ -235,6 +235,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/dash0hq/agent-skills/pull/14',
     reason: 'external OpenTelemetry Agent Skill contribution for privacy-safe context-boundary evidence in AI coding agent traces',
   },
+  {
+    name: 'openllmetry-agent-observability-context-selection',
+    repo: 'traceloop/openllmetry',
+    issueNumber: 3460,
+    url: 'https://github.com/traceloop/openllmetry/issues/3460',
+    reason: 'contextual AI agent observability RFC feedback about privacy-safe context selection pressure before LLM/tool spans',
+  },
 ]
 
 function run(command, args) {
