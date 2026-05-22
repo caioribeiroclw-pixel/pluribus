@@ -1,7 +1,7 @@
 {
   "name": "pluribus-context",
   "version": "0.3.24",
-  "description": "AI context/rules sync and fidelity audit CLI for CLAUDE.md, Claude Code, Cursor rules, Copilot instructions, OpenClaw, Windsurf, Continue, Zed, Bob, and semantic drift.",
+  "description": "Privacy-safe context receipts for AI coding agents: prove what context, memory, tools, skills, compactions, and security findings crossed agent boundaries without logging raw content.",
   "type": "module",
   "homepage": "https://github.com/caioribeiroclw-pixel/pluribus#readme",
   "repository": {
@@ -55,6 +55,7 @@
     "context",
     "context-drift",
     "context-engineering",
+    "context-receipts",
     "context-files",
     "context-sync",
     "continue",
@@ -63,6 +64,9 @@
     "cursor",
     "cursor-rules",
     "developer-tools",
+    "ai-agent-observability",
+    "opentelemetry",
+    "mcp",
     "drift-detection",
     "openclaw",
     "rules",
