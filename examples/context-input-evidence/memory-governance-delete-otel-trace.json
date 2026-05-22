@@ -1,0 +1,614 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-context-input-evidence-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.3.23"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.memory_governance_delete",
+            "version": "0.1.0"
+          },
+          "spans": [
+            {
+              "traceId": "29f59ee7168ca8528063f7a2a3deec31",
+              "spanId": "02c8c09273a3d9bc",
+              "name": "agent.session",
+              "kind": 1,
+              "startTimeUnixNano": "1779408000000000000",
+              "endTimeUnixNano": "1779408008000000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "demo-session-memory-governance-delete"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "conv-memory-governance-delete-001"
+                  }
+                },
+                {
+                  "key": "agent.name",
+                  "value": {
+                    "stringValue": "claude-code"
+                  }
+                },
+                {
+                  "key": "memory.provider",
+                  "value": {
+                    "stringValue": "agentmemory"
+                  }
+                },
+                {
+                  "key": "memory.client",
+                  "value": {
+                    "stringValue": "agentmemory-plugin"
+                  }
+                },
+                {
+                  "key": "memory.project.hash",
+                  "value": {
+                    "stringValue": "sha256:b201e758be78"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "memory.governance.delete.requested",
+                  "timeUnixNano": "1779408001000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-memory-governance-delete"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-memory-governance-delete-001"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "memory.provider",
+                      "value": {
+                        "stringValue": "agentmemory"
+                      }
+                    },
+                    {
+                      "key": "memory.client",
+                      "value": {
+                        "stringValue": "agentmemory-plugin"
+                      }
+                    },
+                    {
+                      "key": "memory.project.hash",
+                      "value": {
+                        "stringValue": "sha256:b201e758be78"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.request.hash",
+                      "value": {
+                        "stringValue": "sha256:4898b9e770a8"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.trigger",
+                      "value": {
+                        "stringValue": "manual_forget_skill"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.requested_by_hash",
+                      "value": {
+                        "stringValue": "sha256:4b6ba045f73a"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.reason_hash",
+                      "value": {
+                        "stringValue": "sha256:0ccf2b01c8c1df10aac377b3789ab52f7e469de8f56e692f327f4bf60ce49b0d"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.query_hash",
+                      "value": {
+                        "stringValue": "sha256:6867e426d258814df7f9eefddd2f89db313e255d74dd604e0f3c86253105374d"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.scope",
+                      "value": {
+                        "stringValue": "project"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.delete.policy",
+                      "value": {
+                        "stringValue": "two_step_confirmed_delete"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.sensitive_class_count",
+                      "value": {
+                        "intValue": "3"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.sensitive_classes_hash",
+                      "value": {
+                        "stringValue": "sha256:40537254cbe94fe2dd6ebe84405166f9f2c0c581edb798136dcc4e122b2375f7"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.project_path_hash",
+                      "value": {
+                        "stringValue": "sha256:4971e6277a1f605abc19aa57e450c1b82cd02d6b54c056be1fd56b6c057f9769"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_query_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_reason_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_project_path_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "memory.governance.delete.candidates.presented",
+                  "timeUnixNano": "1779408002000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-memory-governance-delete"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-memory-governance-delete-001"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "memory.provider",
+                      "value": {
+                        "stringValue": "agentmemory"
+                      }
+                    },
+                    {
+                      "key": "memory.client",
+                      "value": {
+                        "stringValue": "agentmemory-plugin"
+                      }
+                    },
+                    {
+                      "key": "memory.project.hash",
+                      "value": {
+                        "stringValue": "sha256:b201e758be78"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.request.hash",
+                      "value": {
+                        "stringValue": "sha256:4898b9e770a8"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.candidate_count",
+                      "value": {
+                        "intValue": "3"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.candidate_count_bucket",
+                      "value": {
+                        "stringValue": "under_5"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.candidate_ids_hash",
+                      "value": {
+                        "stringValue": "sha256:3ac29232be276238c81cc2ee0ff17b31561ca05682b1bd5cd71dc56b29c93370"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.preview_policy",
+                      "value": {
+                        "stringValue": "redacted_snippets_only"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.preview_hash",
+                      "value": {
+                        "stringValue": "sha256:4dd5603b4a3e26e5632248865c5a87a020974c0b9a3697f771a3770d473a4143"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.requires_confirmation",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_candidate_text_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_preview_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "memory.governance.delete.confirmation.recorded",
+                  "timeUnixNano": "1779408005000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-memory-governance-delete"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-memory-governance-delete-001"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "memory.provider",
+                      "value": {
+                        "stringValue": "agentmemory"
+                      }
+                    },
+                    {
+                      "key": "memory.client",
+                      "value": {
+                        "stringValue": "agentmemory-plugin"
+                      }
+                    },
+                    {
+                      "key": "memory.project.hash",
+                      "value": {
+                        "stringValue": "sha256:b201e758be78"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.request.hash",
+                      "value": {
+                        "stringValue": "sha256:4898b9e770a8"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.confirmation.hash",
+                      "value": {
+                        "stringValue": "sha256:bc730c1fcccb"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.confirmed",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "memory.governance.confirmation_channel",
+                      "value": {
+                        "stringValue": "skill_ui"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.confirmed_candidate_count",
+                      "value": {
+                        "intValue": "2"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.confirmed_candidate_ids_hash",
+                      "value": {
+                        "stringValue": "sha256:2fadf396d2e91da901452fffbe469022c2c8200b416194d7191fa2cb286ab02c"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.rejected_candidate_count",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.rejected_candidate_ids_hash",
+                      "value": {
+                        "stringValue": "sha256:e6b881517df619b737a2f29462a7556083f9567aee10f1b55fa6ca956b0ea7d6"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.operator_note_hash",
+                      "value": {
+                        "stringValue": "sha256:c3b449ee0b9bb50ef2e86e7f6a0cf5ad0547833fa9eb775b3505f70c8292db3c"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_operator_note_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "memory.governance.delete.completed",
+                  "timeUnixNano": "1779408007000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-memory-governance-delete"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-memory-governance-delete-001"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "memory.provider",
+                      "value": {
+                        "stringValue": "agentmemory"
+                      }
+                    },
+                    {
+                      "key": "memory.client",
+                      "value": {
+                        "stringValue": "agentmemory-plugin"
+                      }
+                    },
+                    {
+                      "key": "memory.project.hash",
+                      "value": {
+                        "stringValue": "sha256:b201e758be78"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.request.hash",
+                      "value": {
+                        "stringValue": "sha256:4898b9e770a8"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.status",
+                      "value": {
+                        "stringValue": "completed"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.deleted_count",
+                      "value": {
+                        "intValue": "2"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.deleted_ids_hash",
+                      "value": {
+                        "stringValue": "sha256:2fadf396d2e91da901452fffbe469022c2c8200b416194d7191fa2cb286ab02c"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.retained_count",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.retained_ids_hash",
+                      "value": {
+                        "stringValue": "sha256:e6b881517df619b737a2f29462a7556083f9567aee10f1b55fa6ca956b0ea7d6"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.tombstone_count",
+                      "value": {
+                        "intValue": "2"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.tombstone_ids_hash",
+                      "value": {
+                        "stringValue": "sha256:7171ae6dbe4a30a594e4edc356e8cec4fab3df1139c081d0397dec4277d23841"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.audit_entry_hash",
+                      "value": {
+                        "stringValue": "sha256:4fd665311b3a"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.store_snapshot_before_hash",
+                      "value": {
+                        "stringValue": "sha256:7e0ae3ddd108a43f9c90a75989ce9585bd8a2824cb08c5115612c93881bd35ce"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.store_snapshot_after_hash",
+                      "value": {
+                        "stringValue": "sha256:ca12e4a9afe546c426ababdb54eb8d9f1faa2a47d79609fbf3451c95e88fa691"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.latency_bucket",
+                      "value": {
+                        "stringValue": "under_10s"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_deleted_memory_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "memory.governance.audit.completed",
+                  "timeUnixNano": "1779408008000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-memory-governance-delete"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-memory-governance-delete-001"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "memory.provider",
+                      "value": {
+                        "stringValue": "agentmemory"
+                      }
+                    },
+                    {
+                      "key": "memory.client",
+                      "value": {
+                        "stringValue": "agentmemory-plugin"
+                      }
+                    },
+                    {
+                      "key": "memory.project.hash",
+                      "value": {
+                        "stringValue": "sha256:b201e758be78"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.request.hash",
+                      "value": {
+                        "stringValue": "sha256:4898b9e770a8"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.audit_entry_hash",
+                      "value": {
+                        "stringValue": "sha256:4fd665311b3a"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.query_replay_result_count",
+                      "value": {
+                        "intValue": "0"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.tombstone_count",
+                      "value": {
+                        "intValue": "2"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.retained_count",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.retention_policy",
+                      "value": {
+                        "stringValue": "tombstone_hash_only"
+                      }
+                    },
+                    {
+                      "key": "memory.governance.audit_gap",
+                      "value": {
+                        "stringValue": "does_not_prove_physical_compaction_or_backup_expiry"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_memory_body_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_delete_query_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -211,6 +211,22 @@ It reads `sample-memory-consolidation-log.jsonl` and writes `memory-consolidatio
 
 This is for MCP/shared-memory systems that want `incremental` or Stop-hook consolidation without scanning the full corpus. The useful receipt should prove “the hook ran under budget over these recent candidates and produced this lineage-preserving consolidation” without exposing memory contents, customer data, project paths, secrets, or operator notes.
 
+To test memory governance deletion — where a persistent memory layer exposes a forget/delete skill or MCP tool and needs to prove two-step confirmation without leaking the memory bodies — run:
+
+```bash
+node examples/context-input-evidence/convert-memory-governance-delete-log.mjs
+```
+
+It reads `sample-memory-governance-delete-log.jsonl` and writes `memory-governance-delete-receipt.ndjson` plus `memory-governance-delete-otel-trace.json`. The sample emits five event types:
+
+- `memory.governance.delete.requested` — request identity, trigger, scope, delete policy, query/reason hashes, sensitive-class hash, and project-path hash.
+- `memory.governance.delete.candidates.presented` — candidate-count bucket, candidate identity hash, preview policy, preview hash, and whether explicit confirmation is required.
+- `memory.governance.delete.confirmation.recorded` — confirmation identity, channel, confirmed/rejected candidate hashes, and operator-note hash.
+- `memory.governance.delete.completed` — deleted/retained/tombstone counts and hashes, audit-entry identity, before/after store snapshot hashes, status, and latency bucket.
+- `memory.governance.audit.completed` — replay result count, tombstone/retained counts, retention policy, and the explicit audit gap that receipts do not prove physical compaction or backup expiry.
+
+This is for persistent memory systems and forget skills where deletion needs to be safe, explainable, and shareable in bug reports. A useful receipt should prove “these candidates were shown, these exact identities were confirmed, these identities were tombstoned/deleted, and the replay no longer returns them” without exposing raw delete queries, memory bodies, private paths, customer data, or operator notes.
+
 To test skill routing benchmark evidence — where an agent or plugin marketplace loads a cheap description index, routes activation cases, and expands full skill bodies only after selection — run:
 
 ```bash
