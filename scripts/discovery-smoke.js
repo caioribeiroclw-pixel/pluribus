@@ -89,6 +89,13 @@ const trackedExternalDistributions = [
     reason: 'upstream OpenTelemetry GenAI proposal for privacy-first context input evidence in agent traces',
   },
   {
+    name: 'semantic-conventions-genai-context-selection-pr',
+    repo: 'open-telemetry/semantic-conventions-genai',
+    pullRequest: 190,
+    url: 'https://github.com/open-telemetry/semantic-conventions-genai/pull/190',
+    reason: 'external OpenTelemetry GenAI semantic-conventions PR for an experimental privacy-preserving context selection event',
+  },
+  {
     name: 'mcp-protocol-otel-context-receipts',
     repo: 'modelcontextprotocol/modelcontextprotocol',
     discussionNumber: 269,
