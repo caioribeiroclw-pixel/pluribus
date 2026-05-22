@@ -89,6 +89,30 @@ For memory retrieval:
 }
 ```
 
+## Loaded vs. decision-relevant context
+
+A load receipt should not pretend it proves semantic usefulness. It proves the context boundary: what was selected, suppressed, compacted, expanded, returned, or inserted. When a harness or evaluator can later determine what actually affected a decision, emit that as a separate derived receipt instead of overloading `context.input.loaded`.
+
+For example:
+
+```json
+{
+  "name": "context.decision.relevance.evaluated",
+  "attributes": {
+    "session.id": "demo-session",
+    "decision.id_hash": "sha256:...",
+    "context.input.selected_count": 7,
+    "context.input.suppressed_count": 18,
+    "context.decision.input_hashes": ["sha256:...", "sha256:..."],
+    "context.decision.relevance.outcome": "supporting",
+    "context.decision.evaluator": "verifier_or_human_review",
+    "context.decision.audit_gap": "relevance is evaluator-derived; loaded receipts only prove delivery"
+  }
+}
+```
+
+Keep `selected_count` and `suppressed_count` separate. Over-selection and duplicate discovery are different failure modes, and collapsing them makes stale-context/debug reports less useful.
+
 ## Privacy defaults
 
 Default to safe evidence:
