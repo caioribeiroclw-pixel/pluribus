@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased]
+
+All notable changes to Pluribus are documented here.
+
+## 0.3.24 - 2026-05-22
+
+- Added the `Context receipts for agent observability` guide, positioning privacy-safe receipts as evidence for what crossed an agent context boundary alongside OpenTelemetry spans and agent-run traces.
+- Added executable context receipt demos for context input loading, post-hoc session-log conversion, skill/plugin invocation, AGENTS.md overlays, shared-memory retrieval, memory consolidation, governance delete/forget, self-remediating brain/doctor runs, context compaction, MCP Tool Search, and GitHub MCP secret scanning.
+- Added OpenTelemetry-style trace fixtures that preserve hashes, counts, buckets, lifecycle state, selection/suppression decisions, and audit gaps without exporting raw prompts, secrets, tool outputs, memory bodies, transcripts, or private paths.
+- Extended discovery smoke tracking for external context-observability, MCP, memory, skills, and directory/list feedback channels so artifact-first distribution attempts remain measurable.
+- Updated README/docs links so users and reviewers can find context receipts from the package page and run the shipped examples from the npm tarball.
+
 ## 0.3.23 - 2026-05-19
 
 - Extended `pluribus audit --fidelity-report` with `duplicateLoadEvidence` so reviewers can see the generated candidate, content hash, inferred selected load, and the explicit fact that runtime scanner roots/caches/plugin duplicates are not yet inspected.
@@ -23,22 +35,6 @@
 - Added a 60-second native-vs-fallback smoke to the community review packet so directory/list reviewers can see Bob native `.bob/rules/*.md` differ from OpenClaw/AGENTS.md generic fallback.
 - Extended `npm run review:smoke` to execute that fidelity demo against the published npm package and assert `nativeDiscoverySurface`, `genericFallback`, and `manualActivationRequired` fields.
 
-## [Unreleased]
-
-All notable changes to Pluribus are documented here.
-
-- Added an orchestration-layer search receipt sketch for evaluating code-search/MCP retrieval/RAG tools from the harness layer with privacy-preserving counts, paths, hashes, fallback reads, and loop evidence.
-- Added a context input evidence sketch and executable demo showing why agent traces should separate `source.bytes_hash`, `source.canonical_hash`, and `delivered.hash` instead of using one ambiguous `content.hash`.
-- Added an OpenTelemetry-style trace fixture for context input receipts, with one `agent.session` span and `context.input.loaded` SpanEvents carrying hashes, session identity, full-render status, and suppression policy without raw prompt text.
-- Added a post-hoc session-log conversion demo that turns a small JSONL agent session into privacy-first `context.input.loaded` receipts and an OTel-style trace without copying raw context, prompts, tool arguments, memory contents, or transcripts into the output.
-- Added a skill/plugin invocation receipt demo that turns a small skill log into privacy-first `context.skill.invoked` events with activation mode, hook event, source/delivered hashes, suppression policy, expected benefit, and eval gap without copying raw skill prompts.
-- Added an agent-specific `AGENTS.md` overlay receipt demo that proves base + target overlay load order, target-agent applicability, fallback policy, and suppressed non-target overlays without copying raw instruction text.
-- Added a shared-memory retrieval receipt demo that separates `memory.search.returned` from `context.input.loaded`, so MCP/shared-memory systems can prove what was returned and what was actually loaded without copying raw queries or memory bodies.
-- Added a self-remediating brain/doctor receipt demo that proves pre-check, selected plan, submitted/skipped/refused jobs, protected phases, cost boundary, and post-check without copying raw brain pages, graph nodes, plan text, candidate deletes, or operator notes.
-- Added a context compaction receipt demo that proves compaction trigger, item-level preserve/summarize/drop decisions, objective continuity hashes, and audit gaps without copying raw prompts, private context, tool outputs, memory bodies, summaries, or transcripts.
-- Added a GitHub MCP secret scanning receipt demo that proves scan request, redacted findings, bypass policy evaluation, and clean rescan without copying raw secrets, private paths, prompts, tool responses, or ticket text.
-- Added a memory governance delete receipt demo that proves two-step forget/delete requests, candidate presentation, confirmation, tombstones/deletes, replay checks, and audit gaps without copying raw delete queries, memory bodies, private paths, customer data, or operator notes.
-- Tracked the Memorix, GBrain, and Claude Code auditability receipt issues in discovery smoke so cross-agent memory handoff, self-remediating memory, and compaction/objective-continuity feedback are measured alongside Supermemory, Claude/Cowork skills, trace viewers, and OTel context receipt channels.
 
 ## 0.3.19 — Bob native discovery target
 
