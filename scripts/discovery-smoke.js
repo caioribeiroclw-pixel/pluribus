@@ -242,6 +242,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/traceloop/openllmetry/issues/3460',
     reason: 'contextual AI agent observability RFC feedback about privacy-safe context selection pressure before LLM/tool spans',
   },
+  {
+    name: 'mcp-token-bloat-selection-receipts',
+    repo: 'modelcontextprotocol/modelcontextprotocol',
+    issueNumber: 1576,
+    url: 'https://github.com/modelcontextprotocol/modelcontextprotocol/issues/1576',
+    reason: 'contextual MCP SEP feedback about privacy-safe tool selection receipts for schema/token-bloat mitigation',
+  },
 ]
 
 function run(command, args) {
