@@ -200,6 +200,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/Meirtz/Awesome-Context-Engineering/pull/62',
     reason: 'contextual context-engineering directory submission under agent observability for privacy-safe context receipts',
   },
+  {
+    name: 'opencode-mcp-tool-search-receipts',
+    repo: 'anomalyco/opencode',
+    issueNumber: 8625,
+    url: 'https://github.com/anomalyco/opencode/issues/8625',
+    reason: 'contextual opencode MCP lazy/tool-search discussion about context-budget receipts for deferred tool definitions',
+  },
 ]
 
 function run(command, args) {
