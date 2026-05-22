@@ -194,6 +194,13 @@ const trackedExternalDistributions = [
     reason: 'contextual Agent Skills feedback about privacy-safe skill routing benchmark receipts and lazy skill body loading evidence',
   },
   {
+    name: 'agent-skills-context-receipts-skill',
+    repo: 'muratcankoylan/Agent-Skills-for-Context-Engineering',
+    pullRequest: 88,
+    url: 'https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering/pull/88',
+    reason: 'external skill contribution that turns privacy-safe context receipts into an immediately installable Agent Skill for context-engineering users',
+  },
+  {
     name: 'awesome-context-engineering-context-receipts',
     repo: 'Meirtz/Awesome-Context-Engineering',
     pullRequest: 62,
