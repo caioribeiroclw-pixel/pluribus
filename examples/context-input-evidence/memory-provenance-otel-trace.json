@@ -1,0 +1,711 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-team-memory-provenance-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.team_memory_provenance_demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "65031f34b5315b5105eea0b1b0d50aa5",
+              "spanId": "4af5a68d1209bbc6",
+              "parentSpanId": "",
+              "name": "agent.session",
+              "kind": 1,
+              "startTimeUnixNano": "1779548400000000000",
+              "endTimeUnixNano": "1779548700001000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "team-memory-demo-session"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "team-memory-demo-conversation"
+                  }
+                },
+                {
+                  "key": "gen_ai.agent.name",
+                  "value": {
+                    "stringValue": "claude-code-agent-team"
+                  }
+                },
+                {
+                  "key": "gen_ai.operation.name",
+                  "value": {
+                    "stringValue": "agent_session"
+                  }
+                },
+                {
+                  "key": "code.repository.name",
+                  "value": {
+                    "stringValue": "acme/private-checkout"
+                  }
+                },
+                {
+                  "key": "pluribus.team_memory.write.count",
+                  "value": {
+                    "intValue": "3"
+                  }
+                },
+                {
+                  "key": "pluribus.team_memory.hydration.count",
+                  "value": {
+                    "intValue": "1"
+                  }
+                },
+                {
+                  "key": "pluribus.team_memory.provenance_evaluation.count",
+                  "value": {
+                    "intValue": "1"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "team_memory.entry.promoted",
+                  "timeUnixNano": "1779548460000000000",
+                  "attributes": [
+                    {
+                      "key": "team_memory.team.hash",
+                      "value": {
+                        "stringValue": "sha256:8c9cf91cba73"
+                      }
+                    },
+                    {
+                      "key": "team_memory.scope.hash",
+                      "value": {
+                        "stringValue": "sha256:bb88d0602bcd"
+                      }
+                    },
+                    {
+                      "key": "team_memory.visibility",
+                      "value": {
+                        "stringValue": "team"
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "team-memory-demo-session"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "team-memory-demo-conversation"
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.id_hash",
+                      "value": {
+                        "stringValue": "sha256:d74623cfddaf"
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.sequence",
+                      "value": {
+                        "intValue": "1042"
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.operation",
+                      "value": {
+                        "stringValue": "promoted"
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.body_hash",
+                      "value": {
+                        "stringValue": "sha256:f2679b58b0237a2c4236b2b1ecb5e0fbc5a6f205b5d1a0ae22abb43d709acb2d"
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.body_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.previous.id_hash",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "team_memory.author.agent.id_hash",
+                      "value": {
+                        "stringValue": "sha256:9cd8f2876ff9"
+                      }
+                    },
+                    {
+                      "key": "team_memory.author.human.id_hash",
+                      "value": {
+                        "stringValue": "sha256:882413b33770"
+                      }
+                    },
+                    {
+                      "key": "team_memory.author.role",
+                      "value": {
+                        "stringValue": "engineering_manager"
+                      }
+                    },
+                    {
+                      "key": "team_memory.source.session.id_hash",
+                      "value": {
+                        "stringValue": "sha256:f7f1786b329c"
+                      }
+                    },
+                    {
+                      "key": "team_memory.source.compaction_epoch",
+                      "value": {
+                        "intValue": "12"
+                      }
+                    },
+                    {
+                      "key": "team_memory.promotion.reason_hash",
+                      "value": {
+                        "stringValue": "sha256:2a709b0b25795ae1406afb25fbb59f305f6504a34228fe12e85599fd757664b2"
+                      }
+                    },
+                    {
+                      "key": "team_memory.decision.scope",
+                      "value": {
+                        "stringValue": "incident_response"
+                      }
+                    },
+                    {
+                      "key": "team_memory.privacy.raw_body_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "team_memory.privacy.raw_rationale_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "team_memory.entry.promoted",
+                  "timeUnixNano": "1779548520000000000",
+                  "attributes": [
+                    {
+                      "key": "team_memory.team.hash",
+                      "value": {
+                        "stringValue": "sha256:8c9cf91cba73"
+                      }
+                    },
+                    {
+                      "key": "team_memory.scope.hash",
+                      "value": {
+                        "stringValue": "sha256:bb88d0602bcd"
+                      }
+                    },
+                    {
+                      "key": "team_memory.visibility",
+                      "value": {
+                        "stringValue": "team"
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "team-memory-demo-session"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "team-memory-demo-conversation"
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.id_hash",
+                      "value": {
+                        "stringValue": "sha256:e75c0115e6e5"
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.sequence",
+                      "value": {
+                        "intValue": "1043"
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.operation",
+                      "value": {
+                        "stringValue": "promoted"
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.body_hash",
+                      "value": {
+                        "stringValue": "sha256:455f67cc6242ee10a66d3f230598a8caace7b4dd63e2c264c0d8351bc7c98959"
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.body_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.previous.id_hash",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "team_memory.author.agent.id_hash",
+                      "value": {
+                        "stringValue": "sha256:b708dd54a5d9"
+                      }
+                    },
+                    {
+                      "key": "team_memory.author.human.id_hash",
+                      "value": {
+                        "stringValue": "sha256:bfd848adb945"
+                      }
+                    },
+                    {
+                      "key": "team_memory.author.role",
+                      "value": {
+                        "stringValue": "domain_expert"
+                      }
+                    },
+                    {
+                      "key": "team_memory.source.session.id_hash",
+                      "value": {
+                        "stringValue": "sha256:25e85950ae22"
+                      }
+                    },
+                    {
+                      "key": "team_memory.source.compaction_epoch",
+                      "value": {
+                        "intValue": "4"
+                      }
+                    },
+                    {
+                      "key": "team_memory.promotion.reason_hash",
+                      "value": {
+                        "stringValue": "sha256:3fc9b21d8be6c8a92b814eb331fda1432e016ed1e6bdba8559bfa10775adda76"
+                      }
+                    },
+                    {
+                      "key": "team_memory.decision.scope",
+                      "value": {
+                        "stringValue": "implementation"
+                      }
+                    },
+                    {
+                      "key": "team_memory.privacy.raw_body_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "team_memory.privacy.raw_rationale_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "team_memory.entry.corrected",
+                  "timeUnixNano": "1779548580000000000",
+                  "attributes": [
+                    {
+                      "key": "team_memory.team.hash",
+                      "value": {
+                        "stringValue": "sha256:8c9cf91cba73"
+                      }
+                    },
+                    {
+                      "key": "team_memory.scope.hash",
+                      "value": {
+                        "stringValue": "sha256:bb88d0602bcd"
+                      }
+                    },
+                    {
+                      "key": "team_memory.visibility",
+                      "value": {
+                        "stringValue": "team"
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "team-memory-demo-session"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "team-memory-demo-conversation"
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.id_hash",
+                      "value": {
+                        "stringValue": "sha256:e75c0115e6e5"
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.sequence",
+                      "value": {
+                        "intValue": "1044"
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.operation",
+                      "value": {
+                        "stringValue": "corrected"
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.body_hash",
+                      "value": {
+                        "stringValue": "sha256:2737769ac5f680d7f85b2286d8256e75b7357a046b8596329f611ca98f5020f2"
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.body_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "team_memory.entry.previous.id_hash",
+                      "value": {
+                        "stringValue": "sha256:e75c0115e6e5"
+                      }
+                    },
+                    {
+                      "key": "team_memory.author.agent.id_hash",
+                      "value": {
+                        "stringValue": "sha256:b708dd54a5d9"
+                      }
+                    },
+                    {
+                      "key": "team_memory.author.human.id_hash",
+                      "value": {
+                        "stringValue": "sha256:bfd848adb945"
+                      }
+                    },
+                    {
+                      "key": "team_memory.author.role",
+                      "value": {
+                        "stringValue": "domain_expert"
+                      }
+                    },
+                    {
+                      "key": "team_memory.source.session.id_hash",
+                      "value": {
+                        "stringValue": "sha256:25e85950ae22"
+                      }
+                    },
+                    {
+                      "key": "team_memory.source.compaction_epoch",
+                      "value": {
+                        "intValue": "5"
+                      }
+                    },
+                    {
+                      "key": "team_memory.promotion.reason_hash",
+                      "value": {
+                        "stringValue": "sha256:fe19d63f4a11f146ed7f54656f6d6048eecd222b32f590b3beeb2a7398d19709"
+                      }
+                    },
+                    {
+                      "key": "team_memory.decision.scope",
+                      "value": {
+                        "stringValue": "implementation"
+                      }
+                    },
+                    {
+                      "key": "team_memory.privacy.raw_body_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "team_memory.privacy.raw_rationale_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "team_memory.bundle.hydrated",
+                  "timeUnixNano": "1779548640000000000",
+                  "attributes": [
+                    {
+                      "key": "team_memory.team.hash",
+                      "value": {
+                        "stringValue": "sha256:8c9cf91cba73"
+                      }
+                    },
+                    {
+                      "key": "team_memory.scope.hash",
+                      "value": {
+                        "stringValue": "sha256:bb88d0602bcd"
+                      }
+                    },
+                    {
+                      "key": "team_memory.visibility",
+                      "value": {
+                        "stringValue": "unknown"
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "team-memory-demo-session"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "team-memory-demo-conversation"
+                      }
+                    },
+                    {
+                      "key": "team_memory.consumer.agent.id_hash",
+                      "value": {
+                        "stringValue": "sha256:e670c8aca7cd"
+                      }
+                    },
+                    {
+                      "key": "team_memory.ticket.id_hash",
+                      "value": {
+                        "stringValue": "sha256:16a23ff0bb7b"
+                      }
+                    },
+                    {
+                      "key": "team_memory.selection.policy",
+                      "value": {
+                        "stringValue": "ticket_scope_and_recent_corrections"
+                      }
+                    },
+                    {
+                      "key": "team_memory.query.hash",
+                      "value": {
+                        "stringValue": "sha256:03fb4545c2d0f1b9c13ebe95801f636f142b0afe964c6122fa9591e80235125e"
+                      }
+                    },
+                    {
+                      "key": "team_memory.candidate.count",
+                      "value": {
+                        "intValue": "3"
+                      }
+                    },
+                    {
+                      "key": "team_memory.selected.count",
+                      "value": {
+                        "intValue": "2"
+                      }
+                    },
+                    {
+                      "key": "team_memory.suppressed.count",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "team_memory.selected.entry_ids_hash",
+                      "value": {
+                        "stringValue": "sha256:61abb76f4902f003539aed31570e81366cf694ae4b89bb823eeccb0cbd2b377d"
+                      }
+                    },
+                    {
+                      "key": "team_memory.suppressed.entry_ids_hash",
+                      "value": {
+                        "stringValue": "sha256:627980ad2b5392def184888734d02da55632d62a49861e1fc5f480143d1527b8"
+                      }
+                    },
+                    {
+                      "key": "team_memory.loaded.sequence_min",
+                      "value": {
+                        "intValue": "1042"
+                      }
+                    },
+                    {
+                      "key": "team_memory.loaded.sequence_max",
+                      "value": {
+                        "intValue": "1044"
+                      }
+                    },
+                    {
+                      "key": "team_memory.loaded.ordering",
+                      "value": {
+                        "stringValue": "monotonic_team_memory_sequence"
+                      }
+                    },
+                    {
+                      "key": "team_memory.bundle.body_hash",
+                      "value": {
+                        "stringValue": "sha256:442211a9bbde223d230eec31cbde28a66d0c4e181d7aa967f813f564ad2db6f2"
+                      }
+                    },
+                    {
+                      "key": "team_memory.bundle.body_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "team_memory.privacy.raw_query_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "team_memory.privacy.raw_bundle_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "team_memory.provenance.evaluated",
+                  "timeUnixNano": "1779548700000000000",
+                  "attributes": [
+                    {
+                      "key": "team_memory.team.hash",
+                      "value": {
+                        "stringValue": "sha256:8c9cf91cba73"
+                      }
+                    },
+                    {
+                      "key": "team_memory.scope.hash",
+                      "value": {
+                        "stringValue": "sha256:bb88d0602bcd"
+                      }
+                    },
+                    {
+                      "key": "team_memory.visibility",
+                      "value": {
+                        "stringValue": "unknown"
+                      }
+                    },
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "team-memory-demo-session"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "team-memory-demo-conversation"
+                      }
+                    },
+                    {
+                      "key": "team_memory.consumer.agent.id_hash",
+                      "value": {
+                        "stringValue": "sha256:e670c8aca7cd"
+                      }
+                    },
+                    {
+                      "key": "team_memory.selected.count",
+                      "value": {
+                        "intValue": "2"
+                      }
+                    },
+                    {
+                      "key": "team_memory.selected.known_author_count",
+                      "value": {
+                        "intValue": "2"
+                      }
+                    },
+                    {
+                      "key": "team_memory.selected.unknown_author_count",
+                      "value": {
+                        "intValue": "0"
+                      }
+                    },
+                    {
+                      "key": "team_memory.loaded.ordered_sequence_count",
+                      "value": {
+                        "intValue": "3"
+                      }
+                    },
+                    {
+                      "key": "team_memory.relevance.decisive_count",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "team_memory.relevance.supporting_count",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "team_memory.relevance.unused_count",
+                      "value": {
+                        "intValue": "0"
+                      }
+                    },
+                    {
+                      "key": "team_memory.relevance.unknown_count",
+                      "value": {
+                        "intValue": "0"
+                      }
+                    },
+                    {
+                      "key": "team_memory.accounting.invariant",
+                      "value": {
+                        "stringValue": "selected_count == known_author_count + unknown_author_count && selected_count == decisive_count + supporting_count + unused_count + unknown_relevance_count"
+                      }
+                    },
+                    {
+                      "key": "team_memory.audit_gap",
+                      "value": {
+                        "stringValue": "proves authorship/order/loading, not factual correctness of the memory body"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

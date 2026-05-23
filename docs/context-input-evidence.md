@@ -227,6 +227,21 @@ It reads `sample-memory-retrieval-log.jsonl` and writes `memory-receipt.ndjson` 
 
 The split is intentional. A shared-memory server can prove “these memories were returned for this query/snapshot,” but only the client or harness can prove “this returned memory entered the prompt/context.” The fixture redacts raw query text, raw memory text, prompts, tool arguments, secrets, and transcript bodies from the receipt/trace.
 
+To test shared team-memory provenance — where several engineers/agents promote, correct, and hydrate memories across handoffs — run:
+
+```bash
+node examples/context-input-evidence/convert-memory-provenance-log.mjs
+```
+
+It reads `sample-memory-provenance-log.jsonl` and writes `memory-provenance-receipt.ndjson` plus `memory-provenance-otel-trace.json`. The sample emits four event types:
+
+- `team_memory.entry.promoted` — a memory was promoted to team scope, with hashed entry identity, author agent identity, author human identity, role, source session, compaction epoch, and monotonic sequence.
+- `team_memory.entry.corrected` — a later correction/supersession was recorded without exposing the raw memory body or private ticket/runbook text.
+- `team_memory.bundle.hydrated` — a receiving agent loaded a selected set of team memories for a handoff, while non-target memories stayed suppressed.
+- `team_memory.provenance.evaluated` — the selected bundle is accounted for by known/unknown author counts and decisive/supporting/unused/unknown relevance buckets.
+
+This is for shared-memory systems where the first operational questions are “who wrote this memory?”, “in what order did corrections happen?”, and “which entries actually hydrated into the receiving agent context?” The fixture enforces that every hydrated memory has known author provenance and that `selected_count` is fully accounted for by author and relevance buckets. It does **not** prove the memory content is true, and it does not export raw memory bodies, incident notes, private paths, prompts, tickets, secrets, or customer data.
+
 To test self-remediating memory/knowledge-graph flows — where a brain runs a doctor/autopilot/repair pass with a target score and budget cap — run:
 
 ```bash

@@ -180,6 +180,13 @@ const trackedExternalDistributions = [
     reason: 'contextual Claude Code reliability/auditability feedback about privacy-safe context compaction receipts and objective continuity',
   },
   {
+    name: 'claude-code-shared-team-memory-provenance',
+    repo: 'anthropics/claude-code',
+    issueNumber: 38536,
+    url: 'https://github.com/anthropics/claude-code/issues/38536',
+    reason: 'contextual Claude Code shared team-memory feedback about privacy-safe author/order/hydration receipts for handoffs',
+  },
+  {
     name: 'claude-plugins-mcp-tool-search-receipts',
     repo: 'aiocean/claude-plugins',
     issueNumber: 14,
