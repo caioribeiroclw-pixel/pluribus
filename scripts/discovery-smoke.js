@@ -257,11 +257,11 @@ const trackedExternalDistributions = [
     reason: 'contextual MCP SEP feedback about privacy-safe tool selection receipts for schema/token-bloat mitigation',
   },
   {
-    name: 'mcp-checkup-context-receipt-tool',
-    repo: 'yifanyifan897645/mcp-checkup',
-    pullRequest: 2,
-    url: 'https://github.com/yifanyifan897645/mcp-checkup/pull/2',
-    reason: 'external implementation PR adding privacy-safe MCP context selection receipt export to an MCP token-bloat analyzer',
+    name: 'opentelemetry-skill-context-boundary-receipts',
+    repo: 'o11y-dev/opentelemetry-skill',
+    pullRequest: 78,
+    url: 'https://github.com/o11y-dev/opentelemetry-skill/pull/78',
+    reason: 'external OpenTelemetry skill docs contribution for privacy-safe context selection and lazy hydration receipts in AI coding agent observability',
   },
 ]
 
