@@ -145,6 +145,13 @@ const trackedExternalDistributions = [
     reason: 'contextual Claude/Cowork OTel feedback about privacy-first skill invocation receipts',
   },
   {
+    name: 'claude-code-lazy-context-loading-receipts',
+    repo: 'anthropics/claude-code',
+    issueNumber: 44536,
+    url: 'https://github.com/anthropics/claude-code/issues/44536',
+    reason: 'contextual Claude Code lazy context loading feedback about privacy-safe receipts for selected/hydrated/suppressed skills, rules, instructions, memory, and MCP components',
+  },
+  {
     name: 'supermemory-retrieval-receipts',
     repo: 'supermemoryai/supermemory',
     issueNumber: 985,
