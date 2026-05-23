@@ -270,6 +270,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/o11y-dev/opentelemetry-skill/pull/78',
     reason: 'external OpenTelemetry skill docs contribution for privacy-safe context selection and lazy hydration receipts in AI coding agent observability',
   },
+  {
+    name: 'autogpt-self-distilled-skill-registry-receipts',
+    repo: 'Significant-Gravitas/AutoGPT',
+    pullRequest: 13195,
+    url: 'https://github.com/Significant-Gravitas/AutoGPT/pull/13195',
+    reason: 'contextual AutoGPT self-distilled skills registry feedback about privacy-safe index/read/injection/reuse receipts',
+  },
 ]
 
 function run(command, args) {

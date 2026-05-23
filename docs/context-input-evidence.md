@@ -129,6 +129,22 @@ It reads `skill-invocation-log.jsonl` and writes `skill-receipt.ndjson` plus `sk
 
 That split matters for Claude/Cowork-style telemetry: tool spans can prove MCP/tool calls happened, but skills may be expanded as invisible prompt context. A useful receipt should show both “which skill was invoked?” and “what prompt-like context entered the session?” without requiring raw skill bodies in the OTEL stream.
 
+To test self-distilled skill registries — where an agent stores reusable skills, injects a compact index, reads a full skill body only after an index match, and then reuses the skill in a later decision — run:
+
+```bash
+node examples/context-input-evidence/convert-skill-registry-log.mjs
+```
+
+It reads `sample-skill-registry-log.jsonl` and writes `skill-registry-receipt.ndjson` plus `skill-registry-otel-trace.json`. The sample emits:
+
+- `context.skill.registry.index.loaded` — the compact index entered context, while full skill bodies stayed out;
+- `context.skill.registry.skill.stored` — a self-distilled skill was written to the registry;
+- `context.skill.registry.skill.read` — the full skill body was read after an index match;
+- `context.skill.registry.skill.injected` — the skill body crossed into the agent context and other skills stayed suppressed; and
+- `context.skill.registry.reuse.evaluated` — a later decision accounts for whether the selected skill was decisive, supporting, unused, or unknown.
+
+The fixture intentionally includes raw/private skill body text in the synthetic input, then proves those strings do not appear in the receipt or trace. That is the difference between “skills as memory/index runtime” and a safe receipt: operators can prove index → read → injection → reuse without publishing raw skill bodies, customer names, private paths, secrets, or incident notes.
+
 To test agent-specific `AGENTS.md` overlays — where a shared base file is combined with one target-specific file such as `AGENTS.cursor.md`, `AGENTS.codex.md`, or another future standard — run:
 
 ```bash
