@@ -153,6 +153,8 @@ It reads `sample-context-selection-log.jsonl` and writes `context-selection-rece
 
 The important pre-verifier signal is cheap: `selected_count`, `suppressed_count`, and `delivered_hash_count` answer “did we load too much context, or the wrong context?” without storing the raw prompt, raw memory bodies, private paths, ticket text, tool output, secrets, or customer data.
 
+When the optional relevance event exists, it keeps the over-selection delta explicit with decisive/supporting/unused/unknown counts. The fixture enforces the invariant `selected_count == decisive_count + supporting_count + unused_count + unknown_count`, so selected-but-not-useful inputs cannot disappear into a generic count bucket.
+
 The receipt should stay narrower than the overlay standard itself. It does **not** require the standard to add frontmatter, classify user intent, or protect users from writing bad target-specific guidance. The minimum useful contract is behavioral:
 
 1. which candidate files the harness discovered;

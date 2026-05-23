@@ -113,6 +113,14 @@ For example:
 
 Keep `selected_count` and `suppressed_count` separate. Over-selection and duplicate discovery are different failure modes, and collapsing them makes stale-context/debug reports less useful.
 
+When a later relevance receipt exists, keep one invariant visible: `selected_count` must be at least `decisive_count + supporting_count`, and any selected input that was not decisive/supporting should remain explicit as `unused_count` or `unknown_count`. In practice, the strongest shareable receipt accounts for the whole selected set:
+
+```text
+selected_count == decisive_count + supporting_count + unused_count + unknown_count
+```
+
+That prevents a trace from claiming “over-selection” while hiding whether the extra context was merely delivered, actually useful, or not yet evaluated.
+
 A cheap bridge before a full relevance evaluator exists is a selection receipt that answers the operator question: **did we load too much context, or the wrong context?** The minimal fields are:
 
 - `context.input.selected_count`;
@@ -120,7 +128,7 @@ A cheap bridge before a full relevance evaluator exists is a selection receipt t
 - `context.input.delivered_hash_count`; and
 - optional `context.decision.relevance_evaluator` when a later relevance event exists.
 
-This does not prove which input mattered. It does make over-selection visible immediately: five delivered inputs for one coding-agent decision is a different failure mode from one delivered input that was simply the wrong one.
+This does not prove which input mattered. It does make over-selection visible immediately: five delivered inputs for one coding-agent decision is a different failure mode from one delivered input that was simply the wrong one. If post-hoc relevance is later available, add decisive/supporting/unused/unknown counts instead of collapsing the delta into a generic bucket.
 
 ## Privacy defaults
 

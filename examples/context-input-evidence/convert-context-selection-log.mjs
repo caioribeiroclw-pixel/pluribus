@@ -117,8 +117,28 @@ const selectionEvent = {
 const events = [selectionEvent, ...inputEvents];
 
 if (relevance) {
-  const relevantHashes = inputs
-    .filter((input) => (relevance.relevant_selection_ranks ?? []).includes(input.selection_rank))
+  const selectedCount = relevance.selected_count ?? selection.selected_count ?? inputs.length;
+  const decisiveRanks = relevance.decisive_selection_ranks ?? [];
+  const supportingRanks = relevance.supporting_selection_ranks ?? relevance.relevant_selection_ranks ?? [];
+  const unusedRanks = relevance.unused_selection_ranks ?? [];
+  const unknownRanks = relevance.unknown_selection_ranks ?? [];
+  const decisiveCount = decisiveRanks.length;
+  const supportingCount = supportingRanks.length;
+  const unusedCount = unusedRanks.length;
+  const unknownCount = unknownRanks.length;
+  const accountedCount = decisiveCount + supportingCount + unusedCount + unknownCount;
+
+  if (decisiveCount + supportingCount > selectedCount) {
+    throw new Error(`Invalid relevance receipt: decisive_count + supporting_count (${decisiveCount + supportingCount}) exceeds selected_count (${selectedCount})`);
+  }
+
+  if (accountedCount !== selectedCount) {
+    throw new Error(`Invalid relevance receipt: selected_count (${selectedCount}) must equal decisive + supporting + unused + unknown (${accountedCount}) so over-selection does not disappear into a generic bucket`);
+  }
+
+  const decisionInputRanks = [...decisiveRanks, ...supportingRanks];
+  const decisionInputHashes = inputs
+    .filter((input) => decisionInputRanks.includes(input.selection_rank))
     .map((input) => sha256(`${sessionId}:${input.source_id}:${input.selection_rank}:${input.token_bucket}`));
 
   events.push({
@@ -130,10 +150,16 @@ if (relevance) {
       'session.id': sessionId,
       'gen_ai.conversation.id': conversationId,
       'decision.id_hash': sha256(relevance.decision_id ?? 'unknown-decision'),
-      'context.input.selected_count': relevance.selected_count ?? selection.selected_count ?? inputs.length,
+      'context.input.selected_count': selectedCount,
       'context.input.suppressed_count': relevance.suppressed_count ?? selection.suppressed_count ?? 0,
       'context.input.delivered_hash_count': relevance.delivered_hash_count ?? selection.delivered_hash_count ?? inputEvents.length,
-      'context.decision.input_hashes': relevantHashes,
+      'context.decision.input_hashes': decisionInputHashes,
+      'context.decision.relevance.decisive_count': decisiveCount,
+      'context.decision.relevance.supporting_count': supportingCount,
+      'context.decision.relevance.unused_count': unusedCount,
+      'context.decision.relevance.unknown_count': unknownCount,
+      'context.decision.relevance.accounted_count': accountedCount,
+      'context.decision.relevance.invariant': 'selected_count == decisive_count + supporting_count + unused_count + unknown_count; decisive_count + supporting_count <= selected_count',
       'context.decision.relevance.outcome': relevance.relevance_outcome ?? 'unknown',
       'context.decision.evaluator': relevance.decision_relevance_evaluator ?? 'unknown',
       'context.decision.audit_gap': relevance.audit_gap ?? 'relevance is evaluator-derived; loaded receipts only prove delivery'
@@ -217,5 +243,5 @@ console.log(JSON.stringify({
   deliveredHashCount: selection.delivered_hash_count,
   hasDecisionRelevanceEvent: Boolean(relevance),
   privacyDefault: 'outputs hashes, buckets, counts, ranks, categorical fields, and audit gaps; does not copy raw prompts, customer names, private paths, secrets, tool output, or memory bodies',
-  lesson: 'The cheap first signal is over-selection: selected_count and delivered_hash_count can show too much context crossed the boundary before any relevance evaluator exists.'
+  lesson: 'The cheap first signal is over-selection: selected_count and delivered_hash_count can show too much context crossed the boundary before any relevance evaluator exists. When relevance exists, decisive/supporting/unused/unknown counts must account for selected_count so over-selection stays explicit.'
 }, null, 2));

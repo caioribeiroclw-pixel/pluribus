@@ -562,6 +562,42 @@
                       }
                     },
                     {
+                      "key": "context.decision.relevance.decisive_count",
+                      "value": {
+                        "intValue": "0"
+                      }
+                    },
+                    {
+                      "key": "context.decision.relevance.supporting_count",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "context.decision.relevance.unused_count",
+                      "value": {
+                        "intValue": "4"
+                      }
+                    },
+                    {
+                      "key": "context.decision.relevance.unknown_count",
+                      "value": {
+                        "intValue": "0"
+                      }
+                    },
+                    {
+                      "key": "context.decision.relevance.accounted_count",
+                      "value": {
+                        "intValue": "5"
+                      }
+                    },
+                    {
+                      "key": "context.decision.relevance.invariant",
+                      "value": {
+                        "stringValue": "selected_count == decisive_count + supporting_count + unused_count + unknown_count; decisive_count + supporting_count <= selected_count"
+                      }
+                    },
+                    {
                       "key": "context.decision.relevance.outcome",
                       "value": {
                         "stringValue": "over_selected_one_supporting_four_unused"
