@@ -208,6 +208,13 @@ const trackedExternalDistributions = [
     reason: 'contextual persistent memory feedback about privacy-safe governance/delete receipts for forget skills and audit logs',
   },
   {
+    name: 'agentmemory-privacy-safe-audit-receipts',
+    repo: 'rohitg00/agentmemory',
+    pullRequest: 617,
+    url: 'https://github.com/rohitg00/agentmemory/pull/617',
+    reason: 'external implementation PR adding opt-in privacy-safe hashed audit receipts to a high-traction persistent memory project',
+  },
+  {
     name: 'github-mcp-secret-scanning-receipts',
     repo: 'github/github-mcp-server',
     issueNumber: 1921,
