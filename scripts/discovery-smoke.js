@@ -284,6 +284,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/Significant-Gravitas/AutoGPT/pull/13195',
     reason: 'contextual AutoGPT self-distilled skills registry feedback about privacy-safe index/read/injection/reuse receipts',
   },
+  {
+    name: 'mnemon-memory-operation-receipts',
+    repo: 'mnemon-dev/mnemon',
+    pullRequest: 34,
+    url: 'https://github.com/mnemon-dev/mnemon/pull/34',
+    reason: 'external implementation PR adding privacy-safe memory operation receipt exports to a fast-growing LLM-supervised persistent memory project',
+  },
 ]
 
 function run(command, args) {
