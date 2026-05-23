@@ -4,6 +4,11 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.25 - 2026-05-23
+
+- Re-aligned npm package discovery metadata so the public package description preserves core search terms (`AI context`, `rules sync`, `Claude.md`, `Claude Code`, `Cursor`, and `Copilot instructions`) while retaining the new privacy-safe context receipts positioning.
+- Prepared the npm distribution catch-up from GitHub/local `0.3.24` to public `0.3.25`, so users reached through external PRs can install the current receipt demos and docs via `pluribus-context@latest`.
+
 ## 0.3.24 - 2026-05-22
 
 - Added the `Context receipts for agent observability` guide, positioning privacy-safe receipts as evidence for what crossed an agent context boundary alongside OpenTelemetry spans and agent-run traces.

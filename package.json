@@ -1,7 +1,7 @@
 {
   "name": "pluribus-context",
-  "version": "0.3.24",
-  "description": "Privacy-safe context receipts for AI coding agents: prove what context, memory, tools, skills, compactions, and security findings crossed agent boundaries without logging raw content.",
+  "version": "0.3.25",
+  "description": "AI context and rules sync CLI for Claude.md, Claude Code, Cursor, and Copilot instructions, with privacy-safe context receipts that prove what memory, tools, skills, compactions, and security findings crossed agent boundaries without logging raw content.",
   "type": "module",
   "homepage": "https://github.com/caioribeiroclw-pixel/pluribus#readme",
   "repository": {
