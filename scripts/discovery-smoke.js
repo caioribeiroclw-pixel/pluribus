@@ -298,6 +298,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/mnemon-dev/mnemon/pull/34',
     reason: 'external implementation PR adding privacy-safe memory operation receipt exports to a fast-growing LLM-supervised persistent memory project',
   },
+  {
+    name: 'claude-code-auto-memory-privacy-safe-receipts',
+    repo: 'severity1/claude-code-auto-memory',
+    pullRequest: 34,
+    url: 'https://github.com/severity1/claude-code-auto-memory/pull/34',
+    reason: 'external implementation PR adding opt-in privacy-safe requested/completed receipts to a Claude Code CLAUDE.md auto-memory plugin',
+  },
 ]
 
 function run(command, args) {
