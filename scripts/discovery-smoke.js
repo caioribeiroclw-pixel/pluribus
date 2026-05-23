@@ -256,6 +256,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/modelcontextprotocol/modelcontextprotocol/issues/1576',
     reason: 'contextual MCP SEP feedback about privacy-safe tool selection receipts for schema/token-bloat mitigation',
   },
+  {
+    name: 'mcp-checkup-context-receipt-tool',
+    repo: 'yifanyifan897645/mcp-checkup',
+    pullRequest: 2,
+    url: 'https://github.com/yifanyifan897645/mcp-checkup/pull/2',
+    reason: 'external implementation PR adding privacy-safe MCP context selection receipt export to an MCP token-bloat analyzer',
+  },
 ]
 
 function run(command, args) {
