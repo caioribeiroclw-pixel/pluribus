@@ -319,6 +319,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/coleam00/claude-memory-compiler/pull/19',
     reason: 'external implementation PR adding opt-in privacy-safe requested/completed receipts to a Claude Code transcript-to-knowledge-base memory compiler',
   },
+  {
+    name: 'apideck-cli-progressive-disclosure-receipts',
+    repo: 'apideck-libraries/cli',
+    issueNumber: 11,
+    url: 'https://github.com/apideck-libraries/cli/issues/11',
+    reason: 'contextual agent-friendly CLI feedback about privacy-safe receipts for progressive disclosure versus full OpenAPI/MCP schema loading',
+  },
 ]
 
 function run(command, args) {
