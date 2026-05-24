@@ -1,0 +1,399 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-cli-progressive-disclosure-receipt-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.cli_progressive_disclosure_demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "ed6d22c940da80169c1680065da6d8ed",
+              "spanId": "ad9a79794e4a5739",
+              "parentSpanId": "",
+              "name": "agent.session.cli.progressive_disclosure",
+              "kind": 1,
+              "startTimeUnixNano": "1779627724000000000",
+              "endTimeUnixNano": "1779627765000000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "sess_cli_apideck_2026_05_24"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "conv_private_crm_sync"
+                  }
+                },
+                {
+                  "key": "agent.name",
+                  "value": {
+                    "stringValue": "Claude Code"
+                  }
+                },
+                {
+                  "key": "workspace.name",
+                  "value": {
+                    "stringValue": "private-payroll-sync"
+                  }
+                },
+                {
+                  "key": "gen_ai.request.model",
+                  "value": {
+                    "stringValue": "claude-sonnet-4.5"
+                  }
+                },
+                {
+                  "key": "cli.name",
+                  "value": {
+                    "stringValue": "apideck"
+                  }
+                },
+                {
+                  "key": "cli.disclosure.strategy",
+                  "value": {
+                    "stringValue": "agent_prompt_then_command_help"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "cli.agent_prompt.loaded",
+                  "timeUnixNano": "1779627724000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess_cli_apideck_2026_05_24"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv_private_crm_sync"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "Claude Code"
+                      }
+                    },
+                    {
+                      "key": "cli.name",
+                      "value": {
+                        "stringValue": "apideck"
+                      }
+                    },
+                    {
+                      "key": "cli.prompt.command_hash",
+                      "value": {
+                        "stringValue": "sha256:7802829a35f8"
+                      }
+                    },
+                    {
+                      "key": "cli.prompt.hash",
+                      "value": {
+                        "stringValue": "sha256:01383673fcfef9219e380fa6cf35ec4af29067f38c3e3c20e39565d054b3b802"
+                      }
+                    },
+                    {
+                      "key": "cli.prompt.token_count_bucket",
+                      "value": {
+                        "stringValue": "under_100"
+                      }
+                    },
+                    {
+                      "key": "cli.full_openapi.token_count_bucket",
+                      "value": {
+                        "stringValue": "over_50k"
+                      }
+                    },
+                    {
+                      "key": "cli.full_mcp_schema.token_count_bucket",
+                      "value": {
+                        "stringValue": "under_10k"
+                      }
+                    },
+                    {
+                      "key": "cli.startup.strategy",
+                      "value": {
+                        "stringValue": "agent_prompt_only"
+                      }
+                    },
+                    {
+                      "key": "cli.install.target",
+                      "value": {
+                        "stringValue": "claude_skill"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_agent_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_openapi_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_mcp_schemas_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "cli.command_help.loaded",
+                  "timeUnixNano": "1779627739000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess_cli_apideck_2026_05_24"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv_private_crm_sync"
+                      }
+                    },
+                    {
+                      "key": "cli.name",
+                      "value": {
+                        "stringValue": "apideck"
+                      }
+                    },
+                    {
+                      "key": "cli.command.hash",
+                      "value": {
+                        "stringValue": "sha256:aa74356e4e18"
+                      }
+                    },
+                    {
+                      "key": "cli.help.command_hash",
+                      "value": {
+                        "stringValue": "sha256:b62458278fc8"
+                      }
+                    },
+                    {
+                      "key": "cli.help.hash",
+                      "value": {
+                        "stringValue": "sha256:8d828f4814601d085e7c245880bf251f4085a18c594fbb0cd82cd93648b13d42"
+                      }
+                    },
+                    {
+                      "key": "cli.help.token_count_bucket",
+                      "value": {
+                        "stringValue": "under_1k"
+                      }
+                    },
+                    {
+                      "key": "cli.help.load_reason_hash",
+                      "value": {
+                        "stringValue": "sha256:13cd6d62c9c2"
+                      }
+                    },
+                    {
+                      "key": "cli.unselected_commands.hash",
+                      "value": {
+                        "stringValue": "sha256:6f8a5216944315d4ceaecd16a79d477a252165b1177c0587d93b2293272d1e65"
+                      }
+                    },
+                    {
+                      "key": "cli.unselected_help.loaded_count",
+                      "value": {
+                        "intValue": "0"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_help_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_unselected_commands_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "cli.command.executed",
+                  "timeUnixNano": "1779627761000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess_cli_apideck_2026_05_24"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv_private_crm_sync"
+                      }
+                    },
+                    {
+                      "key": "cli.name",
+                      "value": {
+                        "stringValue": "apideck"
+                      }
+                    },
+                    {
+                      "key": "cli.command.hash",
+                      "value": {
+                        "stringValue": "sha256:aa74356e4e18"
+                      }
+                    },
+                    {
+                      "key": "cli.command.status",
+                      "value": {
+                        "stringValue": "success"
+                      }
+                    },
+                    {
+                      "key": "cli.command.arguments_hash",
+                      "value": {
+                        "stringValue": "sha256:851d7f695669eae0a862958d3e676fa0c211f86ba0c4fabb52528ed127d863fe"
+                      }
+                    },
+                    {
+                      "key": "cli.command.result_sample_hash",
+                      "value": {
+                        "stringValue": "sha256:11242e32200cbc58dab5de6b8e03c332261a0dec956edd53b37a71ad65a0b2c1"
+                      }
+                    },
+                    {
+                      "key": "cli.command.result_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "cli.command.latency_ms",
+                      "value": {
+                        "intValue": "620"
+                      }
+                    },
+                    {
+                      "key": "cli.command.stdout_size_bucket",
+                      "value": {
+                        "stringValue": "under_100kb"
+                      }
+                    },
+                    {
+                      "key": "cli.command.stderr_size_bucket",
+                      "value": {
+                        "stringValue": "zero"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_arguments_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_results_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "cli.session.completed",
+                  "timeUnixNano": "1779627765000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess_cli_apideck_2026_05_24"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv_private_crm_sync"
+                      }
+                    },
+                    {
+                      "key": "cli.session.status",
+                      "value": {
+                        "stringValue": "completed"
+                      }
+                    },
+                    {
+                      "key": "cli.commands.executed",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "cli.command_help.loaded_count",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "cli.full_openapi.loaded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "cli.full_mcp_schemas.loaded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "cli.progressive_disclosure.audit_gap",
+                      "value": {
+                        "stringValue": "receipt_proves_disclosure_boundary_not_api_result_correctness"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

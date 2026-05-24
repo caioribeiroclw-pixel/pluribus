@@ -197,6 +197,20 @@ It reads `sample-mcp-tool-search-log.jsonl` and writes `mcp-tool-search-receipt.
 
 This is for Claude Code/MCP context-budget work where Tool Search reduces context bloat but still needs verifiable boundaries. The receipt should prove “only indexes were loaded up front; this one definition was loaded when needed; private query/arguments/results stayed out of the trace.”
 
+To test CLI progressive disclosure — where an agent receives a tiny CLI prompt first, loads specific command help only when needed, and executes the CLI instead of loading a full OpenAPI spec or MCP schema set — run:
+
+```bash
+node examples/context-input-evidence/convert-cli-progressive-disclosure-log.mjs
+```
+
+It reads `sample-cli-progressive-disclosure-log.jsonl` and writes `cli-progressive-disclosure-receipt.ndjson` plus `cli-progressive-disclosure-otel-trace.json`. The sample emits four event types:
+
+- `cli.agent_prompt.loaded` — the small startup prompt, install target, startup strategy, token bucket, and proof that raw OpenAPI/MCP schemas were not loaded up front.
+- `cli.command_help.loaded` — the one command help page expanded on demand, selection reason hash, unselected-command hash, and proof that unselected help was not loaded.
+- `cli.command.executed` — command status, argument hash, result-sample hash, result-count/stdout/stderr buckets, and proof that raw arguments/results were not exported.
+- `cli.session.completed` — command/help counts, whether full specs were loaded, and the explicit audit gap that the receipt proves the disclosure boundary rather than API result correctness.
+
+This is for agent-friendly CLIs that use progressive disclosure to avoid MCP/OpenAPI context bloat. The receipt should prove “a tiny agent prompt loaded, exactly this command help expanded, this command ran, and private arguments/results stayed out of the trace.”
 
 To test GitHub MCP secret scanning receipts — where an agent asks the GitHub MCP server to scan current changes before commit or PR, and findings may exist only in the agent session rather than as persisted GitHub alerts — run:
 
