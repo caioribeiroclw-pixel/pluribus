@@ -242,6 +242,21 @@ It reads `sample-subagent-context-budget-log.jsonl` and writes `subagent-context
 
 This is for subagent/fanout setups where failures look like low-effort model output but the real cause may be a hidden context budget already consumed by MCP schemas or skill catalogs. The receipt should prove “what was available, what was eagerly loaded, what was suppressed, and how much budget remained before the subagent did work” without exporting raw schemas, skill bodies/listings, project rules, memory, prompts, paths, tickets, or secrets.
 
+To test subagent delegation receipts — where bulky commands, grep/read chains, or validation runs should execute in an isolated child context and return only a bounded summary to the parent — run:
+
+```bash
+node examples/context-input-evidence/convert-subagent-delegation-log.mjs
+```
+
+It reads `sample-subagent-delegation-log.jsonl` and writes `subagent-delegation-receipt.ndjson` plus `subagent-delegation-otel-trace.json`. The sample emits four event types:
+
+- `subagent.delegation.requested` — the parent decided to delegate because estimated output crossed a threshold such as `>50 lines`.
+- `subagent.tool_output.captured` — the child subagent captured the large command/tool output, with only hashes and line/byte buckets exported.
+- `subagent.summary.returned` — only a bounded summary crossed back to the parent; raw output and raw paths stayed out.
+- `parent.context_budget.evaluated` — compares the bounded parent-context addition with the larger child-output token bucket and names the audit gap.
+
+This is for Claude Code-style reports where validation output, multi-file exploration, or MCP screenshots balloon the main thread even when a subagent did the heavy work. The receipt should answer “did raw child output actually stay out of the parent context?” without exporting raw command output, file paths, customer identifiers, prompts, summaries, or tool results.
+
 To test GitHub MCP secret scanning receipts — where an agent asks the GitHub MCP server to scan current changes before commit or PR, and findings may exist only in the agent session rather than as persisted GitHub alerts — run:
 
 ```bash

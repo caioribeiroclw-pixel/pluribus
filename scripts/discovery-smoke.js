@@ -341,6 +341,13 @@ const trackedExternalDistributions = [
     reason: 'contextual Claude Code subagent feedback about privacy-safe receipts for eager MCP schema and skill-listing context budget before first task',
   },
   {
+    name: 'claude-code-subagent-delegation-receipts',
+    repo: 'anthropics/claude-code',
+    issueNumber: 42910,
+    url: 'https://github.com/anthropics/claude-code/issues/42910',
+    reason: 'contextual Claude Code feedback about privacy-safe receipts proving bulky subagent tool output stayed isolated and only bounded summaries returned to parent context',
+  },
+  {
     name: 'claudekit-mcp-manager-isolation-receipts',
     repo: 'mrgoonie/claudekit-skills',
     issueNumber: 24,

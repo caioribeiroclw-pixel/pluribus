@@ -1,0 +1,388 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-subagent-delegation-receipt-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.subagent_delegation_demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "c59684a417a9ba4bf564d36b0708cea7",
+              "spanId": "78478fb01418d844",
+              "parentSpanId": "",
+              "name": "agent.session.parent_with_delegation",
+              "kind": 1,
+              "startTimeUnixNano": "1779642307000000000",
+              "endTimeUnixNano": "1779642353000000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "sess-subagent-delegation-demo"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "conv-subagent-delegation-001"
+                  }
+                },
+                {
+                  "key": "agent.name",
+                  "value": {
+                    "stringValue": "claude-code"
+                  }
+                },
+                {
+                  "key": "workspace.name",
+                  "value": {
+                    "stringValue": "module-federation-vue-app"
+                  }
+                },
+                {
+                  "key": "gen_ai.request.model",
+                  "value": {
+                    "stringValue": "claude-sonnet-4.6"
+                  }
+                },
+                {
+                  "key": "subagent.delegation.policy",
+                  "value": {
+                    "stringValue": "large_tool_output_to_isolated_subagent"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "subagent.delegation.requested",
+                  "timeUnixNano": "1779642307000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess-subagent-delegation-demo"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-subagent-delegation-001"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "subagent.delegation.operation_hash",
+                      "value": {
+                        "stringValue": "sha256:4154c9156b4a"
+                      }
+                    },
+                    {
+                      "key": "subagent.delegation.reason_hash",
+                      "value": {
+                        "stringValue": "sha256:3e126e9af8db12e368a86f3ce090a22d4662d1b94254eb75c937beba3ff9fbe2"
+                      }
+                    },
+                    {
+                      "key": "subagent.delegation.estimated_output_line_bucket",
+                      "value": {
+                        "stringValue": "under_1k"
+                      }
+                    },
+                    {
+                      "key": "subagent.delegation.parent_context_before_bucket",
+                      "value": {
+                        "stringValue": "over_50k"
+                      }
+                    },
+                    {
+                      "key": "subagent.delegation.threshold_policy",
+                      "value": {
+                        "stringValue": "delegate_outputs_over_50_lines"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_parent_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_operation_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "subagent.summary.returned",
+                  "timeUnixNano": "1779642350000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess-subagent-delegation-demo"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-subagent-delegation-001"
+                      }
+                    },
+                    {
+                      "key": "subagent.summary.hash",
+                      "value": {
+                        "stringValue": "sha256:b675efd0f6f25b7d4e2afda4c71a0626dab6f422d81bd8303a4ea82accbd4986"
+                      }
+                    },
+                    {
+                      "key": "subagent.summary.char_bucket",
+                      "value": {
+                        "stringValue": "under_10k"
+                      }
+                    },
+                    {
+                      "key": "subagent.summary.bullet_count",
+                      "value": {
+                        "intValue": "4"
+                      }
+                    },
+                    {
+                      "key": "subagent.summary.parent_received_raw_output",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "subagent.summary.parent_received_raw_paths",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "subagent.summary.boundary",
+                      "value": {
+                        "stringValue": "bounded_summary_only"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_summary_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_child_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "parent.context_budget.evaluated",
+                  "timeUnixNano": "1779642353000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess-subagent-delegation-demo"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-subagent-delegation-001"
+                      }
+                    },
+                    {
+                      "key": "parent.context.after_bucket",
+                      "value": {
+                        "stringValue": "over_50k"
+                      }
+                    },
+                    {
+                      "key": "parent.context.added_token_bucket",
+                      "value": {
+                        "stringValue": "under_1k"
+                      }
+                    },
+                    {
+                      "key": "subagent.child_output_token_bucket",
+                      "value": {
+                        "stringValue": "under_50k"
+                      }
+                    },
+                    {
+                      "key": "subagent.context_savings.proven",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "subagent.delegation.audit_gap",
+                      "value": {
+                        "stringValue": "receipt_proves_parent_boundary_not_summary_correctness"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_parent_note_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "traceId": "c59684a417a9ba4bf564d36b0708cea7",
+              "spanId": "acbfe4c56e4a33e8",
+              "parentSpanId": "78478fb01418d844",
+              "name": "agent.subagent.validation_runner",
+              "kind": 1,
+              "startTimeUnixNano": "1779642341000000000",
+              "endTimeUnixNano": "1779642350000000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "sess-subagent-delegation-demo"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "conv-subagent-delegation-001"
+                  }
+                },
+                {
+                  "key": "subagent.role",
+                  "value": {
+                    "stringValue": "validation-runner"
+                  }
+                },
+                {
+                  "key": "subagent.output_boundary",
+                  "value": {
+                    "stringValue": "raw_output_isolated_summary_returned"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "subagent.tool_output.captured",
+                  "timeUnixNano": "1779642341000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess-subagent-delegation-demo"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-subagent-delegation-001"
+                      }
+                    },
+                    {
+                      "key": "subagent.role",
+                      "value": {
+                        "stringValue": "validation-runner"
+                      }
+                    },
+                    {
+                      "key": "subagent.operation_hash",
+                      "value": {
+                        "stringValue": "sha256:4154c9156b4a"
+                      }
+                    },
+                    {
+                      "key": "subagent.tool.exit_code",
+                      "value": {
+                        "intValue": "2"
+                      }
+                    },
+                    {
+                      "key": "subagent.tool.output_line_bucket",
+                      "value": {
+                        "stringValue": "under_1k"
+                      }
+                    },
+                    {
+                      "key": "subagent.tool.output_byte_bucket",
+                      "value": {
+                        "stringValue": "under_100k"
+                      }
+                    },
+                    {
+                      "key": "subagent.tool.output_hash",
+                      "value": {
+                        "stringValue": "sha256:8e7b8ef6576acdd532af1d49f2fa46897378e35570c57685262933d0b330cddc"
+                      }
+                    },
+                    {
+                      "key": "subagent.tool.path_hashes",
+                      "value": {
+                        "stringValue": "sha256:4a0b37e5763b,sha256:da715b86c7e9"
+                      }
+                    },
+                    {
+                      "key": "subagent.tool.output_entered_parent_context",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_paths_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

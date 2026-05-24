@@ -4,6 +4,8 @@
 
 All notable changes to Pluribus are documented here.
 
+- Added an executable subagent delegation receipt demo proving that large child command/tool output stayed isolated and only a bounded summary crossed back into the parent context.
+
 ## 0.3.25 - 2026-05-23
 
 - Re-aligned npm package discovery metadata so the public package description preserves core search terms (`AI context`, `rules sync`, `Claude.md`, `Claude Code`, `Cursor`, and `Copilot instructions`) while retaining the new privacy-safe context receipts positioning.
