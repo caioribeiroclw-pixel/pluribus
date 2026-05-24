@@ -201,6 +201,13 @@ const trackedExternalDistributions = [
     reason: 'contextual MCP memory-service feedback about hook-safe incremental consolidation receipts and lineage evidence',
   },
   {
+    name: 'mcp-memory-service-privacy-safe-audit-log-plugin',
+    repo: 'doobidoo/mcp-memory-service',
+    pullRequest: 999,
+    url: 'https://github.com/doobidoo/mcp-memory-service/pull/999',
+    reason: 'external implementation PR making the mcp-memory-service audit-log plugin privacy-safe by default with optional HMAC identifiers',
+  },
+  {
     name: 'agentmemory-governance-delete-receipts',
     repo: 'rohitg00/agentmemory',
     issueNumber: 595,
