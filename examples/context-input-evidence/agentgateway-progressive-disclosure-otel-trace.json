@@ -1,0 +1,393 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-agentgateway-progressive-disclosure-receipt-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.agentgateway_progressive_disclosure_demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "6c7f27e5402aa7055eebe070133c66af",
+              "spanId": "fb7787cf8d274469",
+              "parentSpanId": "",
+              "name": "agent.session.mcp.gateway.progressive_disclosure",
+              "kind": 1,
+              "startTimeUnixNano": "1779631505000000000",
+              "endTimeUnixNano": "1779631550000000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "sess_agentgateway_2026_05_24"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "conv_private_gateway_triage"
+                  }
+                },
+                {
+                  "key": "agent.name",
+                  "value": {
+                    "stringValue": "Claude Code"
+                  }
+                },
+                {
+                  "key": "workspace.name",
+                  "value": {
+                    "stringValue": "gateway-demo-workspace"
+                  }
+                },
+                {
+                  "key": "gen_ai.request.model",
+                  "value": {
+                    "stringValue": "claude-sonnet-4.5"
+                  }
+                },
+                {
+                  "key": "mcp.gateway.name",
+                  "value": {
+                    "stringValue": "agentgateway"
+                  }
+                },
+                {
+                  "key": "mcp.gateway.tool_mode",
+                  "value": {
+                    "stringValue": "Search"
+                  }
+                },
+                {
+                  "key": "mcp.gateway.disclosure.strategy",
+                  "value": {
+                    "stringValue": "visible_index_then_get_tool_invoke_tool"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "mcp.gateway.index.loaded",
+                  "timeUnixNano": "1779631505000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess_agentgateway_2026_05_24"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv_private_gateway_triage"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "Claude Code"
+                      }
+                    },
+                    {
+                      "key": "mcp.gateway.name",
+                      "value": {
+                        "stringValue": "agentgateway"
+                      }
+                    },
+                    {
+                      "key": "mcp.gateway.tool_mode",
+                      "value": {
+                        "stringValue": "Search"
+                      }
+                    },
+                    {
+                      "key": "mcp.gateway.visible_tools_hash",
+                      "value": {
+                        "stringValue": "sha256:742f6c98b38cadf004347b7a5f49d88cd430652fd2876aa6d36bda085f9c9d87"
+                      }
+                    },
+                    {
+                      "key": "mcp.gateway.visible_tool_count",
+                      "value": {
+                        "intValue": "2"
+                      }
+                    },
+                    {
+                      "key": "mcp.gateway.upstream_server_hash",
+                      "value": {
+                        "stringValue": "sha256:84697d2be544"
+                      }
+                    },
+                    {
+                      "key": "mcp.gateway.upstream_tool_count_bucket",
+                      "value": {
+                        "stringValue": "under_100"
+                      }
+                    },
+                    {
+                      "key": "mcp.gateway.full_schema_token_count_bucket",
+                      "value": {
+                        "stringValue": "over_50k"
+                      }
+                    },
+                    {
+                      "key": "mcp.gateway.visible_index_token_count_bucket",
+                      "value": {
+                        "stringValue": "under_1k"
+                      }
+                    },
+                    {
+                      "key": "mcp.gateway.full_upstream_schemas_loaded_at_startup",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_index_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_upstream_tool_schemas_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "mcp.gateway.tool_schema.loaded",
+                  "timeUnixNano": "1779631521000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess_agentgateway_2026_05_24"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv_private_gateway_triage"
+                      }
+                    },
+                    {
+                      "key": "mcp.gateway.name",
+                      "value": {
+                        "stringValue": "agentgateway"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.name_hash",
+                      "value": {
+                        "stringValue": "sha256:196b075dce74"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.schema_command_hash",
+                      "value": {
+                        "stringValue": "sha256:0773d87b947b"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.schema_hash",
+                      "value": {
+                        "stringValue": "sha256:3ce3c1f0b68c15d6dc631b29aca16319aefb02cef4280e7694d1f7b5368ec05b"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.schema_token_count_bucket",
+                      "value": {
+                        "stringValue": "under_10k"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.schema_load_reason_hash",
+                      "value": {
+                        "stringValue": "sha256:581058a001e2"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.unselected_tools_hash",
+                      "value": {
+                        "stringValue": "sha256:51601f67afad8411ac8e48c35e977a2db469176845e28ddc56547cbb4c53a800"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.unselected_schema_loaded_count",
+                      "value": {
+                        "intValue": "0"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_schema_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_unselected_tool_names_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "mcp.gateway.tool_invoked",
+                  "timeUnixNano": "1779631546000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess_agentgateway_2026_05_24"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv_private_gateway_triage"
+                      }
+                    },
+                    {
+                      "key": "mcp.gateway.name",
+                      "value": {
+                        "stringValue": "agentgateway"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.name_hash",
+                      "value": {
+                        "stringValue": "sha256:196b075dce74"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_call.status",
+                      "value": {
+                        "stringValue": "success"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_call.arguments_hash",
+                      "value": {
+                        "stringValue": "sha256:9710bd00830be1b091516f875629abef5db0cc09d78a84a7a2791c952a126a29"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_call.result_sample_hash",
+                      "value": {
+                        "stringValue": "sha256:af08ddc157885f2e617447813791c0ee2a2d596b5ccb409917f45a19a0b5969e"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_call.result_count_bucket",
+                      "value": {
+                        "stringValue": "under_5"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_call.latency_ms",
+                      "value": {
+                        "intValue": "740"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_call.response_size_bucket",
+                      "value": {
+                        "stringValue": "under_10kb"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_arguments_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_results_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "mcp.gateway.session.completed",
+                  "timeUnixNano": "1779631550000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess_agentgateway_2026_05_24"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv_private_gateway_triage"
+                      }
+                    },
+                    {
+                      "key": "mcp.gateway.session.status",
+                      "value": {
+                        "stringValue": "completed"
+                      }
+                    },
+                    {
+                      "key": "mcp.gateway.full_upstream_schemas_loaded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "mcp.gateway.loaded_tool_schema_count",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "mcp.gateway.invoked_tool_count",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "mcp.gateway.progressive_disclosure.audit_gap",
+                      "value": {
+                        "stringValue": "receipt_proves_gateway_disclosure_boundary_not_tool_result_correctness"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
