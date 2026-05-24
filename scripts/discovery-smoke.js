@@ -340,6 +340,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/anthropics/claude-code/issues/60141',
     reason: 'contextual Claude Code subagent feedback about privacy-safe receipts for eager MCP schema and skill-listing context budget before first task',
   },
+  {
+    name: 'claudekit-mcp-manager-isolation-receipts',
+    repo: 'mrgoonie/claudekit-skills',
+    issueNumber: 24,
+    url: 'https://github.com/mrgoonie/claudekit-skills/issues/24',
+    reason: 'contextual ClaudeKit mcp-manager feedback about privacy-safe receipts proving MCP schemas stayed isolated in the manager subagent and only a bounded summary returned to the parent',
+  },
 ]
 
 function run(command, args) {
