@@ -326,6 +326,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/apideck-libraries/cli/issues/11',
     reason: 'contextual agent-friendly CLI feedback about privacy-safe receipts for progressive disclosure versus full OpenAPI/MCP schema loading',
   },
+  {
+    name: 'agentgateway-mcp-search-progressive-disclosure-receipts',
+    repo: 'agentgateway/agentgateway',
+    issueNumber: 1950,
+    url: 'https://github.com/agentgateway/agentgateway/issues/1950',
+    reason: 'contextual feedback asking whether privacy-safe receipts would help audit MCP Search mode progressive disclosure boundaries without raw schemas or results',
+  },
 ]
 
 function run(command, args) {
