@@ -305,6 +305,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/severity1/claude-code-auto-memory/pull/34',
     reason: 'external implementation PR adding opt-in privacy-safe requested/completed receipts to a Claude Code CLAUDE.md auto-memory plugin',
   },
+  {
+    name: 'claude-memory-compiler-privacy-safe-receipts',
+    repo: 'coleam00/claude-memory-compiler',
+    pullRequest: 19,
+    url: 'https://github.com/coleam00/claude-memory-compiler/pull/19',
+    reason: 'external implementation PR adding opt-in privacy-safe requested/completed receipts to a Claude Code transcript-to-knowledge-base memory compiler',
+  },
 ]
 
 function run(command, args) {
