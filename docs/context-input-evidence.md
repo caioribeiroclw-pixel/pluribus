@@ -364,3 +364,19 @@ This is for Claude Code/plugin/agent-skill ecosystems where skill routing and la
 ## How this relates to Pluribus
 
 Pluribus already reports load and duplicate-load evidence in its fidelity report. This sketch moves the same idea into trace vocabulary: an auditor should be able to answer which context entered a session, why it was loaded, how it was transformed, and whether duplicate suppression is actually provable.
+
+To test a ClaudeKit-style MCP manager subagent boundary — where the parent session sees only a small management skill while the `mcp-manager` subagent absorbs the large MCP schema catalog and returns a bounded summary — run:
+
+```bash
+node examples/context-input-evidence/convert-claudekit-mcp-manager-log.mjs
+```
+
+It reads `sample-claudekit-mcp-manager-log.jsonl` and writes `claudekit-mcp-manager-receipt.ndjson` plus `claudekit-mcp-manager-otel-trace.json`. The sample emits:
+
+- `mcp.manager.parent_context.evaluated` — proves the parent context got the compact management surface, not all MCP schemas;
+- `mcp.manager.subagent.booted` — records the isolated manager subagent's tool/schema budget;
+- `mcp.manager.tool_selected` — records that one tool/schema was expanded while the rest stayed suppressed;
+- `mcp.manager.tool_invoked` — records status and hashed argument/result identities; and
+- `mcp.manager.parent_summary.returned` — records that only a bounded summary crossed back to the parent.
+
+The fixture includes synthetic private customer names, emails, tickets, paths and API-token-like strings in the raw log, then fails if any of them appear in the public receipt or OTel trace. This is for patterns like ClaudeKit's `mcp-manager` + `mcp-management` split: the evidence should answer “did the isolation actually keep MCP schemas out of the parent?” without logging the raw prompt, schemas, tool arguments, results, or summary.

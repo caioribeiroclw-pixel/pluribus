@@ -1,0 +1,417 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-claudekit-mcp-manager-receipt-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.claudekit_mcp_manager_demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "b92588d79ef2b2bee064fa00b98ddd22",
+              "spanId": "9372c1ee00f589ec",
+              "parentSpanId": "",
+              "name": "agent.session.mcp.manager.subagent_boundary",
+              "kind": 1,
+              "startTimeUnixNano": "1779638581000000000",
+              "endTimeUnixNano": "1779638585000000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "claudekit-mcp-manager-demo-001"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "conv-claudekit-mcp-manager-001"
+                  }
+                },
+                {
+                  "key": "agent.name",
+                  "value": {
+                    "stringValue": "claude-code"
+                  }
+                },
+                {
+                  "key": "workspace.name",
+                  "value": {
+                    "stringValue": "private-enterprise-repo"
+                  }
+                },
+                {
+                  "key": "gen_ai.request.model",
+                  "value": {
+                    "stringValue": "claude-sonnet-4.6"
+                  }
+                },
+                {
+                  "key": "mcp.manager.pattern",
+                  "value": {
+                    "stringValue": "mcp-manager-subagent"
+                  }
+                },
+                {
+                  "key": "mcp.manager.receipt.scope",
+                  "value": {
+                    "stringValue": "parent_vs_manager_subagent_context_budget"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "mcp.manager.parent_context.evaluated",
+                  "timeUnixNano": "1779638581000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "claudekit-mcp-manager-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-claudekit-mcp-manager-001"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.pattern",
+                      "value": {
+                        "stringValue": "mcp-manager-subagent"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.parent_visible_skill_hash",
+                      "value": {
+                        "stringValue": "sha256:d5542d0f13b8"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.parent_visible_token_bucket",
+                      "value": {
+                        "stringValue": "under_1k"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.hidden_server_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.hidden_tool_schema_count_bucket",
+                      "value": {
+                        "stringValue": "over_500"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.hidden_full_schema_token_bucket",
+                      "value": {
+                        "stringValue": "over_100k"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.full_schemas_loaded_in_parent",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_parent_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_hidden_schemas_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "mcp.manager.subagent.booted",
+                  "timeUnixNano": "1779638582000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "claudekit-mcp-manager-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-claudekit-mcp-manager-001"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.subagent_id_hash",
+                      "value": {
+                        "stringValue": "sha256:fca03b66c32f"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.tools_policy",
+                      "value": {
+                        "stringValue": "mcp_isolated_allowlist"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.server_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.tool_schema_count_bucket",
+                      "value": {
+                        "stringValue": "over_500"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.subagent_startup_token_bucket",
+                      "value": {
+                        "stringValue": "over_100k"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.context_window_token_bucket",
+                      "value": {
+                        "stringValue": "over_100k"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_subagent_tool_catalog_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "mcp.manager.tool_selected",
+                  "timeUnixNano": "1779638583000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "claudekit-mcp-manager-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-claudekit-mcp-manager-001"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.selection_strategy",
+                      "value": {
+                        "stringValue": "subagent_tool_search_then_execute"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.selected_server_hash",
+                      "value": {
+                        "stringValue": "sha256:84697d2be544"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.selected_tool_hash",
+                      "value": {
+                        "stringValue": "sha256:196b075dce74"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.candidate_tool_count_bucket",
+                      "value": {
+                        "stringValue": "over_500"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.expanded_tool_count",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.suppressed_tool_count_bucket",
+                      "value": {
+                        "stringValue": "over_500"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.selection_reason_hash",
+                      "value": {
+                        "stringValue": "sha256:d6d7e11a2a69454cd92e3a8e7b58a95f715e6f19459d33387842eddbf98c461d"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_selection_reason_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "mcp.manager.tool_invoked",
+                  "timeUnixNano": "1779638584000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "claudekit-mcp-manager-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-claudekit-mcp-manager-001"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool.name_hash",
+                      "value": {
+                        "stringValue": "sha256:196b075dce74"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_call.status",
+                      "value": {
+                        "stringValue": "ok"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_call.result_count_bucket",
+                      "value": {
+                        "stringValue": "under_5"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_call.latency_ms",
+                      "value": {
+                        "intValue": "840"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_call.arguments_hash",
+                      "value": {
+                        "stringValue": "sha256:8115d3c86ebb64db232eb52479a614fe40fc006e99aee46895435be20c8e9a00"
+                      }
+                    },
+                    {
+                      "key": "mcp.tool_call.result_sample_hash",
+                      "value": {
+                        "stringValue": "sha256:0876c290141dd344bda2ed4852573c8a0ce834d33ada29b823bd2a7d140619bf"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_arguments_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_results_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "mcp.manager.parent_summary.returned",
+                  "timeUnixNano": "1779638585000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "claudekit-mcp-manager-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-claudekit-mcp-manager-001"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.summary.status",
+                      "value": {
+                        "stringValue": "summary_returned"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.summary_token_bucket",
+                      "value": {
+                        "stringValue": "under_1k"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.parent_context_after_token_bucket",
+                      "value": {
+                        "stringValue": "under_10k"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.summary_hash",
+                      "value": {
+                        "stringValue": "sha256:52e6a5a19df81e2f33cdb01239d619dae9bd5e3c6e2de8adc23e681b9602f724"
+                      }
+                    },
+                    {
+                      "key": "mcp.manager.audit_gap",
+                      "value": {
+                        "stringValue": "receipt proves MCP schemas stayed isolated in the manager subagent and only a bounded summary returned; it does not prove the selected tool was semantically optimal"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_summary_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
