@@ -333,6 +333,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/agentgateway/agentgateway/issues/1950',
     reason: 'contextual feedback asking whether privacy-safe receipts would help audit MCP Search mode progressive disclosure boundaries without raw schemas or results',
   },
+  {
+    name: 'claude-code-subagent-context-budget-receipts',
+    repo: 'anthropics/claude-code',
+    issueNumber: 60141,
+    url: 'https://github.com/anthropics/claude-code/issues/60141',
+    reason: 'contextual Claude Code subagent feedback about privacy-safe receipts for eager MCP schema and skill-listing context budget before first task',
+  },
 ]
 
 function run(command, args) {

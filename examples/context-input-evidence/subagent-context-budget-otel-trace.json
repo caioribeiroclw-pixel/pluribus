@@ -1,0 +1,507 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-subagent-context-budget-receipt-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.subagent_context_budget_demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "aeb360f9e714b599a69a44a68cc64505",
+              "spanId": "849d1ede24619a19",
+              "parentSpanId": "",
+              "name": "agent.subagent.boot.context_budget",
+              "kind": 1,
+              "startTimeUnixNano": "1779634861000000000",
+              "endTimeUnixNano": "1779634865000000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "subagent-budget-demo-001"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "conv-subagent-budget-001"
+                  }
+                },
+                {
+                  "key": "agent.name",
+                  "value": {
+                    "stringValue": "claude-code"
+                  }
+                },
+                {
+                  "key": "workspace.name",
+                  "value": {
+                    "stringValue": "private-enterprise-repo"
+                  }
+                },
+                {
+                  "key": "gen_ai.request.model",
+                  "value": {
+                    "stringValue": "claude-sonnet-4.6"
+                  }
+                },
+                {
+                  "key": "subagent.tools.policy",
+                  "value": {
+                    "stringValue": "default_permissive"
+                  }
+                },
+                {
+                  "key": "subagent.context.receipt.scope",
+                  "value": {
+                    "stringValue": "startup_budget_before_first_task"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "subagent.boot.context_budget.evaluated",
+                  "timeUnixNano": "1779634861000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "subagent-budget-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-subagent-budget-001"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "subagent.id_hash",
+                      "value": {
+                        "stringValue": "sha256:ea9dea9f9c32"
+                      }
+                    },
+                    {
+                      "key": "subagent.role_hash",
+                      "value": {
+                        "stringValue": "sha256:4c44d7c28ec0"
+                      }
+                    },
+                    {
+                      "key": "subagent.tools.policy",
+                      "value": {
+                        "stringValue": "default_permissive"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.parent_token_bucket",
+                      "value": {
+                        "stringValue": "under_50k"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.startup_token_bucket",
+                      "value": {
+                        "stringValue": "over_100k"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.window_token_bucket",
+                      "value": {
+                        "stringValue": "over_100k"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.startup_ratio_bucket",
+                      "value": {
+                        "stringValue": "under_90_percent"
+                      }
+                    },
+                    {
+                      "key": "subagent.mcp.server_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "subagent.mcp.tool_schema_count_bucket",
+                      "value": {
+                        "stringValue": "under_500"
+                      }
+                    },
+                    {
+                      "key": "subagent.skill.listing_count_bucket",
+                      "value": {
+                        "stringValue": "under_500"
+                      }
+                    },
+                    {
+                      "key": "subagent.rule.count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "subagent.memory.index_count_bucket",
+                      "value": {
+                        "stringValue": "under_100"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_skill_listing_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_mcp_schemas_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_project_rules_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_memory_index_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "subagent.context_component.loaded",
+                  "timeUnixNano": "1779634862000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "subagent-budget-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-subagent-budget-001"
+                      }
+                    },
+                    {
+                      "key": "subagent.id_hash",
+                      "value": {
+                        "stringValue": "sha256:ea9dea9f9c32"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.component",
+                      "value": {
+                        "stringValue": "mcp_tool_schemas"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.component_reason_hash",
+                      "value": {
+                        "stringValue": "sha256:dff4f80c8a1f"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.candidate_count_bucket",
+                      "value": {
+                        "stringValue": "under_500"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.selected_count_bucket",
+                      "value": {
+                        "stringValue": "under_500"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.suppressed_count_bucket",
+                      "value": {
+                        "stringValue": "zero"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.token_bucket",
+                      "value": {
+                        "stringValue": "over_100k"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.component_sample_hash",
+                      "value": {
+                        "stringValue": "sha256:06bcb6f5b4a831289700bc1d6abaf184407d09c9caf788e6ca9182ebddafd89f"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_component_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "subagent.context_component.loaded",
+                  "timeUnixNano": "1779634863000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "subagent-budget-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-subagent-budget-001"
+                      }
+                    },
+                    {
+                      "key": "subagent.id_hash",
+                      "value": {
+                        "stringValue": "sha256:ea9dea9f9c32"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.component",
+                      "value": {
+                        "stringValue": "skill_listing"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.component_reason_hash",
+                      "value": {
+                        "stringValue": "sha256:e584eb84a944"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.candidate_count_bucket",
+                      "value": {
+                        "stringValue": "under_500"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.selected_count_bucket",
+                      "value": {
+                        "stringValue": "under_500"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.suppressed_count_bucket",
+                      "value": {
+                        "stringValue": "zero"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.token_bucket",
+                      "value": {
+                        "stringValue": "under_50k"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.component_sample_hash",
+                      "value": {
+                        "stringValue": "sha256:22e6dba114076e3760e052735998c19f29e84dace7de5acdb1caa291a98934c6"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_component_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "subagent.context_component.suppressed",
+                  "timeUnixNano": "1779634864000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "subagent-budget-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-subagent-budget-001"
+                      }
+                    },
+                    {
+                      "key": "subagent.id_hash",
+                      "value": {
+                        "stringValue": "sha256:ea9dea9f9c32"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.component",
+                      "value": {
+                        "stringValue": "project_rules"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.component_reason_hash",
+                      "value": {
+                        "stringValue": "sha256:9a2da83de189"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.candidate_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.selected_count_bucket",
+                      "value": {
+                        "stringValue": "under_5"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.suppressed_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.token_bucket",
+                      "value": {
+                        "stringValue": "under_10k"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.component_sample_hash",
+                      "value": {
+                        "stringValue": "sha256:df5b12a08a94abbb7400a136782c8558e5e8c6fd0564eb9232ab886ba94bad61"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_component_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "subagent.boot.completed",
+                  "timeUnixNano": "1779634865000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "subagent-budget-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-subagent-budget-001"
+                      }
+                    },
+                    {
+                      "key": "subagent.id_hash",
+                      "value": {
+                        "stringValue": "sha256:ea9dea9f9c32"
+                      }
+                    },
+                    {
+                      "key": "subagent.boot.status",
+                      "value": {
+                        "stringValue": "budget_exhausted_before_first_task"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.startup_token_bucket",
+                      "value": {
+                        "stringValue": "over_100k"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.remaining_token_bucket",
+                      "value": {
+                        "stringValue": "under_50k"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.selected_component_count_bucket",
+                      "value": {
+                        "stringValue": "over_500"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.suppressed_component_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "subagent.context.loaded_token_bucket",
+                      "value": {
+                        "stringValue": "over_100k"
+                      }
+                    },
+                    {
+                      "key": "subagent.boot.first_task_hash",
+                      "value": {
+                        "stringValue": "sha256:125fc2e7831b0e718f2d2ee855fe14d4fa3ead53de15f6b7d2cbc98686810443"
+                      }
+                    },
+                    {
+                      "key": "subagent.boot.mitigation_hash",
+                      "value": {
+                        "stringValue": "sha256:0a41f4adb7a50ab665cff637de35d7c498f3eb231f51b927c389c71c55ecff8e"
+                      }
+                    },
+                    {
+                      "key": "subagent.boot.audit_gap",
+                      "value": {
+                        "stringValue": "receipt proves startup context budget components and disclosure boundary, not whether the subagent selected the semantically best tools or skills"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

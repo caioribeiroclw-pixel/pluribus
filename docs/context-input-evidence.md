@@ -212,6 +212,36 @@ It reads `sample-cli-progressive-disclosure-log.jsonl` and writes `cli-progressi
 
 This is for agent-friendly CLIs that use progressive disclosure to avoid MCP/OpenAPI context bloat. The receipt should prove “a tiny agent prompt loaded, exactly this command help expanded, this command ran, and private arguments/results stayed out of the trace.”
 
+To test MCP gateway progressive disclosure — where the client sees a small Search-mode/meta-tool surface first and loads one upstream tool schema only when needed — run:
+
+```bash
+node examples/context-input-evidence/convert-agentgateway-progressive-disclosure-log.mjs
+```
+
+It reads `sample-agentgateway-progressive-disclosure-log.jsonl` and writes `agentgateway-progressive-disclosure-receipt.ndjson` plus `agentgateway-progressive-disclosure-otel-trace.json`. The sample emits four event types:
+
+- `mcp.gateway.index.loaded` — visible meta-tools, upstream tool-count bucket, full-schema token bucket, visible-index token bucket, and proof that full upstream schemas were not loaded at startup.
+- `mcp.gateway.tool_schema.loaded` — the one upstream tool schema expanded on demand, with schema hash, token bucket, selection reason hash, and unselected-tool hash.
+- `mcp.gateway.tool_invoked` — call status, argument hash, result-sample hash, result-count/size buckets, and proof that raw arguments/results were not exported.
+- `mcp.gateway.session.completed` — loaded schema count, invoked tool count, whether full upstream schemas were loaded, and the explicit audit gap.
+
+This is for MCP gateways/Search mode that avoid context bloat through progressive disclosure. The receipt should prove “the agent saw only lightweight gateway affordances at startup; this one schema hydrated; this tool ran; private schemas, queries, args, and results stayed out of the trace.”
+
+To test subagent context-budget receipts — where a subagent may eagerly receive MCP schemas, skill listings, project rules, or memory indexes before its first task — run:
+
+```bash
+node examples/context-input-evidence/convert-subagent-context-budget-log.mjs
+```
+
+It reads `sample-subagent-context-budget-log.jsonl` and writes `subagent-context-budget-receipt.ndjson` plus `subagent-context-budget-otel-trace.json`. The sample emits four event types:
+
+- `subagent.boot.context_budget.evaluated` — parent/subagent token buckets, startup ratio bucket, tool policy, MCP server/tool-schema counts, skill-listing count, rule count, memory-index count, and privacy flags.
+- `subagent.context_component.loaded` — each eagerly loaded component, its reason hash, candidate/selected/suppressed buckets, token bucket, and component-sample hash.
+- `subagent.context_component.suppressed` — components that stayed out because of path scope, allowlists, or other policy.
+- `subagent.boot.completed` — resulting status, remaining-token bucket, selected/suppressed component buckets, first-task hash, mitigation hash, and audit gap.
+
+This is for subagent/fanout setups where failures look like low-effort model output but the real cause may be a hidden context budget already consumed by MCP schemas or skill catalogs. The receipt should prove “what was available, what was eagerly loaded, what was suppressed, and how much budget remained before the subagent did work” without exporting raw schemas, skill bodies/listings, project rules, memory, prompts, paths, tickets, or secrets.
+
 To test GitHub MCP secret scanning receipts — where an agent asks the GitHub MCP server to scan current changes before commit or PR, and findings may exist only in the agent session rather than as persisted GitHub alerts — run:
 
 ```bash
