@@ -257,6 +257,13 @@ const trackedExternalDistributions = [
     reason: 'contextual context-engineering directory submission for Pluribus privacy-safe context receipts and boundary evidence',
   },
   {
+    name: 'microsoft-ai-agents-context-inspection-checks',
+    repo: 'microsoft/ai-agents-for-beginners',
+    issueNumber: 559,
+    url: 'https://github.com/microsoft/ai-agents-for-beginners/issues/559',
+    reason: 'contextual lesson feedback asking for privacy-safe context inspection checks after select/compress/isolate strategies',
+  },
+  {
     name: 'opencode-mcp-tool-search-receipts',
     repo: 'anomalyco/opencode',
     issueNumber: 8625,
