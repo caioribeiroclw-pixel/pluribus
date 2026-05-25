@@ -330,6 +330,20 @@ It reads `sample-compaction-log.jsonl` and writes `compaction-receipt.ndjson` pl
 
 This is for reliability/auditability work where users need to know whether the original engineering objective survived compaction. The receipt should prove the compaction boundary and item decisions without exposing raw prompts, private instructions, tool outputs, memory bodies, summaries, customer data, or transcripts.
 
+To test post-hoc pruning / context-cleaning receipts — where a Claude Code-style session cleaner trims, minifies, stubs, or dedupes context after it entered the transcript — run:
+
+```bash
+node examples/context-input-evidence/convert-pruning-log.mjs
+```
+
+It reads `sample-pruning-log.jsonl` and writes `pruning-receipt.ndjson` plus `pruning-otel-trace.json`. The sample emits three event types:
+
+- `context.prune.started` — prescription, mode, trigger, before token/byte buckets, backup identity hash, plan hash, and privacy flags.
+- `context.prune.strategy.evaluated` — each pruning strategy, action (`trimmed`, `minified`, `deduped`, or `protected`), candidate/changed/protected buckets, removed token/byte buckets, reason hash, and sample hash.
+- `context.prune.completed` — after token/byte buckets, changed/protected item buckets, backup verification, summary hash, and the audit gap.
+
+This is for tools that promise to clean bloated sessions while preserving active task state. The receipt should prove what was pruned and what was protected without exporting raw session JSONL, tool outputs, file contents, paths, secrets, emails, screenshots, customer data, or summaries.
+
 To test incremental memory consolidation — where a shared-memory server runs a hook-safe pass after a session and turns several recent memories into one consolidated memory with lineage — run:
 
 ```bash

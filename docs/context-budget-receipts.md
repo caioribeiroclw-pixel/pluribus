@@ -43,6 +43,29 @@ A useful receipt starts small:
 
 Keep exact counts when they are not sensitive. Bucket token counts and sizes when exact values could reveal private workload shape.
 
+## Post-hoc pruning / context cleaning
+
+Context-cleaning tools can reduce a bloated session after context has already entered the transcript. That creates a separate proof boundary from lazy loading: what was pruned, minified, stubbed, deduped, protected, and backed up?
+
+The receipt should prove:
+
+- prescription/mode/trigger without raw session JSONL;
+- before/after token and byte buckets;
+- per-strategy candidate, changed, removed, and protected buckets;
+- compact summaries, behavioral digests, active task state, and other protected items were not removed;
+- a backup was created/verified for executed runs; and
+- raw tool output, file contents, session text, emails, secrets, paths, and customer data stayed out of the receipt.
+
+Runnable fixture:
+
+```bash
+node examples/context-input-evidence/convert-pruning-log.mjs
+```
+
+Public trace:
+
+- `examples/context-input-evidence/pruning-otel-trace.json`
+
 ## Subagent boot budget
 
 Subagents can fail before task #1 if they inherit every MCP schema, skill listing, rule, or memory index from the parent. The receipt should separate:

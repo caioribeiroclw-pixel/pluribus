@@ -1,0 +1,885 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-context-pruning-receipt-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.pruning_demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "9b0e4cae70987c85d72e866e2d3c6af0",
+              "spanId": "ddb3bc1e5eeda6ab",
+              "parentSpanId": "",
+              "name": "agent.session.context_prune",
+              "kind": 1,
+              "startTimeUnixNano": "1779750242000000000",
+              "endTimeUnixNano": "1779750249000000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "claude-session-private-prune-fixture"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "conv-cozempic-receipt-demo"
+                  }
+                },
+                {
+                  "key": "agent.name",
+                  "value": {
+                    "stringValue": "claude-code"
+                  }
+                },
+                {
+                  "key": "workspace.name",
+                  "value": {
+                    "stringValue": "private-support-monorepo"
+                  }
+                },
+                {
+                  "key": "gen_ai.request.model",
+                  "value": {
+                    "stringValue": "claude-opus-4-1"
+                  }
+                },
+                {
+                  "key": "context.prune.run_id_hash",
+                  "value": {
+                    "stringValue": "sha256:a3855bb5c010"
+                  }
+                },
+                {
+                  "key": "context.prune.prescription",
+                  "value": {
+                    "stringValue": "standard"
+                  }
+                },
+                {
+                  "key": "context.prune.mode",
+                  "value": {
+                    "stringValue": "execute"
+                  }
+                },
+                {
+                  "key": "context.prune.trigger",
+                  "value": {
+                    "stringValue": "guard_hard_threshold"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "context.prune.started",
+                  "timeUnixNano": "1779750242000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "claude-session-private-prune-fixture"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-cozempic-receipt-demo"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "context.prune.run_id_hash",
+                      "value": {
+                        "stringValue": "sha256:a3855bb5c010"
+                      }
+                    },
+                    {
+                      "key": "context.prune.tool",
+                      "value": {
+                        "stringValue": "cozempic-like-cleaner"
+                      }
+                    },
+                    {
+                      "key": "context.prune.command_hash",
+                      "value": {
+                        "stringValue": "sha256:6e5b215f520cbcda7b87bf4a80618230b84f9fc400faaa398213033d8f1e828a"
+                      }
+                    },
+                    {
+                      "key": "context.prune.prescription",
+                      "value": {
+                        "stringValue": "standard"
+                      }
+                    },
+                    {
+                      "key": "context.prune.mode",
+                      "value": {
+                        "stringValue": "execute"
+                      }
+                    },
+                    {
+                      "key": "context.prune.trigger",
+                      "value": {
+                        "stringValue": "guard_hard_threshold"
+                      }
+                    },
+                    {
+                      "key": "context.prune.context_window_bucket",
+                      "value": {
+                        "stringValue": "over_100k"
+                      }
+                    },
+                    {
+                      "key": "context.prune.token_count.before_bucket",
+                      "value": {
+                        "stringValue": "over_100k"
+                      }
+                    },
+                    {
+                      "key": "context.prune.byte_count.before_bucket",
+                      "value": {
+                        "stringValue": "under_10mb"
+                      }
+                    },
+                    {
+                      "key": "context.prune.start_ratio_bucket",
+                      "value": {
+                        "stringValue": "under_75_percent"
+                      }
+                    },
+                    {
+                      "key": "context.prune.backup_id_hash",
+                      "value": {
+                        "stringValue": "sha256:2ae8b398160d"
+                      }
+                    },
+                    {
+                      "key": "context.prune.backup.created",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "context.prune.plan.hash",
+                      "value": {
+                        "stringValue": "sha256:76b5db8f0e5ac89df3c1162c9e28b0368e0462b6c189ac82244533041f3fcd6b"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_session_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_plan_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.prune.strategy.evaluated",
+                  "timeUnixNano": "1779750243000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "claude-session-private-prune-fixture"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-cozempic-receipt-demo"
+                      }
+                    },
+                    {
+                      "key": "context.prune.run_id_hash",
+                      "value": {
+                        "stringValue": "sha256:a3855bb5c010"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy",
+                      "value": {
+                        "stringValue": "compact-summary-collapse"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.action",
+                      "value": {
+                        "stringValue": "protected"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.candidate_count_bucket",
+                      "value": {
+                        "stringValue": "under_5"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.changed_count_bucket",
+                      "value": {
+                        "stringValue": "zero"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.protected_count_bucket",
+                      "value": {
+                        "stringValue": "under_5"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.token_count.before_bucket",
+                      "value": {
+                        "stringValue": "under_50k"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.token_count.removed_bucket",
+                      "value": {
+                        "stringValue": "under_1k"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.byte_count.removed_bucket",
+                      "value": {
+                        "stringValue": "under_1kb"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.reason_hash",
+                      "value": {
+                        "stringValue": "sha256:ec5620dcdf7780a61b178b0528e3586a72a01f70b17af35176b0a257ba166fc0"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.sample_hash",
+                      "value": {
+                        "stringValue": "sha256:e6fa1ade672423349cf768a1e9f043aad95be0f501c964b21987971ebd1bc89a"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.raw_text_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_session_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_file_content_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.prune.strategy.evaluated",
+                  "timeUnixNano": "1779750244000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "claude-session-private-prune-fixture"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-cozempic-receipt-demo"
+                      }
+                    },
+                    {
+                      "key": "context.prune.run_id_hash",
+                      "value": {
+                        "stringValue": "sha256:a3855bb5c010"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy",
+                      "value": {
+                        "stringValue": "tool-output-trim"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.action",
+                      "value": {
+                        "stringValue": "trimmed"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.candidate_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.changed_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.protected_count_bucket",
+                      "value": {
+                        "stringValue": "under_5"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.token_count.before_bucket",
+                      "value": {
+                        "stringValue": "under_50k"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.token_count.removed_bucket",
+                      "value": {
+                        "stringValue": "under_50k"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.byte_count.removed_bucket",
+                      "value": {
+                        "stringValue": "under_10mb"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.reason_hash",
+                      "value": {
+                        "stringValue": "sha256:83c47780facad7b3b3490be8a372bca7ac820e0ab723f90599ca24f09763f0b0"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.sample_hash",
+                      "value": {
+                        "stringValue": "sha256:c99730548cf4f54e4948cde0dd2ee61a0e7fe12d9f5a31cf7b39d4d5f86f0bf0"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.raw_text_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_session_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_file_content_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.prune.strategy.evaluated",
+                  "timeUnixNano": "1779750245000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "claude-session-private-prune-fixture"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-cozempic-receipt-demo"
+                      }
+                    },
+                    {
+                      "key": "context.prune.run_id_hash",
+                      "value": {
+                        "stringValue": "sha256:a3855bb5c010"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy",
+                      "value": {
+                        "stringValue": "tool-result-age"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.action",
+                      "value": {
+                        "stringValue": "minified"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.candidate_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.changed_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.protected_count_bucket",
+                      "value": {
+                        "stringValue": "under_5"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.token_count.before_bucket",
+                      "value": {
+                        "stringValue": "under_50k"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.token_count.removed_bucket",
+                      "value": {
+                        "stringValue": "under_50k"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.byte_count.removed_bucket",
+                      "value": {
+                        "stringValue": "under_10mb"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.reason_hash",
+                      "value": {
+                        "stringValue": "sha256:ead46a2482d65359b9848cdbc410a0132c0ef70dfd71be5832cd8332018e3829"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.sample_hash",
+                      "value": {
+                        "stringValue": "sha256:a517b1809dfd0bbe03adef577f133150a729acd9e90409594e6ec21914c4a551"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.raw_text_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_session_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_file_content_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.prune.strategy.evaluated",
+                  "timeUnixNano": "1779750246000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "claude-session-private-prune-fixture"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-cozempic-receipt-demo"
+                      }
+                    },
+                    {
+                      "key": "context.prune.run_id_hash",
+                      "value": {
+                        "stringValue": "sha256:a3855bb5c010"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy",
+                      "value": {
+                        "stringValue": "document-dedup"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.action",
+                      "value": {
+                        "stringValue": "deduped"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.candidate_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.changed_count_bucket",
+                      "value": {
+                        "stringValue": "under_5"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.protected_count_bucket",
+                      "value": {
+                        "stringValue": "zero"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.token_count.before_bucket",
+                      "value": {
+                        "stringValue": "under_50k"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.token_count.removed_bucket",
+                      "value": {
+                        "stringValue": "under_50k"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.byte_count.removed_bucket",
+                      "value": {
+                        "stringValue": "under_1mb"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.reason_hash",
+                      "value": {
+                        "stringValue": "sha256:cecb93bebe7b8d60542938693d6525dc5c5e3255e80e55b61dc3efdd2a9edf1c"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.sample_hash",
+                      "value": {
+                        "stringValue": "sha256:edf3c3df1f1c430b9672833e7d736f387075f7ccd9815f72ca4c4ed46ea8fa2f"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.raw_text_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_session_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_file_content_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.prune.strategy.evaluated",
+                  "timeUnixNano": "1779750247000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "claude-session-private-prune-fixture"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-cozempic-receipt-demo"
+                      }
+                    },
+                    {
+                      "key": "context.prune.run_id_hash",
+                      "value": {
+                        "stringValue": "sha256:a3855bb5c010"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy",
+                      "value": {
+                        "stringValue": "behavioral-digest"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.action",
+                      "value": {
+                        "stringValue": "protected"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.candidate_count_bucket",
+                      "value": {
+                        "stringValue": "under_5"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.changed_count_bucket",
+                      "value": {
+                        "stringValue": "zero"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.protected_count_bucket",
+                      "value": {
+                        "stringValue": "under_5"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.token_count.before_bucket",
+                      "value": {
+                        "stringValue": "under_10k"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.token_count.removed_bucket",
+                      "value": {
+                        "stringValue": "under_1k"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.byte_count.removed_bucket",
+                      "value": {
+                        "stringValue": "under_1kb"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.reason_hash",
+                      "value": {
+                        "stringValue": "sha256:8a373baf84c1899e5a1d0a63888419a85d21950e482684aac3418f987d8481ff"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.sample_hash",
+                      "value": {
+                        "stringValue": "sha256:a5a03cc5c544d0eef6ebe24466d4af1b9cf64dd0767aa1a45e17f3ad2b5cb661"
+                      }
+                    },
+                    {
+                      "key": "context.prune.strategy.raw_text_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_session_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_file_content_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.prune.completed",
+                  "timeUnixNano": "1779750249000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "claude-session-private-prune-fixture"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-cozempic-receipt-demo"
+                      }
+                    },
+                    {
+                      "key": "context.prune.run_id_hash",
+                      "value": {
+                        "stringValue": "sha256:a3855bb5c010"
+                      }
+                    },
+                    {
+                      "key": "context.prune.status",
+                      "value": {
+                        "stringValue": "completed_with_backup"
+                      }
+                    },
+                    {
+                      "key": "context.prune.token_count.after_bucket",
+                      "value": {
+                        "stringValue": "under_100k"
+                      }
+                    },
+                    {
+                      "key": "context.prune.byte_count.after_bucket",
+                      "value": {
+                        "stringValue": "under_10mb"
+                      }
+                    },
+                    {
+                      "key": "context.prune.token_count.removed_bucket",
+                      "value": {
+                        "stringValue": "under_100k"
+                      }
+                    },
+                    {
+                      "key": "context.prune.byte_count.removed_bucket",
+                      "value": {
+                        "stringValue": "under_10mb"
+                      }
+                    },
+                    {
+                      "key": "context.prune.end_ratio_bucket",
+                      "value": {
+                        "stringValue": "under_50_percent"
+                      }
+                    },
+                    {
+                      "key": "context.prune.changed_item_count_bucket",
+                      "value": {
+                        "stringValue": "under_100"
+                      }
+                    },
+                    {
+                      "key": "context.prune.protected_item_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "context.prune.backup.verified",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "context.prune.summary.hash",
+                      "value": {
+                        "stringValue": "sha256:e468aa06f5fd2bf91fb55dff0bfb7ab49e27282b12a9393a0754dff24530e1e0"
+                      }
+                    },
+                    {
+                      "key": "context.prune.audit_gap",
+                      "value": {
+                        "stringValue": "receipt proves pruning boundary and privacy posture, not semantic sufficiency of the remaining context"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_session_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_summary_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_file_content_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
