@@ -250,6 +250,13 @@ const trackedExternalDistributions = [
     reason: 'contextual context-engineering directory submission under agent observability for privacy-safe context receipts',
   },
   {
+    name: 'yzfly-awesome-context-engineering-context-receipts',
+    repo: 'yzfly/awesome-context-engineering',
+    pullRequest: 7,
+    url: 'https://github.com/yzfly/awesome-context-engineering/pull/7',
+    reason: 'contextual context-engineering directory submission for Pluribus privacy-safe context receipts and boundary evidence',
+  },
+  {
     name: 'opencode-mcp-tool-search-receipts',
     repo: 'anomalyco/opencode',
     issueNumber: 8625,
