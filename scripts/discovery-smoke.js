@@ -243,6 +243,13 @@ const trackedExternalDistributions = [
     reason: 'external skill contribution that turns privacy-safe context receipts into an immediately installable Agent Skill for context-engineering users',
   },
   {
+    name: 'composio-awesome-claude-skills-context-receipts',
+    repo: 'ComposioHQ/awesome-claude-skills',
+    pullRequest: 916,
+    url: 'https://github.com/ComposioHQ/awesome-claude-skills/pull/916',
+    reason: 'external Claude Skills directory contribution packaging context receipts as a standalone skill for progressive disclosure and Tool Search users',
+  },
+  {
     name: 'awesome-context-engineering-context-receipts',
     repo: 'Meirtz/Awesome-Context-Engineering',
     pullRequest: 62,
