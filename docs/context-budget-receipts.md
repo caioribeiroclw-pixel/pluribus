@@ -79,6 +79,34 @@ Minimal events:
 - `subagent.mcp_policy.applied`
 - `subagent.context_boot.evaluated`
 
+## ToolSearch propagation into subagents
+
+When MCP tools are deferred behind `ToolSearch`, subagent bugs can hide in three different layers:
+
+- the parent/orchestrator policy intended to expose or exclude MCP/ToolSearch;
+- the subagent `tools:` declaration made `ToolSearch` available, stripped it, or froze an older registry; and
+- the runtime filter actually exposed the deferred-tools channel after spawn.
+
+The receipt should make those layers distinguishable without raw tool schemas, prompts, agent files, or private paths. It should include:
+
+- spawn path and whether skill context was active;
+- coarse bucket for parent intermediate tool calls before spawn;
+- `tools:` declaration shape such as wildcard, explicit include, or exclusion style;
+- whether `ToolSearch` was declared and actually exposed to the subagent;
+- parent vs subagent MCP server count buckets;
+- loaded vs deferred tool-definition buckets; and
+- a `filtered_by` or `filter_reason` category.
+
+Runnable fixture:
+
+```bash
+node examples/context-input-evidence/convert-subagent-toolsearch-propagation-log.mjs
+```
+
+Public trace:
+
+- `examples/context-input-evidence/subagent-toolsearch-propagation-otel-trace.json`
+
 ## Delegation boundary
 
 A subagent can save parent context at boot and still lose the benefit if raw child output is pasted back into the parent. The receipt should prove:

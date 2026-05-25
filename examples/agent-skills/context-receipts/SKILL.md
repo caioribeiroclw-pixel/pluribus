@@ -77,6 +77,24 @@ Minimal JSONL event names:
 {"event":"subagent.context_boot.evaluated","subagent_role":"testing","loaded_tool_definition_count":0,"deferred_tool_definition_count":48,"startup_token_bucket":"50k_75k","raw_schema_copied":false,"audit_gap":"proves injection boundary, not tool relevance"}
 ```
 
+## ToolSearch propagation smoke
+
+For subagents that should inherit MCP through `ToolSearch`, distinguish policy, declaration, and runtime filtering:
+
+- did the parent/orchestrator intend to expose MCP or exclude it for this subagent?
+- was the subagent spawned immediately or after parent tool calls/orchestration work?
+- was the `tools:` declaration wildcard, explicit include, or exclusion style?
+- was `ToolSearch` declared and was it actually exposed in the subagent tool surface?
+- did MCP servers/tool definitions stay deferred, or did the channel collapse to zero?
+- was the agent registry loaded at session boot, making newly added agent files invisible until restart?
+
+Minimal JSONL event names:
+
+```jsonl
+{"event":"subagent.toolsearch.propagation.evaluated","spawn_path":"Task","tools_declaration_shape":"enumerated_include","toolsearch_declared":false,"toolsearch_exposed":false,"mcp_servers_available_bucket":"0","deferred_tool_definitions_bucket":"0","filtered_by":"frontmatter_tools_policy_or_runtime_filter","raw_tool_schemas_copied":false}
+{"event":"subagent.toolsearch.matrix.completed","tested_axis":"tools_frontmatter_shape","audit_gap":"proves ToolSearch exposure, not semantic tool relevance or runtime call success"}
+```
+
 ## Subagent / manager boundary smoke
 
 For subagents, manager agents, or child workers, answer:
