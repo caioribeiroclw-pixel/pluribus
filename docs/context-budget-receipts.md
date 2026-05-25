@@ -6,6 +6,8 @@ Privacy-safe receipts for answering a narrow operational question:
 
 This is different from generic token accounting. A context-budget receipt should prove which context surfaces were available, which ones crossed the boundary, which ones stayed deferred or suppressed, and how much budget remained — without exporting raw prompts, tool schemas, tool outputs, memory bodies, file paths, ticket text, secrets, or customer data.
 
+If you want a copyable Agent Skill recipe instead of a spec-style guide, see [`examples/agent-skills/context-receipts/`](../examples/agent-skills/context-receipts/). It turns the receipt pattern into a 60-second smoke checklist for Tool Search, skills, and subagent boundaries.
+
 ## When to use this receipt
 
 Use a context-budget receipt when a coding agent looks lazy, fails with `prompt is too long`, or returns a tiny summary after a subagent/tool-heavy step and you need to distinguish:

@@ -1,0 +1,89 @@
+# Context Receipts
+
+Use this skill when an agent workflow claims to save context by selecting, deferring, hydrating, summarizing, compacting, delegating, or isolating context.
+
+The job is not to log the private content. The job is to emit a small receipt that lets a reviewer answer:
+
+> what crossed the context boundary, what stayed out, and what audit gap remains?
+
+## Privacy defaults
+
+Never include raw prompts, raw tool schemas, raw tool arguments, raw tool results, raw skill bodies, memory bodies, secrets, customer names, or full transcripts in the receipt.
+
+Prefer:
+
+- stable ids or hashed ids;
+- counts and token/line buckets;
+- categorical reasons;
+- explicit booleans for raw content copied/not copied;
+- before/after context budget buckets;
+- an `audit_gap` field when the receipt proves routing but not semantic correctness.
+
+## 60-second Tool Search smoke
+
+For MCP Tool Search, lazy tool loading, or progressive disclosure, emit enough evidence to answer these seven checks:
+
+1. **Index-only startup:** did the session load a compact tool/server index instead of all full schemas?
+2. **Search/routing:** what hashed query/category or routing reason selected candidate tools?
+3. **Hydration:** which full tool definition was loaded, why, and how many definitions stayed suppressed?
+4. **Call:** which server/tool id was invoked, with argument/result redaction status and success/error status?
+5. **Boundary:** if a manager subagent or child agent was used, did raw child output return to the parent?
+6. **Budget:** what were the startup and post-hydration context-token buckets?
+7. **Audit gap:** what is not proven, such as whether the selected tool was semantically optimal?
+
+Minimal JSONL event names:
+
+```jsonl
+{"event":"mcp.tool_index.loaded","loaded_server_count":12,"loaded_tool_index_count":84,"full_schema_count":0,"suppressed_tool_count":84,"raw_schema_copied":false,"startup_token_bucket":"lt_1k"}
+{"event":"mcp.tool_search.performed","query_hash":"sha256:...","query_category":"repo_search","candidate_tool_count":5,"selected_tool_id":"github.search_code","raw_query_copied":false}
+{"event":"mcp.tool_definition.loaded","tool_id":"github.search_code","hydrate_reason":"selected_after_tool_search","suppressed_tool_count":83,"definition_token_bucket":"1k_2k","raw_schema_copied":false}
+{"event":"mcp.tool_call.completed","tool_id":"github.search_code","args_hash":"sha256:...","result_token_bucket":"2k_4k","raw_args_copied":false,"raw_result_copied":false,"status":"ok"}
+```
+
+## Skill / prompt context smoke
+
+For skills, rules, AGENTS.md overlays, or instruction files, answer:
+
+- which index/listing entered the session;
+- which full skill/rule/instruction body was selected;
+- which candidates were suppressed and why;
+- whether the body was loaded at session start, after a search, or after an explicit command;
+- source hash, delivered hash, and canonical form when available;
+- whether the skill/instruction text was copied into the receipt.
+
+Minimal event names:
+
+- `context.skill.registry.index.loaded`
+- `context.skill.registry.skill.read`
+- `context.skill.registry.skill.injected`
+- `context.input.loaded`
+- `context.input.candidate_suppressed`
+
+## Subagent / manager boundary smoke
+
+For subagents, manager agents, or child workers, answer:
+
+- what task was delegated, by category and hashed objective;
+- what large output was captured by the child, as line/token buckets;
+- what bounded summary returned to the parent;
+- whether raw child output, tool results, or MCP schemas entered the parent context;
+- the remaining audit gap.
+
+Minimal event names:
+
+- `subagent.delegation.requested`
+- `subagent.tool_output.captured`
+- `subagent.summary.returned`
+- `parent.context_budget.evaluated`
+
+## Good receipt test
+
+A receipt is useful if a maintainer can debug one of these failures without seeing private content:
+
+- the agent never found the right tool/skill;
+- the full definition loaded too early;
+- too many definitions stayed in context;
+- a child/subagent saved no budget because raw output returned to the parent;
+- compaction happened but no one can prove what was preserved, summarized, or dropped.
+
+A receipt is not enough if it only says “Tool Search enabled” or “used subagent”. It must prove the boundary behavior.
