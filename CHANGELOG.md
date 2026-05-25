@@ -4,7 +4,15 @@
 
 All notable changes to Pluribus are documented here.
 
-- Added an executable subagent delegation receipt demo proving that large child command/tool output stayed isolated and only a bounded summary crossed back into the parent context.
+## 0.3.27 - 2026-05-25
+
+- Added a copyable Agent Skill recipe for privacy-safe context receipts, with 60-second smokes for Tool Search/lazy MCP, skill/prompt context, and subagent/manager boundaries.
+- Linked the recipe from the README and context-budget receipts guide so reviewers can install or inspect a concrete `SKILL.md` instead of reverse-engineering the receipt fixtures.
+
+## 0.3.26 - 2026-05-24
+
+- Added the public context-budget receipts guide, connecting subagent boot budget, delegation boundaries, MCP manager isolation, MCP gateway progressive disclosure, and CLI progressive disclosure under one diagnostic frame: what ate the agent's context before or after the task.
+- Published the GitHub release and npm catch-up so `pluribus-context@latest` includes the context-budget receipts docs and fixtures.
 
 ## 0.3.25 - 2026-05-23
 
