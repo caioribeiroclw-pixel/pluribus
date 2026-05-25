@@ -14,7 +14,7 @@ It shows where instructions keep their semantics, where they are downgraded to a
 
 It is **not** a persistent memory layer, retrieval system, agent orchestrator, or agent-merging framework. Think `CLAUDE.md`, `.cursorrules`, `copilot-instructions.md`, `AGENTS.md` — one intentional context, multiple generated outputs.
 
-**Reviewer shortcut:** evaluating Pluribus for a list, newsletter, package roundup, or tool directory? Use the [Community Review Packet](docs/community-review-packet.md) for copy-paste directory submission fields, safety/removability notes, feedback links, and a disposable 60-second smoke test. If you only run one command, try `npx --yes pluribus-context@latest audit --json --fidelity-report` to see native discovery surfaces, generic fallbacks, load evidence, duplicate-load selection evidence, manual activation requirements, effective context scope, and semantic differences. For the newer agent-observability wedge, start with [context-budget receipts](docs/context-budget-receipts.md): privacy-safe evidence for what MCP schemas, skills, memory, subagents, CLI help, or summaries actually crossed an agent boundary. If npm `latest` is behind the GitHub release you are reviewing, use the GitHub-release smoke command in the review packet.
+**Reviewer shortcut:** evaluating Pluribus for a list, newsletter, package roundup, or tool directory? Use the [Community Review Packet](docs/community-review-packet.md) for copy-paste directory submission fields, safety/removability notes, feedback links, and a disposable 60-second smoke test. If you only run one command, try `npx --yes pluribus-context@latest audit --json --fidelity-report` to see native discovery surfaces, generic fallbacks, load evidence, duplicate-load selection evidence, manual activation requirements, effective context scope, and semantic differences. For the newer agent-observability wedge, start with [context-budget receipts](docs/context-budget-receipts.md): privacy-safe evidence for what MCP schemas, skills, memory, subagents, CLI help, or summaries actually crossed an agent boundary. npm `latest` is currently aligned with the GitHub release; the review packet also documents a GitHub-release smoke fallback for future release-lag windows.
 
 ---
 
@@ -122,7 +122,7 @@ pluribus --help
 npm uninstall -g pluribus-context
 ```
 
-If you are reviewing a GitHub release that is newer than npm `latest`, run the release directly without a global install:
+npm `latest` is currently aligned with the latest GitHub release. If you are reviewing a future GitHub release before npm `latest` catches up, run that release directly without a global install:
 
 ```bash
 npm exec --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.26 -- pluribus --version
