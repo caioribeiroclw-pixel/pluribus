@@ -59,6 +59,24 @@ Minimal event names:
 - `context.input.loaded`
 - `context.input.candidate_suppressed`
 
+## Per-agent MCP injection smoke
+
+For role-specific subagents or per-agent MCP configs, prove the policy boundary before debugging model quality:
+
+- which subagent role/session requested tools;
+- which MCP servers were available to that role;
+- which servers were explicitly excluded before boot;
+- whether startup loaded full schemas or only a compact index;
+- how many tool definitions stayed deferred/suppressed; and
+- the startup token bucket after policy was applied.
+
+Minimal JSONL event names:
+
+```jsonl
+{"event":"subagent.mcp_policy.applied","subagent_role":"testing","available_server_count":2,"available_servers_hash":"sha256:...","excluded_server_count":5,"excluded_servers_hash":"sha256:...","policy_source":"role_config","raw_server_names_copied":false}
+{"event":"subagent.context_boot.evaluated","subagent_role":"testing","loaded_tool_definition_count":0,"deferred_tool_definition_count":48,"startup_token_bucket":"50k_75k","raw_schema_copied":false,"audit_gap":"proves injection boundary, not tool relevance"}
+```
+
 ## Subagent / manager boundary smoke
 
 For subagents, manager agents, or child workers, answer:

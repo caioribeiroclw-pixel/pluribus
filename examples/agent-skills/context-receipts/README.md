@@ -13,7 +13,7 @@ It is intentionally markdown-only so it can be copied into a local skills direct
 Ask an agent or harness using the skill to emit a receipt for one workflow and verify these constraints:
 
 ```bash
-grep -E 'mcp\.tool_index\.loaded|context\.skill\.registry\.index\.loaded|subagent\.delegation\.requested' receipt.jsonl
+grep -E 'mcp\.tool_index\.loaded|context\.skill\.registry\.index\.loaded|subagent\.mcp_policy\.applied|subagent\.delegation\.requested' receipt.jsonl
 grep -E 'raw_(schema|query|args|result|output)_copied":false|raw.*CopiedToReceipt":false' receipt.jsonl
 ```
 

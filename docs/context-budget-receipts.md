@@ -63,6 +63,22 @@ Public trace:
 
 - `examples/context-input-evidence/subagent-context-budget-otel-trace.json`
 
+## Per-agent MCP injection
+
+Role-specific subagents may need different MCP surfaces: a testing agent might need `testing` and `github`, while deployment, analytics, email, or browser servers should stay outside that boot context. The receipt should prove the policy boundary before the first task:
+
+- role/session id for the subagent without raw instructions;
+- available server count/hash for the role;
+- excluded server count/hash before boot;
+- loaded vs deferred tool-definition counts;
+- startup token bucket after the policy was applied; and
+- an explicit audit gap that this proves injection scope, not semantic tool quality.
+
+Minimal events:
+
+- `subagent.mcp_policy.applied`
+- `subagent.context_boot.evaluated`
+
 ## Delegation boundary
 
 A subagent can save parent context at boot and still lose the benefit if raw child output is pasted back into the parent. The receipt should prove:
@@ -146,7 +162,8 @@ Instead of “why is my subagent bad?”, ask for a receipt or debug JSON that c
 2. How many were loaded into the parent?
 3. How many were loaded into the subagent?
 4. How many were suppressed/deferred?
-5. What token bucket remained before the first tool call?
-6. Did raw child output return to the parent, or only a bounded summary?
+5. For a subagent, which MCP servers were allowed and which were excluded before boot?
+6. What token bucket remained before the first tool call?
+7. Did raw child output return to the parent, or only a bounded summary?
 
 That is the narrow wedge for Pluribus: context-budget evidence across agent boundaries, not another memory store or tool router.
