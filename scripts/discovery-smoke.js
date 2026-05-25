@@ -396,6 +396,13 @@ const trackedExternalDistributions = [
     url: 'https://github.com/mrgoonie/claudekit-skills/issues/24',
     reason: 'contextual ClaudeKit mcp-manager feedback about privacy-safe receipts proving MCP schemas stayed isolated in the manager subagent and only a bounded summary returned to the parent',
   },
+  {
+    name: 'cozempic-pruning-receipts',
+    repo: 'Ruya-AI/cozempic',
+    issueNumber: 101,
+    url: 'https://github.com/Ruya-AI/cozempic/issues/101',
+    reason: 'contextual Claude Code context-cleaning feedback about privacy-safe pruning receipts for treat/guard/doctor runs',
+  },
 ]
 
 function run(command, args) {
