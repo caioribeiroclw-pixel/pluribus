@@ -271,6 +271,13 @@ const trackedExternalDistributions = [
     reason: 'contextual opencode MCP lazy/tool-search discussion about context-budget receipts for deferred tool definitions',
   },
   {
+    name: 'pydantic-ai-harness-deferred-tool-loading-receipts',
+    repo: 'pydantic/pydantic-ai-harness',
+    issueNumber: 40,
+    url: 'https://github.com/pydantic/pydantic-ai-harness/issues/40',
+    reason: 'contextual pydantic-ai-harness Tool Search capability feedback about privacy-safe index/search/hydrate/call receipts',
+  },
+  {
     name: 'dash0-agent-context-otel-skill',
     repo: 'dash0hq/agent-skills',
     pullRequest: 14,
