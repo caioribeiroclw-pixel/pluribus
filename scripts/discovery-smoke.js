@@ -383,6 +383,13 @@ const trackedExternalDistributions = [
     reason: 'contextual Claude Code feedback about privacy-safe context-budget receipts for subagent tool-schema inheritance and deferred/suppressed MCP tools',
   },
   {
+    name: 'claude-code-subagent-mcp-toolsearch-propagation-receipts',
+    repo: 'anthropics/claude-code',
+    issueNumber: 30280,
+    url: 'https://github.com/anthropics/claude-code/issues/30280',
+    reason: 'contextual Claude Code feedback asking for privacy-safe receipts that distinguish intended subagent MCP/ToolSearch availability from runtime propagation or frontmatter filtering failures',
+  },
+  {
     name: 'claudekit-mcp-manager-isolation-receipts',
     repo: 'mrgoonie/claudekit-skills',
     issueNumber: 24,
