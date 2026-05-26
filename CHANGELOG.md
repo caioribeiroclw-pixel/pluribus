@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.33 - 2026-05-26
+
+- Added Agent Skill metadata frontmatter and a `/usage` attribution smoke to the context receipts skill so directory reviewers can evaluate it as a standard SKILL.md and connect receipts to component-level usage breakdowns.
+
 ## 0.3.32 - 2026-05-26
 
 - Added an executable compaction transaction/rollback receipt fixture for failed `/compact` runs, proving summary failure, `swap_committed=false`, original-context preservation, restored deferred-tool registry/system-reminder queue, and no stale reminder replay without logging raw transcript/tool output.

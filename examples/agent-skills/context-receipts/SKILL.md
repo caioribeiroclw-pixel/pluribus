@@ -1,6 +1,11 @@
+---
+name: context-receipts
+description: Emit privacy-safe receipts for context selection, deferral, hydration, compaction, pruning, delegation, usage attribution, and boundary handoffs.
+---
+
 # Context Receipts
 
-Use this skill when an agent workflow claims to save context by selecting, deferring, hydrating, summarizing, compacting, pruning, delegating, or isolating context.
+Use this skill when an agent workflow claims to save context by selecting, deferring, hydrating, summarizing, compacting, pruning, delegating, attributing usage, or isolating context.
 
 The job is not to log the private content. The job is to emit a small receipt that lets a reviewer answer:
 
@@ -93,6 +98,25 @@ Minimal JSONL event names:
 ```jsonl
 {"event":"subagent.toolsearch.propagation.evaluated","spawn_path":"Task","tools_declaration_shape":"enumerated_include","toolsearch_declared":false,"toolsearch_exposed":false,"mcp_servers_available_bucket":"0","deferred_tool_definitions_bucket":"0","filtered_by":"frontmatter_tools_policy_or_runtime_filter","raw_tool_schemas_copied":false}
 {"event":"subagent.toolsearch.matrix.completed","tested_axis":"tools_frontmatter_shape","audit_gap":"proves ToolSearch exposure, not semantic tool relevance or runtime call success"}
+```
+
+## Usage attribution smoke
+
+For `/usage`, `/context`, `/doctor`, or other context-budget breakdowns, map each displayed category to evidence that can be reviewed without exposing private content:
+
+- what measurement window was used;
+- which categories were attributed, such as skills, subagents, plugins, MCP servers, rules, memory, or project files;
+- which components were loaded, deferred, hydrated, suppressed, pruned, or rolled back;
+- before/after or current token/cost buckets by category;
+- whether raw skill bodies, prompts, MCP schemas, tool outputs, and file paths were excluded;
+- the remaining audit gap, such as not proving semantic usefulness of a high-cost component.
+
+Minimal JSONL event names:
+
+```jsonl
+{"event":"context.usage.window.measured","window":"current_session","total_token_bucket":"100k_150k","raw_prompts_copied":false}
+{"event":"context.usage.category.attributed","category":"mcp_server","component_hash":"sha256:...","loaded_token_bucket":"10k_25k","deferred_definition_count":42,"hydrated_definition_count":3,"raw_schema_copied":false}
+{"event":"context.usage.breakdown.completed","categories":["skills","subagents","plugins","mcp_server"],"audit_gap":"proves attribution buckets, not whether each component was necessary"}
 ```
 
 ## Pruning / compaction smoke
