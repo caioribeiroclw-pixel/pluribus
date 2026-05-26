@@ -4,11 +4,11 @@ Use this when reviewing Pluribus for a list, newsletter, package roundup, or too
 
 ## One-line description
 
-Pluribus keeps intentional AI coding context in one `pluribus.md` source of truth, then syncs or audits the tool-specific files used by Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, Zed, and Bob.
+Pluribus provides privacy-safe context receipts for AI coding agents, plus audits/sync for the instruction files used by Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, Zed, and Bob.
 
 ## Short listing copy
 
-Pluribus is an open-source CLI for teams and solo developers who use multiple AI coding tools. It treats project instructions, conventions, constraints, and shared team context as versioned Markdown, then generates each tool's expected context file (`CLAUDE.md`, `.cursorrules`, Copilot instructions, `AGENTS.md`, Windsurf/Continue rules, Zed rules, and Bob rules). The safest first command is a read-only audit:
+Pluribus is an open-source CLI for teams and solo developers who need evidence about agent context boundaries. It emits privacy-safe receipts for what crossed, stayed deferred, duplicated, got pruned, or rolled back across MCP tools, Agent Skills, memory/RAG retrieval, subagents, compaction, and generated instruction files — without logging raw prompts, code, schemas, tool outputs, transcripts, paths, secrets, or customer data. It also treats project instructions, conventions, constraints, and shared team context as versioned Markdown, then generates each tool's expected context file (`CLAUDE.md`, `.cursorrules`, Copilot instructions, `AGENTS.md`, Windsurf/Continue rules, Zed rules, and Bob rules). The safest first command is a read-only audit:
 
 ```bash
 npx --yes pluribus-context@latest audit
@@ -25,10 +25,10 @@ Use these fields for directories, awesome lists, or review forms that ask for a 
 | npm | https://www.npmjs.com/package/pluribus-context |
 | License | MIT |
 | Install / run | `npx --yes pluribus-context@latest audit` or `npm install -g pluribus-context@latest` |
-| Category | AI coding tools / context management |
-| Tags | `claude-code`, `cursor`, `copilot`, `openclaw`, `windsurf`, `continue`, `zed`, `bob`, `context-drift` |
-| One sentence | Keep one versioned AI coding context in `pluribus.md`, then audit or sync the generated files used by Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, Zed, and Bob. |
-| 280-char blurb | Pluribus is an open-source CLI for intentional AI coding context. It keeps project guidance in one `pluribus.md`, then audits or syncs `CLAUDE.md`, Cursor rules, Copilot instructions, `AGENTS.md`, Windsurf/Continue rules, Zed rules, and Bob rules. |
+| Category | AI coding tools / agent observability / context management |
+| Tags | `claude-code`, `cursor`, `copilot`, `openclaw`, `windsurf`, `continue`, `zed`, `bob`, `context-receipts`, `context-drift`, `mcp`, `agent-skills`, `opentelemetry` |
+| One sentence | Emit privacy-safe receipts for what context crossed agent boundaries, and audit or sync the generated instruction files used by Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, Zed, and Bob. |
+| 280-char blurb | Pluribus is an open-source CLI for agent context evidence. It emits privacy-safe receipts for MCP/tools, skills, memory/RAG, pruning and compaction boundaries, then audits or syncs AI instruction files like `CLAUDE.md`, Cursor rules, Copilot instructions, and `AGENTS.md`. |
 | Safe first command | `npx --yes pluribus-context@latest audit` |
 
 ### Awesome-list Markdown entry
@@ -36,7 +36,7 @@ Use these fields for directories, awesome lists, or review forms that ask for a 
 Use this exact line when a curated list accepts one Markdown bullet per tool:
 
 ```markdown
-- [Pluribus](https://github.com/caioribeiroclw-pixel/pluribus) - Open-source CLI that keeps one versioned AI coding context in sync across Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, Zed, and Bob.
+- [Pluribus](https://github.com/caioribeiroclw-pixel/pluribus) - Open-source CLI for privacy-safe agent context receipts, plus audits/sync for AI instruction files across Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, Zed, and Bob.
 ```
 
 ## Why it may be useful
@@ -52,12 +52,12 @@ Use this section when a directory, list maintainer, or reviewer asks how Pluribu
 
 | Question | Short answer |
 | --- | --- |
-| What category is it? | AI coding context management / rules sync CLI. |
-| What is the source of truth? | `pluribus.md`, reviewed in git. |
-| What does it generate? | Tool-native context files for Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, Zed, and Bob. |
+| What category is it? | Agent context evidence / AI coding context management / rules sync CLI. |
+| What is the source of truth? | For sync: `pluribus.md`, reviewed in git. For receipts: counts, hashes, buckets, lifecycle states, and privacy flags generated from the tool/harness boundary being audited. |
+| What does it generate? | Tool-native context files for Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, Zed, and Bob; receipt fixtures/trace shapes for context-budget, retrieval, pruning, compaction, Tool Search, subagent, and skill boundaries. |
 | What is the safe first step? | Run `npx --yes pluribus-context@latest audit` to inspect existing context files without writing. |
 | When is another tool enough? | If you only need one tool's native rules format or a one-time converter, a smaller rules manager/converter may be enough. |
-| What is Pluribus not? | Not chat memory, retrieval, vector search, agent orchestration, or agent merging. |
+| What is Pluribus not? | Not chat memory, retrieval, vector search, agent orchestration, enterprise ContextOps, or agent merging. |
 
 ## Safety and removability
 

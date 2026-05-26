@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.34 - 2026-05-26
+
+- Repositioned README and the community review packet around privacy-safe agent context receipts first, with instruction-file audit/sync as the supporting workflow, so directory reviewers do not mistake Pluribus for another generic ContextOps, memory, RAG, or rules-sync tool.
+
 ## 0.3.33 - 2026-05-26
 
 - Added Agent Skill metadata frontmatter and a `/usage` attribution smoke to the context receipts skill so directory reviewers can evaluate it as a standard SKILL.md and connect receipts to component-level usage breakdowns.
