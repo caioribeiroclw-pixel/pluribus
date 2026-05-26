@@ -197,6 +197,21 @@ It reads `sample-mcp-tool-search-log.jsonl` and writes `mcp-tool-search-receipt.
 
 This is for Claude Code/MCP context-budget work where Tool Search reduces context bloat but still needs verifiable boundaries. The receipt should prove “only indexes were loaded up front; this one definition was loaded when needed; private query/arguments/results stayed out of the trace.”
 
+To test semantic code-search retrieval — where a code-search MCP returns multiple ranked chunks but the client/harness may dedupe stale or duplicate results before loading only a subset into the agent context — run:
+
+```bash
+node examples/context-input-evidence/convert-code-search-retrieval-log.mjs
+```
+
+It reads `sample-code-search-retrieval-log.jsonl` and writes `code-search-retrieval-receipt.ndjson` plus `code-search-retrieval-otel-trace.json`. The sample emits:
+
+- `code.index.snapshot.used` — snapshot, codebase path hash, git commit hash, indexed file/chunk buckets, and privacy flags.
+- `code.search.performed` — query hash/category, filter hash, top-k, and candidate-count bucket.
+- `code.search.result.returned` — rank, score bucket, chunk hash, path hash/extension, line-range bucket, stale/duplicate flags, and whether the result was loaded into agent context.
+- `context.input.loaded` — loaded versus suppressed chunk counts, suppression reason hashes/categories, token bucket, and explicit audit gap.
+
+The fixture intentionally includes raw private code snippets, local paths, URLs, tokens, customer names, emails, and ticket ids in the synthetic input, then verifies those strings do not appear in the receipt or trace. This is for Claude Context / code-search MCP / RAG-over-repo workflows where “search returned” and “agent loaded” need separate evidence.
+
 To test CLI progressive disclosure — where an agent receives a tiny CLI prompt first, loads specific command help only when needed, and executes the CLI instead of loading a full OpenAPI spec or MCP schema set — run:
 
 ```bash

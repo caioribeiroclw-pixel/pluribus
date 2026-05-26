@@ -43,6 +43,28 @@ A useful receipt starts small:
 
 Keep exact counts when they are not sensitive. Bucket token counts and sizes when exact values could reveal private workload shape.
 
+## Code-search / retrieval receipts
+
+Semantic code-search MCPs and RAG-over-repo tools can reduce context bloat by returning only relevant chunks. The observability gap is that retrieval and agent-loading are two different boundaries: a tool may return five chunks, a client may dedupe or stale-filter two of them, and only three may actually enter the agent context.
+
+The receipt should prove:
+
+- the indexed snapshot/version used, without raw local paths or embedding secrets;
+- the search request identity/category, without raw query text or filters;
+- returned result identities, ranks, score buckets, stale/duplicate markers, and path hashes/extensions/range buckets;
+- which returned chunks were loaded into agent context versus suppressed by the client/harness; and
+- raw code, private paths, prompts, customer names, URLs, tokens, and ticket text stayed out of the receipt.
+
+Runnable fixture:
+
+```bash
+node examples/context-input-evidence/convert-code-search-retrieval-log.mjs
+```
+
+Public trace:
+
+- `examples/context-input-evidence/code-search-retrieval-otel-trace.json`
+
 ## Post-hoc pruning / context cleaning
 
 Context-cleaning tools can reduce a bloated session after context has already entered the transcript. That creates a separate proof boundary from lazy loading: what was pruned, minified, stubbed, deduped, protected, and backed up?

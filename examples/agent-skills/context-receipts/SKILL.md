@@ -100,6 +100,27 @@ Minimal JSONL event names:
 {"event":"subagent.toolsearch.matrix.completed","tested_axis":"tools_frontmatter_shape","audit_gap":"proves ToolSearch exposure, not semantic tool relevance or runtime call success"}
 ```
 
+## Retrieval / code-search smoke
+
+For semantic code search, repo RAG, or MCP tools such as Claude Context, separate "search returned" from "agent context loaded":
+
+- which index snapshot/version was used, without raw local codebase paths;
+- what query/category/filter identity selected the candidates, without raw query text;
+- which result ids/chunk hashes were returned, with rank, score bucket, stale flag, duplicate marker, path hash/extension, and range bucket;
+- which returned chunks were actually loaded into the agent context;
+- which chunks were suppressed as duplicate, stale, clipped, policy-blocked, or over budget;
+- whether raw code, raw prompts, raw paths, customer names, URLs, secrets, and ticket text stayed out of the receipt;
+- the audit gap: this proves retrieval/loading boundaries, not semantic answer quality.
+
+Minimal JSONL event names:
+
+```jsonl
+{"event":"code.index.snapshot.used","snapshot_id_hash":"sha256:...","codebase_path_hash":"sha256:...","indexed_chunk_count_bucket":"over_1k","raw_codebase_path_copied":false}
+{"event":"code.search.performed","query_hash":"sha256:...","query_category":"auth_debug","candidate_count_bucket":"over_1k","raw_query_copied":false}
+{"event":"code.search.result.returned","rank":1,"chunk_id_hash":"sha256:...","chunk_text_hash":"sha256:...","path_hash":"sha256:...","score_bucket":"high","stale":false,"raw_code_copied":false}
+{"event":"context.input.loaded","kind":"retrieved_code_chunks","loaded_chunk_count":3,"suppressed_chunk_count":2,"suppression_reasons":["duplicate","stale_snapshot_chunk"],"raw_code_copied":false}
+```
+
 ## Usage attribution smoke
 
 For `/usage`, `/context`, `/doctor`, or other context-budget breakdowns, map each displayed category to evidence that can be reviewed without exposing private content:

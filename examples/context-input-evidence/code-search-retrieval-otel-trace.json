@@ -1,0 +1,879 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-code-search-retrieval-receipt-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.code_search_retrieval_demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "02c8df97e575ea76a89acf4fe9194925",
+              "spanId": "9568b542931d5d73",
+              "parentSpanId": "",
+              "name": "agent.session.code_search_retrieval",
+              "kind": 1,
+              "startTimeUnixNano": "1779804001000000000",
+              "endTimeUnixNano": "1779804006000000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "session-code-search-demo-001"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "conv-code-search-demo-001"
+                  }
+                },
+                {
+                  "key": "agent.name",
+                  "value": {
+                    "stringValue": "claude-code"
+                  }
+                },
+                {
+                  "key": "workspace.name_hash",
+                  "value": {
+                    "stringValue": "sha256:102233ba4d12"
+                  }
+                },
+                {
+                  "key": "gen_ai.request.model",
+                  "value": {
+                    "stringValue": "claude-opus-4.6"
+                  }
+                },
+                {
+                  "key": "code_search.query_category",
+                  "value": {
+                    "stringValue": "auth_session_debug"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "code.index.snapshot.used",
+                  "timeUnixNano": "1779804001000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "session-code-search-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-code-search-demo-001"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "code_search.index.snapshot_id_hash",
+                      "value": {
+                        "stringValue": "sha256:6a0d5bd7e10e"
+                      }
+                    },
+                    {
+                      "key": "code_search.codebase.path_hash",
+                      "value": {
+                        "stringValue": "sha256:747ff961f5c565013d2b43aa6393ee4f328ed3d6a82f28fc4ca06b417c47ebfb"
+                      }
+                    },
+                    {
+                      "key": "code_search.git.commit_hash",
+                      "value": {
+                        "stringValue": "sha256:87fe0690312cb4a86c9f9256ff9e1863118a67b44f286e3510c7816d430caae0"
+                      }
+                    },
+                    {
+                      "key": "code_search.indexed_file_count_bucket",
+                      "value": {
+                        "stringValue": "over_1k"
+                      }
+                    },
+                    {
+                      "key": "code_search.indexed_chunk_count_bucket",
+                      "value": {
+                        "stringValue": "over_1k"
+                      }
+                    },
+                    {
+                      "key": "code_search.embedding.provider_hash",
+                      "value": {
+                        "stringValue": "sha256:15c5b8267d43"
+                      }
+                    },
+                    {
+                      "key": "code_search.embedding.model_hash",
+                      "value": {
+                        "stringValue": "sha256:dbb48b3aa923"
+                      }
+                    },
+                    {
+                      "key": "code_search.snapshot.status",
+                      "value": {
+                        "stringValue": "fresh"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_codebase_path_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_embedding_config_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "code.search.performed",
+                  "timeUnixNano": "1779804003000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "session-code-search-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-code-search-demo-001"
+                      }
+                    },
+                    {
+                      "key": "code_search.query_hash",
+                      "value": {
+                        "stringValue": "sha256:436d2a7ed0737815a485101149ac0b2f0257573dc4a7d65cc3f5d1495bdb001a"
+                      }
+                    },
+                    {
+                      "key": "code_search.query_category",
+                      "value": {
+                        "stringValue": "auth_session_debug"
+                      }
+                    },
+                    {
+                      "key": "code_search.filter_hash",
+                      "value": {
+                        "stringValue": "sha256:823b6b5cedb4858291cc68b8eeaccd69cd4a8e4f54cbe62c6ca99bc590847335"
+                      }
+                    },
+                    {
+                      "key": "code_search.top_k",
+                      "value": {
+                        "intValue": "8"
+                      }
+                    },
+                    {
+                      "key": "code_search.candidate_count_bucket",
+                      "value": {
+                        "stringValue": "over_1k"
+                      }
+                    },
+                    {
+                      "key": "code_search.index.snapshot_id_hash",
+                      "value": {
+                        "stringValue": "sha256:6a0d5bd7e10e"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_query_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_filter_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "audit_gap",
+                      "value": {
+                        "stringValue": "proves search request identity and candidate scale, not semantic relevance"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "code.search.result.returned",
+                  "timeUnixNano": "1779804004000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "session-code-search-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-code-search-demo-001"
+                      }
+                    },
+                    {
+                      "key": "code_search.index.snapshot_id_hash",
+                      "value": {
+                        "stringValue": "sha256:6a0d5bd7e10e"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.rank",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.score_bucket",
+                      "value": {
+                        "stringValue": "very_high"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.chunk_id_hash",
+                      "value": {
+                        "stringValue": "sha256:9b5a0917012a"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.chunk_text_hash",
+                      "value": {
+                        "stringValue": "sha256:89f80a544ab501d52eb4f3cb9ff1aefe496570db864b06011895db06009142ce"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.path_hash",
+                      "value": {
+                        "stringValue": "sha256:d730007d6c0f93605282b288e74d7f544c7f6f341a3f3c4a38a82903df69766d"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.path_extension",
+                      "value": {
+                        "stringValue": "ts"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.line_range_bucket",
+                      "value": {
+                        "stringValue": "under_100_lines"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.stale",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "code_search.result.duplicate_of_hash",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "code_search.result.loaded_into_agent_context",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "code_search.result.suppressed_before_agent_context",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "code_search.result.suppression_reason",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_code_chunk_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_path_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "code.search.result.returned",
+                  "timeUnixNano": "1779804004000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "session-code-search-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-code-search-demo-001"
+                      }
+                    },
+                    {
+                      "key": "code_search.index.snapshot_id_hash",
+                      "value": {
+                        "stringValue": "sha256:6a0d5bd7e10e"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.rank",
+                      "value": {
+                        "intValue": "2"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.score_bucket",
+                      "value": {
+                        "stringValue": "high"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.chunk_id_hash",
+                      "value": {
+                        "stringValue": "sha256:813c55aef28e"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.chunk_text_hash",
+                      "value": {
+                        "stringValue": "sha256:d73fdad68b67584cd00466261369d2c8bf41c7518ef39699c3962f6819a840b3"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.path_hash",
+                      "value": {
+                        "stringValue": "sha256:74915fb212979bb303ee810c9190a0d316ab17f1946975e3d1af57ed3001f058"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.path_extension",
+                      "value": {
+                        "stringValue": "ts"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.line_range_bucket",
+                      "value": {
+                        "stringValue": "under_100_lines"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.stale",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "code_search.result.duplicate_of_hash",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "code_search.result.loaded_into_agent_context",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "code_search.result.suppressed_before_agent_context",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "code_search.result.suppression_reason",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_code_chunk_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_path_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "code.search.result.returned",
+                  "timeUnixNano": "1779804004000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "session-code-search-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-code-search-demo-001"
+                      }
+                    },
+                    {
+                      "key": "code_search.index.snapshot_id_hash",
+                      "value": {
+                        "stringValue": "sha256:6a0d5bd7e10e"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.rank",
+                      "value": {
+                        "intValue": "3"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.score_bucket",
+                      "value": {
+                        "stringValue": "high"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.chunk_id_hash",
+                      "value": {
+                        "stringValue": "sha256:0570aa4bf0e9"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.chunk_text_hash",
+                      "value": {
+                        "stringValue": "sha256:39b430127a752702d78ec3180e183f90732310d13e15bcc1adf44cfba2861152"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.path_hash",
+                      "value": {
+                        "stringValue": "sha256:504efd04322190f19e8d6268b79713d4f7ce890fe9279e76f69d8f18a1e20eb3"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.path_extension",
+                      "value": {
+                        "stringValue": "ts"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.line_range_bucket",
+                      "value": {
+                        "stringValue": "under_100_lines"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.stale",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "code_search.result.duplicate_of_hash",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "code_search.result.loaded_into_agent_context",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "code_search.result.suppressed_before_agent_context",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "code_search.result.suppression_reason",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_code_chunk_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_path_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "code.search.result.returned",
+                  "timeUnixNano": "1779804004000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "session-code-search-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-code-search-demo-001"
+                      }
+                    },
+                    {
+                      "key": "code_search.index.snapshot_id_hash",
+                      "value": {
+                        "stringValue": "sha256:6a0d5bd7e10e"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.rank",
+                      "value": {
+                        "intValue": "4"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.score_bucket",
+                      "value": {
+                        "stringValue": "high"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.chunk_id_hash",
+                      "value": {
+                        "stringValue": "sha256:8f6ad990276d"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.chunk_text_hash",
+                      "value": {
+                        "stringValue": "sha256:fa92fc454797f886864101bdc4032b930d3243320829e4cab48b4f130f95c6b3"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.path_hash",
+                      "value": {
+                        "stringValue": "sha256:201aa087ff7e0ae80320fea83e0ab68442f48898f199564286804131f9cb9725"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.path_extension",
+                      "value": {
+                        "stringValue": "ts"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.line_range_bucket",
+                      "value": {
+                        "stringValue": "under_100_lines"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.stale",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "code_search.result.duplicate_of_hash",
+                      "value": {
+                        "stringValue": "sha256:9b5a0917012a"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.loaded_into_agent_context",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "code_search.result.suppressed_before_agent_context",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "code_search.result.suppression_reason",
+                      "value": {
+                        "stringValue": "duplicate"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_code_chunk_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_path_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "code.search.result.returned",
+                  "timeUnixNano": "1779804004000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "session-code-search-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-code-search-demo-001"
+                      }
+                    },
+                    {
+                      "key": "code_search.index.snapshot_id_hash",
+                      "value": {
+                        "stringValue": "sha256:6a0d5bd7e10e"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.rank",
+                      "value": {
+                        "intValue": "5"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.score_bucket",
+                      "value": {
+                        "stringValue": "medium"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.chunk_id_hash",
+                      "value": {
+                        "stringValue": "sha256:cfc00599f288"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.chunk_text_hash",
+                      "value": {
+                        "stringValue": "sha256:ce03d90b6be534b863cda68baa527cd8067d2cc2b17909d224badc35aaea09a0"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.path_hash",
+                      "value": {
+                        "stringValue": "sha256:fec2453a62f266008a8ec7ca36bdaf87ff3da8a6e16a1af58f3e67a06eee3db1"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.path_extension",
+                      "value": {
+                        "stringValue": "md"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.line_range_bucket",
+                      "value": {
+                        "stringValue": "under_100_lines"
+                      }
+                    },
+                    {
+                      "key": "code_search.result.stale",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "code_search.result.duplicate_of_hash",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "code_search.result.loaded_into_agent_context",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "code_search.result.suppressed_before_agent_context",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "code_search.result.suppression_reason",
+                      "value": {
+                        "stringValue": "stale_snapshot_chunk"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_code_chunk_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_path_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.input.loaded",
+                  "timeUnixNano": "1779804006000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "session-code-search-demo-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-code-search-demo-001"
+                      }
+                    },
+                    {
+                      "key": "context.input.kind",
+                      "value": {
+                        "stringValue": "retrieved_code_chunks"
+                      }
+                    },
+                    {
+                      "key": "context.input.source",
+                      "value": {
+                        "stringValue": "code_search"
+                      }
+                    },
+                    {
+                      "key": "context.input.client_transform",
+                      "value": {
+                        "stringValue": "top_k_then_dedupe_then_stale_filter"
+                      }
+                    },
+                    {
+                      "key": "context.input.loaded_chunk_count",
+                      "value": {
+                        "intValue": "3"
+                      }
+                    },
+                    {
+                      "key": "context.input.suppressed_chunk_count",
+                      "value": {
+                        "intValue": "2"
+                      }
+                    },
+                    {
+                      "key": "context.input.loaded_chunk_ids_hash",
+                      "value": {
+                        "stringValue": "sha256:65ecc531bcad826933c08dc1be4429a6c02f68f446517f6c16f06c9ba5492a72"
+                      }
+                    },
+                    {
+                      "key": "context.input.suppressed_chunk_ids_hash",
+                      "value": {
+                        "stringValue": "sha256:f4baf0b7d5a2c8a337242746cc1bb6a0473761b4319c10b46c7332356d695c4e"
+                      }
+                    },
+                    {
+                      "key": "context.input.prompt_token_bucket",
+                      "value": {
+                        "stringValue": "under_5k"
+                      }
+                    },
+                    {
+                      "key": "context.input.raw_prompt_hash",
+                      "value": {
+                        "stringValue": "sha256:5d992588057a1ae2b6cb5675315c4804a23f1eb2724527d5036be185e3ce161d"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_code_chunks_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_paths_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "audit_gap",
+                      "value": {
+                        "stringValue": "proves returned-vs-loaded boundary, not answer correctness or retrieval optimality"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
