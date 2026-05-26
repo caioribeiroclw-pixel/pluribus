@@ -278,6 +278,20 @@ const trackedExternalDistributions = [
     reason: 'external Agent Skill Index directory submission for the standard SKILL.md context receipts skill under Context Engineering',
   },
   {
+    name: 'ramenctl-ai-skills-context-fidelity',
+    repo: 'RamenDR/ramenctl',
+    issueNumber: 453,
+    url: 'https://github.com/RamenDR/ramenctl/issues/453',
+    reason: 'contextual cross-agent skills feedback about deterministic skill discovery, existing-config handoff, and context fidelity for Bob/Codex/Claude/Cursor instructions',
+  },
+  {
+    name: 'ramenctl-ai-skills-install-pr',
+    repo: 'RamenDR/ramenctl',
+    pullRequest: 455,
+    url: 'https://github.com/RamenDR/ramenctl/pull/455',
+    reason: 'external PR review channel for generated AI skills across agent-specific context paths and write-once install behavior',
+  },
+  {
     name: 'awesome-context-engineering-context-receipts',
     repo: 'Meirtz/Awesome-Context-Engineering',
     pullRequest: 62,
