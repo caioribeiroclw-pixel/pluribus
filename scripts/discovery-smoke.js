@@ -187,6 +187,13 @@ const trackedExternalDistributions = [
     reason: 'contextual Claude Code compaction reliability feedback about atomic swap receipts that distinguish failed summary calls from committed context replacement',
   },
   {
+    name: 'claude-code-usage-breakdown-receipts',
+    repo: 'anthropics/claude-code',
+    issueNumber: 61591,
+    url: 'https://github.com/anthropics/claude-code/issues/61591',
+    reason: 'contextual Claude Code docs feedback about privacy-safe usage breakdown diagnostics for skills, subagents, plugins, and per-MCP-server cost',
+  },
+  {
     name: 'claude-code-shared-team-memory-provenance',
     repo: 'anthropics/claude-code',
     issueNumber: 38536,
