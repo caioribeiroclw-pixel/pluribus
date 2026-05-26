@@ -96,6 +96,13 @@ const trackedExternalDistributions = [
     reason: 'external OpenTelemetry GenAI semantic-conventions PR for an experimental privacy-preserving context selection event',
   },
   {
+    name: 'enterprise-rag-bench-context-selection-traces',
+    repo: 'onyx-dot-app/EnterpriseRAG-Bench',
+    issueNumber: 10,
+    url: 'https://github.com/onyx-dot-app/EnterpriseRAG-Bench/issues/10',
+    reason: 'contextual EnterpriseRAG-Bench feedback about optional retrieval/context-selection trace artifacts for benchmark runs',
+  },
+  {
     name: 'mcp-protocol-otel-context-receipts',
     repo: 'modelcontextprotocol/modelcontextprotocol',
     discussionNumber: 269,
