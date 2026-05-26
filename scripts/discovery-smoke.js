@@ -180,6 +180,13 @@ const trackedExternalDistributions = [
     reason: 'contextual Claude Code reliability/auditability feedback about privacy-safe context compaction receipts and objective continuity',
   },
   {
+    name: 'claude-code-compaction-atomicity-receipts',
+    repo: 'anthropics/claude-code',
+    issueNumber: 57636,
+    url: 'https://github.com/anthropics/claude-code/issues/57636',
+    reason: 'contextual Claude Code compaction reliability feedback about atomic swap receipts that distinguish failed summary calls from committed context replacement',
+  },
+  {
     name: 'claude-code-shared-team-memory-provenance',
     repo: 'anthropics/claude-code',
     issueNumber: 38536,
