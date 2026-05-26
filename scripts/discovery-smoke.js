@@ -264,6 +264,13 @@ const trackedExternalDistributions = [
     reason: 'external Claude Skills directory contribution packaging context receipts as a standalone skill for progressive disclosure and Tool Search users',
   },
   {
+    name: 'agent-skill-index-context-receipts',
+    repo: 'heilcheng/awesome-agent-skills',
+    pullRequest: 251,
+    url: 'https://github.com/heilcheng/awesome-agent-skills/pull/251',
+    reason: 'external Agent Skill Index directory submission for the standard SKILL.md context receipts skill under Context Engineering',
+  },
+  {
     name: 'awesome-context-engineering-context-receipts',
     repo: 'Meirtz/Awesome-Context-Engineering',
     pullRequest: 62,
