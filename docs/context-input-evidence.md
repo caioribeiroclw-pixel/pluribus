@@ -330,6 +330,21 @@ It reads `sample-compaction-log.jsonl` and writes `compaction-receipt.ndjson` pl
 
 This is for reliability/auditability work where users need to know whether the original engineering objective survived compaction. The receipt should prove the compaction boundary and item decisions without exposing raw prompts, private instructions, tool outputs, memory bodies, summaries, customer data, or transcripts.
 
+To test compaction transaction / rollback receipts — where a summary attempt fails and the harness must prove it did **not** commit a half-compacted state — run:
+
+```bash
+node examples/context-input-evidence/convert-compaction-transaction-log.mjs
+```
+
+It reads `sample-compaction-transaction-log.jsonl` and writes `compaction-transaction-receipt.ndjson` plus `compaction-transaction-otel-trace.json`. The sample emits four event types:
+
+- `context.compaction.transaction.started` — trigger, before-token bucket, deferred-tool registry count, system-reminder queue count, backup identity, and hashes for active task/tool state.
+- `context.compaction.summary.attempted` — summary-call status, duration bucket, candidate availability, error hash, and privacy flags.
+- `context.compaction.rollback.completed` — rollback reason, `swap_committed=false`, original context preservation, restored registries/queues, replayed-reminder count, and whether post-tokens were incorrectly recorded as success.
+- `context.compaction.transaction.completed` — final status, authoritative state, after-token/registry/reminder buckets, operator-summary hash, and explicit audit gap.
+
+This is for `/compact` failure modes where the dangerous state is not only lossy summarization, but a partial mutation: stale tool results or system reminders replayed as fresh state, deferred-tool registries reset, or `postTokens` recorded as if a failed summary committed. The receipt should prove commit vs rollback without exporting raw transcript, tool output, paths, secrets, customer payloads, or summary text.
+
 To test post-hoc pruning / context-cleaning receipts — where a Claude Code-style session cleaner trims, minifies, stubs, or dedupes context after it entered the transcript — run:
 
 ```bash

@@ -66,6 +66,31 @@ Public trace:
 
 - `examples/context-input-evidence/pruning-otel-trace.json`
 
+## Compaction transaction / rollback
+
+A failed `/compact` is not just a bad summary. It can leave several state surfaces disagreeing: prior context, candidate summary, deferred-tool registry, system-reminder replay queue, local command output, and post-token metadata. The receipt should prove whether compaction committed a new authoritative state or rolled back cleanly.
+
+The receipt should prove:
+
+- summary call status and duration bucket;
+- whether a candidate summary was available/validated;
+- `swap_committed` and `original_context_preserved`;
+- backup availability;
+- deferred-tool registry and system-reminder queue restoration;
+- replayed stale reminder count stayed zero on rollback;
+- `post_tokens_recorded_as_success` stayed false on failure; and
+- raw transcript, tool output, private paths, errors, secrets, and summary text stayed out of the receipt.
+
+Runnable fixture:
+
+```bash
+node examples/context-input-evidence/convert-compaction-transaction-log.mjs
+```
+
+Public trace:
+
+- `examples/context-input-evidence/compaction-transaction-otel-trace.json`
+
 ## Subagent boot budget
 
 Subagents can fail before task #1 if they inherit every MCP schema, skill listing, rule, or memory index from the parent. The receipt should separate:

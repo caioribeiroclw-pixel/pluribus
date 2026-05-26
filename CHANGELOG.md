@@ -4,6 +4,27 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.32 - 2026-05-26
+
+- Added an executable compaction transaction/rollback receipt fixture for failed `/compact` runs, proving summary failure, `swap_committed=false`, original-context preservation, restored deferred-tool registry/system-reminder queue, and no stale reminder replay without logging raw transcript/tool output.
+- Extended the context-budget guide, context input evidence docs, and context receipts Agent Skill recipe with compaction atomicity checks for failed summary calls and half-committed context state.
+
+## 0.3.31 - 2026-05-26
+
+- Added pruning/compaction smoke coverage to the context receipts Agent Skill and published `pluribus-context@0.3.31` so npm latest includes lifecycle receipts for pre-load, runtime boundary, and post-hoc pruning/protection.
+
+## 0.3.30 - 2026-05-25
+
+- Added executable pruning receipt fixtures for context-cleaning runs, covering start, per-strategy evaluation, completion, backup verification, protected counts, and privacy flags.
+
+## 0.3.29 - 2026-05-25
+
+- Added ToolSearch propagation receipt fixtures for Claude Code-style subagents, separating policy intent, `tools:` declaration shape, and runtime deferred-tool exposure.
+
+## 0.3.28 - 2026-05-25
+
+- Added per-agent MCP injection checks to the context receipts Agent Skill recipe and npm release, covering allowed/excluded servers, loaded/deferred definitions, and startup budget buckets.
+
 ## 0.3.27 - 2026-05-25
 
 - Added a copyable Agent Skill recipe for privacy-safe context receipts, with 60-second smokes for Tool Search/lazy MCP, skill/prompt context, and subagent/manager boundaries.

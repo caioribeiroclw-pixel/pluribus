@@ -13,15 +13,16 @@ It is intentionally markdown-only so it can be copied into a local skills direct
 Ask an agent or harness using the skill to emit a receipt for one workflow and verify these constraints:
 
 ```bash
-grep -E 'mcp\.tool_index\.loaded|context\.skill\.registry\.index\.loaded|subagent\.mcp_policy\.applied|subagent\.toolsearch\.propagation\.evaluated|context\.prune\.completed|subagent\.delegation\.requested' receipt.jsonl
+grep -E 'mcp\.tool_index\.loaded|context\.skill\.registry\.index\.loaded|subagent\.mcp_policy\.applied|subagent\.toolsearch\.propagation\.evaluated|context\.prune\.completed|context\.compaction\.rollback\.completed|subagent\.delegation\.requested' receipt.jsonl
 grep -E 'raw_(schema|query|args|result|output|transcript|text)_copied":false|raw.*CopiedToReceipt":false' receipt.jsonl
 ```
 
 Then manually check that the receipt contains counts, hashes, ids, buckets, and `audit_gap`, but does **not** contain private prompts, raw schemas, tool args/results, skill bodies, memory bodies, customer names, secrets, or transcript text.
 
-For executable fixture examples, see [`../../context-input-evidence/`](../../context-input-evidence/), including the ToolSearch propagation and pruning smokes:
+For executable fixture examples, see [`../../context-input-evidence/`](../../context-input-evidence/), including the ToolSearch propagation, pruning, and compaction transaction smokes:
 
 ```bash
 node ../../context-input-evidence/convert-subagent-toolsearch-propagation-log.mjs
 node ../../context-input-evidence/convert-pruning-log.mjs
+node ../../context-input-evidence/convert-compaction-transaction-log.mjs
 ```

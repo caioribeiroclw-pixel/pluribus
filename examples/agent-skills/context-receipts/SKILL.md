@@ -114,6 +114,23 @@ Minimal JSONL event names:
 {"event":"context.prune.completed","after_token_bucket":"75k_100k","backup_verified":true,"protected_summary_count":2,"raw_text_copied":false,"audit_gap":"proves pruning/protection counts, not semantic disposability"}
 ```
 
+For failed compaction, also prove transaction safety:
+
+- did the summary call succeed, fail, or timeout;
+- was a candidate summary validated before any swap;
+- did the harness commit a context swap or preserve the original context;
+- were deferred-tool registries and system-reminder queues restored on rollback;
+- did stale system reminders/tool results replay as fresh state;
+- was post-token metadata recorded as success even though summary failed.
+
+Minimal JSONL event names:
+
+```jsonl
+{"event":"context.compaction.summary.attempted","summary_call_status":"failed_rate_limited","candidate_summary_available":false,"raw_error_copied":false}
+{"event":"context.compaction.rollback.completed","swap_committed":false,"original_context_preserved":true,"deferred_tool_registry_restored":true,"system_reminder_queue_restored":true,"replayed_system_reminder_count":0}
+{"event":"context.compaction.transaction.completed","status":"rolled_back","authoritative_state":"pre_compaction_context","post_tokens_recorded_as_success":false,"raw_context_copied":false}
+```
+
 ## Subagent / manager boundary smoke
 
 For subagents, manager agents, or child workers, answer:

@@ -1,0 +1,477 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-compaction-transaction-receipt-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_input_evidence.compaction_transaction_demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "87ad256b18f3351f51b593961c988bb8",
+              "spanId": "c74740fd56dea619",
+              "parentSpanId": "",
+              "name": "agent.session.context_compaction_transaction",
+              "kind": 1,
+              "startTimeUnixNano": "1779793080000000000",
+              "endTimeUnixNano": "1779793090000000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "sess-compact-failure-001"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "conv-compact-failure-001"
+                  }
+                },
+                {
+                  "key": "agent.name",
+                  "value": {
+                    "stringValue": "claude-code"
+                  }
+                },
+                {
+                  "key": "workspace.hash",
+                  "value": {
+                    "stringValue": "sha256:7beaf7a791c25a7a084ba436e7056c92e574ee7c4f0c46aa70dc77b77693aca0"
+                  }
+                },
+                {
+                  "key": "gen_ai.request.model",
+                  "value": {
+                    "stringValue": "claude-opus-4.6"
+                  }
+                },
+                {
+                  "key": "context.compaction.transaction.id_hash",
+                  "value": {
+                    "stringValue": "sha256:805db5aa5360"
+                  }
+                },
+                {
+                  "key": "context.compaction.transaction.status",
+                  "value": {
+                    "stringValue": "rolled_back"
+                  }
+                },
+                {
+                  "key": "context.compaction.swap_committed",
+                  "value": {
+                    "boolValue": false
+                  }
+                },
+                {
+                  "key": "context.compaction.original_context_preserved",
+                  "value": {
+                    "boolValue": true
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "context.compaction.transaction.started",
+                  "timeUnixNano": "1779793080000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess-compact-failure-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-compact-failure-001"
+                      }
+                    },
+                    {
+                      "key": "agent.name",
+                      "value": {
+                        "stringValue": "claude-code"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.transaction.id_hash",
+                      "value": {
+                        "stringValue": "sha256:805db5aa5360"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.attempt",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.trigger",
+                      "value": {
+                        "stringValue": "manual_slash_compact"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.reason",
+                      "value": {
+                        "stringValue": "context_window_pressure"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.token_count.before_bucket",
+                      "value": {
+                        "stringValue": "under_200k"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.context_window_bucket",
+                      "value": {
+                        "stringValue": "over_200k"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.deferred_tool_registry.count_bucket",
+                      "value": {
+                        "stringValue": "under_100"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.system_reminder_queue.count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.backup.id_hash",
+                      "value": {
+                        "stringValue": "sha256:5eeefe35b7bf"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.active_task.hash",
+                      "value": {
+                        "stringValue": "sha256:82147db072d020ce2ac8b662fc0296ff4d648fb7f44a891317ae993aa4afa632"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.recent_tool_output.hash",
+                      "value": {
+                        "stringValue": "sha256:361345a74863bc83520ad833fa352e7efd3e8765fc4ebea221aaaab5e64be887"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.deferred_tools.hash",
+                      "value": {
+                        "stringValue": "sha256:5aea705e426312000671b8d9a939170e50a1aa4d0ce6adf7a724c85b9c799971"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_registry_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_context_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.compaction.summary.attempted",
+                  "timeUnixNano": "1779793088000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess-compact-failure-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-compact-failure-001"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.transaction.id_hash",
+                      "value": {
+                        "stringValue": "sha256:805db5aa5360"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.summary.call_status",
+                      "value": {
+                        "stringValue": "failed_rate_limited"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.summary.duration_bucket",
+                      "value": {
+                        "stringValue": "under_15s"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.summary.candidate_available",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "context.compaction.summary.error_hash",
+                      "value": {
+                        "stringValue": "sha256:d294b4e487433a21ae31f3d50335e2a38d0754d878f17f8d565d024eb58980be"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.summary.candidate_hash",
+                      "value": {
+                        "stringValue": ""
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_error_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_summary_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_context_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.compaction.rollback.completed",
+                  "timeUnixNano": "1779793089000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess-compact-failure-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-compact-failure-001"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.transaction.id_hash",
+                      "value": {
+                        "stringValue": "sha256:805db5aa5360"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.rollback.reason",
+                      "value": {
+                        "stringValue": "summary_call_failed_before_validation"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.swap_committed",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "context.compaction.original_context_preserved",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "context.compaction.backup_available",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "context.compaction.deferred_tool_registry_restored",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "context.compaction.system_reminder_queue_restored",
+                      "value": {
+                        "boolValue": true
+                      }
+                    },
+                    {
+                      "key": "context.compaction.replayed_system_reminder.count_bucket",
+                      "value": {
+                        "stringValue": "zero"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.post_tokens_recorded_as_success",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "context.compaction.rollback.note_hash",
+                      "value": {
+                        "stringValue": "sha256:c3a100a46da5c02c2534fd4cac32b9e6df189f082b7fd60e5645bdb3d2f15f15"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_rollback_note_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_tool_output_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_context_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.compaction.transaction.completed",
+                  "timeUnixNano": "1779793090000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "sess-compact-failure-001"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "conv-compact-failure-001"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.transaction.id_hash",
+                      "value": {
+                        "stringValue": "sha256:805db5aa5360"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.transaction.status",
+                      "value": {
+                        "stringValue": "rolled_back"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.authoritative_state",
+                      "value": {
+                        "stringValue": "pre_compaction_context"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.token_count.after_bucket",
+                      "value": {
+                        "stringValue": "under_200k"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.deferred_tool_registry.after_count_bucket",
+                      "value": {
+                        "stringValue": "under_100"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.system_reminder_queue.after_count_bucket",
+                      "value": {
+                        "stringValue": "under_25"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.audit_gap",
+                      "value": {
+                        "stringValue": "proves transaction boundary and rollback flags, not semantic completeness of the preserved context"
+                      }
+                    },
+                    {
+                      "key": "context.compaction.operator_summary.hash",
+                      "value": {
+                        "stringValue": "sha256:f55024c1bc84cc2a3d5fc2ccf2fc355cd9d0e9987ee53d2da7f879d749dc29af"
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_operator_summary_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_prompt_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    },
+                    {
+                      "key": "privacy.raw_context_recorded",
+                      "value": {
+                        "boolValue": false
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
