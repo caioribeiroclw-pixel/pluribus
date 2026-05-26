@@ -1,6 +1,6 @@
 {
   "name": "pluribus-context",
-  "version": "0.3.30",
+  "version": "0.3.31",
   "description": "AI context and rules sync CLI for Claude.md, Claude Code, Cursor, and Copilot instructions, with privacy-safe context receipts that prove what memory, tools, skills, compactions, and security findings crossed agent boundaries without logging raw content.",
   "type": "module",
   "homepage": "https://github.com/caioribeiroclw-pixel/pluribus#readme",

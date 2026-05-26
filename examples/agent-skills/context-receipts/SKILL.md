@@ -1,6 +1,6 @@
 # Context Receipts
 
-Use this skill when an agent workflow claims to save context by selecting, deferring, hydrating, summarizing, compacting, delegating, or isolating context.
+Use this skill when an agent workflow claims to save context by selecting, deferring, hydrating, summarizing, compacting, pruning, delegating, or isolating context.
 
 The job is not to log the private content. The job is to emit a small receipt that lets a reviewer answer:
 
@@ -95,6 +95,25 @@ Minimal JSONL event names:
 {"event":"subagent.toolsearch.matrix.completed","tested_axis":"tools_frontmatter_shape","audit_gap":"proves ToolSearch exposure, not semantic tool relevance or runtime call success"}
 ```
 
+## Pruning / compaction smoke
+
+For context-cleaning, pruning, compaction, or doctor/guard tools, answer:
+
+- what prescription/trigger started the run;
+- which strategies changed context and which candidates were protected;
+- before/after token and byte buckets;
+- whether summaries, behavioral digests, team messages, and backups were preserved;
+- whether private transcript text, raw tool output, file paths, secrets, and customer text were excluded from the receipt;
+- the remaining audit gap, such as not proving semantic quality of the pruned text.
+
+Minimal JSONL event names:
+
+```jsonl
+{"event":"context.prune.started","prescription":"balanced","trigger":"manual_dry_run","before_token_bucket":"150k_200k","raw_transcript_copied":false}
+{"event":"context.prune.strategy.evaluated","strategy":"tool-output-trim","candidate_bucket":"10_25","changed_bucket":"5_10","protected_bucket":"1_5","raw_tool_output_copied":false}
+{"event":"context.prune.completed","after_token_bucket":"75k_100k","backup_verified":true,"protected_summary_count":2,"raw_text_copied":false,"audit_gap":"proves pruning/protection counts, not semantic disposability"}
+```
+
 ## Subagent / manager boundary smoke
 
 For subagents, manager agents, or child workers, answer:
@@ -120,6 +139,6 @@ A receipt is useful if a maintainer can debug one of these failures without seei
 - the full definition loaded too early;
 - too many definitions stayed in context;
 - a child/subagent saved no budget because raw output returned to the parent;
-- compaction happened but no one can prove what was preserved, summarized, or dropped.
+- compaction/pruning happened but no one can prove what was changed, protected, backed up, summarized, or dropped.
 
 A receipt is not enough if it only says “Tool Search enabled” or “used subagent”. It must prove the boundary behavior.
