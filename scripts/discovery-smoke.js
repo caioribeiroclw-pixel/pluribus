@@ -292,6 +292,13 @@ const trackedExternalDistributions = [
     reason: 'external PR review channel for generated AI skills across agent-specific context paths and write-once install behavior',
   },
   {
+    name: 'ramenctl-validate-existing-config-handoff-pr',
+    repo: 'nirs/ramenctl',
+    pullRequest: 2,
+    url: 'https://github.com/nirs/ramenctl/pull/2',
+    reason: 'external follow-up PR that makes the validate-clusters skill reuse existing config.yaml instead of sending Bob back through init',
+  },
+  {
     name: 'awesome-context-engineering-context-receipts',
     repo: 'Meirtz/Awesome-Context-Engineering',
     pullRequest: 62,
