@@ -467,8 +467,8 @@ function assertReadmeDiscoveryIntro() {
   const requiredSnippets = [
     '`pluribus-context` on npm',
     '`pluribus` on the command line',
-    'AI context sync CLI',
-    'Claude Code, Cursor, GitHub Copilot, OpenClaw, Windsurf, Continue, Zed, or Bob',
+    'agent context evidence',
+    'Claude Code, Cursor, GitHub Copilot, OpenClaw, Windsurf, Continue, Zed, and Bob',
   ]
   const missing = requiredSnippets.filter((snippet) => !intro.includes(snippet))
 
@@ -476,7 +476,7 @@ function assertReadmeDiscoveryIntro() {
     console.error(
       'README intro is missing package/discovery positioning copy:\n' +
         missing.join('\n') +
-        '\nKeep the landing page explicit about the npm package name, CLI name, AI context sync category, and supported tool surface.',
+        '\nKeep the landing page explicit about the npm package name, CLI name, agent context evidence category, and supported tool surface.',
     )
     process.exit(1)
   }
