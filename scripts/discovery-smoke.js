@@ -313,6 +313,13 @@ const trackedExternalDistributions = [
     reason: 'external follow-up PR that makes the long-running test-run skill check timeout support before starting and avoid automatic restart loops',
   },
   {
+    name: 'ramenctl-output-dir-lock-receipts',
+    repo: 'RamenDR/ramenctl',
+    issueNumber: 460,
+    url: 'https://github.com/RamenDR/ramenctl/issues/460',
+    reason: 'contextual RamenDR feedback about output-directory writer locks and recovery receipts for agents that start parallel commands',
+  },
+  {
     name: 'cursor-landing-forum-host-comparison-pr',
     repo: 'rphoward/cursor-landing-v3',
     pullRequest: 1,
