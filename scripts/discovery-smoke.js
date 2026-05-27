@@ -320,6 +320,13 @@ const trackedExternalDistributions = [
     reason: 'contextual feedback on per-IDE skill renderers about provenance-rich install receipts for canonical copies, activation wrappers, and managed AGENTS.md blocks',
   },
   {
+    name: 'kedro-skills-install-update-receipts',
+    repo: 'kedro-org/kedro-skills',
+    issueNumber: 4,
+    url: 'https://github.com/kedro-org/kedro-skills/issues/4',
+    reason: 'contextual feedback on install/update/uninstall orchestration about receipt summaries for requested targets, written files, managed blocks, and drift refusals',
+  },
+  {
     name: 'awesome-context-engineering-context-receipts',
     repo: 'Meirtz/Awesome-Context-Engineering',
     pullRequest: 62,
