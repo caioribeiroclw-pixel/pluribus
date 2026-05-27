@@ -313,6 +313,13 @@ const trackedExternalDistributions = [
     reason: 'external docs PR converting a live Cursor forum request for cross-tool context comparison into a pasteable host artifact for Cursor migration users',
   },
   {
+    name: 'kedro-skills-per-ide-renderer-receipts',
+    repo: 'kedro-org/kedro-skills',
+    issueNumber: 3,
+    url: 'https://github.com/kedro-org/kedro-skills/issues/3',
+    reason: 'contextual feedback on per-IDE skill renderers about provenance-rich install receipts for canonical copies, activation wrappers, and managed AGENTS.md blocks',
+  },
+  {
     name: 'awesome-context-engineering-context-receipts',
     repo: 'Meirtz/Awesome-Context-Engineering',
     pullRequest: 62,
