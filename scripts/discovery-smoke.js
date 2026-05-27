@@ -306,6 +306,13 @@ const trackedExternalDistributions = [
     reason: 'external follow-up PR that makes the long-running test-run skill check timeout support before starting and avoid automatic restart loops',
   },
   {
+    name: 'cursor-landing-forum-host-comparison-pr',
+    repo: 'rphoward/cursor-landing-v3',
+    pullRequest: 1,
+    url: 'https://github.com/rphoward/cursor-landing-v3/pull/1',
+    reason: 'external docs PR converting a live Cursor forum request for cross-tool context comparison into a pasteable host artifact for Cursor migration users',
+  },
+  {
     name: 'awesome-context-engineering-context-receipts',
     repo: 'Meirtz/Awesome-Context-Engineering',
     pullRequest: 62,
