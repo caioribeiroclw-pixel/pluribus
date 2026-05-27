@@ -180,6 +180,13 @@ const trackedExternalDistributions = [
     reason: 'contextual self-remediating memory/knowledge-graph feedback about privacy-safe doctor/remediation receipts',
   },
   {
+    name: 'gbrain-ingestion-provenance-receipts',
+    repo: 'garrytan/gbrain',
+    issueNumber: 1522,
+    url: 'https://github.com/garrytan/gbrain/issues/1522',
+    reason: 'contextual GBrain ingestion feedback about validating that accepted source provenance is persisted as a receipt, not just echoed by the job result',
+  },
+  {
     name: 'claude-code-context-compaction-auditability',
     repo: 'anthropics/claude-code',
     issueNumber: 50513,
