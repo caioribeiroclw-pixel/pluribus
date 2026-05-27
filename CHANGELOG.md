@@ -4,6 +4,8 @@
 
 All notable changes to Pluribus are documented here.
 
+- Added an MCP tool visibility receipts checklist for debugging servers that launch and return `tools/list` directly but do not surface tools in the actual agent client catalog.
+
 ## 0.3.34 - 2026-05-26
 
 - Repositioned README and the community review packet around privacy-safe agent context receipts first, with instruction-file audit/sync as the supporting workflow, so directory reviewers do not mistake Pluribus for another generic ContextOps, memory, RAG, or rules-sync tool.
