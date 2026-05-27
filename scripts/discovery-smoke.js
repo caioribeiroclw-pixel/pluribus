@@ -296,7 +296,14 @@ const trackedExternalDistributions = [
     repo: 'nirs/ramenctl',
     pullRequest: 2,
     url: 'https://github.com/nirs/ramenctl/pull/2',
-    reason: 'external follow-up PR that makes the validate-clusters skill reuse existing config.yaml instead of sending Bob back through init',
+    reason: 'superseded external follow-up PR that made the validate-clusters skill reuse existing config.yaml instead of sending Bob back through init',
+  },
+  {
+    name: 'ramenctl-long-test-run-timeout-boundary-pr',
+    repo: 'nirs/ramenctl',
+    pullRequest: 3,
+    url: 'https://github.com/nirs/ramenctl/pull/3',
+    reason: 'external follow-up PR that makes the long-running test-run skill check timeout support before starting and avoid automatic restart loops',
   },
   {
     name: 'awesome-context-engineering-context-receipts',
