@@ -236,6 +236,13 @@ const trackedExternalDistributions = [
     reason: 'contextual persistent memory feedback about privacy-safe governance/delete receipts for forget skills and audit logs',
   },
   {
+    name: 'agentmemory-mcp-tool-visibility-receipts',
+    repo: 'rohitg00/agentmemory',
+    issueNumber: 510,
+    url: 'https://github.com/rohitg00/agentmemory/issues/510',
+    reason: 'contextual MCP memory feedback about distinguishing server health/plugin registration from client-visible tool catalog receipts',
+  },
+  {
     name: 'agentmemory-privacy-safe-audit-receipts',
     repo: 'rohitg00/agentmemory',
     pullRequest: 617,
