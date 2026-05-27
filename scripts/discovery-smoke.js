@@ -320,6 +320,13 @@ const trackedExternalDistributions = [
     reason: 'contextual RamenDR feedback about output-directory writer locks and recovery receipts for agents that start parallel commands',
   },
   {
+    name: 'ramenctl-progress-watcher-receipts',
+    repo: 'RamenDR/ramenctl',
+    issueNumber: 459,
+    url: 'https://github.com/RamenDR/ramenctl/issues/459',
+    reason: 'contextual RamenDR feedback about read-only progress watcher receipts for long-running test commands after agent timeout/disconnect',
+  },
+  {
     name: 'cursor-landing-forum-host-comparison-pr',
     repo: 'rphoward/cursor-landing-v3',
     pullRequest: 1,
