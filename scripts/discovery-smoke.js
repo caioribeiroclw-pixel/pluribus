@@ -215,6 +215,13 @@ const trackedExternalDistributions = [
     reason: 'contextual Claude Code shared team-memory feedback about privacy-safe author/order/hydration receipts for handoffs',
   },
   {
+    name: 'claude-code-plugin-mcp-tool-visibility-receipts',
+    repo: 'anthropics/claude-code',
+    issueNumber: 59310,
+    url: 'https://github.com/anthropics/claude-code/issues/59310',
+    reason: 'contextual Claude Code plugin MCP feedback about separating connected/tools-list from AI-visible deferred tool catalog receipts',
+  },
+  {
     name: 'claude-plugins-mcp-tool-search-receipts',
     repo: 'aiocean/claude-plugins',
     issueNumber: 14,
