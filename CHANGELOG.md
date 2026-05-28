@@ -4,6 +4,7 @@
 
 All notable changes to Pluribus are documented here.
 
+- Add Skill policy receipts guide and copyable Agent Skill recipe for hard-rule enforcement, target allow/refuse decisions, and post-write guards.
 - Added an MCP tool visibility receipts checklist for debugging servers that launch and return `tools/list` directly but do not surface tools in the actual agent client catalog.
 - Tracked GBrain `unify-types` mutation-mode feedback as an external receipt signal for protected migrations that may default from dry-run into writes.
 
