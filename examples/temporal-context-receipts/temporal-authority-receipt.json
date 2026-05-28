@@ -1,0 +1,27 @@
+{
+  "receipt_type": "context.temporal_authority.v1",
+  "request_id": "local-run-2026-05-28T16:00Z",
+  "current_authority": {
+    "file": "CURRENT_STATE.md",
+    "status": "current",
+    "as_of": "2026-05-28",
+    "scope": "checkout-flow"
+  },
+  "sources_considered": [
+    {
+      "file": "specs/2025-checkout-rewrite.md",
+      "status": "superseded",
+      "superseded_by": "CURRENT_STATE.md#checkout-flow",
+      "decision": "historical_citation_only"
+    },
+    {
+      "file": "specs/2026-checkout-risk-notes.md",
+      "status": "current",
+      "scope": "checkout-flow",
+      "decision": "allowed_as_supporting_context"
+    }
+  ],
+  "ambiguous_sources": [],
+  "write_started": true,
+  "stopped_at": "temporal_authority_resolved"
+}
