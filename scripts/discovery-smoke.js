@@ -222,6 +222,13 @@ const trackedExternalDistributions = [
     reason: 'contextual Claude Code plugin MCP feedback about separating connected/tools-list from AI-visible deferred tool catalog receipts',
   },
   {
+    name: 'claude-code-central-mcp-tool-visibility-receipts',
+    repo: 'anthropics/claude-code',
+    issueNumber: 12164,
+    url: 'https://github.com/anthropics/claude-code/issues/12164',
+    reason: 'contextual central Claude Code MCP regression feedback about registration source, tools/list, deferred catalog, and first-invoke receipt boundaries',
+  },
+  {
     name: 'claude-plugins-mcp-tool-search-receipts',
     repo: 'aiocean/claude-plugins',
     issueNumber: 14,
