@@ -187,6 +187,13 @@ const trackedExternalDistributions = [
     reason: 'contextual GBrain ingestion feedback about validating that accepted source provenance is persisted as a receipt, not just echoed by the job result',
   },
   {
+    name: 'gbrain-unify-types-mutation-mode-receipts',
+    repo: 'garrytan/gbrain',
+    issueNumber: 1575,
+    url: 'https://github.com/garrytan/gbrain/issues/1575',
+    reason: 'contextual GBrain destructive-migration feedback about emitting requested/effective mutation mode receipts before protected handlers write data',
+  },
+  {
     name: 'claude-code-context-compaction-auditability',
     repo: 'anthropics/claude-code',
     issueNumber: 50513,

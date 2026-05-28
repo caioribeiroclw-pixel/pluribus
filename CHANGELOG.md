@@ -5,6 +5,7 @@
 All notable changes to Pluribus are documented here.
 
 - Added an MCP tool visibility receipts checklist for debugging servers that launch and return `tools/list` directly but do not surface tools in the actual agent client catalog.
+- Tracked GBrain `unify-types` mutation-mode feedback as an external receipt signal for protected migrations that may default from dry-run into writes.
 
 ## 0.3.34 - 2026-05-26
 
