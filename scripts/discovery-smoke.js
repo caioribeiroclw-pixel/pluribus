@@ -306,6 +306,13 @@ const trackedExternalDistributions = [
     reason: 'external Claude Skills directory contribution packaging context receipts as a standalone skill for progressive disclosure and Tool Search users',
   },
   {
+    name: 'composio-awesome-claude-skills-policy-receipts',
+    repo: 'ComposioHQ/awesome-claude-skills',
+    pullRequest: 943,
+    url: 'https://github.com/ComposioHQ/awesome-claude-skills/pull/943',
+    reason: 'external Claude Skills directory contribution packaging privacy-safe Skill policy receipts for hard rules, refusal before writes, and post-write guards',
+  },
+  {
     name: 'agent-skill-index-context-receipts',
     repo: 'heilcheng/awesome-agent-skills',
     pullRequest: 251,
