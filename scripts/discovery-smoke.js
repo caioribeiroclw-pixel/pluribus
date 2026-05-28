@@ -320,6 +320,13 @@ const trackedExternalDistributions = [
     reason: 'contextual Claude Code supply-chain plugin feedback about pre-mutation receipts for action-by-default hardening commands before repo writes begin',
   },
   {
+    name: 'code-review-graph-blast-radius-review-receipts',
+    repo: 'tirth8205/code-review-graph',
+    issueNumber: 518,
+    url: 'https://github.com/tirth8205/code-review-graph/issues/518',
+    reason: 'contextual code-review-graph feedback about privacy-safe blast-radius receipts for AI-generated PR reviews and graph-derived risk boundaries',
+  },
+  {
     name: 'agent-skill-index-context-receipts',
     repo: 'heilcheng/awesome-agent-skills',
     pullRequest: 251,
