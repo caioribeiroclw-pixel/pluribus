@@ -313,6 +313,13 @@ const trackedExternalDistributions = [
     reason: 'external Claude Skills directory contribution packaging privacy-safe Skill policy receipts for hard rules, refusal before writes, and post-write guards',
   },
   {
+    name: 'latiotech-secure-supply-chain-mutation-receipts',
+    repo: 'latiotech/secure-supply-chain-skills',
+    issueNumber: 1,
+    url: 'https://github.com/latiotech/secure-supply-chain-skills/issues/1',
+    reason: 'contextual Claude Code supply-chain plugin feedback about pre-mutation receipts for action-by-default hardening commands before repo writes begin',
+  },
+  {
     name: 'agent-skill-index-context-receipts',
     repo: 'heilcheng/awesome-agent-skills',
     pullRequest: 251,
