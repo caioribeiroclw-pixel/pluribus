@@ -8,6 +8,7 @@ All notable changes to Pluribus are documented here.
 - Add temporal context receipts guide and copyable current-state/spec example for long-lived projects where old docs still match search but are no longer implementation authority.
 - Add AI PR review receipts guide and copyable PR template for reviewing agent-generated changes by blast radius instead of diff size alone.
 - Add subagent role receipts guide and copyable `agents.toml` example for proving requested role, effective role, loaded instruction source, allowed/refused capabilities, stop point, and next safe action.
+- Add install-plan receipts guide and copyable example for setup scripts that configure MCP servers, Skills, instruction files, hooks, or plugins across multiple AI coding tools before writes begin.
 - Added an MCP tool visibility receipts checklist for debugging servers that launch and return `tools/list` directly but do not surface tools in the actual agent client catalog.
 - Tracked GBrain `unify-types` mutation-mode feedback as an external receipt signal for protected migrations that may default from dry-run into writes.
 

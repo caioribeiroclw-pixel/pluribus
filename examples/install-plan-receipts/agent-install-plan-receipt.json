@@ -1,0 +1,56 @@
+{
+  "receipt_type": "agent.install.plan.v1",
+  "run_id": "demo-install-2026-05-29T16:00Z",
+  "installer": "example-agent-setup",
+  "mode_requested": "plan",
+  "mode_effective": "plan",
+  "agents_detected": [
+    "claude-code",
+    "cursor",
+    "codex",
+    "openclaw"
+  ],
+  "agents_selected": [
+    "claude-code",
+    "openclaw"
+  ],
+  "planned_writes": [
+    {
+      "kind": "mcp_config",
+      "target": "claude-code project config",
+      "operation": "add_local_mcp_server",
+      "backup_planned": true
+    },
+    {
+      "kind": "instruction_file",
+      "target": "AGENTS.md",
+      "operation": "append_usage_notes",
+      "backup_planned": true
+    },
+    {
+      "kind": "hook",
+      "target": "pre-tool hook config",
+      "operation": "register_receipt_guard",
+      "backup_planned": true
+    }
+  ],
+  "external_commands_planned": [
+    {
+      "phase": "apply",
+      "command_class": "package_manager_install"
+    }
+  ],
+  "network_after_install": "local_mcp_server_only",
+  "writes_started": false,
+  "next_safe_command": "example-agent-setup apply --from-plan install-plan.json",
+  "privacy_exclusions": [
+    "raw_source",
+    "secrets",
+    "env_dump",
+    "raw_prompt",
+    "transcript",
+    "raw_tool_output",
+    "customer_data",
+    "private_absolute_path"
+  ]
+}
