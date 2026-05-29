@@ -334,6 +334,13 @@ const trackedExternalDistributions = [
     reason: 'contextual codebase-memory-mcp installer feedback about privacy-safe install plan receipts before mutating agent configs, Skills, and hooks',
   },
   {
+    name: 'owasp-ast10-pre-mutation-receipts',
+    repo: 'OWASP/www-project-agentic-skills-top-10',
+    pullRequest: 23,
+    url: 'https://github.com/OWASP/www-project-agentic-skills-top-10/pull/23',
+    reason: 'external OWASP Agentic Skills Top 10 contribution adding pre-mutation receipt guidance for skill/plugin installers, hooks, MCP config, and agent settings',
+  },
+  {
     name: 'agent-skill-index-context-receipts',
     repo: 'heilcheng/awesome-agent-skills',
     pullRequest: 251,
