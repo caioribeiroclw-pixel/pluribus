@@ -327,6 +327,13 @@ const trackedExternalDistributions = [
     reason: 'contextual code-review-graph feedback about privacy-safe blast-radius receipts for AI-generated PR reviews and graph-derived risk boundaries',
   },
   {
+    name: 'codebase-memory-mcp-install-plan-receipts',
+    repo: 'DeusData/codebase-memory-mcp',
+    issueNumber: 388,
+    url: 'https://github.com/DeusData/codebase-memory-mcp/issues/388',
+    reason: 'contextual codebase-memory-mcp installer feedback about privacy-safe install plan receipts before mutating agent configs, Skills, and hooks',
+  },
+  {
     name: 'agent-skill-index-context-receipts',
     repo: 'heilcheng/awesome-agent-skills',
     pullRequest: 251,
