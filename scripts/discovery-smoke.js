@@ -341,6 +341,13 @@ const trackedExternalDistributions = [
     reason: 'external OWASP Agentic Skills Top 10 contribution adding pre-mutation receipt guidance for skill/plugin installers, hooks, MCP config, and agent settings',
   },
   {
+    name: 'awesome-claude-code-toolkit-pluribus-ecosystem',
+    repo: 'rohitg00/awesome-claude-code-toolkit',
+    pullRequest: 469,
+    url: 'https://github.com/rohitg00/awesome-claude-code-toolkit/pull/469',
+    reason: 'external Claude Code ecosystem directory contribution positioning Pluribus as versioned cross-tool context plus privacy-safe receipts for setup and loaded/suppressed context',
+  },
+  {
     name: 'agent-skill-index-context-receipts',
     repo: 'heilcheng/awesome-agent-skills',
     pullRequest: 251,
