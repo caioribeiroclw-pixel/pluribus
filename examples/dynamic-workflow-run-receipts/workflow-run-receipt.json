@@ -1,0 +1,100 @@
+{
+  "type": "dynamic.workflow.run_receipt.v1",
+  "workflow": {
+    "workflow_id": "wf_checkout_auth_audit_2026_05_30",
+    "runner": "claude-code-dynamic-workflow",
+    "script_source": "generated-then-reviewed-command",
+    "script_hash": "sha256:example-only",
+    "task_kind": "codebase_auth_audit",
+    "plan_approved_before_run": true,
+    "resumable": true,
+    "started_at": "2026-05-30T15:20:00Z",
+    "completed_at": "2026-05-30T15:31:42Z"
+  },
+  "permissions": {
+    "tool_allowlist_inherited": true,
+    "writes_allowed": false,
+    "network_allowed": false,
+    "external_commands_allowed": ["grep", "test --dry-run"],
+    "permission_profile": "review-only"
+  },
+  "phases": [
+    {
+      "phase_id": "route-inventory",
+      "purpose": "find candidate auth-sensitive routes",
+      "agent_count": 3,
+      "token_spend_bucket": "under_50k",
+      "elapsed_ms_bucket": "under_2m",
+      "result": "completed"
+    },
+    {
+      "phase_id": "adversarial-review",
+      "purpose": "cross-check candidate misses",
+      "agent_count": 2,
+      "token_spend_bucket": "under_25k",
+      "elapsed_ms_bucket": "under_2m",
+      "result": "completed_with_gaps"
+    }
+  ],
+  "agents": [
+    {
+      "agent_id": "agent-route-auditor-1",
+      "phase_id": "route-inventory",
+      "role": "route-auth-auditor",
+      "model": "claude-sonnet",
+      "provider": "anthropic",
+      "context_loaded": ["repo-policy", "auth-boundary-rules", "route-index-summary"],
+      "context_skipped_or_suppressed": [
+        {
+          "source": "customer-fixture-dump",
+          "reason": "contains raw customer data; summary hash only"
+        }
+      ],
+      "tools_granted": ["read", "grep"],
+      "tools_used": ["grep"],
+      "feature_areas_checked": ["checkout routes", "admin routes"],
+      "token_budget_bucket": "under_25k",
+      "token_spend_bucket": "under_10k",
+      "stop_reason": "completed_assigned_partition",
+      "confidence": "medium",
+      "known_gaps": ["did not execute integration tests"],
+      "raw_prompt_logged": false,
+      "raw_tool_output_logged": false,
+      "raw_paths_logged": false
+    },
+    {
+      "agent_id": "agent-reviewer-1",
+      "phase_id": "adversarial-review",
+      "role": "adversarial-auth-reviewer",
+      "model": "local-codex-compatible",
+      "provider": "local-llm-gateway",
+      "context_loaded": ["candidate-findings-summary", "public-api-contract-summary"],
+      "context_skipped_or_suppressed": [],
+      "tools_granted": ["read"],
+      "tools_used": ["read"],
+      "feature_areas_checked": ["route findings cross-check"],
+      "token_budget_bucket": "under_10k",
+      "token_spend_bucket": "under_10k",
+      "stop_reason": "flagged_unverified_claim",
+      "confidence": "low",
+      "known_gaps": ["one route requires owner confirmation before merge"],
+      "raw_prompt_logged": false,
+      "raw_tool_output_logged": false,
+      "raw_paths_logged": false
+    }
+  ],
+  "handoff": {
+    "final_result_kind": "workflow_review_receipt",
+    "claims_rejected_or_deferred": 1,
+    "next_safe_action": "ask route owner to confirm checkout callback auth before writing fix",
+    "where_it_stopped": "ambiguous auth boundary before mutation"
+  },
+  "privacy": {
+    "raw_prompts_logged": false,
+    "raw_source_logged": false,
+    "raw_tool_output_logged": false,
+    "transcripts_logged": false,
+    "secrets_logged": false,
+    "customer_data_logged": false
+  }
+}
