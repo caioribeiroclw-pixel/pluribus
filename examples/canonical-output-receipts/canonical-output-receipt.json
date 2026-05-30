@@ -1,0 +1,55 @@
+{
+  "type": "canonical.output.receipt.v1",
+  "artifact": {
+    "stable_id": "project-alpha-master-prompt-2026-05-30",
+    "name": "Project Alpha master prompt",
+    "kind": "master_prompt",
+    "canonical_path": "docs/prompts/project-alpha-master-prompt.md",
+    "current_version": "2026-05-30.1",
+    "content_hash": "sha256:example-only",
+    "status": "current",
+    "owner_label": "product-ops",
+    "created_at": "2026-05-30T21:40:00Z",
+    "last_reviewed_at": "2026-05-30T21:58:00Z"
+  },
+  "source": {
+    "workspace": "claude-project-alpha",
+    "source_session_id": "session-redacted-2026-05-30",
+    "source_tool": "claude-projects",
+    "source_chat_title": "Master prompt rebuild",
+    "source_url_or_path_redacted": true,
+    "raw_transcript_logged": false
+  },
+  "index": {
+    "exact_phrases_worth_grepping": [
+      "do not collapse escalation paths into summaries",
+      "billing exports are evidence, not source of truth",
+      "final prompt contract v3"
+    ],
+    "tags": ["master-prompt", "billing", "escalation", "current-state"],
+    "related_artifacts": ["billing-escalation-runbook-2026-05-28"]
+  },
+  "decisions": {
+    "accepted": [
+      "Use repo-owned markdown as the canonical copy, not old chats",
+      "Keep escalation criteria in the prompt body and test cases in a separate appendix"
+    ],
+    "rejected": [
+      {
+        "option": "Rely on Claude Project conversation search for recovery",
+        "reason": "exact phrase and project-scoped search were unreliable during rebuild"
+      }
+    ],
+    "open_questions": [
+      "Does support need a shorter handoff summary for weekend rotations?"
+    ],
+    "next_action": "Open a PR that adds the canonical prompt and this receipt to docs/prompts/"
+  },
+  "privacy": {
+    "raw_prompt_logged": false,
+    "raw_chat_logged": false,
+    "customer_data_logged": false,
+    "secrets_logged": false,
+    "proprietary_paths_logged": false
+  }
+}
