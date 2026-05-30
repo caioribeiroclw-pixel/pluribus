@@ -355,6 +355,13 @@ const trackedExternalDistributions = [
     reason: 'contextual Claude Code issue feedback proposing skill routing receipts for observable Skill invocation, suppression, and tool-routing decisions',
   },
   {
+    name: 'anthropic-claude-code-skill-scoped-permissions-receipts',
+    repo: 'anthropics/claude-code',
+    issueNumber: 59366,
+    url: 'https://github.com/anthropics/claude-code/issues/59366#issuecomment-4583046051',
+    reason: 'contextual Claude Code skill-scoped permissions feedback proposing declared-permission and invocation receipts with active_skill and permission_source fields',
+  },
+  {
     name: 'agent-skill-index-context-receipts',
     repo: 'heilcheng/awesome-agent-skills',
     pullRequest: 251,
