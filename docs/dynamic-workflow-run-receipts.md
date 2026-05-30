@@ -2,9 +2,11 @@
 
 Claude Code-style dynamic workflows move orchestration into a script that can spawn many subagents, keep intermediate results outside the parent conversation, and show progress by phase, agent count, token total, and elapsed time.
 
-That is useful when a codebase audit, migration, research task, or verification pass needs more parallelism than one conversation can coordinate. It also creates a new review problem: after a workflow fans out, you need to know whether the expensive path bought better verification or just more context drift.
+That is useful when a codebase audit, migration, research task, or verification pass needs more parallelism than one conversation can coordinate. It also creates a new failure mode: one child agent can loop, burn tokens, or drift while the parent workflow only shows a high-level progress line.
 
 Use a dynamic workflow run receipt when a workflow, ultracode run, local LLM gateway, or multi-agent script delegates work across several agents/models and a human needs a privacy-safe summary of what actually happened.
+
+The first thing to look for is a **per-agent fuse**: budget, heartbeat, partial progress, stop reason, and kill-switch state for every spawned agent. After that, inspect whether the expensive path bought better verification or just more context drift.
 
 This is not an orchestration framework. The receipt is the stable artifact: compact evidence for each phase and spawned agent without logging raw prompts, source code, transcripts, tool output, secrets, customer data, or proprietary file paths.
 
@@ -15,6 +17,7 @@ Use this receipt when:
 - a workflow spawns several agents to audit, migrate, research, or verify a codebase;
 - agents may run different roles, models, or local/remote providers;
 - the run has a token/cost budget that needs to be explained after the fact;
+- a child agent could loop, stall, or keep spending while the parent workflow stays mostly blind;
 - the parent session sees only the final report, not every intermediate result;
 - a reviewer needs to know what context was loaded, skipped, or suppressed for each agent;
 - the run stops, pauses, resumes, or rejects a result and the stop point matters.
@@ -34,6 +37,8 @@ Attach this to a workflow report, PR body, task handoff, run summary, or CI arti
     "task_kind": "codebase_auth_audit",
     "plan_approved_before_run": true,
     "resumable": true,
+    "max_wall_clock_bucket": "under_15m",
+    "kill_switch_available": true,
     "started_at": "2026-05-30T15:20:00Z",
     "completed_at": "2026-05-30T15:31:42Z"
   },
@@ -81,6 +86,11 @@ Attach this to a workflow report, PR body, task handoff, run summary, or CI arti
       "feature_areas_checked": ["checkout routes", "admin routes"],
       "token_budget_bucket": "under_25k",
       "token_spend_bucket": "under_10k",
+      "max_iterations": 8,
+      "iterations_used": 3,
+      "heartbeat_seen_at": "2026-05-30T15:25:00Z",
+      "partial_progress_reported": true,
+      "fuse_triggered": false,
       "stop_reason": "completed_assigned_partition",
       "confidence": "medium",
       "known_gaps": ["did not execute integration tests"],
@@ -101,7 +111,12 @@ Attach this to a workflow report, PR body, task handoff, run summary, or CI arti
       "feature_areas_checked": ["route findings cross-check"],
       "token_budget_bucket": "under_10k",
       "token_spend_bucket": "under_10k",
-      "stop_reason": "flagged_unverified_claim",
+      "max_iterations": 5,
+      "iterations_used": 5,
+      "heartbeat_seen_at": "2026-05-30T15:30:00Z",
+      "partial_progress_reported": true,
+      "fuse_triggered": true,
+      "stop_reason": "iteration_budget_reached_before_claim_verified",
       "confidence": "low",
       "known_gaps": ["one route requires owner confirmation before merge"],
       "raw_prompt_logged": false,
@@ -131,9 +146,10 @@ Attach this to a workflow report, PR body, task handoff, run summary, or CI arti
 Before trusting the result of a dynamic workflow, ask for:
 
 - workflow/run id, runner, script source, script hash, and whether the plan was approved before execution;
+- workflow-level wall-clock budget, whether a kill switch exists, and whether the run can be paused/resumed safely;
 - permission profile, inherited tool allowlist, write/network/command capability, and whether the run was review-only or mutating;
 - phases, agent counts, token spend buckets, elapsed-time buckets, and phase result states;
-- per-agent role, model/provider actually used, context loaded, context skipped/suppressed, tools granted/used, token budget/spend, stop reason, confidence, and known gaps;
+- per-agent role, model/provider actually used, context loaded, context skipped/suppressed, tools granted/used, token budget/spend, iteration budget, heartbeat, partial progress, fuse state, stop reason, confidence, and known gaps;
 - explicit privacy flags proving raw prompts, source, transcripts, tool output, paths, secrets, and customer data were not logged;
 - a handoff that says what was accepted, rejected/deferred, where the workflow stopped, and the next safe action.
 
