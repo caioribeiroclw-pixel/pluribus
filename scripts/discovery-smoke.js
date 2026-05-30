@@ -348,6 +348,13 @@ const trackedExternalDistributions = [
     reason: 'external Claude Code ecosystem directory contribution positioning Pluribus as versioned cross-tool context plus privacy-safe receipts for setup and loaded/suppressed context',
   },
   {
+    name: 'anthropic-claude-code-skill-routing-receipts',
+    repo: 'anthropics/claude-code',
+    issueNumber: 62562,
+    url: 'https://github.com/anthropics/claude-code/issues/62562#issuecomment-4582610954',
+    reason: 'contextual Claude Code issue feedback proposing skill routing receipts for observable Skill invocation, suppression, and tool-routing decisions',
+  },
+  {
     name: 'agent-skill-index-context-receipts',
     repo: 'heilcheng/awesome-agent-skills',
     pullRequest: 251,
