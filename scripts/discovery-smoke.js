@@ -362,6 +362,13 @@ const trackedExternalDistributions = [
     reason: 'contextual Claude Code skill-scoped permissions feedback proposing declared-permission and invocation receipts with active_skill and permission_source fields',
   },
   {
+    name: 'anthropic-claude-code-agent-team-compact-recovery-receipts',
+    repo: 'anthropics/claude-code',
+    issueNumber: 23620,
+    url: 'https://github.com/anthropics/claude-code/issues/23620#issuecomment-4585095640',
+    reason: 'contextual Claude Code agent-team compaction feedback proposing post-compact recovery receipts for active teams, task assignments, event cursors, lead role constraints, and safe/unsafe resume state',
+  },
+  {
     name: 'agent-skill-index-context-receipts',
     repo: 'heilcheng/awesome-agent-skills',
     pullRequest: 251,
