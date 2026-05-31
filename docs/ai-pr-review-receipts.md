@@ -124,6 +124,26 @@ This receipt does not include raw prompts, transcripts, source code, secrets, cu
 `next_safe_action:`
 ```
 
+## CI gate example
+
+The copyable example in [`examples/ai-pr-review-receipts/`](../examples/ai-pr-review-receipts/) includes:
+
+- a PR template for human-readable blast-radius review;
+- a GitHub Actions workflow that validates a machine-readable `agent.review_primitive_receipt.v1` receipt;
+- a passing fixture and an intentionally failing fixture.
+
+Run the smoke locally from the repository root:
+
+```bash
+node examples/review-primitive-gate/check-review-receipt.mjs \
+  examples/ai-pr-review-receipts/review-primitive-receipt.json
+
+node examples/review-primitive-gate/check-review-receipt.mjs \
+  examples/ai-pr-review-receipts/incomplete-review-primitive-receipt.json
+```
+
+The first command should pass. The second should fail because partial/unsafe or under-evidenced agent work should not silently pass a merge gate.
+
 ## How to use with Pluribus
 
 Pluribus does not need to own your PR workflow. Use it as the neutral language for evidence that crossed an agent boundary:

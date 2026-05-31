@@ -1,0 +1,25 @@
+name: AI PR review receipt gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  review-receipt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Put your agent/bot-generated receipt at this path, or adjust RECEIPT_PATH.
+      # Keep the receipt privacy-safe: no raw prompts, transcripts, source code,
+      # tool output, secrets, stack traces, or customer data.
+      - name: Validate AI PR review receipt
+        env:
+          RECEIPT_PATH: artifacts/review-primitive-receipt.json
+        run: |
+          test -f "$RECEIPT_PATH"
+          npm install --no-save --ignore-scripts pluribus-context@latest
+          node node_modules/pluribus-context/examples/review-primitive-gate/check-review-receipt.mjs "$RECEIPT_PATH"

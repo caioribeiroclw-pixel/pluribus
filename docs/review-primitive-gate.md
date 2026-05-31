@@ -77,6 +77,8 @@ The copyable demo in [`examples/review-primitive-gate/`](../examples/review-prim
 
 If you use Claude Code hooks, the [`examples/claude-code-review-hook/`](../examples/claude-code-review-hook/) bridge shows how to run the same gate from `TaskCompleted`, `PostCompact`, or `SessionEnd` without logging raw prompts, transcripts, tool output, source code, or secrets.
 
+If you review AI-authored pull requests, the [`examples/ai-pr-review-receipts/`](../examples/ai-pr-review-receipts/) recipe shows the same gate as a GitHub Actions merge/check primitive for PR blast-radius evidence.
+
 ```bash
 node examples/review-primitive-gate/check-review-receipt.mjs \
   examples/review-primitive-gate/pass-review-receipt.json

@@ -1,0 +1,60 @@
+{
+  "type": "agent.review_primitive_receipt.v1",
+  "assignment_id": "pr-482-agent-review",
+  "run_id": "run-2026-05-31T23-00Z",
+  "agent": {
+    "tool": "claude-code-github-actions",
+    "role": "pr-reviewer"
+  },
+  "approved_boundaries": {
+    "read": ["src/billing/**", "tests/billing/**", "docs/rollout/**"],
+    "write": ["tests/billing/**", "docs/review-receipts/**"],
+    "network": false
+  },
+  "scope_access_changes": [
+    {
+      "change": "read docs/rollout/**",
+      "reason": "verify feature-flag and rollback evidence for the PR receipt",
+      "approved": true,
+      "approved_by": "maintainer"
+    }
+  ],
+  "commands_and_checks": [
+    {
+      "name": "npm test -- tests/billing",
+      "kind": "required_test",
+      "status": "passed",
+      "evidence": "https://github.com/example/repo/actions/runs/123#billing-tests"
+    },
+    {
+      "name": "npm run lint",
+      "kind": "required_check",
+      "status": "passed",
+      "evidence": "https://github.com/example/repo/actions/runs/123#lint"
+    },
+    {
+      "name": "migration rollback smoke",
+      "kind": "required_check",
+      "status": "passed",
+      "evidence": "artifacts/pr-482/rollback-smoke.txt"
+    }
+  ],
+  "refused_operations": [
+    {
+      "operation": "write src/billing/charge-customer.ts",
+      "reason": "outside approved write boundary; reviewer requested tests/docs only"
+    }
+  ],
+  "handoff": {
+    "changed_files_bucket": "under_5",
+    "evidence_path": "artifacts/pr-482/review-primitive-receipt.json",
+    "next_safe_action": "review billing test assertions and rollback evidence before merge"
+  },
+  "resume_state": "complete",
+  "privacy": {
+    "raw_prompts_logged": false,
+    "raw_tool_output_logged": false,
+    "source_code_logged": false,
+    "secrets_logged": false
+  }
+}

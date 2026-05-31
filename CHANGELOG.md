@@ -4,6 +4,8 @@
 
 All notable changes to Pluribus are documented here.
 
+- Added a GitHub Actions AI PR review receipt gate example that validates `agent.review_primitive_receipt.v1` evidence for AI-authored pull requests.
+
 ## 0.3.35 - 2026-05-31
 
 - Added canonical-output receipts for preserving the last clean version of an artifact as versioned evidence instead of treating old chats as source of truth.

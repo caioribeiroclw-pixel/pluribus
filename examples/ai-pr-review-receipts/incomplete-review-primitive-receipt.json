@@ -1,0 +1,43 @@
+{
+  "type": "agent.review_primitive_receipt.v1",
+  "assignment_id": "pr-483-agent-review",
+  "run_id": "run-2026-05-31T23-10Z",
+  "agent": {
+    "tool": "claude-code-github-actions",
+    "role": "pr-reviewer"
+  },
+  "approved_boundaries": {
+    "read": ["src/auth/**", "tests/auth/**"],
+    "write": ["tests/auth/**"],
+    "network": false
+  },
+  "scope_access_changes": [
+    {
+      "change": "write src/auth/session.ts",
+      "reason": "agent attempted to patch production auth code during review",
+      "approved": false,
+      "approved_by": ""
+    }
+  ],
+  "commands_and_checks": [
+    {
+      "name": "npm test -- tests/auth",
+      "kind": "required_test",
+      "status": "skipped",
+      "evidence": "not-run"
+    }
+  ],
+  "refused_operations": [],
+  "handoff": {
+    "changed_files_bucket": "under_10",
+    "evidence_path": "artifacts/pr-483/review-primitive-receipt.json",
+    "next_safe_action": "human must inspect attempted auth write and run required tests before merge"
+  },
+  "resume_state": "partial",
+  "privacy": {
+    "raw_prompts_logged": false,
+    "raw_tool_output_logged": false,
+    "source_code_logged": false,
+    "secrets_logged": false
+  }
+}
