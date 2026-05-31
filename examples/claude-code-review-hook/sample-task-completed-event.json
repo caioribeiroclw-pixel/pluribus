@@ -1,0 +1,6 @@
+{
+  "hook_event_name": "TaskCompleted",
+  "session_id": "demo-session",
+  "transcript_path": "redacted/transcript.jsonl",
+  "cwd": "/repo/example"
+}

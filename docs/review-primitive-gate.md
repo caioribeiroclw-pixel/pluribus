@@ -75,6 +75,8 @@ Attach this receipt to a PR body, CI artifact, run summary, or handoff packet.
 
 The copyable demo in [`examples/review-primitive-gate/`](../examples/review-primitive-gate/) turns the receipt into a CI/reviewer decision.
 
+If you use Claude Code hooks, the [`examples/claude-code-review-hook/`](../examples/claude-code-review-hook/) bridge shows how to run the same gate from `TaskCompleted`, `PostCompact`, or `SessionEnd` without logging raw prompts, transcripts, tool output, source code, or secrets.
+
 ```bash
 node examples/review-primitive-gate/check-review-receipt.mjs \
   examples/review-primitive-gate/pass-review-receipt.json
