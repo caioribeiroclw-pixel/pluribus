@@ -1,0 +1,54 @@
+{
+  "type": "agent.review_primitive_receipt.v1",
+  "assignment_id": "agent-auth-audit-42",
+  "run_id": "run-2026-05-31T17-00Z",
+  "agent": {
+    "tool": "claude-code",
+    "role": "auth-reviewer"
+  },
+  "approved_boundaries": {
+    "read": ["src/auth/**", "tests/auth/**"],
+    "write": ["tests/auth/**"],
+    "network": false
+  },
+  "scope_access_changes": [
+    {
+      "change": "read docs/security/**",
+      "reason": "needed policy wording for test fixture",
+      "approved": true,
+      "approved_by": "human-reviewer"
+    }
+  ],
+  "commands_and_checks": [
+    {
+      "name": "npm test -- tests/auth",
+      "kind": "required_test",
+      "status": "passed",
+      "evidence": "ci://job/123#auth-tests"
+    },
+    {
+      "name": "npm run lint",
+      "kind": "required_check",
+      "status": "passed",
+      "evidence": "ci://job/123#lint"
+    }
+  ],
+  "refused_operations": [
+    {
+      "operation": "write src/auth/session.ts",
+      "reason": "outside approved write boundary"
+    }
+  ],
+  "handoff": {
+    "changed_files_bucket": "under_5",
+    "evidence_path": "artifacts/agent-auth-audit-42.json",
+    "next_safe_action": "review tests/auth/session.test.ts before merge"
+  },
+  "resume_state": "complete",
+  "privacy": {
+    "raw_prompts_logged": false,
+    "raw_tool_output_logged": false,
+    "source_code_logged": false,
+    "secrets_logged": false
+  }
+}
