@@ -4,6 +4,13 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.35 - 2026-05-31
+
+- Added canonical-output receipts for preserving the last clean version of an artifact as versioned evidence instead of treating old chats as source of truth.
+- Added a review primitive gate example that fails unsafe agent handoffs on unapproved scope changes, skipped/failed required checks, missing evidence, privacy leaks, or `partial` / `unsafe-to-resume` state.
+- Added a Claude Code hook bridge that runs the review primitive gate from lifecycle hook JSON, making handoff proof enforceable at `TaskCompleted` / `PostCompact` style boundaries.
+- Tracked fresh market signals around dynamic workflow cost accounting, post-compact recovery, active idea indexes, Skill policy alternatives, and control-plane buying thresholds.
+
 - Add Skill policy receipts guide and copyable Agent Skill recipe for hard-rule enforcement, target allow/refuse decisions, and post-write guards.
 - Add temporal context receipts guide and copyable current-state/spec example for long-lived projects where old docs still match search but are no longer implementation authority.
 - Add AI PR review receipts guide and copyable PR template for reviewing agent-generated changes by blast radius instead of diff size alone.
