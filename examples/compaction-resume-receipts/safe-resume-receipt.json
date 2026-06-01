@@ -1,0 +1,52 @@
+{
+  "type": "agent.compaction_resume_receipt.v1",
+  "compaction_event_id": "compact-2026-06-01T15-02-59Z",
+  "session_id": "codex-session-42",
+  "trigger": "PostCompact",
+  "transcript": {
+    "range": "messages:1-184",
+    "content_hash": "sha256-7f8f6fbf8a3e3fe0e9f6b59efac0e771d8f64a9ebff3e9b0f5162e43c2e3e89a",
+    "raw_text_logged": false
+  },
+  "summary": {
+    "content_hash": "sha256-8a4f6242e9800f1452bcfd5dbec7e9f1f0b543d72b0c96e57dece44f6c4b8de4",
+    "token_count": 1240
+  },
+  "instruction_sources_reloaded": [
+    {
+      "kind": "AGENTS.md",
+      "ref": "repo-root/AGENTS.md",
+      "content_hash": "sha256-06c39dfb1ba74f5ac6f0e1a6d6b4c65358c3f1a872e96f3fe8d61da947caa1d4",
+      "mtime": "2026-06-01T14:58:02Z",
+      "raw_body_logged": false
+    },
+    {
+      "kind": "plan",
+      "ref": "memory/current-plan.md#active",
+      "content_hash": "sha256-a9b30f8a50dd31ec3c818c9c0d05282bf97f54991a4032f2d547a30174de1c61",
+      "mtime": "2026-06-01T14:59:44Z",
+      "raw_body_logged": false
+    }
+  ],
+  "state": {
+    "kept": [
+      { "kind": "active_plan", "ref": "plan:fix-auth-smoke", "summary_hash": "sha256-4c0f7fd0a72b8cf7e45c0fb97b893590fa12e931f914a34b94756de0d876182c" },
+      { "kind": "open_diff", "ref": "git:working-tree", "summary_hash": "sha256-2e5a0da4b6b4e9d07f11c8f10f332fc74497ef6d052a46997c4f5d0bdb0e1b07" }
+    ],
+    "lost": []
+  },
+  "resume_verdict": {
+    "safe_to_resume": true,
+    "reasons": [
+      "instruction sources reloaded with hashes",
+      "active plan and open diff summarized",
+      "no blocking lost fields recorded"
+    ]
+  },
+  "privacy": {
+    "raw_prompts_logged": false,
+    "raw_tool_output_logged": false,
+    "secrets_logged": false,
+    "full_instruction_bodies_logged": false
+  }
+}
