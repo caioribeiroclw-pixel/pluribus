@@ -1,0 +1,48 @@
+{
+  "type": "agent.memory_update_receipt.v1",
+  "update_id": "memupd_2026_06_01_001",
+  "run_id": "agent_run_8742",
+  "source": {
+    "kind": "claude-code-session",
+    "ref": "repo:acme/shop#issue-4812",
+    "content_hash": "sha256:4df7b1b9d6f4a2c51ad3e1ce761a8f0f918c9a0f4d26c4c8fd9f1e21ad1a19f4"
+  },
+  "scope": {
+    "kind": "repo",
+    "id": "acme/shop",
+    "path_prefix": "apps/checkout"
+  },
+  "proposed_diff": {
+    "adds": [
+      {
+        "memory_ref": "memory:checkout:idempotency-key-policy",
+        "summary_hash": "sha256:dad59f7764d0a6dd8db8f2d6f23d9dd30b3e6b1e1197d5478c05f9d093bc5fed",
+        "reason": "captured repo-local invariant after failing duplicate-charge test"
+      }
+    ],
+    "updates": [],
+    "supersedes": [],
+    "expires": []
+  },
+  "write_policy": {
+    "status": "approved",
+    "policy_ref": "repo-memory-policy:v2",
+    "approved_by": "maintainer:checkout-platform",
+    "approval_channel": "pull-request-review",
+    "private_or_sensitive_detected": false
+  },
+  "lifecycle": {
+    "review_after": "2026-07-01T00:00:00Z",
+    "supersedes_required": false
+  },
+  "injection_visibility": {
+    "next_session_visible": true,
+    "preview_path": ".pluribus/memory-previews/checkout-idempotency-key-policy.md"
+  },
+  "privacy": {
+    "raw_memory_text_logged": false,
+    "raw_prompts_logged": false,
+    "raw_tool_output_logged": false,
+    "secrets_logged": false
+  }
+}

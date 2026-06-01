@@ -1,0 +1,43 @@
+{
+  "type": "agent.memory_update_receipt.v1",
+  "update_id": "memupd_2026_06_01_002",
+  "run_id": "agent_run_8743",
+  "source": {
+    "kind": "claude-code-session",
+    "ref": "repo:acme/shop#debug-chat",
+    "content_hash": "sha256:6d4fa2a2114f83fd8bd9d6eb3c632ff6f20252f978bc9deec0b9d85694e02d4b"
+  },
+  "scope": {
+    "kind": "user",
+    "id": "developer-laptop"
+  },
+  "proposed_diff": {
+    "adds": [
+      {
+        "memory_ref": "memory:global:production-debug-shortcut",
+        "summary_hash": "sha256:5ee95af43fd2fb8b90908ef8cc4a5e6f050a8f52c97c7c93fd7f37bd1dcf3c2a",
+        "raw_text": "do not store raw memory bodies here"
+      }
+    ],
+    "updates": [],
+    "supersedes": [],
+    "expires": []
+  },
+  "write_policy": {
+    "status": "quarantined",
+    "policy_ref": "repo-memory-policy:v2",
+    "private_or_sensitive_detected": true
+  },
+  "lifecycle": {
+    "supersedes_required": false
+  },
+  "injection_visibility": {
+    "next_session_visible": false
+  },
+  "privacy": {
+    "raw_memory_text_logged": true,
+    "raw_prompts_logged": false,
+    "raw_tool_output_logged": false,
+    "secrets_logged": false
+  }
+}
