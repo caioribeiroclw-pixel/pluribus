@@ -1,0 +1,9 @@
+{
+  "type": "agent_firewall_denial.v1",
+  "decision": "blocked",
+  "reasonClass": "destructive_git",
+  "requiresApproval": true,
+  "safeAlternative": "Explain the planned git operation and wait for explicit approval.",
+  "retrySafety": "unsafe_until_approved",
+  "correlationId": "deny_2026_06_02_2200_7f3a"
+}

@@ -1,0 +1,20 @@
+{
+  "type": "agent_firewall_operator_audit.v1",
+  "decision": "blocked",
+  "correlationId": "deny_2026_06_02_2200_7f3a",
+  "tool": "Bash",
+  "commandHash": "sha256:0e5751c026e543b2a6f2b4d7a7c8d8e5b81b69c5b9f7db2a5b94f31f987e7f44",
+  "cwdHash": "sha256:dcdb704109a454784b81229d2b05f368692e758bfa33cb61d04c1b93791b0273",
+  "matchedPolicyIds": ["git.destructive.requires_approval"],
+  "sessionTaint": {
+    "secretRead": false,
+    "privateFileRead": true,
+    "networkAccessed": false
+  },
+  "approval": {
+    "state": "missing",
+    "requiredFrom": "operator"
+  },
+  "retrySafety": "unsafe_until_approved",
+  "modelEnvelopeHash": "sha256:a1bcaa1cb2572ab0e735c30062a268391d0a9d1b3dd7ff4b14065d8b29513b2a"
+}
