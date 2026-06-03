@@ -1,0 +1,69 @@
+{
+  "receipt_type": "pluribus.loaded_resource_boundary.v1",
+  "scenario": "custom-agent skill parity across chat and ACP/Zed",
+  "expected_resources": [
+    {
+      "id": "skill:pr-review",
+      "kind": "skill",
+      "scope": "project",
+      "source_ref": ".kiro/skills/pr-review/SKILL.md",
+      "source_hash": "sha256:7fb8c53b1b1f9b0e0f5a6fdab315b748c64c8b926fdff3d1d6fe6b3f5c8c6a01",
+      "required": true
+    },
+    {
+      "id": "skill:release-notes",
+      "kind": "skill",
+      "scope": "project",
+      "source_ref": ".kiro/skills/release-notes/SKILL.md",
+      "source_hash": "sha256:290d6bbf8d43b5b3f9134718ce9f7b6d08cc25f1a0e9255f5b8ceadcab4e6c18",
+      "required": false
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "chat-reviewer-2026-06-03",
+      "runtime": "chat",
+      "client": "kiro-desktop",
+      "client_version": "2.5.1",
+      "agent": "reviewer",
+      "task_hash": "sha256:9ed0fd91ef88f64a7de10e7fbab4e979ec6b13701d8a7569e3d4ad4ed9932a9a",
+      "discovered_resources": ["skill:pr-review", "skill:release-notes"],
+      "attached_resources": ["skill:pr-review", "skill:release-notes"],
+      "injected_resources": ["skill:pr-review"],
+      "readable_resources": ["skill:pr-review"],
+      "skipped_resources": [
+        {
+          "id": "skill:release-notes",
+          "stage": "injected",
+          "reason": "trigger_not_matched"
+        }
+      ]
+    },
+    {
+      "session_id": "acp-zed-reviewer-2026-06-03",
+      "runtime": "acp",
+      "client": "zed",
+      "client_version": "2.5.1",
+      "agent": "reviewer",
+      "task_hash": "sha256:9ed0fd91ef88f64a7de10e7fbab4e979ec6b13701d8a7569e3d4ad4ed9932a9a",
+      "discovered_resources": ["skill:pr-review", "skill:release-notes"],
+      "attached_resources": ["skill:pr-review", "skill:release-notes"],
+      "injected_resources": [],
+      "readable_resources": [],
+      "skipped_resources": [
+        {
+          "id": "skill:pr-review",
+          "stage": "injected",
+          "reason": "runtime_does_not_inject_resources"
+        },
+        {
+          "id": "skill:release-notes",
+          "stage": "injected",
+          "reason": "trigger_not_matched"
+        }
+      ]
+    }
+  ],
+  "safe_to_continue": false,
+  "next_action": "file a host/runtime bug with stage-level evidence; do not fix this with stronger prompt wording alone"
+}
