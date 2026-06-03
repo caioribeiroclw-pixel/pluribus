@@ -1,0 +1,68 @@
+{
+  "schema": "pluribus.phase-boundary-contract.v1",
+  "workflowId": "checkout-refactor-2026-06-03",
+  "currentPhase": "apply",
+  "nextPhase": "verify",
+  "allowedInput": [
+    {
+      "kind": "approved_plan",
+      "ref": "plans/checkout-refactor.md",
+      "contentHash": "sha256:0b70d75d6c8f0e54c74e1d7ea90e7c7b3d83e15dd3a3f7b4b9e9e73339d2b22e",
+      "required": true
+    },
+    {
+      "kind": "task_list",
+      "ref": "tasks/checkout-refactor.md#apply",
+      "contentHash": "sha256:63ccf4555f0adbe64bbff5a8f7c4b24708fdb2b5e4d0e417a5cb057b9ed39a76",
+      "required": true
+    }
+  ],
+  "outputArtifact": {
+    "kind": "patch",
+    "ref": "git:working-tree",
+    "contentHash": "sha256:3f9d6216dc7dcb53e6f29ad23433de97f0c172be6a6f46d574aa67e0edfd0789"
+  },
+  "evidenceGate": {
+    "requiredBeforeNextPhase": [
+      "changed_files",
+      "tests_run",
+      "open_risks",
+      "stop_conditions"
+    ],
+    "status": "pass",
+    "changedFiles": {
+      "count": 4,
+      "fileSetHash": "sha256:5f6c8b62349d527cd2e24c6913b8c5f0af8775be1a836bf942853c39efc11f91"
+    },
+    "testsRun": [
+      {
+        "name": "unit-tests",
+        "commandHash": "sha256:1f2cc9d3f4ce8cb118198c7da4d6951de2f21485af126eb1a0fe5f1d7e0139de",
+        "status": "pass"
+      },
+      {
+        "name": "typecheck",
+        "commandHash": "sha256:54d29f16fd215f74b4c03da61e37e71918f2e5c8db454a76f5f582b76471cb13",
+        "status": "pass"
+      }
+    ],
+    "openRisks": [
+      {
+        "riskClass": "manual_browser_flow_not_verified",
+        "severity": "medium",
+        "safeToContinue": true
+      }
+    ]
+  },
+  "droppedContext": [
+    {
+      "kind": "exploration_transcript",
+      "reason": "not authoritative after approved plan"
+    },
+    {
+      "kind": "rejected_design_option",
+      "reason": "kept as citation only; not input to verify phase"
+    }
+  ],
+  "stopConditions": []
+}
