@@ -1,0 +1,72 @@
+{
+  "schema": "pluribus.parallel_session_review_ledger.v1",
+  "generated_at": "2026-06-04T19:00:00Z",
+  "run": {
+    "orchestrator": "human",
+    "repo": "redacted-service",
+    "coordination_mode": "parallel_sessions"
+  },
+  "sessions": [
+    {
+      "id": "session-a",
+      "agent": "claude-code",
+      "assignment": "update validation for billing webhook retries",
+      "branch": "agent/billing-webhook-retry-validation",
+      "allowed_scope": {
+        "files": ["src/billing/**", "test/billing/**"],
+        "commands": ["npm test -- --test-name-pattern=billing"],
+        "network": "none"
+      },
+      "touched_files": ["src/billing/retries.js", "test/billing/retries.test.js"],
+      "agent_claim": "added retry validation and regression coverage",
+      "evidence": [
+        { "type": "commit", "ref": "abc1234" },
+        { "type": "test", "name": "billing retry validation", "status": "passed" }
+      ],
+      "missing_checks": [],
+      "privacy_flags": [],
+      "state": "complete",
+      "safe_next_action": "review_diff"
+    },
+    {
+      "id": "session-b",
+      "agent": "cursor-agent",
+      "assignment": "draft migration notes for webhook retry config",
+      "branch": "agent/retry-config-notes",
+      "allowed_scope": {
+        "files": ["docs/**"],
+        "commands": ["npm test -- --test-name-pattern=docs"],
+        "network": "none"
+      },
+      "touched_files": ["docs/webhook-retry-config.md"],
+      "agent_claim": "documented retry config and rollback notes",
+      "evidence": [
+        { "type": "diff", "ref": "docs-only" }
+      ],
+      "missing_checks": ["link-check docs/webhook-retry-config.md"],
+      "privacy_flags": [],
+      "state": "partial",
+      "safe_next_action": "run_missing_check"
+    },
+    {
+      "id": "session-c",
+      "agent": "codex-cli",
+      "assignment": "investigate retry metrics regression",
+      "branch": "agent/retry-metrics-investigation",
+      "allowed_scope": {
+        "files": ["src/metrics/**", "test/metrics/**"],
+        "commands": ["npm test -- --test-name-pattern=metrics"],
+        "network": "none"
+      },
+      "touched_files": ["src/metrics/retry-metrics.js"],
+      "agent_claim": "found possible metrics label mismatch, not fixed",
+      "evidence": [
+        { "type": "note", "ref": "suspected-label-mismatch" }
+      ],
+      "missing_checks": ["confirm label contract with owner"],
+      "privacy_flags": ["scope_expanded_without_approval"],
+      "state": "unsafe_to_resume",
+      "safe_next_action": "stop_manual_review"
+    }
+  ]
+}
