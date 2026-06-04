@@ -1,0 +1,79 @@
+{
+  "receipt_type": "agent.skill_install_receipt.v1",
+  "run_id": "skill-install-demo-2026-06-04T13:00Z",
+  "installer": {
+    "name": "skills-cli",
+    "version_bucket": "0.x",
+    "command_class": "skill_package_install",
+    "source": {
+      "kind": "git_ref",
+      "package": "vercel-labs/skills/context-budget-preflight",
+      "ref": "sha256:demo-source-package-hash",
+      "credentials_in_ref": false
+    }
+  },
+  "mode_requested": "install_then_check",
+  "mode_effective": "post_install_check",
+  "writes_completed": true,
+  "backup_created": true,
+  "targets": [
+    {
+      "agent": "claude-code",
+      "scope": "project",
+      "required": true,
+      "install_status": "installed",
+      "discovery_status": "discovered",
+      "load_status": "activation_required",
+      "activation": "on_demand_skill_description",
+      "context_cost_bucket": "0-1k",
+      "safe_to_start_session": true,
+      "evidence": {
+        "manifest_hash": "sha256:demo-claude-manifest-hash",
+        "skill_body_hash": "sha256:demo-claude-skill-body-hash",
+        "raw_body_logged": false
+      }
+    },
+    {
+      "agent": "codex",
+      "scope": "project",
+      "required": true,
+      "install_status": "installed",
+      "discovery_status": "discovered",
+      "load_status": "deferred",
+      "activation": "manual_or_triggered",
+      "context_cost_bucket": "0-1k",
+      "safe_to_start_session": true,
+      "evidence": {
+        "manifest_hash": "sha256:demo-codex-manifest-hash",
+        "skill_body_hash": "sha256:demo-codex-skill-body-hash",
+        "raw_body_logged": false
+      }
+    },
+    {
+      "agent": "zed-acp",
+      "scope": "project",
+      "required": false,
+      "install_status": "skipped",
+      "discovery_status": "not_tested",
+      "load_status": "not_tested",
+      "activation": "unsupported_target_in_this_installer",
+      "context_cost_bucket": "unknown",
+      "safe_to_start_session": true,
+      "skipped_reason": "target_not_selected"
+    }
+  ],
+  "overall_safe_to_start_session": true,
+  "next_safe_command": "start a disposable agent session and ask it to cite the installed Skill sentinel line",
+  "privacy_exclusions": [
+    "raw_skill_body",
+    "raw_source",
+    "raw_prompt",
+    "transcript",
+    "raw_tool_output",
+    "customer_data",
+    "secrets",
+    "env_dump",
+    "private_absolute_path"
+  ],
+  "audit_gap": "proves installer/discovery/load boundary, not skill semantic quality or future activation"
+}

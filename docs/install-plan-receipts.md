@@ -75,3 +75,5 @@ If an installer cannot answer that before mutation, treat it like running CI fro
 ## Try the copyable example
 
 See [`examples/install-plan-receipts/`](../examples/install-plan-receipts/) for a small review checklist and sample receipt you can copy into setup scripts, README install sections, or agent-managed onboarding workflows.
+
+After the installer has run, use [Skill install/load receipts](skill-install-receipts.md) when the next question is whether each target agent can discover/load the installed Skill and whether the install made the first session unsafe by adding too much always-loaded context.
