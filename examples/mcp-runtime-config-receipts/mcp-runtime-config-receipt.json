@@ -1,0 +1,82 @@
+{
+  "schema": "pluribus.mcp_runtime_config_receipt.v1",
+  "run_id": "mcp-config-review-2026-06-05T23:00Z",
+  "generated_at": "2026-06-05T23:00:00Z",
+  "repository_ref": "github:example/app@pull/123",
+  "configs": [
+    {
+      "path": ".mcp.json",
+      "client": "claude-code",
+      "source_kind": "runtime_config",
+      "runtime_active": true,
+      "loaded_by": ["claude-code"],
+      "change_kind": "server_added",
+      "permission_surface_changed": true,
+      "sample_config_review": false,
+      "should_alert": true,
+      "evidence": [
+        {
+          "kind": "config_digest",
+          "ref": "sha256:9a1c4b7d4f1a"
+        },
+        {
+          "kind": "client_discovery_rule",
+          "ref": "claude-code:.mcp.json"
+        }
+      ],
+      "redacted_env_keys": {
+        "required": ["GITHUB_TOKEN"],
+        "present": [],
+        "missing": ["GITHUB_TOKEN"]
+      }
+    },
+    {
+      "path": ".mcp.json.template",
+      "client": "claude-code",
+      "source_kind": "sample_config",
+      "runtime_active": false,
+      "loaded_by": [],
+      "change_kind": "server_added",
+      "permission_surface_changed": true,
+      "sample_config_review": false,
+      "should_alert": false,
+      "evidence": [
+        {
+          "kind": "config_digest",
+          "ref": "sha256:2e76a9c103ab"
+        }
+      ],
+      "redacted_env_keys": {
+        "required": ["EXAMPLE_API_KEY"],
+        "present": [],
+        "missing": ["EXAMPLE_API_KEY"]
+      }
+    },
+    {
+      "path": ".cursor/mcp.disabled.json",
+      "client": "cursor",
+      "source_kind": "disabled_config",
+      "runtime_active": false,
+      "loaded_by": [],
+      "change_kind": "command_changed",
+      "permission_surface_changed": true,
+      "sample_config_review": false,
+      "should_alert": false,
+      "evidence": [
+        {
+          "kind": "config_digest",
+          "ref": "sha256:66f3ec00a12b"
+        },
+        {
+          "kind": "disabled_profile_marker",
+          "ref": "filename:mcp.disabled.json"
+        }
+      ],
+      "redacted_env_keys": {
+        "required": [],
+        "present": [],
+        "missing": []
+      }
+    }
+  ]
+}

@@ -408,6 +408,7 @@ If you've felt this pain, tell me about your setup. What tools do you use? How d
 - [Composable Contexts](docs/composable-contexts.md) — local/remote imports, merge behavior, and safety rules
 - [MCP Memory Handoff](docs/memory-mcp-handoff.md) — demo for keeping memory recall/store protocols aligned across tool-specific instruction files
 - [MCP Tool Visibility Receipts](docs/mcp-tool-visibility-receipts.md) — checklist for debugging healthy MCP servers whose tools do not appear in the agent client catalog
+- [MCP Runtime Config Receipts](docs/mcp-runtime-config-receipts.md) — live-vs-template evidence for MCP permission/config drift review
 - [Remote Composable Context Imports](docs/remote-composable-context-imports.md) — design notes for lockfile/cache/auth hardening
 - [Context Format Spec](spec/context-format.md) — the `pluribus.md` format reference
 - [Skills Format Spec](spec/skills-format.md) — how adapters work and how to write custom skills
