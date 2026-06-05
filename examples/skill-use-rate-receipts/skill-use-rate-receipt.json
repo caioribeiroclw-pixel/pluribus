@@ -1,0 +1,79 @@
+{
+  "schema": "pluribus.skill_use_rate_receipt.v1",
+  "run_id": "skills-audit-2026-06-05T13:00Z",
+  "generated_at": "2026-06-05T13:00:00Z",
+  "installer": {
+    "name": "skills",
+    "version": "1.5.9",
+    "command_digest": "sha256:4c2b31d9f1e3a1a5f94c2c65d18f0a9b0c3d14a1c6a4f8cbb6e8f0b2a118f001"
+  },
+  "window": {
+    "started_at": "2026-05-22T00:00:00Z",
+    "ended_at": "2026-06-05T13:00:00Z"
+  },
+  "skills": [
+    {
+      "skill_id": "frontend-design",
+      "source_ref": "github:vercel-labs/agent-skills/skills/frontend-design@main",
+      "target_agent": "claude-code",
+      "scope": "project",
+      "install_method": "symlink",
+      "discovered": true,
+      "installed": true,
+      "attached": true,
+      "invoked_count": 7,
+      "acted_on_count": 3,
+      "last_invoked_at": "2026-06-05T10:12:08Z",
+      "unused_since_install": false,
+      "context_cost_bucket": "small",
+      "evidence": [
+        {
+          "kind": "session_log_digest",
+          "ref": "sha256:0b7d7a9f2950f5e4ab8d9ab2f93e71875a995ee3878d0d595c8a65f8d7bf0c4d"
+        }
+      ]
+    },
+    {
+      "skill_id": "rust-lsp-helper",
+      "source_ref": "github:example-org/agent-skills/skills/rust-lsp-helper@v1.2.0",
+      "target_agent": "claude-code",
+      "scope": "global",
+      "install_method": "copy",
+      "discovered": true,
+      "installed": true,
+      "attached": true,
+      "invoked_count": 0,
+      "acted_on_count": 0,
+      "last_invoked_at": null,
+      "unused_since_install": true,
+      "context_cost_bucket": "medium",
+      "evidence": [
+        {
+          "kind": "installer_lock_digest",
+          "ref": "sha256:d25b0ddca0d6b8ac8705cc1e845351f5f5a3971b982be9dc6eeb3aadc5a83a54"
+        }
+      ]
+    },
+    {
+      "skill_id": "code-review-xhigh",
+      "source_ref": "builtin:claude-code/code-review@2.1.152",
+      "target_agent": "claude-code",
+      "scope": "builtin",
+      "install_method": "builtin",
+      "discovered": true,
+      "installed": true,
+      "attached": true,
+      "invoked_count": 12,
+      "acted_on_count": 9,
+      "last_invoked_at": "2026-06-05T12:40:01Z",
+      "unused_since_install": false,
+      "context_cost_bucket": "unknown",
+      "evidence": [
+        {
+          "kind": "review_report_digest",
+          "ref": "sha256:8f489e2b0d3539b17f3d0b6ebc68bf1c9d68022c6ea086b6a3636b107a42f9f4"
+        }
+      ]
+    }
+  ]
+}
