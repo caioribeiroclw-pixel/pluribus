@@ -4,6 +4,11 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.36 - 2026-06-05
+
+- Added `pluribus demo skill-use-rate`, a tiny npm-runnable demo that validates the packaged Skill use-rate receipt and warns when installed/attached Skills have no observed invocations.
+
+
 - Added a GitHub Actions AI PR review receipt gate example that validates `agent.review_primitive_receipt.v1` evidence for AI-authored pull requests.
 - Added a memory write policy receipt guide and executable gate for approving or quarantining shared-memory updates before they become durable context across agents.
 

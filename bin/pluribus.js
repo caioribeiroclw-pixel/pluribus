@@ -10,6 +10,7 @@ import { runSync } from '../src/commands/sync.js'
 import { runValidate } from '../src/commands/validate.js'
 import { runWatch } from '../src/commands/watch.js'
 import { runAudit } from '../src/commands/audit.js'
+import { runDemo } from '../src/commands/demo.js'
 import { parseArgs } from '../src/utils/args.js'
 import { SUPPORTED_TOOLS } from '../src/skills/built-in.js'
 import { VERSION } from '../src/utils/version.js'
@@ -28,6 +29,7 @@ COMMANDS
   validate  Validate pluribus.md before syncing
   audit     Compare generated tool files with pluribus.md without writing
   watch     Watch pluribus.md and auto-sync after changes
+  demo      Run tiny packaged demos from npm without cloning the repo
   help      Show this help message
 
 OPTIONS (init)
@@ -64,6 +66,10 @@ OPTIONS (watch)
   --once          Exit after the first change-triggered sync
   --debounce      Debounce delay in ms (minimum 300, default 400)
 
+OPTIONS (demo)
+  --receipt       Validate a custom skill use-rate receipt JSON file
+  --json          Print machine-readable demo results
+
 EXAMPLES
   pluribus init
   pluribus init --dry-run
@@ -81,6 +87,8 @@ EXAMPLES
   pluribus audit --strict --github-annotations
   pluribus audit --json --fidelity-report
   pluribus watch --tools claude,cursor
+  pluribus demo skill-use-rate
+  pluribus demo skill-use-rate --json
 
 DOCS
   https://github.com/caioribeiroclw-pixel/pluribus
@@ -92,6 +100,7 @@ const COMMAND_FLAGS = {
   validate: new Set(['source', 'update-imports']),
   audit: new Set(['source', 'tools', 'update-imports', 'strict', 'ci', 'json', 'output', 'github-annotations', 'fidelity-report']),
   watch: new Set(['source', 'tools', 'update-imports', 'dry-run', 'once', 'debounce']),
+  demo: new Set(['receipt', 'json']),
 }
 
 function getFlagNames(argv) {
@@ -151,6 +160,9 @@ async function main() {
         break
       case 'audit':
         await runAudit(parsedArgs)
+        break
+      case 'demo':
+        await runDemo(parsedArgs, commandArgs.filter((arg) => !arg.startsWith('--') && !Object.values(parsedArgs).includes(arg)))
         break
       default:
         console.error(`❌ Unknown command: "${command}"`)
