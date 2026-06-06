@@ -84,4 +84,4 @@ The useful question is: **where did the boundary proof stop?**
 
 ## Try the copyable Skill recipe
 
-See [`examples/agent-skills/skill-policy-receipts/`](../examples/agent-skills/skill-policy-receipts/) for a small `SKILL.md` recipe you can copy into Claude Code/OpenClaw-style Skill workflows.
+See [`skills/skill-policy-receipts/`](../skills/skill-policy-receipts/) for a small `SKILL.md` recipe you can copy into Claude Code/OpenClaw-style Skill workflows.
