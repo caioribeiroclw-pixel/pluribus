@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.37 - 2026-06-06
+
+- Published the canonical top-level Agent Skills layout (`skills/*/SKILL.md`) and backwards-compatible legacy mirrors so external skill registries can keep source links verifiable while package users get the current recipes from npm.
+
 ## 0.3.36 - 2026-06-05
 
 - Added `pluribus demo skill-use-rate`, a tiny npm-runnable demo that validates the packaged Skill use-rate receipt and warns when installed/attached Skills have no observed invocations.

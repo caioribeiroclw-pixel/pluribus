@@ -19,4 +19,4 @@ The receipt should prove:
 - post-write guard passed or failed;
 - no raw prompt, code, secret, customer data, stack trace, or full transcript was logged.
 
-Related guide: [`docs/skill-policy-receipts.md`](../../../docs/skill-policy-receipts.md).
+Related guide: [`docs/skill-policy-receipts.md`](../../docs/skill-policy-receipts.md).

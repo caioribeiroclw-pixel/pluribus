@@ -19,10 +19,10 @@ grep -E 'raw_(schema|query|args|result|output|transcript|text)_copied":false|raw
 
 Then manually check that the receipt contains counts, hashes, ids, buckets, and `audit_gap`, but does **not** contain private prompts, raw schemas, tool args/results, skill bodies, memory bodies, customer names, secrets, or transcript text.
 
-For executable fixture examples, see [`../../context-input-evidence/`](../../context-input-evidence/), including the ToolSearch propagation, pruning, and compaction transaction smokes:
+For executable fixture examples, see [`../../examples/context-input-evidence/`](../../examples/context-input-evidence/), including the ToolSearch propagation, pruning, and compaction transaction smokes:
 
 ```bash
-node ../../context-input-evidence/convert-subagent-toolsearch-propagation-log.mjs
-node ../../context-input-evidence/convert-pruning-log.mjs
-node ../../context-input-evidence/convert-compaction-transaction-log.mjs
+node ../../examples/context-input-evidence/convert-subagent-toolsearch-propagation-log.mjs
+node ../../examples/context-input-evidence/convert-pruning-log.mjs
+node ../../examples/context-input-evidence/convert-compaction-transaction-log.mjs
 ```
