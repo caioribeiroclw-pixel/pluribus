@@ -63,3 +63,27 @@ test('demo skill-use-rate --json reports machine-readable summary', () => {
   assert.equal(payload.demo, 'skill-use-rate')
   assert.deepEqual(payload.summary, { skillCount: 3, unusedInstallCount: 1 })
 })
+
+
+test('demo mcp-audit-receipt validates the packaged receipt', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'mcp-audit-receipt'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Pluribus demo: MCP audit receipt/)
+  assert.match(result.stdout, /MCP audit receipt ok: 2 tool calls, 2 audit events, 2 metrics/)
+  assert.match(result.stdout, /who invoked which tool, under which scope/)
+})
+
+test('demo mcp-audit-receipt --json reports machine-readable summary', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'mcp-audit-receipt', '--json'])
+
+  assert.equal(result.status, 0, result.stderr)
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.demo, 'mcp-audit-receipt')
+  assert.deepEqual(payload.summary, { toolCallCount: 2, auditEventCount: 2, metricCount: 2 })
+})

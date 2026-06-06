@@ -67,7 +67,7 @@ OPTIONS (watch)
   --debounce      Debounce delay in ms (minimum 300, default 400)
 
 OPTIONS (demo)
-  --receipt       Validate a custom skill use-rate receipt JSON file
+  --receipt       Validate a custom demo receipt JSON file
   --json          Print machine-readable demo results
 
 EXAMPLES
@@ -89,6 +89,8 @@ EXAMPLES
   pluribus watch --tools claude,cursor
   pluribus demo skill-use-rate
   pluribus demo skill-use-rate --json
+  pluribus demo mcp-audit-receipt
+  pluribus demo mcp-audit-receipt --json
 
 DOCS
   https://github.com/caioribeiroclw-pixel/pluribus

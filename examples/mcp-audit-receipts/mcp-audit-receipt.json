@@ -1,0 +1,70 @@
+{
+  "schema": "pluribus.mcp_tool_call_audit_receipt.v1",
+  "run_id": "mcp-audit-2026-06-06T22:00Z",
+  "generated_at": "2026-06-06T22:00:00Z",
+  "server": {
+    "name": "analytics-mcp",
+    "transport": "http",
+    "version": "1.4.0"
+  },
+  "client": {
+    "name": "claude-desktop",
+    "workspace": "hashed:7f3f0f5f"
+  },
+  "audit_policy": {
+    "raw_arguments": "redacted_shape_only",
+    "raw_results": "redacted_shape_only",
+    "privacy_boundary": "no prompts, raw SQL, row data, tokens, or private connection strings in receipt"
+  },
+  "tool_calls": [
+    {
+      "event": "mcp.tool_call",
+      "request_id": "req_01JY6GATEWAY",
+      "session_id": "sess_01JY6RUN",
+      "user_id_hash": "sha256:0d9b4a1a3f0a6f2fd0dc8aa9d0c6f2b7a35f4f5d0b2a4d3e1e04a8b4b6b2e5d8",
+      "token_subject_hash": "sha256:6aaf4a3b4d10c45c8fd2cb4f3c73b8cde42bb62779b7e1c6a2c5e0dd8d78f4a1",
+      "token_scopes": ["database:read", "query:run"],
+      "tool_name": "query_database",
+      "args_shape": {
+        "database_id": "number",
+        "query": "redacted_sql",
+        "limit": "number"
+      },
+      "status": "ok",
+      "duration_ms": 184,
+      "result_shape": "rows:12 columns:4",
+      "error_class": null
+    },
+    {
+      "event": "mcp.tool_call",
+      "request_id": "req_01JY6DENIED",
+      "session_id": "sess_01JY6RUN",
+      "user_id_hash": "sha256:0d9b4a1a3f0a6f2fd0dc8aa9d0c6f2b7a35f4f5d0b2a4d3e1e04a8b4b6b2e5d8",
+      "token_subject_hash": "sha256:6aaf4a3b4d10c45c8fd2cb4f3c73b8cde42bb62779b7e1c6a2c5e0dd8d78f4a1",
+      "token_scopes": ["database:read"],
+      "tool_name": "update_dashboard",
+      "args_shape": {
+        "dashboard_id": "number",
+        "mutation": "redacted_object"
+      },
+      "status": "denied",
+      "duration_ms": 12,
+      "result_shape": "policy_denial",
+      "error_class": "insufficient_scope"
+    }
+  ],
+  "usage_metrics": [
+    {
+      "name": "mcp_tool_calls_total",
+      "type": "counter",
+      "value": "1",
+      "labels": ["tool_name", "status", "token_scope"]
+    },
+    {
+      "name": "mcp_tool_call_duration_ms",
+      "type": "histogram",
+      "value": "184",
+      "labels": ["tool_name", "status"]
+    }
+  ]
+}

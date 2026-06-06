@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.38 - 2026-06-06
+
+- Added `pluribus demo mcp-audit-receipt`, a tiny npm-runnable demo that validates privacy-safe MCP tool-call audit events and low-cardinality usage metrics without logging raw prompts, args, results, tokens, or row data.
+
 ## 0.3.37 - 2026-06-06
 
 - Published the canonical top-level Agent Skills layout (`skills/*/SKILL.md`) and backwards-compatible legacy mirrors so external skill registries can keep source links verifiable while package users get the current recipes from npm.
