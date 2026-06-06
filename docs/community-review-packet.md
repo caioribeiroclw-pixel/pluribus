@@ -30,6 +30,8 @@ Use these fields for directories, awesome lists, or review forms that ask for a 
 | One sentence | Emit privacy-safe receipts for what context crossed agent boundaries, and audit or sync the generated instruction files used by Claude Code, Cursor, Copilot, OpenClaw, Windsurf, Continue, Zed, and Bob. |
 | 280-char blurb | Pluribus is an open-source CLI for agent context evidence. It emits privacy-safe receipts for MCP/tools, skills, memory/RAG, pruning and compaction boundaries, then audits or syncs AI instruction files like `CLAUDE.md`, Cursor rules, Copilot instructions, and `AGENTS.md`. |
 | Safe first command | `npx --yes pluribus-context@latest audit` |
+| Agent Skill install smoke | `npx --yes skills add https://github.com/caioribeiroclw-pixel/pluribus --list` |
+| Agent Skill one-shot smoke | `npx --yes skills use https://github.com/caioribeiroclw-pixel/pluribus --skill context-receipts --full-depth` |
 
 ### Awesome-list Markdown entry
 
@@ -97,6 +99,23 @@ Expected result:
 - `validate` succeeds.
 - `sync --dry-run` previews generated context files without writing them.
 - `audit --ci` may exit `1` before generated files are synced; that is expected when outputs are missing or drifted.
+
+## 60-second Agent Skill smoke
+
+Use this when reviewing Pluribus for Skill directories such as Skills CLI, MCP Market, SkillFish, or Agent Skill Exchange. It proves the repo exposes copyable Skill recipes without requiring the reviewer to install them globally:
+
+```bash
+npx --yes skills add https://github.com/caioribeiroclw-pixel/pluribus --list
+npx --yes skills use https://github.com/caioribeiroclw-pixel/pluribus --skill context-receipts --full-depth | sed -n '1,40p'
+npx --yes skills use https://github.com/caioribeiroclw-pixel/pluribus --skill skill-policy-receipts --full-depth | sed -n '1,40p'
+```
+
+Expected result:
+
+- `skills add ... --list` finds `context-receipts` and `skill-policy-receipts`.
+- `skills use ... --skill context-receipts` prints a one-shot Skill prompt for privacy-safe context-boundary receipts.
+- `skills use ... --skill skill-policy-receipts` prints a one-shot Skill prompt for hard-policy receipts before/after writes.
+- No global Skill install is required for this review smoke; it only clones the public repo into the Skills CLI cache and prints the selected Skill body.
 
 ## 60-second native-vs-fallback smoke
 
