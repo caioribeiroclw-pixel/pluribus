@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.39 - 2026-06-07
+
+- Added `pluribus demo mcp-telemetry-import`, a tiny npm-runnable converter from MCP `rpc-messages.jsonl`-style JSON-RPC traces into privacy-safe audit receipts that preserve attribution, redacted shapes, status, and timing gaps without storing raw tool payloads.
+
 ## 0.3.38 - 2026-06-06
 
 - Added `pluribus demo mcp-audit-receipt`, a tiny npm-runnable demo that validates privacy-safe MCP tool-call audit events and low-cardinality usage metrics without logging raw prompts, args, results, tokens, or row data.

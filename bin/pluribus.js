@@ -68,6 +68,7 @@ OPTIONS (watch)
 
 OPTIONS (demo)
   --receipt       Validate a custom demo receipt JSON file
+  --input         Import a custom demo input file, such as rpc-messages.jsonl
   --json          Print machine-readable demo results
 
 EXAMPLES
@@ -91,6 +92,8 @@ EXAMPLES
   pluribus demo skill-use-rate --json
   pluribus demo mcp-audit-receipt
   pluribus demo mcp-audit-receipt --json
+  pluribus demo mcp-telemetry-import
+  pluribus demo mcp-telemetry-import --json
 
 DOCS
   https://github.com/caioribeiroclw-pixel/pluribus
@@ -102,7 +105,7 @@ const COMMAND_FLAGS = {
   validate: new Set(['source', 'update-imports']),
   audit: new Set(['source', 'tools', 'update-imports', 'strict', 'ci', 'json', 'output', 'github-annotations', 'fidelity-report']),
   watch: new Set(['source', 'tools', 'update-imports', 'dry-run', 'once', 'debounce']),
-  demo: new Set(['receipt', 'json']),
+  demo: new Set(['receipt', 'input', 'json']),
 }
 
 function getFlagNames(argv) {

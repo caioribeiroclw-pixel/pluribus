@@ -87,3 +87,31 @@ test('demo mcp-audit-receipt --json reports machine-readable summary', () => {
   assert.equal(payload.demo, 'mcp-audit-receipt')
   assert.deepEqual(payload.summary, { toolCallCount: 2, auditEventCount: 2, metricCount: 2 })
 })
+
+
+test('demo mcp-telemetry-import converts packaged JSONL into an audit receipt', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'mcp-telemetry-import'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Pluribus demo: MCP telemetry import/)
+  assert.match(result.stdout, /4 JSONL entries → 2 audit receipt tool calls/)
+  assert.match(result.stdout, /privacy-safe receipts/)
+})
+
+test('demo mcp-telemetry-import --json reports receipt and coverage gaps', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'mcp-telemetry-import', '--json'])
+
+  assert.equal(result.status, 0, result.stderr)
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.demo, 'mcp-telemetry-import')
+  assert.equal(payload.summary.parsedEntryCount, 4)
+  assert.equal(payload.summary.toolCallCount, 2)
+  assert.equal(payload.summary.matchedResponseCount, 2)
+  assert.equal(payload.summary.missingGatewayLatency, false)
+  assert.equal(payload.receipt.tool_calls[0].args_shape.query, 'string')
+})

@@ -4,12 +4,14 @@
 
 import * as fs from 'fs'
 import * as path from 'path'
+import { createHash } from 'crypto'
 import { fileURLToPath } from 'url'
 
 const DEFAULT_DEMO = 'skill-use-rate'
 const SKILL_USE_RATE_DEMO = 'skill-use-rate'
 const MCP_AUDIT_RECEIPT_DEMO = 'mcp-audit-receipt'
-const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO]
+const MCP_TELEMETRY_IMPORT_DEMO = 'mcp-telemetry-import'
+const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO]
 const SKILL_USE_RATE_SCHEMA = 'pluribus.skill_use_rate_receipt.v1'
 const MCP_AUDIT_RECEIPT_SCHEMA = 'pluribus.mcp_tool_call_audit_receipt.v1'
 
@@ -25,6 +27,8 @@ export async function runDemo(args, positional = []) {
       return runSkillUseRateDemo(args)
     case MCP_AUDIT_RECEIPT_DEMO:
       return runMcpAuditReceiptDemo(args)
+    case MCP_TELEMETRY_IMPORT_DEMO:
+      return runMcpTelemetryImportDemo(args)
     default:
       console.error(`❌ Unknown demo: ${demoName}`)
       console.error(`   Available demos: ${AVAILABLE_DEMOS.join(', ')}`)
@@ -82,6 +86,12 @@ function runSkillUseRateDemo(args) {
   if (result.errors.length > 0) process.exit(1)
 }
 
+function selectedInputPath(args, defaultPath) {
+  return typeof args.input === 'string' && args.input.trim()
+    ? path.resolve(process.cwd(), args.input)
+    : defaultPath
+}
+
 function runMcpAuditReceiptDemo(args) {
   const receiptPath = selectedReceiptPath(args, bundledMcpAuditReceiptPath())
   const receipt = readReceipt(receiptPath, 'MCP audit')
@@ -116,12 +126,66 @@ function runMcpAuditReceiptDemo(args) {
   if (result.errors.length > 0) process.exit(1)
 }
 
+
+function runMcpTelemetryImportDemo(args) {
+  const inputPath = selectedInputPath(args, bundledMcpTelemetryJsonlPath())
+  let logText
+  try {
+    logText = fs.readFileSync(inputPath, 'utf8')
+  } catch (err) {
+    console.error(`❌ Could not read MCP telemetry JSONL at ${inputPath}: ${err.message}`)
+    process.exit(1)
+  }
+
+  const imported = importMcpTelemetryJsonl(logText)
+  const result = validateMcpAuditReceipt(imported.receipt)
+  const warnings = [...imported.warnings, ...result.warnings]
+
+  if (Boolean(args.json)) {
+    console.log(JSON.stringify({
+      ok: result.errors.length === 0,
+      demo: MCP_TELEMETRY_IMPORT_DEMO,
+      input: path.relative(process.cwd(), inputPath) || inputPath,
+      summary: {
+        ...result.summary,
+        parsedEntryCount: imported.summary.parsedEntryCount,
+        matchedResponseCount: imported.summary.matchedResponseCount,
+        missingGatewayLatency: imported.summary.missingGatewayLatency,
+      },
+      receipt: imported.receipt,
+      warnings,
+      errors: result.errors,
+    }, null, 2))
+  } else {
+    console.log('🧪 Pluribus demo: MCP telemetry import')
+    console.log(`   Input: ${path.relative(process.cwd(), inputPath) || inputPath}`)
+    console.log('')
+
+    if (result.errors.length === 0) {
+      console.log(`✅ MCP telemetry imported: ${imported.summary.parsedEntryCount} JSONL entries → ${result.summary.toolCallCount} audit receipt tool calls`)
+      if (warnings.length > 0) for (const warning of warnings) console.log(`   • ${warning}`)
+      console.log('')
+      console.log('Why this matters: rpc-messages.jsonl is a useful fallback, but it usually proves tool-call attribution before it proves gateway latency. Convert raw JSON-RPC traces into privacy-safe receipts, then mark missing gateway evidence explicitly.')
+      console.log('Try your own log: pluribus demo mcp-telemetry-import --input path/to/rpc-messages.jsonl --json')
+    } else {
+      console.error('❌ MCP telemetry import produced an invalid receipt:')
+      for (const error of result.errors) console.error(`   • ${error}`)
+    }
+  }
+
+  if (result.errors.length > 0) process.exit(1)
+}
+
 function bundledSkillUseRateReceiptPath() {
   return fileURLToPath(new URL('../../examples/skill-use-rate-receipts/skill-use-rate-receipt.json', import.meta.url))
 }
 
 function bundledMcpAuditReceiptPath() {
   return fileURLToPath(new URL('../../examples/mcp-audit-receipts/mcp-audit-receipt.json', import.meta.url))
+}
+
+function bundledMcpTelemetryJsonlPath() {
+  return fileURLToPath(new URL('../../examples/mcp-telemetry-import/sample-rpc-messages.jsonl', import.meta.url))
 }
 
 export function validateSkillUseRateReceipt(receipt) {
@@ -207,6 +271,172 @@ export function validateSkillUseRateReceipt(receipt) {
       unusedInstallCount: warnings.length,
     },
   }
+}
+
+
+export function importMcpTelemetryJsonl(logText) {
+  const warnings = []
+  const entries = []
+  const pending = new Map()
+  const toolCalls = []
+  let matchedResponseCount = 0
+  let missingGatewayLatency = true
+
+  for (const [lineIndex, rawLine] of logText.split(/\r?\n/).entries()) {
+    const line = rawLine.trim()
+    if (!line) continue
+    try {
+      const entry = JSON.parse(line)
+      entries.push(entry)
+      const message = unwrapMcpMessage(entry)
+      const timestamp = entry.timestamp || entry.time || message.timestamp || null
+
+      if (isToolCallRequest(message)) {
+        pending.set(String(message.id), { entry, message, timestamp, lineIndex })
+      } else if (message.id != null && pending.has(String(message.id))) {
+        const request = pending.get(String(message.id))
+        pending.delete(String(message.id))
+        matchedResponseCount++
+        const durationMs = durationBetween(request.timestamp, timestamp)
+        if (durationMs > 0) missingGatewayLatency = false
+        toolCalls.push(toolCallFromRequestResponse(request, message, durationMs))
+      }
+    } catch (err) {
+      warnings.push(`line ${lineIndex + 1} was skipped: invalid JSON (${err.message})`)
+    }
+  }
+
+  for (const request of pending.values()) {
+    toolCalls.push(toolCallFromRequestResponse(request, null, 0))
+  }
+
+  if (toolCalls.length === 0) warnings.push('no tools/call request/response pairs were found')
+  if (missingGatewayLatency) warnings.push('gateway.jsonl-style latency/status evidence is missing; fallback rpc-messages.jsonl can still prove tool-call attribution')
+
+  const receipt = {
+    schema: MCP_AUDIT_RECEIPT_SCHEMA,
+    run_id: 'mcp-telemetry-import-demo',
+    generated_at: '2026-06-07T13:00:00Z',
+    server: {
+      name: 'mcp-gateway-or-fallback-log',
+      transport: 'jsonrpc-jsonl',
+      version: 'unknown',
+    },
+    client: {
+      name: 'unknown-mcp-client',
+      workspace: 'redacted',
+    },
+    audit_policy: {
+      raw_arguments: 'redacted_shape_only',
+      raw_results: 'redacted_shape_only',
+      privacy_boundary: 'source JSONL may contain raw protocol data; receipt keeps only shapes, hashes, status, and timing evidence',
+    },
+    telemetry_source: {
+      kind: missingGatewayLatency ? 'rpc-messages.jsonl-fallback' : 'gateway-or-timestamped-jsonl',
+      parsed_entries: entries.length,
+      matched_responses: matchedResponseCount,
+    },
+    tool_calls: toolCalls,
+    usage_metrics: buildMcpUsageMetrics(toolCalls),
+  }
+
+  return {
+    receipt,
+    warnings,
+    summary: {
+      parsedEntryCount: entries.length,
+      matchedResponseCount,
+      missingGatewayLatency,
+    },
+  }
+}
+
+function unwrapMcpMessage(entry) {
+  return entry.message || entry.msg || entry.rpc || entry.jsonrpc_message || entry
+}
+
+function isToolCallRequest(message) {
+  return message && message.id != null && ['tools/call', 'tools.call', 'mcp.tools.call'].includes(message.method)
+}
+
+function toolCallFromRequestResponse(request, response, durationMs) {
+  const params = request.message.params || {}
+  const toolName = params.name || params.tool_name || params.tool || 'unknown_tool'
+  const status = response == null ? 'empty' : response.error ? 'error' : 'ok'
+  const resultShape = response == null ? 'missing_response' : response.error ? `error:${response.error.code || 'unknown'}` : shapeLabel(response.result)
+  const userSource = request.entry.user_id || request.entry.actor || request.entry.principal || request.entry.session_id || 'unknown-user'
+  const tokenSource = request.entry.token_subject || request.entry.token_id || request.entry.principal || 'unknown-token'
+
+  return {
+    event: 'mcp.tool_call',
+    request_id: String(request.message.id),
+    session_id: String(request.entry.session_id || request.entry.run_id || 'unknown-session'),
+    user_id_hash: privacyHash(userSource),
+    token_subject_hash: privacyHash(tokenSource),
+    token_scopes: Array.isArray(request.entry.token_scopes) && request.entry.token_scopes.length > 0 ? request.entry.token_scopes : ['unknown'],
+    tool_name: String(toolName),
+    args_shape: shapeObject(params.arguments || params.args || {}),
+    status,
+    duration_ms: Math.max(0, durationMs),
+    result_shape: resultShape,
+    error_class: response?.error ? String(response.error.code || response.error.message || 'mcp_error') : null,
+  }
+}
+
+function buildMcpUsageMetrics(toolCalls) {
+  const callsByStatus = new Map()
+  for (const call of toolCalls) {
+    const key = `${call.tool_name}:${call.status}:${call.token_scopes[0] || 'unknown'}`
+    callsByStatus.set(key, (callsByStatus.get(key) || 0) + 1)
+  }
+  const metrics = [...callsByStatus.entries()].map(([key, value]) => ({
+    name: 'mcp_tool_calls_total',
+    type: 'counter',
+    value: String(value),
+    labels: ['tool_name', 'status', 'token_scope'],
+    dimensions: key,
+  }))
+  const durations = toolCalls.filter((call) => call.duration_ms > 0)
+  if (durations.length > 0) {
+    metrics.push({
+      name: 'mcp_tool_call_duration_ms',
+      type: 'histogram',
+      value: String(Math.round(durations.reduce((sum, call) => sum + call.duration_ms, 0) / durations.length)),
+      labels: ['tool_name', 'status'],
+    })
+  }
+  return metrics.length > 0 ? metrics : [{ name: 'mcp_tool_calls_total', type: 'counter', value: '0', labels: ['tool_name', 'status'] }]
+}
+
+function durationBetween(start, end) {
+  if (!start || !end) return 0
+  const started = Date.parse(start)
+  const ended = Date.parse(end)
+  if (Number.isNaN(started) || Number.isNaN(ended) || ended < started) return 0
+  return ended - started
+}
+
+function privacyHash(value) {
+  return `sha256:${createHash('sha256').update(String(value)).digest('hex')}`
+}
+
+function shapeObject(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {}
+  return Object.fromEntries(Object.entries(value).map(([key, nested]) => [key, shapeLabel(nested)]))
+}
+
+function shapeLabel(value) {
+  if (value === null) return 'null'
+  if (Array.isArray(value)) return `array:${value.length}`
+  if (typeof value === 'object') return `object:${Object.keys(value).length}`
+  if (typeof value === 'string') return looksSensitive(value) ? 'redacted_string' : 'string'
+  if (typeof value === 'number') return 'number'
+  if (typeof value === 'boolean') return 'boolean'
+  return typeof value
+}
+
+function looksSensitive(value) {
+  return /select\s|insert\s|update\s|delete\s|token|secret|password|bearer/i.test(value)
 }
 
 export function validateMcpAuditReceipt(receipt) {
