@@ -8,6 +8,49 @@ This is different from generic token accounting. A context-budget receipt should
 
 If you want a copyable Agent Skill recipe instead of a spec-style guide, see [`skills/context-receipts/`](../skills/context-receipts/). It turns the receipt pattern into a 60-second smoke checklist for Tool Search, skills, and subagent boundaries.
 
+## If Tool Search already fixed the bloat
+
+Modern hosts can defer large MCP catalogs behind Tool Search or similar lazy discovery. That changes the receipt question; it does not remove it.
+
+Do not use a context-budget receipt to re-prove that every schema was smaller than before. Use it to prove the boundary that lazy loading promised:
+
+- the catalog/index was loaded instead of full definitions;
+- the selected query loaded only the matching tool definitions;
+- unselected tool groups stayed deferred or withheld;
+- a schema did not enter a side lane such as `messages`, subagent bootstrap, skill preamble, or memory hydration; and
+- the receipt records what evidence is missing when only fallback client telemetry exists.
+
+This makes the receipt useful in the common objection case: "MCP context bloat is solved by Tool Search." A good receipt should answer: **solved where, for this turn, through which lane, and with what proof?**
+
+Runnable fixture for the normal happy path:
+
+```bash
+node examples/context-input-evidence/convert-mcp-tool-search-log.mjs
+```
+
+Public trace:
+
+- `examples/context-input-evidence/mcp-tool-search-otel-trace.json`
+
+Minimum hidden-bypass fields for managed seats or gateways:
+
+```json
+{
+  "event.name": "mcp.deferral.evaluated",
+  "mcp.defer_loading.enabled": true,
+  "mcp.catalog.deferred": true,
+  "mcp.tool_search.selected_tool_count": 0,
+  "context.messages.remote_mcp_schema_count_bucket": "over_25",
+  "context.messages.delta_token_bucket": "under_100k",
+  "context.attribution": "remote_mcp_schema_in_messages",
+  "expected_behavior": "deferred_until_tool_search_match",
+  "verdict": "deferral_bypassed",
+  "privacy.raw_schema_included": false
+}
+```
+
+That shape deliberately avoids raw schema bodies, connector names, private URLs, and prompt text. It proves attribution, not whether the selected tool was semantically optimal.
+
 ## When to use this receipt
 
 Use a context-budget receipt when a coding agent looks lazy, fails with `prompt is too long`, or returns a tiny summary after a subagent/tool-heavy step and you need to distinguish:
