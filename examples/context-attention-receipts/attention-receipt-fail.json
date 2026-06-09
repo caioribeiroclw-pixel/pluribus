@@ -1,0 +1,49 @@
+{
+  "schema": "pluribus.context_attention_receipt.v1",
+  "receipt_id": "attn_2026_06_09_demo_fail",
+  "task_id": "claude-code-refactor-185",
+  "agent_surface": "claude_code",
+  "retrieval_system": "graph_memory_mcp",
+  "required_context": [
+    {
+      "id": "ctx:architecture:tenant-routing",
+      "source_type": "knowledge_graph",
+      "source_hash": "sha256:7bf3e0c1-redacted",
+      "why_required": "routes tenant-scoped writes through the policy gateway"
+    },
+    {
+      "id": "ctx:decision:readonly-audit-first",
+      "source_type": "decision_log",
+      "source_hash": "sha256:11ab91d4-redacted",
+      "why_required": "requires dry-run/audit before writes"
+    }
+  ],
+  "delivery": {
+    "surface": "mcp_tool_response",
+    "delivered_context_ids": [
+      "ctx:architecture:tenant-routing",
+      "ctx:decision:readonly-audit-first"
+    ],
+    "raw_context_omitted": true,
+    "evidence_path": ".pluribus/receipts/context-attention.ndjson"
+  },
+  "attention": {
+    "acknowledged_before_plan": [
+      "ctx:architecture:tenant-routing"
+    ],
+    "cited_in_plan": [],
+    "missing_context_stop": false
+  },
+  "privacy": {
+    "raw_prompts_omitted": true,
+    "raw_documents_omitted": true,
+    "source_code_omitted": true,
+    "tool_outputs_omitted": true,
+    "tokens_omitted": true,
+    "customer_data_omitted": true
+  },
+  "result": {
+    "status": "unsafe_to_continue",
+    "next_safe_action": "stop and ask the retrieval wrapper to re-deliver required context before editing"
+  }
+}
