@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pluribus Context Receipts</title>
+  <style>
+    :root { color-scheme: dark light; --bg:#0b1020; --card:#121a33; --text:#e8ecf8; --muted:#aab4cf; --accent:#8ee6c4; --border:#283454; }
+    body { margin:0; font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif; background:var(--bg); color:var(--text); }
+    main { max-width:880px; margin:0 auto; padding:56px 20px; }
+    a { color:var(--accent); }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:24px; margin:20px 0; }
+    code { background:#060a15; padding:.15rem .35rem; border-radius:6px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Pluribus Context Receipts</h1>
+    <p>Privacy-safe evidence for AI context boundaries: what crossed into the agent, what stayed out, and what should stop before edits or tool calls.</p>
+    <div class="card">
+      <h2>Browser playground</h2>
+      <p>Try receipt validation without installing anything or sending data to a server.</p>
+      <p><a href="receipt-playground.html">Open the receipt playground →</a></p>
+    </div>
+    <div class="card">
+      <h2>CLI quick checks</h2>
+      <p><code>npx --yes pluribus-context@latest demo tool-surface-diff --json</code></p>
+      <p><code>npx --yes pluribus-context@latest validate</code></p>
+    </div>
+    <p><a href="https://github.com/caioribeiroclw-pixel/pluribus">GitHub repo</a> · <a href="https://www.npmjs.com/package/pluribus-context">npm package</a></p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pluribus Receipt Playground</title>
+  <style>
+    :root { color-scheme: dark light; --bg:#0b1020; --card:#121a33; --text:#e8ecf8; --muted:#aab4cf; --accent:#8ee6c4; --bad:#ff8f9c; --warn:#ffd166; --ok:#8ee6c4; --border:#283454; }
+    * { box-sizing:border-box; }
+    body { margin:0; font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif; background:linear-gradient(180deg,#0b1020,#10182e); color:var(--text); }
+    main { max-width:1120px; margin:0 auto; padding:34px 18px 48px; }
+    h1 { font-size:clamp(2rem,4vw,3.4rem); line-height:1.05; margin:.2rem 0 1rem; letter-spacing:-.04em; }
+    h2 { margin-top:0; }
+    p, li { color:var(--muted); }
+    a { color:var(--accent); }
+    .grid { display:grid; grid-template-columns:1fr; gap:16px; }
+    @media (min-width:900px) { .grid { grid-template-columns:1.1fr .9fr; } }
+    .card { background:rgba(18,26,51,.92); border:1px solid var(--border); border-radius:18px; padding:18px; box-shadow:0 20px 80px rgba(0,0,0,.24); }
+    textarea { width:100%; min-height:560px; resize:vertical; border:1px solid var(--border); border-radius:14px; padding:14px; background:#060a15; color:#e8ecf8; font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    button, select { border:1px solid var(--border); border-radius:999px; background:#182344; color:var(--text); padding:10px 14px; cursor:pointer; }
+    button:hover, select:hover { border-color:var(--accent); }
+    .controls { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px; }
+    .result { white-space:pre-wrap; overflow:auto; border-radius:14px; padding:14px; background:#060a15; border:1px solid var(--border); min-height:210px; font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    .ok { color:var(--ok); }
+    .bad { color:var(--bad); }
+    .warn { color:var(--warn); }
+    .pill { display:inline-block; border:1px solid var(--border); border-radius:999px; padding:.2rem .55rem; color:var(--muted); margin:.1rem .2rem .1rem 0; }
+    code { background:#060a15; padding:.12rem .32rem; border-radius:6px; color:#d7e2ff; }
+  </style>
+</head>
+<body>
+  <main>
+    <p><a href="index.html">← Pluribus</a></p>
+    <h1>Receipt playground</h1>
+    <p>Paste a Pluribus receipt and validate the boundary evidence locally in your browser. No network calls, no raw prompts/results required.</p>
+    <div class="grid">
+      <section class="card">
+        <div class="controls">
+          <select id="sample">
+            <option value="toolSurface">Sample: MCP tool-surface diff</option>
+            <option value="attentionPass">Sample: context attention pass</option>
+            <option value="attentionFail">Sample: context attention fail</option>
+          </select>
+          <button id="load">Load sample</button>
+          <button id="validate">Validate</button>
+        </div>
+        <textarea id="receipt" spellcheck="false"></textarea>
+      </section>
+      <aside class="card">
+        <h2>Validation result</h2>
+        <div id="result" class="result">Click Validate.</div>
+        <h2>What this checks</h2>
+        <p><span class="pill">tool-surface diff</span> proves runtime discovery changes without logging raw schemas/prompts/results.</p>
+        <p><span class="pill">context attention</span> proves required retrieved context was delivered, acknowledged, and cited before edits.</p>
+        <h2>CLI equivalent</h2>
+        <p><code>npx --yes pluribus-context@latest demo tool-surface-diff --json</code></p>
+      </aside>
+    </div>
+  </main>
+  <script>
+    const samples = {
+      toolSurface: {
+        schema: 'pluribus.mcp_tool_surface_diff_receipt.v1',
+        run_id: 'tool-surface-diff-demo',
+        generated_at: '2026-06-09T13:00:00Z',
+        platform: { name: 'enterprise-mcp-dynamic-discovery', audit_sink: 'admin-center-or-siem' },
+        catalog: { server_id: 'mcp://sales-ops-gateway', previous_hash: 'sha256:previous-catalog-redacted', current_hash: 'sha256:current-catalog-redacted' },
+        runtime_discovery: { enabled: true, trigger: 'runtime_tool_catalog_diff' },
+        privacy_boundary: { raw_schemas: 'omitted_hash_only', raw_prompts: 'omitted', raw_results: 'omitted' },
+        tools: [
+          { tool_id: 'tool:crm.search_accounts', name_hash: 'sha256:0cc2...', schema_hash: 'sha256:6f4f...', status: 'activated', validation_outcome: 'accepted', diff_summary: { added_fields: 1, removed_fields: 0, changed_fields: 0 } },
+          { tool_id: 'tool:crm.export_contacts', name_hash: 'sha256:f38f...', schema_hash: 'sha256:95dd...', status: 'blocked', validation_outcome: 'blocked_by_rai', diff_summary: { added_fields: 4, removed_fields: 0, changed_fields: 2 } },
+          { tool_id: 'tool:billing.refund_invoice', name_hash: 'sha256:abfd...', schema_hash: 'sha256:3b4f...', status: 'withheld', validation_outcome: 'entitlement_filtered', diff_summary: { added_fields: 0, removed_fields: 0, changed_fields: 0 } }
+        ]
+      },
+      attentionPass: {
+        schema: 'pluribus.context_attention_receipt.v1', receipt_id: 'attn_demo_pass', task_id: 'claude-code-refactor-184', agent_surface: 'claude_code', retrieval_system: 'graph_memory_mcp',
+        required_context: [{ id: 'ctx:architecture:tenant-routing' }, { id: 'ctx:decision:readonly-audit-first' }],
+        delivery: { surface: 'mcp_tool_response', delivered_context_ids: ['ctx:architecture:tenant-routing', 'ctx:decision:readonly-audit-first'], raw_context_omitted: true, evidence_path: '.pluribus/receipts/context-attention.ndjson' },
+        attention: { acknowledged_before_plan: ['ctx:architecture:tenant-routing', 'ctx:decision:readonly-audit-first'], cited_in_plan: ['ctx:architecture:tenant-routing', 'ctx:decision:readonly-audit-first'], missing_context_stop: false },
+        privacy: { raw_prompts_omitted: true, raw_documents_omitted: true, source_code_omitted: true, tool_outputs_omitted: true, tokens_omitted: true, customer_data_omitted: true },
+        result: { status: 'safe_to_continue', next_safe_action: 'continue with dry-run refactor plan' }
+      },
+      attentionFail: {
+        schema: 'pluribus.context_attention_receipt.v1', receipt_id: 'attn_demo_fail', task_id: 'claude-code-refactor-185', agent_surface: 'claude_code', retrieval_system: 'graph_memory_mcp',
+        required_context: [{ id: 'ctx:architecture:tenant-routing' }, { id: 'ctx:decision:readonly-audit-first' }],
+        delivery: { surface: 'mcp_tool_response', delivered_context_ids: ['ctx:architecture:tenant-routing', 'ctx:decision:readonly-audit-first'], raw_context_omitted: true, evidence_path: '.pluribus/receipts/context-attention.ndjson' },
+        attention: { acknowledged_before_plan: ['ctx:architecture:tenant-routing'], cited_in_plan: [], missing_context_stop: false },
+        privacy: { raw_prompts_omitted: true, raw_documents_omitted: true, source_code_omitted: true, tool_outputs_omitted: true, tokens_omitted: true, customer_data_omitted: true },
+        result: { status: 'unsafe_to_continue', next_safe_action: 'stop and re-deliver required context before editing' }
+      }
+    }
+
+    const receiptEl = document.querySelector('#receipt')
+    const resultEl = document.querySelector('#result')
+    document.querySelector('#load').addEventListener('click', loadSample)
+    document.querySelector('#validate').addEventListener('click', validate)
+    document.querySelector('#sample').addEventListener('change', loadSample)
+    loadSample()
+
+    function loadSample() {
+      const key = document.querySelector('#sample').value
+      receiptEl.value = JSON.stringify(samples[key], null, 2)
+      validate()
+    }
+
+    function validate() {
+      let receipt
+      try { receipt = JSON.parse(receiptEl.value) }
+      catch (error) { return render({ ok:false, errors:[`invalid JSON: ${error.message}`], warnings:[] }) }
+      if (receipt.schema === 'pluribus.mcp_tool_surface_diff_receipt.v1') return render(validateToolSurface(receipt))
+      if (receipt.schema === 'pluribus.context_attention_receipt.v1') return render(validateAttention(receipt))
+      render({ ok:false, errors:[`unsupported schema: ${receipt.schema || '(missing)'}`], warnings:[] })
+    }
+
+    function validateToolSurface(r) {
+      const errors = [], warnings = []
+      const privacy = r.privacy_boundary || {}
+      if (!r.catalog?.current_hash) errors.push('catalog.current_hash is required')
+      if (!Array.isArray(r.tools) || r.tools.length === 0) errors.push('tools must include at least one discovered/activated/withheld/blocked tool')
+      for (const field of ['raw_schemas','raw_prompts','raw_results']) if (!String(privacy[field] || '').startsWith('omitted')) errors.push(`privacy_boundary.${field} must be omitted`)
+      const counts = countBy(r.tools || [], 'status')
+      if (!counts.activated && !counts.withheld && !counts.blocked) warnings.push('receipt has no activated/withheld/blocked status counts')
+      return { ok: errors.length === 0, schema:r.schema, summary:counts, errors, warnings }
+    }
+
+    function validateAttention(r) {
+      const errors = [], warnings = []
+      const required = ids((r.required_context || []).map(x => x.id))
+      const delivered = ids(r.delivery?.delivered_context_ids)
+      const ack = ids(r.attention?.acknowledged_before_plan)
+      const cited = ids(r.attention?.cited_in_plan)
+      if (!required.length) errors.push('required_context must name at least one id')
+      for (const id of required) {
+        if (!delivered.includes(id)) errors.push(`required context not delivered: ${id}`)
+        if (!ack.includes(id)) errors.push(`required context not acknowledged before plan: ${id}`)
+        if (!cited.includes(id)) errors.push(`required context not cited in plan: ${id}`)
+      }
+      if (r.delivery?.raw_context_omitted !== true) errors.push('delivery.raw_context_omitted must be true')
+      for (const field of ['raw_prompts_omitted','raw_documents_omitted','source_code_omitted','tool_outputs_omitted','tokens_omitted','customer_data_omitted']) if (r.privacy?.[field] !== true) errors.push(`privacy.${field} must be true`)
+      if (errors.length && r.attention?.missing_context_stop !== true) errors.push('missing_context_stop must be true when required attention evidence is incomplete')
+      if (!r.delivery?.evidence_path) warnings.push('delivery.evidence_path is missing')
+      return { ok: errors.length === 0, schema:r.schema, required_count:required.length, delivered_count:delivered.length, acknowledged_count:ack.length, cited_count:cited.length, errors, warnings }
+    }
+
+    function countBy(items, key) { return items.reduce((acc, item) => (acc[item[key] || 'unknown'] = (acc[item[key] || 'unknown'] || 0) + 1, acc), {}) }
+    function ids(v) { return Array.isArray(v) ? v.filter(x => typeof x === 'string' && x) : [] }
+    function render(obj) {
+      resultEl.className = 'result ' + (obj.ok ? 'ok' : 'bad')
+      resultEl.textContent = JSON.stringify(obj, null, 2)
+    }
+  </script>
+</body>
+</html>
