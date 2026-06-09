@@ -1,0 +1,61 @@
+{
+  "schema": "pluribus.mcp_tool_surface_diff_receipt.v1",
+  "run_id": "tool-surface-diff-demo",
+  "generated_at": "2026-06-09T13:00:00Z",
+  "platform": {
+    "name": "enterprise-mcp-dynamic-discovery",
+    "audit_sink": "admin-center-or-siem"
+  },
+  "catalog": {
+    "server_id": "mcp://sales-ops-gateway",
+    "previous_hash": "sha256:previous-catalog-redacted",
+    "current_hash": "sha256:current-catalog-redacted"
+  },
+  "runtime_discovery": {
+    "enabled": true,
+    "trigger": "runtime_tool_catalog_diff"
+  },
+  "privacy_boundary": {
+    "raw_schemas": "omitted_hash_only",
+    "raw_prompts": "omitted",
+    "raw_results": "omitted"
+  },
+  "tools": [
+    {
+      "tool_id": "tool:crm.search_accounts",
+      "name_hash": "sha256:0cc2efb4a26f4c5eb4f7d8c99e78d37adbdba07d50ee7873452c0216d02b1f48",
+      "schema_hash": "sha256:6f4fbe0a8be41b6e29c0c1c113aac38dfefdd12b89c6e9d4a996df2537acdb71",
+      "status": "activated",
+      "validation_outcome": "accepted",
+      "diff_summary": {
+        "added_fields": 1,
+        "removed_fields": 0,
+        "changed_fields": 0
+      }
+    },
+    {
+      "tool_id": "tool:crm.export_contacts",
+      "name_hash": "sha256:f38f53f9ba3c348e67332a24a7d15f5e7ab1c9253cf01f3451e15d9e15435e13",
+      "schema_hash": "sha256:95ddc9b86a0c2d8bc6f3ca0bcce93dca2469ced51b0d38c8f8c5aa88554e0032",
+      "status": "blocked",
+      "validation_outcome": "blocked_by_rai",
+      "diff_summary": {
+        "added_fields": 4,
+        "removed_fields": 0,
+        "changed_fields": 2
+      }
+    },
+    {
+      "tool_id": "tool:billing.refund_invoice",
+      "name_hash": "sha256:abfdaf6f0a3f33342aca6d8b0d63c303e99978481d26827843a901cb6237617d",
+      "schema_hash": "sha256:3b4fdc3ec15d2fa1cc589c1c7de280a19772d5745b4ef54d27806714be12bb8c",
+      "status": "withheld",
+      "validation_outcome": "entitlement_filtered",
+      "diff_summary": {
+        "added_fields": 0,
+        "removed_fields": 0,
+        "changed_fields": 0
+      }
+    }
+  ]
+}

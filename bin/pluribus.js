@@ -94,6 +94,8 @@ EXAMPLES
   pluribus demo mcp-audit-receipt --json
   pluribus demo mcp-telemetry-import
   pluribus demo mcp-telemetry-import --json
+  pluribus demo tool-surface-diff
+  pluribus demo tool-surface-diff --json
 
 DOCS
   https://github.com/caioribeiroclw-pixel/pluribus

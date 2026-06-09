@@ -4,6 +4,11 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.40 - 2026-06-09
+
+- Added `pluribus demo tool-surface-diff`, a tiny npm-runnable MCP dynamic-discovery receipt demo for proving discovered, activated, withheld, and blocked runtime tool-surface changes without logging raw schemas, prompts, or results.
+- Expanded npm discovery keywords around MCP audit, gateways, security, tool discovery, and audit trails so the package is easier to find from the market lane now forming around MCP governance.
+
 ## 0.3.39 - 2026-06-07
 
 - Added `pluribus demo mcp-telemetry-import`, a tiny npm-runnable converter from MCP `rpc-messages.jsonl`-style JSON-RPC traces into privacy-safe audit receipts that preserve attribution, redacted shapes, status, and timing gaps without storing raw tool payloads.

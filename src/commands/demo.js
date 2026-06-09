@@ -11,9 +11,11 @@ const DEFAULT_DEMO = 'skill-use-rate'
 const SKILL_USE_RATE_DEMO = 'skill-use-rate'
 const MCP_AUDIT_RECEIPT_DEMO = 'mcp-audit-receipt'
 const MCP_TELEMETRY_IMPORT_DEMO = 'mcp-telemetry-import'
-const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO]
+const TOOL_SURFACE_DIFF_DEMO = 'tool-surface-diff'
+const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO]
 const SKILL_USE_RATE_SCHEMA = 'pluribus.skill_use_rate_receipt.v1'
 const MCP_AUDIT_RECEIPT_SCHEMA = 'pluribus.mcp_tool_call_audit_receipt.v1'
+const TOOL_SURFACE_DIFF_SCHEMA = 'pluribus.mcp_tool_surface_diff_receipt.v1'
 
 /**
  * @param {Record<string, string | boolean>} args
@@ -29,6 +31,8 @@ export async function runDemo(args, positional = []) {
       return runMcpAuditReceiptDemo(args)
     case MCP_TELEMETRY_IMPORT_DEMO:
       return runMcpTelemetryImportDemo(args)
+    case TOOL_SURFACE_DIFF_DEMO:
+      return runToolSurfaceDiffDemo(args)
     default:
       console.error(`❌ Unknown demo: ${demoName}`)
       console.error(`   Available demos: ${AVAILABLE_DEMOS.join(', ')}`)
@@ -186,6 +190,44 @@ function bundledMcpAuditReceiptPath() {
 
 function bundledMcpTelemetryJsonlPath() {
   return fileURLToPath(new URL('../../examples/mcp-telemetry-import/sample-rpc-messages.jsonl', import.meta.url))
+}
+
+function bundledToolSurfaceDiffReceiptPath() {
+  return fileURLToPath(new URL('../../examples/tool-surface-diff-receipts/tool-surface-diff-receipt.json', import.meta.url))
+}
+
+function runToolSurfaceDiffDemo(args) {
+  const receiptPath = selectedReceiptPath(args, bundledToolSurfaceDiffReceiptPath())
+  const receipt = readReceipt(receiptPath, 'tool-surface diff')
+  const result = validateToolSurfaceDiffReceipt(receipt)
+
+  if (Boolean(args.json)) {
+    console.log(JSON.stringify({
+      ok: result.errors.length === 0,
+      demo: TOOL_SURFACE_DIFF_DEMO,
+      receipt: path.relative(process.cwd(), receiptPath) || receiptPath,
+      summary: result.summary,
+      warnings: result.warnings,
+      errors: result.errors,
+    }, null, 2))
+  } else {
+    console.log('🧪 Pluribus demo: MCP tool-surface diff receipt')
+    console.log(`   Receipt: ${path.relative(process.cwd(), receiptPath) || receiptPath}`)
+    console.log('')
+
+    if (result.errors.length === 0) {
+      console.log(`✅ tool-surface diff receipt ok: ${result.summary.discoveredCount} discovered, ${result.summary.activatedCount} activated, ${result.summary.withheldCount} withheld/blocked`)
+      for (const warning of result.warnings) console.log(`   • ${warning}`)
+      console.log('')
+      console.log('Why this matters: runtime MCP discovery changes the active tool surface. Persist a low-cardinality receipt of discovered → activated → withheld/blocked tools without logging raw schemas, prompts, or results.')
+      console.log('Try your own receipt: pluribus demo tool-surface-diff --receipt path/to/tool-surface-diff-receipt.json --json')
+    } else {
+      console.error('❌ tool-surface diff receipt invalid:')
+      for (const error of result.errors) console.error(`   • ${error}`)
+    }
+  }
+
+  if (result.errors.length > 0) process.exit(1)
 }
 
 export function validateSkillUseRateReceipt(receipt) {
@@ -535,5 +577,82 @@ export function validateMcpAuditReceipt(receipt) {
       auditEventCount: Array.isArray(receipt.tool_calls) ? receipt.tool_calls.length : 0,
       metricCount: Array.isArray(receipt.usage_metrics) ? receipt.usage_metrics.length : 0,
     },
+  }
+}
+
+
+export function validateToolSurfaceDiffReceipt(receipt) {
+  const errors = []
+  const warnings = []
+
+  function requireString(value, field) {
+    if (typeof value !== 'string' || value.trim() === '') errors.push(`${field} must be a non-empty string`)
+  }
+  function requireBoolean(value, field) {
+    if (typeof value !== 'boolean') errors.push(`${field} must be boolean`)
+  }
+  function requireNonNegativeInteger(value, field) {
+    if (!Number.isInteger(value) || value < 0) errors.push(`${field} must be a non-negative integer`)
+  }
+  function requireArray(value, field) {
+    if (!Array.isArray(value) || value.length === 0) errors.push(`${field} must be a non-empty array`)
+  }
+
+  if (receipt.schema !== TOOL_SURFACE_DIFF_SCHEMA) errors.push(`schema must be ${TOOL_SURFACE_DIFF_SCHEMA}`)
+  requireString(receipt.run_id, 'run_id')
+  requireString(receipt.generated_at, 'generated_at')
+  requireString(receipt.platform?.name, 'platform.name')
+  requireString(receipt.platform?.audit_sink, 'platform.audit_sink')
+  requireString(receipt.catalog?.server_id, 'catalog.server_id')
+  requireString(receipt.catalog?.previous_hash, 'catalog.previous_hash')
+  requireString(receipt.catalog?.current_hash, 'catalog.current_hash')
+  requireBoolean(receipt.runtime_discovery?.enabled, 'runtime_discovery.enabled')
+  requireString(receipt.runtime_discovery?.trigger, 'runtime_discovery.trigger')
+  requireArray(receipt.tools, 'tools')
+  requireString(receipt.privacy_boundary?.raw_schemas, 'privacy_boundary.raw_schemas')
+  requireString(receipt.privacy_boundary?.raw_prompts, 'privacy_boundary.raw_prompts')
+  requireString(receipt.privacy_boundary?.raw_results, 'privacy_boundary.raw_results')
+
+  if (receipt.privacy_boundary?.raw_schemas !== 'omitted_hash_only') errors.push('privacy_boundary.raw_schemas must be omitted_hash_only')
+  if (receipt.privacy_boundary?.raw_prompts !== 'omitted') errors.push('privacy_boundary.raw_prompts must be omitted')
+  if (receipt.privacy_boundary?.raw_results !== 'omitted') errors.push('privacy_boundary.raw_results must be omitted')
+
+  const statuses = new Set(['discovered', 'activated', 'withheld', 'blocked', 'removed'])
+  const outcomes = new Set(['accepted', 'blocked_by_rai', 'blocked_by_xpia', 'schema_invalid', 'entitlement_filtered', 'not_selected', 'removed'])
+  let discoveredCount = 0
+  let activatedCount = 0
+  let withheldCount = 0
+  let rawLeakCount = 0
+
+  for (const [index, tool] of (receipt.tools || []).entries()) {
+    const prefix = `tools[${index}]`
+    requireString(tool.tool_id, `${prefix}.tool_id`)
+    requireString(tool.name_hash, `${prefix}.name_hash`)
+    requireString(tool.schema_hash, `${prefix}.schema_hash`)
+    requireString(tool.status, `${prefix}.status`)
+    requireString(tool.validation_outcome, `${prefix}.validation_outcome`)
+    requireNonNegativeInteger(tool.diff_summary?.added_fields, `${prefix}.diff_summary.added_fields`)
+    requireNonNegativeInteger(tool.diff_summary?.removed_fields, `${prefix}.diff_summary.removed_fields`)
+    requireNonNegativeInteger(tool.diff_summary?.changed_fields, `${prefix}.diff_summary.changed_fields`)
+
+    if (!statuses.has(tool.status)) errors.push(`${prefix}.status must be one of ${[...statuses].join('|')}`)
+    if (!outcomes.has(tool.validation_outcome)) errors.push(`${prefix}.validation_outcome must be one of ${[...outcomes].join('|')}`)
+    if (!String(tool.name_hash || '').startsWith('sha256:')) errors.push(`${prefix}.name_hash must be a sha256: hash, not a raw tool name`)
+    if (!String(tool.schema_hash || '').startsWith('sha256:')) errors.push(`${prefix}.schema_hash must be a sha256: hash, not a raw schema`)
+    if (typeof tool.raw_schema === 'string' || typeof tool.description === 'string') rawLeakCount++
+
+    if (['discovered', 'activated', 'withheld', 'blocked'].includes(tool.status)) discoveredCount++
+    if (tool.status === 'activated') activatedCount++
+    if (['withheld', 'blocked'].includes(tool.status)) withheldCount++
+  }
+
+  if (rawLeakCount > 0) errors.push(`tools must not include raw_schema or description (${rawLeakCount} raw fields found)`)
+  if (activatedCount === 0) warnings.push('no activated tools recorded; receipt may only prove discovery/withholding')
+  if (withheldCount === 0) warnings.push('no withheld/blocked tools recorded; receipt does not prove negative space')
+
+  return {
+    errors,
+    warnings,
+    summary: { discoveredCount, activatedCount, withheldCount },
   }
 }

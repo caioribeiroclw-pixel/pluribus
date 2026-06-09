@@ -115,3 +115,27 @@ test('demo mcp-telemetry-import --json reports receipt and coverage gaps', () =>
   assert.equal(payload.summary.missingGatewayLatency, false)
   assert.equal(payload.receipt.tool_calls[0].args_shape.query, 'string')
 })
+
+
+test('demo tool-surface-diff validates the packaged receipt', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'tool-surface-diff'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Pluribus demo: MCP tool-surface diff receipt/)
+  assert.match(result.stdout, /3 discovered, 1 activated, 2 withheld\/blocked/)
+  assert.match(result.stdout, /runtime MCP discovery changes the active tool surface/)
+})
+
+test('demo tool-surface-diff --json reports machine-readable summary', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'tool-surface-diff', '--json'])
+
+  assert.equal(result.status, 0, result.stderr)
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.demo, 'tool-surface-diff')
+  assert.deepEqual(payload.summary, { discoveredCount: 3, activatedCount: 1, withheldCount: 2 })
+})
