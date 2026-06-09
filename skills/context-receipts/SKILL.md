@@ -45,6 +45,71 @@ Minimal JSONL event names:
 {"event":"mcp.tool_call.completed","tool_id":"github.search_code","args_hash":"sha256:...","result_token_bucket":"2k_4k","raw_args_copied":false,"raw_result_copied":false,"status":"ok"}
 ```
 
+## Runtime tool-surface diff smoke
+
+For MCP dynamic discovery, gateways, admin/Purview-style audit trails, or runtime tool catalogs, separate discovery from activation:
+
+- which platform/gateway/audit sink observed the runtime catalog change;
+- which catalog/version/hash was active before and after discovery;
+- which tools were discovered, activated, withheld, or blocked;
+- which validation outcome applied, such as `accepted`, `blocked_by_rai`, `blocked_by_xpia`, `schema_invalid`, or `entitlement_filtered`;
+- whether only low-cardinality ids, hashes, counts, and outcome codes entered the receipt;
+- the audit gap, such as not proving the tool was semantically right for the user task.
+
+Minimal JSON shape:
+
+```json
+{
+  "receipt_type": "pluribus.mcp_tool_surface_diff_receipt.v1",
+  "runtime_discovery": {
+    "trigger": "turn_start|admin_refresh|tool_search|manual_refresh",
+    "before_catalog_hash": "sha256:...",
+    "after_catalog_hash": "sha256:..."
+  },
+  "summary": {
+    "discovered_count": 3,
+    "activated_count": 1,
+    "withheld_count": 1,
+    "blocked_count": 1
+  },
+  "privacy": {
+    "raw_schemas_copied": false,
+    "raw_prompts_copied": false,
+    "raw_results_copied": false
+  },
+  "audit_gap": "proves tool-surface boundary, not semantic usefulness"
+}
+```
+
+## Context attention smoke
+
+For GraphRAG, memory, code search, transcript review, or baseline-first workflows, separate retrieval from attention:
+
+- which required context ids were selected or retrieved;
+- where they were delivered, such as prompt, tool result, memory result, subagent packet, or file read;
+- which ids were acknowledged before planning;
+- which ids were cited before edits/tool calls;
+- what the agent must stop on if a required id is missing;
+- whether raw docs, prompts, results, paths, customer text, and full transcript snippets stayed out of the receipt.
+
+Minimal JSON shape:
+
+```json
+{
+  "receipt_type": "pluribus.context_attention_receipt.v1",
+  "required_context_ids": ["ctx:auth-boundary", "ctx:migration-plan"],
+  "delivered_context_ids": ["ctx:auth-boundary", "ctx:migration-plan"],
+  "acknowledged_before_plan_ids": ["ctx:auth-boundary", "ctx:migration-plan"],
+  "cited_before_edit_ids": ["ctx:auth-boundary"],
+  "missing_context_stop": "stop_before_edit",
+  "privacy": {
+    "raw_context_copied": false,
+    "raw_transcript_copied": false
+  },
+  "audit_gap": "proves required context was acknowledged/cited, not that the edit is correct"
+}
+```
+
 ## Skill / prompt context smoke
 
 For skills, rules, AGENTS.md overlays, or instruction files, answer:
