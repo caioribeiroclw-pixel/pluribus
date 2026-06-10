@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "context-receipts",
+      "type": "skill-md",
+      "description": "Emit privacy-safe receipts for context selection, deferral, hydration, compaction, pruning, delegation, usage attribution, and boundary handoffs.",
+      "url": "context-receipts/SKILL.md",
+      "digest": "sha256:6d268a5ceac4afa87308ff4c79f01483e2785a8e9bb54e5d3147477e0bf724a1"
+    },
+    {
+      "name": "skill-policy-receipts",
+      "type": "skill-md",
+      "description": "Use when a task must obey a hard project policy, such as \"do not generate tests for internal services\", \"do not call production APIs\", or \"do not edit generated files\". Emits a privacy-safe receipt before writes and after guard checks.",
+      "url": "skill-policy-receipts/SKILL.md",
+      "digest": "sha256:633b4da097b56da8805476a69d0498602979b7f8c03c57996f886bb9e56ccca8"
+    }
+  ]
+}
