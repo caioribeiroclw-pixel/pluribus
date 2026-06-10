@@ -40,6 +40,7 @@
             <option value="toolSurface">Sample: MCP tool-surface diff</option>
             <option value="attentionPass">Sample: context attention pass</option>
             <option value="attentionFail">Sample: context attention fail</option>
+            <option value="ruleAttention">Sample: CLAUDE.md rule attention drift</option>
           </select>
           <button id="load">Load sample</button>
           <button id="validate">Validate</button>
@@ -52,6 +53,7 @@
         <h2>What this checks</h2>
         <p><span class="pill">tool-surface diff</span> proves runtime discovery changes without logging raw schemas/prompts/results.</p>
         <p><span class="pill">context attention</span> proves required retrieved context was delivered, acknowledged, and cited before edits.</p>
+        <p><span class="pill">rule attention</span> shows whether project rules were re-read, cited in the pre-edit plan, and checked before changes.</p>
         <h2>CLI equivalent</h2>
         <p><code>npx --yes pluribus-context@latest demo tool-surface-diff --json</code></p>
       </aside>
@@ -88,6 +90,19 @@
         attention: { acknowledged_before_plan: ['ctx:architecture:tenant-routing'], cited_in_plan: [], missing_context_stop: false },
         privacy: { raw_prompts_omitted: true, raw_documents_omitted: true, source_code_omitted: true, tool_outputs_omitted: true, tokens_omitted: true, customer_data_omitted: true },
         result: { status: 'unsafe_to_continue', next_safe_action: 'stop and re-deliver required context before editing' }
+      },
+      ruleAttention: {
+        schema: 'pluribus.claude_code_rule_attention_receipt.v1',
+        receipt_id: 'rule_attn_demo_62087',
+        task_id: 'claude-code-long-session-62087',
+        agent_surface: 'claude_code',
+        context_boundary: { session_phase: 'post-compaction-long-session', before_first_edit: true },
+        rules: [
+          { rule_id: 'CLAUDE.md:test-after-plan', source: 'CLAUDE.md#workflow', last_loaded_at: '2026-06-09T22:41:00Z', last_referenced_at: null, cited_in_pre_edit_plan: false, edit_check: 'missing', violation_category: 'loaded_but_not_referenced' },
+          { rule_id: 'CLAUDE.md:no-skip-steps', source: 'CLAUDE.md#workflow', last_loaded_at: '2026-06-09T22:41:00Z', last_referenced_at: '2026-06-09T22:58:00Z', cited_in_pre_edit_plan: true, edit_check: 'pass', violation_category: null }
+        ],
+        privacy: { raw_prompts_omitted: true, raw_claude_md_omitted: true, source_code_omitted: true, tool_outputs_omitted: true, tokens_omitted: true, customer_data_omitted: true },
+        result: { status: 'unsafe_to_edit', next_safe_action: 'stop, re-read missing rule ids, and restate the pre-edit plan with citations' }
       }
     }
 
@@ -110,6 +125,7 @@
       catch (error) { return render({ ok:false, errors:[`invalid JSON: ${error.message}`], warnings:[] }) }
       if (receipt.schema === 'pluribus.mcp_tool_surface_diff_receipt.v1') return render(validateToolSurface(receipt))
       if (receipt.schema === 'pluribus.context_attention_receipt.v1') return render(validateAttention(receipt))
+      if (receipt.schema === 'pluribus.claude_code_rule_attention_receipt.v1') return render(validateRuleAttention(receipt))
       render({ ok:false, errors:[`unsupported schema: ${receipt.schema || '(missing)'}`], warnings:[] })
     }
 
@@ -141,6 +157,23 @@
       if (errors.length && r.attention?.missing_context_stop !== true) errors.push('missing_context_stop must be true when required attention evidence is incomplete')
       if (!r.delivery?.evidence_path) warnings.push('delivery.evidence_path is missing')
       return { ok: errors.length === 0, schema:r.schema, required_count:required.length, delivered_count:delivered.length, acknowledged_count:ack.length, cited_count:cited.length, errors, warnings }
+    }
+
+    function validateRuleAttention(r) {
+      const errors = [], warnings = []
+      const rules = Array.isArray(r.rules) ? r.rules : []
+      if (!rules.length) errors.push('rules must include at least one project rule')
+      for (const rule of rules) {
+        if (!rule.rule_id) errors.push('each rule must include rule_id')
+        if (!rule.source) errors.push(`${rule.rule_id || 'rule'} must include source`)
+        if (!rule.last_loaded_at) errors.push(`${rule.rule_id || 'rule'} must include last_loaded_at`)
+        if (rule.cited_in_pre_edit_plan !== true) warnings.push(`${rule.rule_id || 'rule'} was not cited in the pre-edit plan`)
+        if (!['pass','fail','missing'].includes(rule.edit_check)) errors.push(`${rule.rule_id || 'rule'} edit_check must be pass, fail, or missing`)
+      }
+      for (const field of ['raw_prompts_omitted','raw_claude_md_omitted','source_code_omitted','tool_outputs_omitted','tokens_omitted','customer_data_omitted']) if (r.privacy?.[field] !== true) errors.push(`privacy.${field} must be true`)
+      const missing = rules.filter(rule => rule.cited_in_pre_edit_plan !== true || rule.edit_check !== 'pass')
+      if (missing.length && r.result?.status === 'safe_to_edit') errors.push('result.status cannot be safe_to_edit while a required rule is uncited or failing')
+      return { ok: errors.length === 0 && missing.length === 0, schema:r.schema, rules_count:rules.length, uncited_or_failing_rules:missing.map(rule => rule.rule_id), errors, warnings }
     }
 
     function countBy(items, key) { return items.reduce((acc, item) => (acc[item[key] || 'unknown'] = (acc[item[key] || 'unknown'] || 0) + 1, acc), {}) }
