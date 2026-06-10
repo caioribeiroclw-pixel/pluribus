@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.41 - 2026-06-10
+
+- Added npm Agent Skills discovery keywords (`agent-skill`, `skillpm`, and `agent-skills-registry`) so `pluribus-context` can be indexed by npm-backed skill package managers while continuing to ship the existing low-authority `skills/*/SKILL.md` recipes.
+
 ## 0.3.40 - 2026-06-09
 
 - Added `pluribus demo tool-surface-diff`, a tiny npm-runnable MCP dynamic-discovery receipt demo for proving discovered, activated, withheld, and blocked runtime tool-surface changes without logging raw schemas, prompts, or results.
