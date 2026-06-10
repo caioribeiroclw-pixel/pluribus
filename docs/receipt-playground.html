@@ -41,6 +41,7 @@
             <option value="attentionPass">Sample: context attention pass</option>
             <option value="attentionFail">Sample: context attention fail</option>
             <option value="ruleAttention">Sample: CLAUDE.md rule attention drift</option>
+            <option value="skillInstall">Sample: Agent Skill install provenance</option>
           </select>
           <button id="load">Load sample</button>
           <button id="validate">Validate</button>
@@ -54,6 +55,7 @@
         <p><span class="pill">tool-surface diff</span> proves runtime discovery changes without logging raw schemas/prompts/results.</p>
         <p><span class="pill">context attention</span> proves required retrieved context was delivered, acknowledged, and cited before edits.</p>
         <p><span class="pill">rule attention</span> shows whether project rules were re-read, cited in the pre-edit plan, and checked before changes.</p>
+        <p><span class="pill">skill install provenance</span> shows which <code>SKILL.md</code> source path won, which mirrors were ignored, and whether install metadata stayed content-safe.</p>
         <h2>CLI equivalent</h2>
         <p><code>npx --yes pluribus-context@latest demo tool-surface-diff --json</code></p>
       </aside>
@@ -103,6 +105,37 @@
         ],
         privacy: { raw_prompts_omitted: true, raw_claude_md_omitted: true, source_code_omitted: true, tool_outputs_omitted: true, tokens_omitted: true, customer_data_omitted: true },
         result: { status: 'unsafe_to_edit', next_safe_action: 'stop, re-read missing rule ids, and restate the pre-edit plan with citations' }
+      },
+      skillInstall: {
+        schema: 'pluribus.agent_skill_install_provenance_receipt.v1',
+        receipt_id: 'skill_install_openskills_demo',
+        installer: { name: 'agent-skill-package-manager', mode: 'universal', target_agent_dir: '.agent/skills' },
+        source: { kind: 'github_repo', repo: 'caioribeiroclw-pixel/pluribus', requested_ref: 'v0.3.40', resolved_sha: 'sha256:resolved-commit-redacted' },
+        discovery: {
+          requested_skill_names: ['context-receipts', 'skill-policy-receipts'],
+          discovered_source_paths: [
+            'skills/context-receipts/SKILL.md',
+            'examples/agent-skills/context-receipts/SKILL.md',
+            'docs/.well-known/agent-skills/context-receipts/SKILL.md',
+            'skills/skill-policy-receipts/SKILL.md',
+            'examples/agent-skills/skill-policy-receipts/SKILL.md',
+            'docs/.well-known/agent-skills/skill-policy-receipts/SKILL.md'
+          ],
+          duplicate_resolution: 'prefer_top_level_skills_dir'
+        },
+        selected_skills: [
+          { name: 'context-receipts', selected_source_path: 'skills/context-receipts/SKILL.md', target_path: '.agent/skills/context-receipts/SKILL.md', operation: 'install', lockfile_entry_written: true },
+          { name: 'skill-policy-receipts', selected_source_path: 'skills/skill-policy-receipts/SKILL.md', target_path: '.agent/skills/skill-policy-receipts/SKILL.md', operation: 'install', lockfile_entry_written: true }
+        ],
+        ignored_duplicates: [
+          { name: 'context-receipts', ignored_source_path: 'examples/agent-skills/context-receipts/SKILL.md', reason: 'duplicate_mirror_not_canonical' },
+          { name: 'context-receipts', ignored_source_path: 'docs/.well-known/agent-skills/context-receipts/SKILL.md', reason: 'duplicate_mirror_not_canonical' },
+          { name: 'skill-policy-receipts', ignored_source_path: 'examples/agent-skills/skill-policy-receipts/SKILL.md', reason: 'duplicate_mirror_not_canonical' },
+          { name: 'skill-policy-receipts', ignored_source_path: 'docs/.well-known/agent-skills/skill-policy-receipts/SKILL.md', reason: 'duplicate_mirror_not_canonical' }
+        ],
+        safety: { content_sanitizers: ['frontmatter-parse', 'markdown-only'], raw_secret_or_env_values_copied: false, scripts_or_hooks_installed: false, network_capability_added: false, manual_review_required: true },
+        privacy: { raw_skill_body_omitted: true, raw_env_values_omitted: true, auth_headers_omitted: true, customer_data_omitted: true },
+        result: { status: 'safe_to_install_after_review', installed_count: 2, ignored_duplicate_count: 4 }
       }
     }
 
@@ -126,6 +159,7 @@
       if (receipt.schema === 'pluribus.mcp_tool_surface_diff_receipt.v1') return render(validateToolSurface(receipt))
       if (receipt.schema === 'pluribus.context_attention_receipt.v1') return render(validateAttention(receipt))
       if (receipt.schema === 'pluribus.claude_code_rule_attention_receipt.v1') return render(validateRuleAttention(receipt))
+      if (receipt.schema === 'pluribus.agent_skill_install_provenance_receipt.v1') return render(validateSkillInstall(receipt))
       render({ ok:false, errors:[`unsupported schema: ${receipt.schema || '(missing)'}`], warnings:[] })
     }
 
@@ -174,6 +208,35 @@
       const missing = rules.filter(rule => rule.cited_in_pre_edit_plan !== true || rule.edit_check !== 'pass')
       if (missing.length && r.result?.status === 'safe_to_edit') errors.push('result.status cannot be safe_to_edit while a required rule is uncited or failing')
       return { ok: errors.length === 0 && missing.length === 0, schema:r.schema, rules_count:rules.length, uncited_or_failing_rules:missing.map(rule => rule.rule_id), errors, warnings }
+    }
+
+    function validateSkillInstall(r) {
+      const errors = [], warnings = []
+      const selected = Array.isArray(r.selected_skills) ? r.selected_skills : []
+      const ignored = Array.isArray(r.ignored_duplicates) ? r.ignored_duplicates : []
+      const discovered = Array.isArray(r.discovery?.discovered_source_paths) ? r.discovery.discovered_source_paths : []
+      if (!r.source?.repo) errors.push('source.repo is required')
+      if (!r.source?.resolved_sha) errors.push('source.resolved_sha is required')
+      if (!r.installer?.target_agent_dir) errors.push('installer.target_agent_dir is required')
+      if (!selected.length) errors.push('selected_skills must include at least one installed skill')
+      for (const skill of selected) {
+        if (!skill.name) errors.push('each selected skill must include name')
+        if (!skill.selected_source_path) errors.push(`${skill.name || 'skill'} must include selected_source_path`)
+        if (!skill.target_path) errors.push(`${skill.name || 'skill'} must include target_path`)
+        if (skill.lockfile_entry_written !== true) warnings.push(`${skill.name || 'skill'} did not write lockfile metadata`)
+      }
+      const selectedNames = selected.map(skill => skill.name).filter(Boolean)
+      for (const name of selectedNames) {
+        const discoveredForName = discovered.filter(path => path.includes(`/${name}/`) || path.includes(`${name}/SKILL.md`)).length
+        const ignoredForName = ignored.filter(item => item.name === name).length
+        if (discoveredForName > 1 && ignoredForName === 0) errors.push(`${name} has multiple discovered paths but no ignored_duplicates evidence`)
+      }
+      if (r.safety?.raw_secret_or_env_values_copied !== false) errors.push('safety.raw_secret_or_env_values_copied must be false')
+      if (r.safety?.scripts_or_hooks_installed !== false) errors.push('safety.scripts_or_hooks_installed must be false for a low-authority skill receipt')
+      if (r.safety?.network_capability_added !== false) errors.push('safety.network_capability_added must be false for a skill-only install')
+      for (const field of ['raw_skill_body_omitted','raw_env_values_omitted','auth_headers_omitted','customer_data_omitted']) if (r.privacy?.[field] !== true) errors.push(`privacy.${field} must be true`)
+      if (selected.length !== new Set(selectedNames).size) errors.push('selected_skills contains duplicate names after resolution')
+      return { ok: errors.length === 0, schema:r.schema, selected_count:selected.length, ignored_duplicate_count:ignored.length, discovered_source_count:discovered.length, selected_source_paths:selected.map(skill => skill.selected_source_path), errors, warnings }
     }
 
     function countBy(items, key) { return items.reduce((acc, item) => (acc[item[key] || 'unknown'] = (acc[item[key] || 'unknown'] || 0) + 1, acc), {}) }
