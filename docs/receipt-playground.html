@@ -42,6 +42,7 @@
             <option value="attentionFail">Sample: context attention fail</option>
             <option value="ruleAttention">Sample: CLAUDE.md rule attention drift</option>
             <option value="skillInstall">Sample: Agent Skill install provenance</option>
+            <option value="retrievalAdoption">Sample: retrieval adoption receipt</option>
           </select>
           <button id="load">Load sample</button>
           <button id="validate">Validate</button>
@@ -56,6 +57,7 @@
         <p><span class="pill">context attention</span> proves required retrieved context was delivered, acknowledged, and cited before edits.</p>
         <p><span class="pill">rule attention</span> shows whether project rules were re-read, cited in the pre-edit plan, and checked before changes.</p>
         <p><span class="pill">skill install provenance</span> shows which <code>SKILL.md</code> source path won, which mirrors were ignored, and whether install metadata stayed content-safe.</p>
+        <p><span class="pill">retrieval adoption</span> shows whether an available graph/RAG tool was actually used before claims, not just configured.</p>
         <h2>CLI equivalent</h2>
         <p><code>npx --yes pluribus-context@latest demo tool-surface-diff --json</code></p>
       </aside>
@@ -105,6 +107,36 @@
         ],
         privacy: { raw_prompts_omitted: true, raw_claude_md_omitted: true, source_code_omitted: true, tool_outputs_omitted: true, tokens_omitted: true, customer_data_omitted: true },
         result: { status: 'unsafe_to_edit', next_safe_action: 'stop, re-read missing rule ids, and restate the pre-edit plan with citations' }
+      },
+      retrievalAdoption: {
+        schema: 'pluribus.retrieval_adoption_receipt.v1',
+        receipt_id: 'retrieval_adoption_graph_demo',
+        task_id: 'medusa-code-audit-graph-usage',
+        agent_surface: 'claude_code',
+        retrieval_surface: { kind: 'knowledge_graph_mcp', name: 'project-graph', available: true, forced: false },
+        claim: { expected_use: 'graph_retrieval_before_code_audit', evaluation_window: 'before_final_audit_claims' },
+        availability_evidence: {
+          tool_catalog_contains: ['graph.search', 'graph.neighbors', 'graph.explain_path'],
+          graph_index: { nodes: 3863, edges: 11204, snapshot_hash: 'sha256:graph-snapshot-redacted' },
+          raw_graph_omitted: true
+        },
+        adoption_evidence: {
+          retrieval_calls: [],
+          native_escape_hatch_calls: [
+            { kind: 'grep', count: 14 },
+            { kind: 'read_file', count: 39 }
+          ],
+          cited_retrieved_context_ids: [],
+          graph_grounded_findings: 0,
+          raw_tool_outputs_omitted: true
+        },
+        boundary_checks: {
+          retrieval_available_but_unused: true,
+          required_retrieval_gate_present: false,
+          no_retrieval_claim_allowed: true
+        },
+        privacy: { raw_prompts_omitted: true, raw_graph_nodes_omitted: true, source_code_omitted: true, tool_outputs_omitted: true, customer_data_omitted: true },
+        result: { status: 'availability_not_adoption', next_safe_action: 'treat graph/RAG as unadopted unless a gate requires or verifies retrieval before final claims' }
       },
       skillInstall: {
         schema: 'pluribus.agent_skill_install_provenance_receipt.v1',
@@ -160,6 +192,7 @@
       if (receipt.schema === 'pluribus.context_attention_receipt.v1') return render(validateAttention(receipt))
       if (receipt.schema === 'pluribus.claude_code_rule_attention_receipt.v1') return render(validateRuleAttention(receipt))
       if (receipt.schema === 'pluribus.agent_skill_install_provenance_receipt.v1') return render(validateSkillInstall(receipt))
+      if (receipt.schema === 'pluribus.retrieval_adoption_receipt.v1') return render(validateRetrievalAdoption(receipt))
       render({ ok:false, errors:[`unsupported schema: ${receipt.schema || '(missing)'}`], warnings:[] })
     }
 
@@ -208,6 +241,27 @@
       const missing = rules.filter(rule => rule.cited_in_pre_edit_plan !== true || rule.edit_check !== 'pass')
       if (missing.length && r.result?.status === 'safe_to_edit') errors.push('result.status cannot be safe_to_edit while a required rule is uncited or failing')
       return { ok: errors.length === 0 && missing.length === 0, schema:r.schema, rules_count:rules.length, uncited_or_failing_rules:missing.map(rule => rule.rule_id), errors, warnings }
+    }
+
+
+    function validateRetrievalAdoption(r) {
+      const errors = [], warnings = []
+      const catalogTools = Array.isArray(r.availability_evidence?.tool_catalog_contains) ? r.availability_evidence.tool_catalog_contains : []
+      const retrievalCalls = Array.isArray(r.adoption_evidence?.retrieval_calls) ? r.adoption_evidence.retrieval_calls : []
+      const escapeCalls = Array.isArray(r.adoption_evidence?.native_escape_hatch_calls) ? r.adoption_evidence.native_escape_hatch_calls : []
+      const cited = Array.isArray(r.adoption_evidence?.cited_retrieved_context_ids) ? r.adoption_evidence.cited_retrieved_context_ids : []
+      if (!r.retrieval_surface?.kind) errors.push('retrieval_surface.kind is required')
+      if (r.retrieval_surface?.available !== true) errors.push('retrieval_surface.available must be true before adoption can be measured')
+      if (!catalogTools.length) errors.push('availability_evidence.tool_catalog_contains must list at least one retrieval tool')
+      if (r.availability_evidence?.raw_graph_omitted !== true) errors.push('availability_evidence.raw_graph_omitted must be true')
+      if (r.adoption_evidence?.raw_tool_outputs_omitted !== true) errors.push('adoption_evidence.raw_tool_outputs_omitted must be true')
+      for (const field of ['raw_prompts_omitted','raw_graph_nodes_omitted','source_code_omitted','tool_outputs_omitted','customer_data_omitted']) if (r.privacy?.[field] !== true) errors.push(`privacy.${field} must be true`)
+      const graphGroundedFindings = Number(r.adoption_evidence?.graph_grounded_findings || 0)
+      const usedRetrieval = retrievalCalls.length > 0 || cited.length > 0 || graphGroundedFindings > 0
+      if (r.boundary_checks?.retrieval_available_but_unused === true && usedRetrieval) errors.push('retrieval_available_but_unused cannot be true when retrieval calls/citations/findings exist')
+      if (!usedRetrieval && r.boundary_checks?.no_retrieval_claim_allowed !== true) errors.push('no_retrieval_claim_allowed must be true when retrieval was available but no adoption evidence exists')
+      if (!usedRetrieval && !escapeCalls.length) warnings.push('no retrieval adoption and no native escape-hatch calls recorded; receipt may be missing usage telemetry')
+      return { ok: errors.length === 0, schema:r.schema, retrieval_available:r.retrieval_surface?.available === true, retrieval_call_count:retrievalCalls.length, cited_context_count:cited.length, graph_grounded_findings:graphGroundedFindings, native_escape_hatch_calls:escapeCalls, status: usedRetrieval ? 'retrieval_adopted' : 'availability_not_adoption', errors, warnings }
     }
 
     function validateSkillInstall(r) {
