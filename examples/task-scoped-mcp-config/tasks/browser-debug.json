@@ -1,0 +1,7 @@
+{
+  "schema": "pluribus.mcp_task_profile.v1",
+  "taskId": "browser-debug",
+  "description": "Debug a failing browser flow and look up one library API while keeping unrelated memory/observability/repo tools out of the initial context.",
+  "includeServerIds": ["playwright", "context7"],
+  "excludeReason": "Not needed for this task's first pass; load a different --mcp-config if the task changes."
+}

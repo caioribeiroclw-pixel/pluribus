@@ -1,0 +1,46 @@
+{
+  "schema": "pluribus.mcp_catalog.v1",
+  "catalogId": "demo-claude-code-mcp-catalog",
+  "servers": [
+    {
+      "id": "playwright",
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"],
+      "category": "browser_automation",
+      "estimatedSchemaTokens": 11800,
+      "taskTags": ["browser", "web-debug", "e2e"]
+    },
+    {
+      "id": "context7",
+      "command": "npx",
+      "args": ["@upstash/context7-mcp@latest"],
+      "category": "docs_lookup",
+      "estimatedSchemaTokens": 8200,
+      "taskTags": ["docs", "api-reference"]
+    },
+    {
+      "id": "sentry",
+      "command": "npx",
+      "args": ["@sentry/mcp-server@latest"],
+      "category": "observability",
+      "estimatedSchemaTokens": 9700,
+      "taskTags": ["errors", "production-debug"]
+    },
+    {
+      "id": "openmemory",
+      "command": "npx",
+      "args": ["openmemory-mcp@latest"],
+      "category": "memory",
+      "estimatedSchemaTokens": 6900,
+      "taskTags": ["memory", "recall"]
+    },
+    {
+      "id": "github",
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-github@latest"],
+      "category": "repo_ops",
+      "estimatedSchemaTokens": 7400,
+      "taskTags": ["issues", "pull-requests", "repo"]
+    }
+  ]
+}
