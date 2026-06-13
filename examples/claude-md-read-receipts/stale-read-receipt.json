@@ -1,0 +1,18 @@
+{
+  "schema": "pluribus.claude_md_read_receipt.v1",
+  "session_state": "compacted",
+  "current_task": "Continue whatever we were doing before compaction",
+  "reloaded_files": [
+    {
+      "path": "CLAUDE.md",
+      "role": "router",
+      "why": "It is usually loaded at startup"
+    }
+  ],
+  "active_constraints": [
+    "Use the normal project rules"
+  ],
+  "not_loaded_files": [],
+  "stale_or_historical_notes": [],
+  "safe_to_edit": true
+}

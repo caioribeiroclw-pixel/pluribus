@@ -1,0 +1,45 @@
+{
+  "schema": "pluribus.claude_md_read_receipt.v1",
+  "session_state": "topic_switched",
+  "current_task": "Update upload API retry handling without regressing the v2.4.0 migration",
+  "reloaded_files": [
+    {
+      "path": "CLAUDE.md",
+      "role": "router",
+      "why": "Confirms the project uses topic-specific docs and points upload work to docs/upload-api.md"
+    },
+    {
+      "path": "docs/upload-api.md",
+      "role": "topic_authority",
+      "why": "Current source for upload retries, deprecated helpers, and safety constraints"
+    },
+    {
+      "path": "docs/migrations/v2.4.0.md",
+      "role": "migration_note",
+      "why": "Current migration note for uploadFile behavior and legacy helper removal"
+    }
+  ],
+  "active_constraints": [
+    "Preserve max 3 retry attempts with exponential backoff",
+    "Never log raw file contents or customer uploads",
+    "Treat v2.4.0 uploadFile migration notes as current authority",
+    "Do not reintroduce uploadLegacy(path); it is removed after v2.5.0"
+  ],
+  "not_loaded_files": [
+    {
+      "path": "docs/payments.md",
+      "why": "Previous topic only; not authority for upload API edits"
+    },
+    {
+      "path": "notes/old-upload-spike.md",
+      "why": "Historical spike; superseded by docs/upload-api.md"
+    }
+  ],
+  "stale_or_historical_notes": [
+    {
+      "ref": "notes/old-upload-spike.md",
+      "reason": "Mentions uploadLegacy(path), which is no longer current"
+    }
+  ],
+  "safe_to_edit": true
+}
