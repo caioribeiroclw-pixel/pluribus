@@ -1,0 +1,62 @@
+{
+  "schema": "pluribus.semantic_anchor_preservation_receipt.v1",
+  "source_type": "paste-cleaning-skill-or-cli-output",
+  "original_ref": "original-paste.md",
+  "cleaned_ref": "cleaned-paste.md",
+  "approximate_tokens_before": 224,
+  "approximate_tokens_after": 110,
+  "approximate_reduction_percent": 50.9,
+  "raw_source_logged": false,
+  "anchor_detection_policy": [
+    "headings",
+    "code_fences",
+    "api_signatures",
+    "version_or_migration_notes",
+    "must_keep_policy_lines"
+  ],
+  "anchors_total": 9,
+  "anchors_preserved": 9,
+  "anchors_missing": 0,
+  "preserved_anchors": [
+    {
+      "type": "heading",
+      "text": "Upload API v2 migration notes"
+    },
+    {
+      "type": "version_or_migration_note",
+      "text": "The `uploadFile` helper changed in v2.4.0. Keep this version note because older snippets still use v1."
+    },
+    {
+      "type": "api_signature",
+      "text": "export async function uploadFile(input: UploadInput): Promise<UploadResult>"
+    },
+    {
+      "type": "code_fence",
+      "text": "export async function uploadFile(input: UploadInput): Promise<UploadResult> {\n  return client.files.upload(input)\n}",
+      "language": "ts"
+    },
+    {
+      "type": "heading",
+      "text": "Required behavior"
+    },
+    {
+      "type": "must_keep_policy",
+      "text": "## Required behavior"
+    },
+    {
+      "type": "must_keep_policy",
+      "text": "Preserve the retry policy: max 3 attempts with exponential backoff."
+    },
+    {
+      "type": "must_keep_policy",
+      "text": "Do not strip the security constraint: never log raw file contents."
+    },
+    {
+      "type": "version_or_migration_note",
+      "text": "- Deprecated: `uploadLegacy(path)` is removed after v2.5.0."
+    }
+  ],
+  "missing_anchors": [],
+  "semantic_loss_check_passed": true,
+  "token_savings_claim_allowed": true
+}
