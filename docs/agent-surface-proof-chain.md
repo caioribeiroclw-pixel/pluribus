@@ -28,6 +28,7 @@ Each arrow can fail independently.
 | Continuous config sync ran with `--apply` | **Post-apply ledger** | What was actually written, skipped, backed up, failed, or sent to manual review after apply | That Claude/Codex/Cursor followed the config |
 | Host starts after install/sync | **Surface state** | What is visible/attached/discovered vs skipped/withheld: Skills, hooks, MCP tools, agents, slash commands, instruction files | That a specific task selected the right surface |
 | Runtime task decides what to use | **Selection trace** | Available → eligible → called → enforced for tools/Skills/MCP, with privacy-safe reasons | That the output is correct |
+| Model/provider may be silently degraded | **Degradation decision record** | Transport health, app-critical canaries, fallback choice, degradation confidence, and whether writes should continue | That the provider is globally healthy or that future turns will remain stable |
 | Long session, compaction, or topic switch resumes work | **Read receipt / safe-to-edit gate** | Which index/topic files or summaries reloaded, active constraints, stale notes rejected, and whether editing is safe | That future turns will keep following the context |
 | Debugger shows a chain of LLM calls | **Context-boundary span** | Which context inputs crossed into each node, hashes/paths by default, withheld inputs, replay reason, downstream invalidations | A raw prompt dump, secret-safe by itself, or full correctness |
 | Claude delegates to Codex/Gemini/subagents | **Handoff envelope** | Task, parent-plan hash, allowed files/commands, passed context sources, output schema, timeout, and insufficient-context path | That worker output is trusted project state |
@@ -114,6 +115,33 @@ Each arrow can fail independently.
 }
 ```
 
+### Degradation decision record
+
+```json
+{
+  "proof_type": "degradation_decision_record",
+  "run_id": "agent-run-2026-06-15T20:02Z",
+  "provider": "anthropic",
+  "model": "claude-sonnet-4",
+  "region": "us-east-1",
+  "prompt_template_hash": "sha256:...",
+  "canary_suite_version": "coding-agent-smoke-2026-06-15",
+  "transport": {
+    "ttft_p95_ms": 1400,
+    "total_latency_p95_ms": 9200,
+    "timeout_rate": 0.01,
+    "error_rate": 0
+  },
+  "capability_canaries": [
+    {"name": "json_schema", "status": "pass", "severity": "write_blocking"},
+    {"name": "tool_choice", "status": "pass", "severity": "write_blocking"},
+    {"name": "patch_format", "status": "pass", "severity": "write_blocking"}
+  ],
+  "confidence": "healthy",
+  "write_gate": "continue"
+}
+```
+
 ### Handoff envelope
 
 ```json
@@ -135,13 +163,14 @@ Each arrow can fail independently.
 
 1. **Do not promote intent as outcome.** A dry-run plan is not an apply ledger.
 2. **Do not promote visibility as use.** A visible MCP tool or Skill is not an activated/called one.
-3. **Do not promote worker output as project truth.** Merge-back needs evidence and invalidation notes.
-4. **Keep receipts privacy-safe by default.** Prefer paths, hashes, names, versions, statuses, and reasons; expand raw bodies only under explicit local review.
-5. **Name skipped and withheld context.** What did not load is often the failure.
-6. **Use the product’s own vocabulary.** Say install diff for installers, ledger for sync apply, span for debuggers, envelope for delegation, and read receipt for re-grounding.
+3. **Do not promote latency as reliability.** A low-latency provider call can still fail app-critical canaries, and a slow call may still be safe for read-only work.
+4. **Do not promote worker output as project truth.** Merge-back needs evidence and invalidation notes.
+5. **Keep receipts privacy-safe by default.** Prefer paths, hashes, names, versions, statuses, and reasons; expand raw bodies only under explicit local review.
+6. **Name skipped and withheld context.** What did not load is often the failure.
+7. **Use the product’s own vocabulary.** Say install diff for installers, ledger for sync apply, span for debuggers, envelope for delegation, degradation decision for provider/model health, and read receipt for re-grounding.
 
 ## When Pluribus fits
 
-Use Pluribus when you need privacy-safe evidence around agent context boundaries: generated instruction files, Skills, MCP tools, memory/RAG results, compaction, pruning, plugin setup, or cross-tool handoffs.
+Use Pluribus when you need privacy-safe evidence around agent context boundaries: generated instruction files, Skills, MCP tools, memory/RAG results, compaction, pruning, provider/model degradation decisions, plugin setup, or cross-tool handoffs.
 
 Do not use Pluribus as a registry, memory server, agent orchestrator, or replacement for Claude/Codex/Cursor runtime diagnostics. It is the evidence layer around those systems.

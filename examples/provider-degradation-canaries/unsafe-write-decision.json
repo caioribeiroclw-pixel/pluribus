@@ -1,0 +1,26 @@
+{
+  "schema": "pluribus.provider_degradation_decision.v1",
+  "run_id": "agent-run-2026-06-15T20:11Z",
+  "provider": "anthropic",
+  "model": "claude-sonnet-4",
+  "region": "us-east-1",
+  "prompt_template_hash": "sha256:7a6c7f8b4fb1f3a9d4d9325e5c2a9dbb6b4cbf2e77b49e1f69b1a8d93d1f5c22",
+  "canary_suite_version": "coding-agent-smoke-2026-06-15",
+  "transport": {
+    "window_minutes": 10,
+    "ttft_p95_ms": 6200,
+    "total_latency_p95_ms": 41000,
+    "timeout_rate": 0.18,
+    "error_rate": 0.08,
+    "retry_count": 12,
+    "status_incident_url": null
+  },
+  "capability_canaries": [
+    { "name": "json_schema", "status": "pass", "severity": "write_blocking" },
+    { "name": "tool_choice", "status": "fail", "severity": "write_blocking", "evidence": "selected shell write tool for read-only prompt" },
+    { "name": "patch_format", "status": "fail", "severity": "write_blocking", "evidence": "diff missing target file header" }
+  ],
+  "fallback": { "chosen": false, "reason": null },
+  "confidence": "provider_degraded",
+  "write_gate": "continue"
+}
