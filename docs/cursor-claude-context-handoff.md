@@ -90,6 +90,74 @@ I am building Acme Billing, a TypeScript service used by finance operators.
 4. **Audit:** run `pluribus audit` locally or in CI to catch drift when someone edits generated files directly.
 5. **Use memory separately:** if you also run an MCP memory server, keep the recall/store protocol in `pluribus.md` and let the memory server store durable facts.
 
+## What usually breaks first
+
+When developers switch seriously between Cursor, Claude Code, Codex/Copilot-style tools, Windsurf, and terminal agents, the failure is rarely “there is no context anywhere.” It is usually one of these smaller breaks:
+
+| Break | Symptom | Fast check |
+| --- | --- | --- |
+| Source file stale | `AGENTS.md`, `CLAUDE.md`, or `.cursorrules` still describes old paths, commands, or architecture | Run `pluribus audit`; compare generated output to the committed `pluribus.md` source |
+| Tool-specific layer diverged | Cursor rules say one convention, Claude/Codex instructions say another | Keep tool-specific files generated/thin; review manual edits as drift |
+| Memory became authority | An MCP memory/Obsidian/Notion note overrides the current repo state | Put memory recall/store policy in `pluribus.md`; require code/tests/current docs to win over recalled facts |
+| Commands or paths changed | The agent follows a dead build/test command copied from an older chat | Keep commands in `package.json`, `Makefile`, `justfile`, or scripts; link to them from context instead of duplicating shell snippets |
+| Context was never loaded | The right file exists, but the active tool/session did not read it | Ask for a short handoff receipt before edits: which source file, generated target, memory recall, and test command were actually used |
+
+## Copyable handoff receipt
+
+Use this as a lightweight debugging note before a risky cross-tool handoff. It is intentionally privacy-safe: hashes, paths, and decisions instead of raw prompt transcripts or private source content.
+
+```json
+{
+  "handoff_id": "cursor-to-claude-2026-06-16-001",
+  "from_tool": "cursor",
+  "to_tool": "claude-code",
+  "repo_ref": {
+    "branch": "main",
+    "head_sha": "abc1234"
+  },
+  "source_of_truth": {
+    "path": "pluribus.md",
+    "sha256": "hash-of-current-project-context",
+    "validated_at": "2026-06-16T00:00:00Z"
+  },
+  "generated_context": [
+    {
+      "tool": "cursor",
+      "path": ".cursorrules",
+      "status": "in_sync"
+    },
+    {
+      "tool": "claude-code",
+      "path": "CLAUDE.md",
+      "status": "in_sync"
+    },
+    {
+      "tool": "openclaw-or-codex-style-agent",
+      "path": "AGENTS.md",
+      "status": "in_sync"
+    }
+  ],
+  "memory_policy": {
+    "mcp_memory_allowed": true,
+    "current_repo_overrides_memory": true,
+    "store_new_facts_without_review": false
+  },
+  "active_task": {
+    "summary": "Implement the smallest safe patch for issue #123",
+    "allowed_paths": ["src/billing/**", "tests/billing/**"],
+    "required_checks": ["npm test -- billing"]
+  },
+  "loaded_evidence": {
+    "agent_says_it_read": ["CLAUDE.md", "package.json"],
+    "missing_or_deferred": ["old Obsidian architecture note"],
+    "stale_conflicts_found": []
+  },
+  "safe_to_continue": true
+}
+```
+
+The receipt should be boring. If it shows stale conflicts, missing generated files, or memory overriding current repo state, stop and fix the source of truth before asking another agent to write code.
+
 ## What this deliberately does not solve
 
 - It does not move active chat state from Cursor to Claude Code.
