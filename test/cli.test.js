@@ -139,3 +139,28 @@ test('demo tool-surface-diff --json reports machine-readable summary', () => {
   assert.equal(payload.demo, 'tool-surface-diff')
   assert.deepEqual(payload.summary, { discoveredCount: 3, activatedCount: 1, withheldCount: 2 })
 })
+
+test('demo context-sufficiency-trace exposes the bundled failing trace', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'context-sufficiency-trace'])
+
+  assert.equal(result.status, 1)
+  assert.match(result.stdout, /Pluribus demo: context sufficiency trace/)
+  assert.match(result.stdout, /context sufficiency fail: gold_context_recall=0.6667, missed_required_file_rate=0.3333, late_context_rate=0.3333/)
+  assert.match(result.stdout, /frontier_cut_misses: src\/auth\/session.ts/)
+})
+
+test('demo context-sufficiency-trace --pass --json reports machine-readable pass summary', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'context-sufficiency-trace', '--pass', '--json'])
+
+  assert.equal(result.status, 0, result.stderr)
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.demo, 'context-sufficiency-trace')
+  assert.equal(payload.summary.verdict, 'pass')
+  assert.equal(payload.summary.gold_context_recall, 1)
+  assert.equal(payload.summary.missed_required_file_rate, 0)
+})

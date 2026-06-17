@@ -12,7 +12,8 @@ const SKILL_USE_RATE_DEMO = 'skill-use-rate'
 const MCP_AUDIT_RECEIPT_DEMO = 'mcp-audit-receipt'
 const MCP_TELEMETRY_IMPORT_DEMO = 'mcp-telemetry-import'
 const TOOL_SURFACE_DIFF_DEMO = 'tool-surface-diff'
-const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO]
+const CONTEXT_SUFFICIENCY_TRACE_DEMO = 'context-sufficiency-trace'
+const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO]
 const SKILL_USE_RATE_SCHEMA = 'pluribus.skill_use_rate_receipt.v1'
 const MCP_AUDIT_RECEIPT_SCHEMA = 'pluribus.mcp_tool_call_audit_receipt.v1'
 const TOOL_SURFACE_DIFF_SCHEMA = 'pluribus.mcp_tool_surface_diff_receipt.v1'
@@ -33,6 +34,8 @@ export async function runDemo(args, positional = []) {
       return runMcpTelemetryImportDemo(args)
     case TOOL_SURFACE_DIFF_DEMO:
       return runToolSurfaceDiffDemo(args)
+    case CONTEXT_SUFFICIENCY_TRACE_DEMO:
+      return runContextSufficiencyTraceDemo(args)
     default:
       console.error(`❌ Unknown demo: ${demoName}`)
       console.error(`   Available demos: ${AVAILABLE_DEMOS.join(', ')}`)
@@ -196,6 +199,18 @@ function bundledToolSurfaceDiffReceiptPath() {
   return fileURLToPath(new URL('../../examples/tool-surface-diff-receipts/tool-surface-diff-receipt.json', import.meta.url))
 }
 
+function bundledContextSufficiencyGroundTruthPath() {
+  return fileURLToPath(new URL('../../examples/context-sufficiency-trace/ground-truth.json', import.meta.url))
+}
+
+function bundledContextSufficiencyTracePath() {
+  return fileURLToPath(new URL('../../examples/context-sufficiency-trace/context-trace.json', import.meta.url))
+}
+
+function bundledContextSufficiencyPassTracePath() {
+  return fileURLToPath(new URL('../../examples/context-sufficiency-trace/context-trace-pass.json', import.meta.url))
+}
+
 function runToolSurfaceDiffDemo(args) {
   const receiptPath = selectedReceiptPath(args, bundledToolSurfaceDiffReceiptPath())
   const receipt = readReceipt(receiptPath, 'tool-surface diff')
@@ -228,6 +243,71 @@ function runToolSurfaceDiffDemo(args) {
   }
 
   if (result.errors.length > 0) process.exit(1)
+}
+
+function runContextSufficiencyTraceDemo(args) {
+  const truthPath = typeof args.receipt === 'string' && args.receipt.trim()
+    ? path.resolve(process.cwd(), args.receipt)
+    : bundledContextSufficiencyGroundTruthPath()
+  const tracePath = typeof args.input === 'string' && args.input.trim()
+    ? path.resolve(process.cwd(), args.input)
+    : (Boolean(args.pass) ? bundledContextSufficiencyPassTracePath() : bundledContextSufficiencyTracePath())
+
+  const truth = readReceipt(truthPath, 'context sufficiency ground-truth')
+  const trace = readReceipt(tracePath, 'context trace')
+  const result = validateContextSufficiencyTrace(truth, trace)
+
+  if (Boolean(args.json)) {
+    console.log(JSON.stringify({
+      ok: result.verdict === 'pass',
+      demo: CONTEXT_SUFFICIENCY_TRACE_DEMO,
+      groundTruth: path.relative(process.cwd(), truthPath) || truthPath,
+      trace: path.relative(process.cwd(), tracePath) || tracePath,
+      summary: result,
+    }, null, 2))
+  } else {
+    console.log('🧪 Pluribus demo: context sufficiency trace')
+    console.log(`   Ground truth: ${path.relative(process.cwd(), truthPath) || truthPath}`)
+    console.log(`   Trace: ${path.relative(process.cwd(), tracePath) || tracePath}`)
+    console.log('')
+
+    const mark = result.verdict === 'pass' ? '✅' : '❌'
+    console.log(`${mark} context sufficiency ${result.verdict}: gold_context_recall=${result.gold_context_recall}, missed_required_file_rate=${result.missed_required_file_rate}, late_context_rate=${result.late_context_rate}`)
+    if (result.missed_required_files.length > 0) console.log(`   • missed_required_files: ${result.missed_required_files.join(', ')}`)
+    if (result.frontier_cut_misses.length > 0) console.log(`   • frontier_cut_misses: ${result.frontier_cut_misses.join(', ')}`)
+    console.log('')
+    console.log('Why this matters: context compression is only safe if the reduced bundle still contains the files/symbols the task ground truth requires before editing starts.')
+    console.log('Try your own trace: pluribus demo context-sufficiency-trace --receipt ground-truth.json --input context-trace.json --json')
+  }
+
+  if (result.verdict !== 'pass') process.exit(1)
+}
+
+export function validateContextSufficiencyTrace(truth, trace) {
+  const required = new Set(Array.isArray(truth.required_files) ? truth.required_files : [])
+  const returned = new Set((Array.isArray(trace.returned_files) ? trace.returned_files : []).map((file) => file.path).filter(Boolean))
+  const frontierCut = new Set((Array.isArray(trace.frontier_cut) ? trace.frontier_cut : []).map((file) => file.path).filter(Boolean))
+  const late = new Set((Array.isArray(trace.late_files) ? trace.late_files : []).map((file) => file.path).filter(Boolean))
+
+  const requiredList = [...required]
+  const returnedRequired = requiredList.filter((filePath) => returned.has(filePath))
+  const missedRequired = requiredList.filter((filePath) => !returned.has(filePath))
+  const frontierCutMisses = missedRequired.filter((filePath) => frontierCut.has(filePath))
+  const lateMisses = missedRequired.filter((filePath) => late.has(filePath))
+
+  const ratio = (count, total) => (total === 0 ? 0 : Number((count / total).toFixed(4)))
+  return {
+    task_id: truth.task_id || 'unknown-task',
+    trace_id: trace.trace_id || 'unknown-trace',
+    required_files: requiredList.length,
+    returned_files: returned.size,
+    gold_context_recall: ratio(returnedRequired.length, requiredList.length),
+    missed_required_file_rate: ratio(missedRequired.length, requiredList.length),
+    late_context_rate: ratio(lateMisses.length, requiredList.length),
+    missed_required_files: missedRequired,
+    frontier_cut_misses: frontierCutMisses,
+    verdict: missedRequired.length === 0 ? 'pass' : 'fail',
+  }
 }
 
 export function validateSkillUseRateReceipt(receipt) {

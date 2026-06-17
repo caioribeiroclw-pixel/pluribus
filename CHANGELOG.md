@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.42 - 2026-06-17
+
+- Added `pluribus demo context-sufficiency-trace`, a tiny npm-runnable pass/fail demo for checking whether a compressed context bundle preserved the task's required files before editing began.
+
 ## 0.3.41 - 2026-06-10
 
 - Added npm Agent Skills discovery keywords (`agent-skill`, `skillpm`, and `agent-skills-registry`) so `pluribus-context` can be indexed by npm-backed skill package managers while continuing to ship the existing low-authority `skills/*/SKILL.md` recipes.
