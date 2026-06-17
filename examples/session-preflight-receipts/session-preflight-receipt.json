@@ -1,0 +1,39 @@
+{
+  "schema": "pluribus.session_preflight_receipt.v1",
+  "session_id": "local-2026-06-17T11:00Z",
+  "client": "cursor",
+  "required_first_step": {
+    "kind": "mcp_tool",
+    "name": "session_guard.session_init",
+    "enforcement": "behavioral_rule_only"
+  },
+  "required_context": [
+    {
+      "id": "project-memory",
+      "path": "MEMORY.md",
+      "status": "loaded",
+      "fingerprint": "sha256:replace-with-non-secret-digest"
+    },
+    {
+      "id": "project-rules",
+      "path": ".cursor/rules/session-preflight.mdc",
+      "status": "loaded",
+      "fingerprint": "sha256:replace-with-non-secret-digest"
+    }
+  ],
+  "tool_surface": {
+    "mcp_servers_seen": ["session-guard", "playwright"],
+    "side_effecting_tools_blocked_until_preflight": ["Shell", "Write"],
+    "read_only_tools_allowed_before_preflight": ["Read"]
+  },
+  "decision": {
+    "allowed_to_start_work": true,
+    "mode": "read_then_patch",
+    "reason": "required project memory and rules were checked before side-effecting tool use"
+  },
+  "privacy": {
+    "raw_context_logged": false,
+    "secrets_logged": false,
+    "fingerprints_only": true
+  }
+}

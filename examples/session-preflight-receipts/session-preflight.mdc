@@ -1,0 +1,18 @@
+---
+description: Require a visible session preflight before side-effecting agent work.
+alwaysApply: true
+---
+
+Before using Shell, Write, Apply Patch, or external MCP tools, produce a session preflight receipt.
+
+The receipt must state:
+
+- required first step: `session_guard.session_init` or the local equivalent
+- required context files checked, such as `MEMORY.md`, `AGENTS.md`, `.cursor/rules/*.mdc`, or `CLAUDE.md`
+- whether only read-only tools are allowed before preflight
+- proceed mode: `read_only`, `read_then_patch`, `stop`, or `ask_human`
+- reason for the mode
+
+Do not paste raw memory or secrets into the receipt. Use status and non-secret fingerprints instead.
+
+If the preflight is missing or required context is unavailable, stay in `read_only` mode and ask for the missing context before edits.
