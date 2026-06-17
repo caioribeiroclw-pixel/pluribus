@@ -1,0 +1,13 @@
+{
+  "task_id": "tsbench-style-auth-redirect",
+  "task": "Fix the stale session redirect after token refresh.",
+  "required_files": [
+    "src/auth/session.ts",
+    "src/routes/redirect.ts",
+    "test/auth-refresh.test.ts"
+  ],
+  "edit_files": [
+    "src/routes/redirect.ts",
+    "test/auth-refresh.test.ts"
+  ]
+}

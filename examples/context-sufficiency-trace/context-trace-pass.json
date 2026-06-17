@@ -1,0 +1,28 @@
+{
+  "trace_id": "ctxtrace_2026_06_17_demo_pass",
+  "query": "fix stale session redirect after token refresh",
+  "token_budget": 12000,
+  "index_revision": "sha256:demo-index-revision",
+  "returned_files": [
+    {
+      "path": "src/auth/session.ts",
+      "hash": "sha256:demo-session",
+      "tokens": 2200,
+      "reason": "session refresh state owns the redirect freshness condition"
+    },
+    {
+      "path": "src/routes/redirect.ts",
+      "hash": "sha256:demo-redirect",
+      "tokens": 1400,
+      "reason": "direct redirect logic match"
+    },
+    {
+      "path": "test/auth-refresh.test.ts",
+      "hash": "sha256:demo-test",
+      "tokens": 900,
+      "reason": "failing test references token refresh redirect"
+    }
+  ],
+  "frontier_cut": [],
+  "late_files": []
+}
