@@ -164,3 +164,42 @@ test('demo context-sufficiency-trace --pass --json reports machine-readable pass
   assert.equal(payload.summary.gold_context_recall, 1)
   assert.equal(payload.summary.missed_required_file_rate, 0)
 })
+
+test('demo module-boundary-contract validates the packaged safe receipt', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'module-boundary-contract'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Pluribus demo: module boundary contract receipt/)
+  assert.match(result.stdout, /module boundary receipt ok: 2 changed paths, 2 import prefixes, decision=accepted/)
+  assert.match(result.stdout, /green verifier is not enough/)
+})
+
+test('demo module-boundary-contract --unsafe reports boundary violations', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'module-boundary-contract', '--unsafe'])
+
+  assert.equal(result.status, 1)
+  assert.match(result.stdout, /Pluribus demo: module boundary contract receipt/)
+  assert.match(result.stderr, /changed path outside contract: src\/ui\/order-card.tsx/)
+  assert.match(result.stderr, /forbidden import prefix used: src\/ui\//)
+})
+
+test('demo module-boundary-contract --json reports machine-readable summary', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'module-boundary-contract', '--json'])
+
+  assert.equal(result.status, 0, result.stderr)
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.demo, 'module-boundary-contract')
+  assert.deepEqual(payload.summary, {
+    contractId: 'api-module-v1',
+    changedPathCount: 2,
+    importPrefixCount: 2,
+    decision: 'accepted',
+  })
+})

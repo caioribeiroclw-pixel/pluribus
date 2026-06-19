@@ -13,10 +13,12 @@ const MCP_AUDIT_RECEIPT_DEMO = 'mcp-audit-receipt'
 const MCP_TELEMETRY_IMPORT_DEMO = 'mcp-telemetry-import'
 const TOOL_SURFACE_DIFF_DEMO = 'tool-surface-diff'
 const CONTEXT_SUFFICIENCY_TRACE_DEMO = 'context-sufficiency-trace'
-const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO]
+const MODULE_BOUNDARY_CONTRACT_DEMO = 'module-boundary-contract'
+const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO]
 const SKILL_USE_RATE_SCHEMA = 'pluribus.skill_use_rate_receipt.v1'
 const MCP_AUDIT_RECEIPT_SCHEMA = 'pluribus.mcp_tool_call_audit_receipt.v1'
 const TOOL_SURFACE_DIFF_SCHEMA = 'pluribus.mcp_tool_surface_diff_receipt.v1'
+const MODULE_BOUNDARY_CONTRACT_SCHEMA = 'pluribus.module_boundary_contract.v1'
 
 /**
  * @param {Record<string, string | boolean>} args
@@ -36,6 +38,8 @@ export async function runDemo(args, positional = []) {
       return runToolSurfaceDiffDemo(args)
     case CONTEXT_SUFFICIENCY_TRACE_DEMO:
       return runContextSufficiencyTraceDemo(args)
+    case MODULE_BOUNDARY_CONTRACT_DEMO:
+      return runModuleBoundaryContractDemo(args)
     default:
       console.error(`❌ Unknown demo: ${demoName}`)
       console.error(`   Available demos: ${AVAILABLE_DEMOS.join(', ')}`)
@@ -211,6 +215,18 @@ function bundledContextSufficiencyPassTracePath() {
   return fileURLToPath(new URL('../../examples/context-sufficiency-trace/context-trace-pass.json', import.meta.url))
 }
 
+function bundledModuleBoundaryContractPath() {
+  return fileURLToPath(new URL('../../examples/module-boundary-contracts/module-contract.json', import.meta.url))
+}
+
+function bundledModuleBoundarySafeReceiptPath() {
+  return fileURLToPath(new URL('../../examples/module-boundary-contracts/safe-edit-receipt.json', import.meta.url))
+}
+
+function bundledModuleBoundaryUnsafeReceiptPath() {
+  return fileURLToPath(new URL('../../examples/module-boundary-contracts/unsafe-edit-receipt.json', import.meta.url))
+}
+
 function runToolSurfaceDiffDemo(args) {
   const receiptPath = selectedReceiptPath(args, bundledToolSurfaceDiffReceiptPath())
   const receipt = readReceipt(receiptPath, 'tool-surface diff')
@@ -281,6 +297,89 @@ function runContextSufficiencyTraceDemo(args) {
   }
 
   if (result.verdict !== 'pass') process.exit(1)
+}
+
+function runModuleBoundaryContractDemo(args) {
+  const contractPath = typeof args.input === 'string' && args.input.trim()
+    ? path.resolve(process.cwd(), args.input)
+    : bundledModuleBoundaryContractPath()
+  const receiptPath = typeof args.receipt === 'string' && args.receipt.trim()
+    ? path.resolve(process.cwd(), args.receipt)
+    : (Boolean(args.unsafe) ? bundledModuleBoundaryUnsafeReceiptPath() : bundledModuleBoundarySafeReceiptPath())
+
+  const contract = readReceipt(contractPath, 'module boundary contract')
+  const receipt = readReceipt(receiptPath, 'module boundary')
+  const result = validateModuleBoundaryContractReceipt(contract, receipt)
+
+  if (Boolean(args.json)) {
+    console.log(JSON.stringify({
+      ok: result.errors.length === 0,
+      demo: MODULE_BOUNDARY_CONTRACT_DEMO,
+      contract: path.relative(process.cwd(), contractPath) || contractPath,
+      receipt: path.relative(process.cwd(), receiptPath) || receiptPath,
+      summary: result.summary,
+      errors: result.errors,
+    }, null, 2))
+  } else {
+    console.log('🧪 Pluribus demo: module boundary contract receipt')
+    console.log(`   Contract: ${path.relative(process.cwd(), contractPath) || contractPath}`)
+    console.log(`   Receipt: ${path.relative(process.cwd(), receiptPath) || receiptPath}`)
+    console.log('')
+
+    if (result.errors.length === 0) {
+      console.log(`✅ module boundary receipt ok: ${result.summary.changedPathCount} changed paths, ${result.summary.importPrefixCount} import prefixes, decision=${result.summary.decision}`)
+      console.log('')
+      console.log('Why this matters: a green verifier is not enough when an agent silently widens module scope. Prove the contract was read, edits stayed inside allowed paths, imports stayed inside allowed prefixes, and the verifier ran after the last edit.')
+      console.log('Try the failing fixture: pluribus demo module-boundary-contract --unsafe')
+      console.log('Try your own receipt: pluribus demo module-boundary-contract --input module-contract.json --receipt edit-receipt.json --json')
+    } else {
+      console.error('❌ module boundary receipt invalid:')
+      for (const error of result.errors) console.error(`   • ${error}`)
+    }
+  }
+
+  if (result.errors.length > 0) process.exit(1)
+}
+
+export function validateModuleBoundaryContractReceipt(contract, receipt) {
+  const errors = []
+  const startsWithAny = (value, prefixes) => prefixes.some((prefix) => typeof value === 'string' && value.startsWith(prefix))
+  const contractId = contract.contract_id
+  const editPathPrefixes = Array.isArray(contract.edit_path_prefixes) ? contract.edit_path_prefixes : []
+  const allowedImportPrefixes = Array.isArray(contract.allowed_import_prefixes) ? contract.allowed_import_prefixes : []
+  const forbiddenImportPrefixes = Array.isArray(contract.forbidden_import_prefixes) ? contract.forbidden_import_prefixes : []
+
+  if (typeof contractId !== 'string' || contractId.trim() === '') errors.push('contract.contract_id must be a non-empty string')
+  if (editPathPrefixes.length === 0) errors.push('contract.edit_path_prefixes must be a non-empty array')
+  if (allowedImportPrefixes.length === 0) errors.push('contract.allowed_import_prefixes must be a non-empty array')
+  if (typeof contract.minimum_verifier !== 'string' || contract.minimum_verifier.trim() === '') errors.push('contract.minimum_verifier must be a non-empty string')
+
+  if (receipt.receipt_type !== MODULE_BOUNDARY_CONTRACT_SCHEMA) errors.push(`receipt_type must be ${MODULE_BOUNDARY_CONTRACT_SCHEMA}`)
+  if (receipt.contract_id !== contractId) errors.push(`contract_id mismatch: expected ${contractId}`)
+  if (receipt.agent_read_contract !== true) errors.push('agent_read_contract must be true before edits are accepted')
+
+  for (const changedPath of receipt.changed_paths ?? []) {
+    if (!startsWithAny(changedPath, editPathPrefixes)) errors.push(`changed path outside contract: ${changedPath}`)
+  }
+  for (const prefix of receipt.import_prefixes_used ?? []) {
+    if (startsWithAny(prefix, forbiddenImportPrefixes)) errors.push(`forbidden import prefix used: ${prefix}`)
+    if (!startsWithAny(prefix, allowedImportPrefixes)) errors.push(`import prefix not listed as allowed: ${prefix}`)
+  }
+  if (receipt.verifier?.command !== contract.minimum_verifier) errors.push(`verifier command mismatch: expected ${contract.minimum_verifier}`)
+  if (receipt.verifier?.exit_code !== 0 || receipt.verifier?.completed_after_last_edit !== true) errors.push('verifier must pass after the last edit')
+  if (receipt.privacy?.raw_source_included !== false) errors.push('privacy.raw_source_included must be false')
+  if (receipt.privacy?.raw_prompt_included !== false) errors.push('privacy.raw_prompt_included must be false')
+  if (receipt.decision === 'accepted' && errors.length > 0) errors.push('decision cannot be accepted while boundary checks fail')
+
+  return {
+    errors,
+    summary: {
+      contractId,
+      changedPathCount: Array.isArray(receipt.changed_paths) ? receipt.changed_paths.length : 0,
+      importPrefixCount: Array.isArray(receipt.import_prefixes_used) ? receipt.import_prefixes_used.length : 0,
+      decision: receipt.decision || 'unknown',
+    },
+  }
 }
 
 export function validateContextSufficiencyTrace(truth, trace) {

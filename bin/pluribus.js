@@ -71,6 +71,7 @@ OPTIONS (demo)
   --input         Import a custom demo input file, such as rpc-messages.jsonl
   --json          Print machine-readable demo results
   --pass          For context-sufficiency-trace, use the bundled passing trace
+  --unsafe        For module-boundary-contract, use the bundled failing receipt
 
 EXAMPLES
   pluribus init
@@ -98,6 +99,8 @@ EXAMPLES
   pluribus demo tool-surface-diff
   pluribus demo tool-surface-diff --json
   pluribus demo context-sufficiency-trace --json
+  pluribus demo module-boundary-contract
+  pluribus demo module-boundary-contract --unsafe
 
 DOCS
   https://github.com/caioribeiroclw-pixel/pluribus
@@ -109,7 +112,7 @@ const COMMAND_FLAGS = {
   validate: new Set(['source', 'update-imports']),
   audit: new Set(['source', 'tools', 'update-imports', 'strict', 'ci', 'json', 'output', 'github-annotations', 'fidelity-report']),
   watch: new Set(['source', 'tools', 'update-imports', 'dry-run', 'once', 'debounce']),
-  demo: new Set(['receipt', 'input', 'json', 'pass']),
+  demo: new Set(['receipt', 'input', 'json', 'pass', 'unsafe']),
 }
 
 function getFlagNames(argv) {

@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.43 - 2026-06-19
+
+- Added `pluribus demo module-boundary-contract`, a tiny npm-runnable pass/fail demo for checking whether an agent stayed inside explicit repo/module edit paths, import prefixes, and verifier boundaries before accepting a change.
+
 ## 0.3.42 - 2026-06-17
 
 - Added `pluribus demo context-sufficiency-trace`, a tiny npm-runnable pass/fail demo for checking whether a compressed context bundle preserved the task's required files before editing began.
