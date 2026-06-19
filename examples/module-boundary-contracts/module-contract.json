@@ -1,0 +1,29 @@
+{
+  "contract_id": "api-module-v1",
+  "module": "api",
+  "owner": "platform",
+  "belongs_here": [
+    "HTTP route handlers",
+    "request/response schemas",
+    "thin orchestration over service layer"
+  ],
+  "allowed_import_prefixes": [
+    "src/api/",
+    "src/services/",
+    "src/lib/"
+  ],
+  "forbidden_import_prefixes": [
+    "src/ui/",
+    "src/experiments/"
+  ],
+  "edit_path_prefixes": [
+    "src/api/",
+    "test/api/"
+  ],
+  "minimum_verifier": "npm test -- --run test/api",
+  "widening_rule": "If the change needs src/ui/ or src/experiments/, stop and ask for a wider contract before editing.",
+  "privacy": {
+    "raw_source_included": false,
+    "raw_prompt_included": false
+  }
+}

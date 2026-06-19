@@ -1,0 +1,24 @@
+{
+  "receipt_type": "pluribus.module_boundary_contract.v1",
+  "contract_id": "api-module-v1",
+  "contract_hash": "sha256:demo-api-contract",
+  "agent_read_contract": true,
+  "changed_paths": [
+    "src/api/orders.ts",
+    "test/api/orders.test.ts"
+  ],
+  "import_prefixes_used": [
+    "src/services/",
+    "src/lib/"
+  ],
+  "verifier": {
+    "command": "npm test -- --run test/api",
+    "exit_code": 0,
+    "completed_after_last_edit": true
+  },
+  "decision": "accepted",
+  "privacy": {
+    "raw_source_included": false,
+    "raw_prompt_included": false
+  }
+}
