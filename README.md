@@ -283,7 +283,7 @@ npx --yes pluribus-context@latest audit --strict --json --output pluribus-audit.
 
 The JSON shape is documented in [`schemas/audit-result.schema.json`](schemas/audit-result.schema.json) so CI wrappers and dashboards can validate integrations without scraping human output. For copy-paste enforcement, see the [CI audit example](docs/ci-audit-example.md) and the [Pre-commit Audit Hook](docs/pre-commit-audit.md).
 
-If your project does not have `pluribus.md` yet, `pluribus audit` scans for known AI context files (`CLAUDE.md`, `.cursorrules`, Copilot instructions, `AGENTS.md`, Windsurf, Continue, Zed, Bob) so you know what to migrate.
+If your project does not have `pluribus.md` yet, `pluribus audit` scans for known AI context files (`CLAUDE.md`, `.cursorrules`, Copilot instructions, `AGENTS.md`, Windsurf, Continue, Zed, Bob) so you know what to migrate. If you use Skillsaw for instruction-file content hygiene, lint `pluribus.md` through configurable [`content-paths`](docs/lint-pluribus-context-with-skillsaw.md) rather than assuming it deserves built-in ecosystem-default recognition before broad adoption.
 
 **6. Sync to all your tools**
 
