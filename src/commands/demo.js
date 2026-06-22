@@ -14,11 +14,13 @@ const MCP_TELEMETRY_IMPORT_DEMO = 'mcp-telemetry-import'
 const TOOL_SURFACE_DIFF_DEMO = 'tool-surface-diff'
 const CONTEXT_SUFFICIENCY_TRACE_DEMO = 'context-sufficiency-trace'
 const MODULE_BOUNDARY_CONTRACT_DEMO = 'module-boundary-contract'
-const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO]
+const INSTRUCTION_CONTEXT_AUDIT_DEMO = 'instruction-context-audit'
+const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO]
 const SKILL_USE_RATE_SCHEMA = 'pluribus.skill_use_rate_receipt.v1'
 const MCP_AUDIT_RECEIPT_SCHEMA = 'pluribus.mcp_tool_call_audit_receipt.v1'
 const TOOL_SURFACE_DIFF_SCHEMA = 'pluribus.mcp_tool_surface_diff_receipt.v1'
 const MODULE_BOUNDARY_CONTRACT_SCHEMA = 'pluribus.module_boundary_contract.v1'
+const INSTRUCTION_CONTEXT_AUDIT_SCHEMA = 'pluribus.instruction_context_audit.v1'
 
 /**
  * @param {Record<string, string | boolean>} args
@@ -40,6 +42,8 @@ export async function runDemo(args, positional = []) {
       return runContextSufficiencyTraceDemo(args)
     case MODULE_BOUNDARY_CONTRACT_DEMO:
       return runModuleBoundaryContractDemo(args)
+    case INSTRUCTION_CONTEXT_AUDIT_DEMO:
+      return runInstructionContextAuditDemo(args)
     default:
       console.error(`❌ Unknown demo: ${demoName}`)
       console.error(`   Available demos: ${AVAILABLE_DEMOS.join(', ')}`)
@@ -227,6 +231,10 @@ function bundledModuleBoundaryUnsafeReceiptPath() {
   return fileURLToPath(new URL('../../examples/module-boundary-contracts/unsafe-edit-receipt.json', import.meta.url))
 }
 
+function bundledInstructionContextAuditReceiptPath() {
+  return fileURLToPath(new URL('../../examples/instruction-context-audit/instruction-context-audit-receipt.json', import.meta.url))
+}
+
 function runToolSurfaceDiffDemo(args) {
   const receiptPath = selectedReceiptPath(args, bundledToolSurfaceDiffReceiptPath())
   const receipt = readReceipt(receiptPath, 'tool-surface diff')
@@ -299,6 +307,41 @@ function runContextSufficiencyTraceDemo(args) {
   if (result.verdict !== 'pass') process.exit(1)
 }
 
+
+function runInstructionContextAuditDemo(args) {
+  const receiptPath = selectedReceiptPath(args, bundledInstructionContextAuditReceiptPath())
+  const receipt = readReceipt(receiptPath, 'instruction-context audit')
+  const result = validateInstructionContextAuditReceipt(receipt)
+
+  if (Boolean(args.json)) {
+    console.log(JSON.stringify({
+      ok: result.errors.length === 0,
+      demo: INSTRUCTION_CONTEXT_AUDIT_DEMO,
+      receipt: path.relative(process.cwd(), receiptPath) || receiptPath,
+      summary: result.summary,
+      warnings: result.warnings,
+      errors: result.errors,
+    }, null, 2))
+  } else {
+    console.log('🧪 Pluribus demo: instruction-context audit receipt')
+    console.log(`   Receipt: ${path.relative(process.cwd(), receiptPath) || receiptPath}`)
+    console.log('')
+
+    if (result.errors.length === 0) {
+      console.log(`✅ instruction-context audit ok: ${result.summary.fileCount} files, ${result.summary.skillCount} skills, ${result.summary.warningCount} warnings, decision=${result.summary.decision}`)
+      for (const warning of result.warnings) console.log(`   • ${warning}`)
+      console.log('')
+      console.log('Why this matters: AGENTS.md, CLAUDE.md, Cursor rules, Copilot instructions, and Skills are authority surfaces. Hash what was active, mark dirty/stale/external sources, and gate writes before externally influenced context becomes command authority.')
+      console.log('Try your own receipt: pluribus demo instruction-context-audit --receipt path/to/instruction-context-audit-receipt.json --json')
+    } else {
+      console.error('❌ instruction-context audit receipt invalid:')
+      for (const error of result.errors) console.error(`   • ${error}`)
+    }
+  }
+
+  if (result.errors.length > 0) process.exit(1)
+}
+
 function runModuleBoundaryContractDemo(args) {
   const contractPath = typeof args.input === 'string' && args.input.trim()
     ? path.resolve(process.cwd(), args.input)
@@ -339,6 +382,69 @@ function runModuleBoundaryContractDemo(args) {
   }
 
   if (result.errors.length > 0) process.exit(1)
+}
+
+
+export function validateInstructionContextAuditReceipt(receipt) {
+  const errors = []
+  const warnings = []
+  const allowedStatuses = new Set(['captured', 'missing', 'ignored', 'unreadable'])
+  const allowedReviewStates = new Set(['reviewed', 'unreviewed', 'external', 'generated'])
+  const allowedDecisions = new Set(['allow', 'needs_review', 'block'])
+
+  function requireString(value, field) {
+    if (typeof value !== 'string' || value.trim() === '') errors.push(`${field} must be a non-empty string`)
+  }
+
+  if (receipt.schema !== INSTRUCTION_CONTEXT_AUDIT_SCHEMA) errors.push(`schema must be ${INSTRUCTION_CONTEXT_AUDIT_SCHEMA}`)
+  requireString(receipt.run_id, 'run_id')
+  requireString(receipt.generated_at, 'generated_at')
+  requireString(receipt.session_id_hash, 'session_id_hash')
+  if (!allowedDecisions.has(receipt.decision)) errors.push('decision must be allow, needs_review, or block')
+  if (receipt.privacy?.raw_instruction_text_included !== false) errors.push('privacy.raw_instruction_text_included must be false')
+  if (receipt.privacy?.raw_prompts_included !== false) errors.push('privacy.raw_prompts_included must be false')
+
+  const files = Array.isArray(receipt.instruction_files) ? receipt.instruction_files : []
+  const skills = Array.isArray(receipt.skills) ? receipt.skills : []
+  if (files.length === 0 && skills.length === 0) errors.push('receipt must include at least one instruction file or skill')
+
+  for (const [index, file] of files.entries()) {
+    const prefix = `instruction_files[${index}]`
+    requireString(file.path, `${prefix}.path`)
+    if (!allowedStatuses.has(file.status)) errors.push(`${prefix}.status must be captured, missing, ignored, or unreadable`)
+    if (file.status === 'captured') {
+      requireString(file.sha256, `${prefix}.sha256`)
+      if (!Number.isInteger(file.bytes) || file.bytes < 0) errors.push(`${prefix}.bytes must be a non-negative integer`)
+    }
+    if (!allowedReviewStates.has(file.review_state)) errors.push(`${prefix}.review_state must be reviewed, unreviewed, external, or generated`)
+    if (file.review_state === 'external') warnings.push(`${file.path || prefix} is externally influenced; gate command authority before acting on it`)
+    if (file.review_state === 'unreviewed') warnings.push(`${file.path || prefix} was active but unreviewed`)
+    if (file.stale === true) warnings.push(`${file.path || prefix} is marked stale`)
+  }
+
+  for (const [index, skill] of skills.entries()) {
+    const prefix = `skills[${index}]`
+    requireString(skill.name, `${prefix}.name`)
+    requireString(skill.source_ref, `${prefix}.source_ref`)
+    requireString(skill.metadata_sha256, `${prefix}.metadata_sha256`)
+    if (!allowedReviewStates.has(skill.review_state)) errors.push(`${prefix}.review_state must be reviewed, unreviewed, external, or generated`)
+    if (skill.loaded !== true && skill.loaded !== false) errors.push(`${prefix}.loaded must be boolean`)
+    if (skill.loaded && skill.review_state !== 'reviewed') warnings.push(`${skill.name || prefix} was loaded without reviewed metadata`)
+  }
+
+  if (receipt.git?.dirty === true) warnings.push('git working tree was dirty when instruction context was captured')
+  if (receipt.decision === 'allow' && warnings.length > 0) errors.push('decision cannot be allow while warnings are present')
+
+  return {
+    errors,
+    warnings,
+    summary: {
+      fileCount: files.length,
+      skillCount: skills.length,
+      warningCount: warnings.length,
+      decision: receipt.decision || 'unknown',
+    },
+  }
 }
 
 export function validateModuleBoundaryContractReceipt(contract, receipt) {

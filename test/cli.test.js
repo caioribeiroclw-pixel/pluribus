@@ -165,6 +165,35 @@ test('demo context-sufficiency-trace --pass --json reports machine-readable pass
   assert.equal(payload.summary.missed_required_file_rate, 0)
 })
 
+
+test('demo instruction-context-audit validates the packaged receipt', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'instruction-context-audit'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Pluribus demo: instruction-context audit receipt/)
+  assert.match(result.stdout, /3 files, 1 skills, 4 warnings, decision=needs_review/)
+  assert.match(result.stdout, /authority surfaces/)
+})
+
+test('demo instruction-context-audit --json reports machine-readable summary', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'instruction-context-audit', '--json'])
+
+  assert.equal(result.status, 0, result.stderr)
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.demo, 'instruction-context-audit')
+  assert.deepEqual(payload.summary, {
+    fileCount: 3,
+    skillCount: 1,
+    warningCount: 4,
+    decision: 'needs_review',
+  })
+})
+
 test('demo module-boundary-contract validates the packaged safe receipt', () => {
   const dir = tempProject()
 

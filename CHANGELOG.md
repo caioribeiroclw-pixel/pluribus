@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.44 - 2026-06-22
+
+- Added `pluribus demo instruction-context-audit`, a tiny npm-runnable receipt demo for hashing active `AGENTS.md`, `CLAUDE.md`, Cursor rules, Copilot instructions, and Skills while flagging stale, dirty, external, or unreviewed instruction authority surfaces before an agent writes.
+
 ## 0.3.43 - 2026-06-19
 
 - Added `pluribus demo module-boundary-contract`, a tiny npm-runnable pass/fail demo for checking whether an agent stayed inside explicit repo/module edit paths, import prefixes, and verifier boundaries before accepting a change.

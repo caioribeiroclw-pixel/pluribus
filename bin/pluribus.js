@@ -101,6 +101,8 @@ EXAMPLES
   pluribus demo context-sufficiency-trace --json
   pluribus demo module-boundary-contract
   pluribus demo module-boundary-contract --unsafe
+  pluribus demo instruction-context-audit
+  pluribus demo instruction-context-audit --json
 
 DOCS
   https://github.com/caioribeiroclw-pixel/pluribus

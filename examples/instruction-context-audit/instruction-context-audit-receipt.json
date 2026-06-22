@@ -1,0 +1,52 @@
+{
+  "schema": "pluribus.instruction_context_audit.v1",
+  "run_id": "instruction-context-audit-demo",
+  "generated_at": "2026-06-22T18:00:00Z",
+  "session_id_hash": "sha256:demo-session-redacted",
+  "git": {
+    "branch": "main",
+    "commit": "ec5e370",
+    "dirty": true
+  },
+  "instruction_files": [
+    {
+      "path": "AGENTS.md",
+      "status": "captured",
+      "sha256": "sha256:9c1f1d-demo-agents-md",
+      "bytes": 2140,
+      "review_state": "reviewed",
+      "stale": false
+    },
+    {
+      "path": "CLAUDE.md",
+      "status": "captured",
+      "sha256": "sha256:4e91b0-demo-claude-md",
+      "bytes": 3188,
+      "review_state": "unreviewed",
+      "stale": false
+    },
+    {
+      "path": ".cursor/rules/external-support.mdc",
+      "status": "captured",
+      "sha256": "sha256:b6dd76-demo-cursor-rule",
+      "bytes": 936,
+      "review_state": "external",
+      "stale": true
+    }
+  ],
+  "skills": [
+    {
+      "name": "deployment-helper",
+      "source_ref": "skills/deployment-helper/SKILL.md",
+      "metadata_sha256": "sha256:1f72bc-demo-skill-metadata",
+      "loaded": true,
+      "review_state": "reviewed"
+    }
+  ],
+  "privacy": {
+    "raw_instruction_text_included": false,
+    "raw_prompts_included": false,
+    "raw_tool_results_included": false
+  },
+  "decision": "needs_review"
+}
