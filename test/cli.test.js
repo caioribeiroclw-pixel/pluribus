@@ -194,6 +194,35 @@ test('demo instruction-context-audit --json reports machine-readable summary', (
   })
 })
 
+test('demo style-rules-sync previews generated tool targets', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'style-rules-sync'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Pluribus demo: style-rules sync/)
+  assert.match(result.stdout, /generated 4 tool files from 5 canonical rules/)
+  assert.match(result.stdout, /CLAUDE\.md/)
+  assert.match(result.stdout, /AGENTS\.md/)
+  assert.match(result.stdout, /copying a long style-rules file/)
+})
+
+test('demo style-rules-sync --json reports generated target hashes', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'style-rules-sync', '--json'])
+
+  assert.equal(result.status, 0, result.stderr)
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.demo, 'style-rules-sync')
+  assert.equal(payload.summary.tool_count, 4)
+  assert.equal(payload.summary.generated_file_count, 4)
+  assert.equal(payload.summary.canonical_rule_count, 5)
+  assert.match(payload.summary.source_sha256, /^sha256:[a-f0-9]{64}$/)
+  assert.equal(payload.summary.generated_files.some((file) => file.path === '.github/copilot-instructions.md'), true)
+})
+
 test('demo module-boundary-contract validates the packaged safe receipt', () => {
   const dir = tempProject()
 

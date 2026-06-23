@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.45 - 2026-06-23
+
+- Added `pluribus demo style-rules-sync`, a tiny npm-runnable demo for turning one canonical `pluribus.md` style-rules file into Claude Code, Cursor, Copilot, and OpenClaw target files without copy-paste drift.
+
 ## 0.3.44 - 2026-06-22
 
 - Added `pluribus demo instruction-context-audit`, a tiny npm-runnable receipt demo for hashing active `AGENTS.md`, `CLAUDE.md`, Cursor rules, Copilot instructions, and Skills while flagging stale, dirty, external, or unreviewed instruction authority surfaces before an agent writes.

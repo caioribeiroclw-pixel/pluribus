@@ -6,6 +6,9 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { createHash } from 'crypto'
 import { fileURLToPath } from 'url'
+import { BUILT_IN_SKILLS } from '../skills/built-in.js'
+import { parsePluribusFile } from '../utils/parser.js'
+import { renderTemplate } from '../utils/renderer.js'
 
 const DEFAULT_DEMO = 'skill-use-rate'
 const SKILL_USE_RATE_DEMO = 'skill-use-rate'
@@ -15,7 +18,8 @@ const TOOL_SURFACE_DIFF_DEMO = 'tool-surface-diff'
 const CONTEXT_SUFFICIENCY_TRACE_DEMO = 'context-sufficiency-trace'
 const MODULE_BOUNDARY_CONTRACT_DEMO = 'module-boundary-contract'
 const INSTRUCTION_CONTEXT_AUDIT_DEMO = 'instruction-context-audit'
-const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO]
+const STYLE_RULES_SYNC_DEMO = 'style-rules-sync'
+const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO]
 const SKILL_USE_RATE_SCHEMA = 'pluribus.skill_use_rate_receipt.v1'
 const MCP_AUDIT_RECEIPT_SCHEMA = 'pluribus.mcp_tool_call_audit_receipt.v1'
 const TOOL_SURFACE_DIFF_SCHEMA = 'pluribus.mcp_tool_surface_diff_receipt.v1'
@@ -44,11 +48,95 @@ export async function runDemo(args, positional = []) {
       return runModuleBoundaryContractDemo(args)
     case INSTRUCTION_CONTEXT_AUDIT_DEMO:
       return runInstructionContextAuditDemo(args)
+    case STYLE_RULES_SYNC_DEMO:
+      return runStyleRulesSyncDemo(args)
     default:
       console.error(`❌ Unknown demo: ${demoName}`)
       console.error(`   Available demos: ${AVAILABLE_DEMOS.join(', ')}`)
       process.exit(1)
   }
+}
+
+const STYLE_RULES_SYNC_SOURCE = `<!-- pluribus:tools: claude,cursor,openclaw,copilot -->
+
+# Identity
+
+I am a maintainer using one canonical style-rules file across agent coding tools.
+
+# Stack
+
+- Language: TypeScript
+- Runtime: Node.js 22 LTS
+- Package manager: npm
+
+# Conventions
+
+- Prefer small pure functions over hidden mutable state.
+- Use async/await; never mix .then() chains into business logic.
+- Keep domain logic out of CLI argument parsing.
+- Write regression tests next to the behavior that failed.
+- Update docs only when the behavior or user workflow changed.
+
+# Goals
+
+1. Keep Claude Code, Cursor, Copilot, and OpenClaw reading the same operating rules.
+2. Avoid copy-pasting a 200-line rules file between projects and forgetting one target.
+3. Make drift visible with generated-file headers that point back to pluribus.md.
+
+# Constraints
+
+- Never commit secrets, tokens, cookies, or private transcripts.
+- Never run destructive shell commands without an explicit human approval path.
+- Never treat generated tool files as the source of truth; edit pluribus.md instead.
+`
+
+function runStyleRulesSyncDemo(args) {
+  const source = STYLE_RULES_SYNC_SOURCE
+  const sections = parsePluribusFile(source)
+  const tools = ['claude', 'cursor', 'openclaw', 'copilot']
+  const generatedFiles = []
+
+  for (const toolId of tools) {
+    const skill = BUILT_IN_SKILLS[toolId]
+    const rendered = renderTemplate(skill.template, sections, 'pluribus.md')
+    for (const outputFile of skill.outputFiles) {
+      generatedFiles.push({
+        tool: toolId,
+        path: outputFile,
+        bytes: Buffer.byteLength(rendered, 'utf8'),
+        sha256: `sha256:${createHash('sha256').update(rendered).digest('hex')}`,
+      })
+    }
+  }
+
+  const summary = {
+    source: 'pluribus.md',
+    source_sha256: `sha256:${createHash('sha256').update(source).digest('hex')}`,
+    canonical_rule_count: 5,
+    tool_count: tools.length,
+    generated_file_count: generatedFiles.length,
+    generated_files: generatedFiles,
+  }
+
+  if (Boolean(args.json)) {
+    console.log(JSON.stringify({
+      ok: true,
+      demo: STYLE_RULES_SYNC_DEMO,
+      summary,
+    }, null, 2))
+    return
+  }
+
+  console.log('🧪 Pluribus demo: style-rules sync')
+  console.log('   Source: one canonical pluribus.md style-rules file')
+  console.log('')
+  console.log(`✅ generated ${generatedFiles.length} tool files from ${summary.canonical_rule_count} canonical rules`)
+  for (const file of generatedFiles) {
+    console.log(`   • [${file.tool}] ${file.path} (${file.bytes} bytes, ${file.sha256.slice(0, 19)}…)`)
+  }
+  console.log('')
+  console.log('Why this matters: copying a long style-rules file between projects and tools makes drift invisible. Keep the canonical rules in pluribus.md, generate each tool target, and audit the generated headers/digests when something diverges.')
+  console.log('Try it locally: pluribus init --tools claude,cursor,openclaw,copilot && pluribus sync --dry-run')
 }
 
 function readReceipt(receiptPath, label) {
