@@ -1,0 +1,71 @@
+{
+  "schema": "pluribus.context_budget_receipt.v1",
+  "run_id": "ctx-budget-demo-001",
+  "generated_at": "2026-06-24T01:00:00.000Z",
+  "agent": {
+    "name": "claude-code",
+    "session_id_hash": "sha256:2a412bdf4f1d8f34cf7af1d0e0f3a0b4045d0678f3ef66a9c902fdf8d88317f0",
+    "turn_id_hash": "sha256:cd54fc46b77a92b8be7df2f39aa54649b1c592af2f6eb2bb86f8626749f4f85a"
+  },
+  "question": "why_did_this_turn_burn_context_budget",
+  "context_window": {
+    "model_window_bucket": "over_100k",
+    "startup_token_bucket": "50k-100k",
+    "remaining_token_bucket": "10k-25k"
+  },
+  "loaded_sources": [
+    {
+      "kind": "instruction_file",
+      "role": "repo_rules",
+      "source_hash": "sha256:7fb0fc0a5a51420f86a01a1ab96997a8a4f50adf33d0ff2f7a4f51f0a9c88e63",
+      "token_bucket": "1k-2k",
+      "reloaded_next_turn": true
+    },
+    {
+      "kind": "memory_summary",
+      "role": "project_open_loops",
+      "source_hash": "sha256:e4f8c11a42473872e83c958a66c1b8f9b69fcbd424a9f12391f1f5e6c6b23b17",
+      "token_bucket": "2k-4k",
+      "summary_age_bucket": "over_120m",
+      "reloaded_next_turn": true
+    },
+    {
+      "kind": "code_search_result",
+      "role": "candidate_file_chunk",
+      "source_hash": "sha256:5011b9b32a0c9e85035cf48e97f4bd1ebd3efbbff606ee939944f28c9a0783d6",
+      "token_bucket": "4k-8k",
+      "reloaded_next_turn": false
+    }
+  ],
+  "suppressed_sources": [
+    {
+      "kind": "duplicate_instruction_file",
+      "reason": "duplicate_of_loaded_rule",
+      "source_hash": "sha256:f65ce7dbf8a3641c0e609b5fa2a7703882d81750f17380a6f6d3ba5178cb6d01",
+      "duplicate_of_hash": "sha256:7fb0fc0a5a51420f86a01a1ab96997a8a4f50adf33d0ff2f7a4f51f0a9c88e63",
+      "token_bucket": "1k-2k"
+    },
+    {
+      "kind": "stale_memory_summary",
+      "reason": "older_than_policy",
+      "source_hash": "sha256:903d640b88cc30ced8f4b0e43d7f09e2999f9ea7adf8e33e17f0ca4e26f0f5a8",
+      "token_bucket": "2k-4k"
+    }
+  ],
+  "tool_schema_budget": {
+    "available_count": 186,
+    "loaded_count": 4,
+    "deferred_count": 182,
+    "loaded_token_bucket": "10k-25k",
+    "deferred_token_bucket": "over_100k"
+  },
+  "privacy": {
+    "raw_prompt_included": false,
+    "raw_file_paths_included": false,
+    "raw_file_contents_included": false,
+    "raw_tool_schemas_included": false,
+    "raw_memory_text_included": false
+  },
+  "audit_gap": "receipt proves context-budget attribution and reload evidence, not semantic quality of the selected context",
+  "decision": "review_context_plan"
+}

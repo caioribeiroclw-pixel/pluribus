@@ -19,12 +19,14 @@ const CONTEXT_SUFFICIENCY_TRACE_DEMO = 'context-sufficiency-trace'
 const MODULE_BOUNDARY_CONTRACT_DEMO = 'module-boundary-contract'
 const INSTRUCTION_CONTEXT_AUDIT_DEMO = 'instruction-context-audit'
 const STYLE_RULES_SYNC_DEMO = 'style-rules-sync'
-const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO]
+const CONTEXT_BUDGET_RECEIPT_DEMO = 'context-budget-receipt'
+const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO]
 const SKILL_USE_RATE_SCHEMA = 'pluribus.skill_use_rate_receipt.v1'
 const MCP_AUDIT_RECEIPT_SCHEMA = 'pluribus.mcp_tool_call_audit_receipt.v1'
 const TOOL_SURFACE_DIFF_SCHEMA = 'pluribus.mcp_tool_surface_diff_receipt.v1'
 const MODULE_BOUNDARY_CONTRACT_SCHEMA = 'pluribus.module_boundary_contract.v1'
 const INSTRUCTION_CONTEXT_AUDIT_SCHEMA = 'pluribus.instruction_context_audit.v1'
+const CONTEXT_BUDGET_RECEIPT_SCHEMA = 'pluribus.context_budget_receipt.v1'
 
 /**
  * @param {Record<string, string | boolean>} args
@@ -50,6 +52,8 @@ export async function runDemo(args, positional = []) {
       return runInstructionContextAuditDemo(args)
     case STYLE_RULES_SYNC_DEMO:
       return runStyleRulesSyncDemo(args)
+    case CONTEXT_BUDGET_RECEIPT_DEMO:
+      return runContextBudgetReceiptDemo(args)
     default:
       console.error(`❌ Unknown demo: ${demoName}`)
       console.error(`   Available demos: ${AVAILABLE_DEMOS.join(', ')}`)
@@ -323,6 +327,10 @@ function bundledInstructionContextAuditReceiptPath() {
   return fileURLToPath(new URL('../../examples/instruction-context-audit/instruction-context-audit-receipt.json', import.meta.url))
 }
 
+function bundledContextBudgetReceiptPath() {
+  return fileURLToPath(new URL('../../examples/context-budget-receipts/context-budget-receipt.json', import.meta.url))
+}
+
 function runToolSurfaceDiffDemo(args) {
   const receiptPath = selectedReceiptPath(args, bundledToolSurfaceDiffReceiptPath())
   const receipt = readReceipt(receiptPath, 'tool-surface diff')
@@ -470,6 +478,133 @@ function runModuleBoundaryContractDemo(args) {
   }
 
   if (result.errors.length > 0) process.exit(1)
+}
+
+function runContextBudgetReceiptDemo(args) {
+  const receiptPath = selectedReceiptPath(args, bundledContextBudgetReceiptPath())
+  const receipt = readReceipt(receiptPath, 'context-budget')
+  const result = validateContextBudgetReceipt(receipt)
+
+  if (Boolean(args.json)) {
+    console.log(JSON.stringify({
+      ok: result.errors.length === 0,
+      demo: CONTEXT_BUDGET_RECEIPT_DEMO,
+      receipt: path.relative(process.cwd(), receiptPath) || receiptPath,
+      summary: result.summary,
+      warnings: result.warnings,
+      errors: result.errors,
+    }, null, 2))
+  } else {
+    console.log('🧪 Pluribus demo: context-budget receipt')
+    console.log(`   Receipt: ${path.relative(process.cwd(), receiptPath) || receiptPath}`)
+    console.log('')
+
+    if (result.errors.length === 0) {
+      console.log(`✅ context-budget receipt ok: ${result.summary.loadedSourceCount} loaded sources, ${result.summary.suppressedSourceCount} suppressed, ${result.summary.duplicateSuppressionCount} duplicate, ${result.summary.loadedToolSchemaCount}/${result.summary.availableToolSchemaCount} tool schemas loaded, decision=${result.summary.decision}`)
+      for (const warning of result.warnings) console.log(`   • ${warning}`)
+      console.log('')
+      console.log('Why this matters: /clear, subagents, CLAUDE.md, memory, and Tool Search are useful, but token-savings claims need evidence. Prove what entered context, what was duplicated/suppressed/deferred, how old summaries were, and whether the next turn reloaded the right sources — without logging raw prompts, paths, memory, or schemas.')
+      console.log('Try your own receipt: pluribus demo context-budget-receipt --receipt path/to/context-budget-receipt.json --json')
+    } else {
+      console.error('❌ context-budget receipt invalid:')
+      for (const error of result.errors) console.error(`   • ${error}`)
+    }
+  }
+
+  if (result.errors.length > 0) process.exit(1)
+}
+
+
+export function validateContextBudgetReceipt(receipt) {
+  const errors = []
+  const warnings = []
+  const allowedDecisions = new Set(['allow', 'review_context_plan', 'block'])
+
+  function requireString(value, field) {
+    if (typeof value !== 'string' || value.trim() === '') errors.push(`${field} must be a non-empty string`)
+  }
+  function requireBoolean(value, field) {
+    if (typeof value !== 'boolean') errors.push(`${field} must be boolean`)
+  }
+  function requireNonNegativeInteger(value, field) {
+    if (!Number.isInteger(value) || value < 0) errors.push(`${field} must be a non-negative integer`)
+  }
+
+  if (receipt.schema !== CONTEXT_BUDGET_RECEIPT_SCHEMA) errors.push(`schema must be ${CONTEXT_BUDGET_RECEIPT_SCHEMA}`)
+  requireString(receipt.run_id, 'run_id')
+  requireString(receipt.generated_at, 'generated_at')
+  requireString(receipt.agent?.name, 'agent.name')
+  requireString(receipt.agent?.session_id_hash, 'agent.session_id_hash')
+  requireString(receipt.agent?.turn_id_hash, 'agent.turn_id_hash')
+  requireString(receipt.question, 'question')
+  requireString(receipt.context_window?.model_window_bucket, 'context_window.model_window_bucket')
+  requireString(receipt.context_window?.startup_token_bucket, 'context_window.startup_token_bucket')
+  requireString(receipt.context_window?.remaining_token_bucket, 'context_window.remaining_token_bucket')
+
+  const loadedSources = Array.isArray(receipt.loaded_sources) ? receipt.loaded_sources : []
+  const suppressedSources = Array.isArray(receipt.suppressed_sources) ? receipt.suppressed_sources : []
+  if (loadedSources.length === 0) errors.push('loaded_sources must include at least one source')
+
+  let reloadedCount = 0
+  for (const [index, source] of loadedSources.entries()) {
+    const prefix = `loaded_sources[${index}]`
+    requireString(source.kind, `${prefix}.kind`)
+    requireString(source.role, `${prefix}.role`)
+    requireString(source.source_hash, `${prefix}.source_hash`)
+    requireString(source.token_bucket, `${prefix}.token_bucket`)
+    requireBoolean(source.reloaded_next_turn, `${prefix}.reloaded_next_turn`)
+    if (!String(source.source_hash || '').startsWith('sha256:')) errors.push(`${prefix}.source_hash must be a sha256: hash, not raw source text or path`)
+    if (source.reloaded_next_turn === true) reloadedCount++
+  }
+
+  let duplicateSuppressionCount = 0
+  for (const [index, source] of suppressedSources.entries()) {
+    const prefix = `suppressed_sources[${index}]`
+    requireString(source.kind, `${prefix}.kind`)
+    requireString(source.reason, `${prefix}.reason`)
+    requireString(source.source_hash, `${prefix}.source_hash`)
+    requireString(source.token_bucket, `${prefix}.token_bucket`)
+    if (!String(source.source_hash || '').startsWith('sha256:')) errors.push(`${prefix}.source_hash must be a sha256: hash`)
+    if (source.reason === 'duplicate_of_loaded_rule') {
+      duplicateSuppressionCount++
+      requireString(source.duplicate_of_hash, `${prefix}.duplicate_of_hash`)
+    }
+  }
+
+  requireNonNegativeInteger(receipt.tool_schema_budget?.available_count, 'tool_schema_budget.available_count')
+  requireNonNegativeInteger(receipt.tool_schema_budget?.loaded_count, 'tool_schema_budget.loaded_count')
+  requireNonNegativeInteger(receipt.tool_schema_budget?.deferred_count, 'tool_schema_budget.deferred_count')
+  requireString(receipt.tool_schema_budget?.loaded_token_bucket, 'tool_schema_budget.loaded_token_bucket')
+  requireString(receipt.tool_schema_budget?.deferred_token_bucket, 'tool_schema_budget.deferred_token_bucket')
+  if (Number.isInteger(receipt.tool_schema_budget?.available_count) && Number.isInteger(receipt.tool_schema_budget?.loaded_count) && Number.isInteger(receipt.tool_schema_budget?.deferred_count)) {
+    if (receipt.tool_schema_budget.loaded_count + receipt.tool_schema_budget.deferred_count !== receipt.tool_schema_budget.available_count) {
+      errors.push('tool_schema_budget.loaded_count + deferred_count must equal available_count')
+    }
+  }
+
+  if (receipt.privacy?.raw_prompt_included !== false) errors.push('privacy.raw_prompt_included must be false')
+  if (receipt.privacy?.raw_file_paths_included !== false) errors.push('privacy.raw_file_paths_included must be false')
+  if (receipt.privacy?.raw_file_contents_included !== false) errors.push('privacy.raw_file_contents_included must be false')
+  if (receipt.privacy?.raw_tool_schemas_included !== false) errors.push('privacy.raw_tool_schemas_included must be false')
+  if (receipt.privacy?.raw_memory_text_included !== false) errors.push('privacy.raw_memory_text_included must be false')
+  if (!allowedDecisions.has(receipt.decision)) errors.push('decision must be allow, review_context_plan, or block')
+  if (reloadedCount === 0) warnings.push('no loaded source was marked reloaded_next_turn=true; receipt cannot prove continuity after compaction/clear')
+  if (suppressedSources.length === 0) warnings.push('no suppressed sources recorded; receipt may not prove duplicate/deferred negative space')
+
+  return {
+    errors,
+    warnings,
+    summary: {
+      loadedSourceCount: loadedSources.length,
+      suppressedSourceCount: suppressedSources.length,
+      duplicateSuppressionCount,
+      reloadedNextTurnCount: reloadedCount,
+      availableToolSchemaCount: Number.isInteger(receipt.tool_schema_budget?.available_count) ? receipt.tool_schema_budget.available_count : 0,
+      loadedToolSchemaCount: Number.isInteger(receipt.tool_schema_budget?.loaded_count) ? receipt.tool_schema_budget.loaded_count : 0,
+      deferredToolSchemaCount: Number.isInteger(receipt.tool_schema_budget?.deferred_count) ? receipt.tool_schema_budget.deferred_count : 0,
+      decision: receipt.decision || 'unknown',
+    },
+  }
 }
 
 

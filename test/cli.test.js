@@ -223,6 +223,35 @@ test('demo style-rules-sync --json reports generated target hashes', () => {
   assert.equal(payload.summary.generated_files.some((file) => file.path === '.github/copilot-instructions.md'), true)
 })
 
+test('demo context-budget-receipt validates the packaged receipt', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'context-budget-receipt'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Pluribus demo: context-budget receipt/)
+  assert.match(result.stdout, /context-budget receipt ok: 3 loaded sources, 2 suppressed, 1 duplicate, 4\/186 tool schemas loaded/)
+  assert.match(result.stdout, /token-savings claims need evidence/)
+})
+
+test('demo context-budget-receipt --json reports budget summary', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'context-budget-receipt', '--json'])
+
+  assert.equal(result.status, 0, result.stderr)
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.demo, 'context-budget-receipt')
+  assert.equal(payload.summary.loadedSourceCount, 3)
+  assert.equal(payload.summary.suppressedSourceCount, 2)
+  assert.equal(payload.summary.duplicateSuppressionCount, 1)
+  assert.equal(payload.summary.reloadedNextTurnCount, 2)
+  assert.equal(payload.summary.availableToolSchemaCount, 186)
+  assert.equal(payload.summary.loadedToolSchemaCount, 4)
+  assert.equal(payload.summary.deferredToolSchemaCount, 182)
+})
+
 test('demo module-boundary-contract validates the packaged safe receipt', () => {
   const dir = tempProject()
 

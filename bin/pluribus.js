@@ -105,6 +105,8 @@ EXAMPLES
   pluribus demo instruction-context-audit --json
   pluribus demo style-rules-sync
   pluribus demo style-rules-sync --json
+  pluribus demo context-budget-receipt
+  pluribus demo context-budget-receipt --json
 
 DOCS
   https://github.com/caioribeiroclw-pixel/pluribus

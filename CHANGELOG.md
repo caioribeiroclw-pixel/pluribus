@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.46 - 2026-06-24
+
+- Added `pluribus demo context-budget-receipt`, a tiny npm-runnable demo for measuring what entered context, what was suppressed as duplicate/stale/deferred, how much tool-schema budget loaded, and whether sources reloaded after `/clear`/compaction without logging raw prompts, paths, memory, or schemas.
+
 ## 0.3.45 - 2026-06-23
 
 - Added `pluribus demo style-rules-sync`, a tiny npm-runnable demo for turning one canonical `pluribus.md` style-rules file into Claude Code, Cursor, Copilot, and OpenClaw target files without copy-paste drift.
