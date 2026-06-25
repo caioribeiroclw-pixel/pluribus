@@ -107,6 +107,8 @@ EXAMPLES
   pluribus demo style-rules-sync --json
   pluribus demo context-budget-receipt
   pluribus demo context-budget-receipt --json
+  pluribus demo company-memory-export-test
+  pluribus demo company-memory-export-test --json
 
 DOCS
   https://github.com/caioribeiroclw-pixel/pluribus

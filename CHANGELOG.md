@@ -4,6 +4,10 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.47 - 2026-06-25
+
+- Added `pluribus demo company-memory-export-test`, a tiny npm-runnable demo for checking whether organizational memory can be exported to another vendor/agent with active decisions, constraints, exceptions, owners, source freshness, and explicit omitted gaps without copying raw Slack history or relying on hidden model memory.
+
 ## 0.3.46 - 2026-06-24
 
 - Added `pluribus demo context-budget-receipt`, a tiny npm-runnable demo for measuring what entered context, what was suppressed as duplicate/stale/deferred, how much tool-schema budget loaded, and whether sources reloaded after `/clear`/compaction without logging raw prompts, paths, memory, or schemas.

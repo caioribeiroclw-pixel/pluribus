@@ -1,0 +1,95 @@
+{
+  "schema": "pluribus.company_memory_export_receipt.v1",
+  "run_id": "company-memory-export-demo-2026-06-25",
+  "generated_at": "2026-06-25T20:00:00Z",
+  "export_test": {
+    "question": "Can a new vendor or agent resume the operating memory without Slack history or hidden model memory?",
+    "decision": "review_required"
+  },
+  "source_system": {
+    "name": "Claude Tag workspace memory",
+    "vendor": "anthropic"
+  },
+  "target_agent": {
+    "name": "neutral coding/work agent",
+    "vendor": "vendor-neutral"
+  },
+  "privacy_boundary": {
+    "raw_chat_history_included": false,
+    "hidden_model_memory_required": false,
+    "hash_policy": "hashes_and_summaries_only"
+  },
+  "decisions": [
+    {
+      "id": "decision:billing-boundary",
+      "summary": "Usage-based billing copy must mention approval prompts before background agent spend.",
+      "status": "active",
+      "source_hash": "sha256:7b6ad4b0a3e8f9f188c9f32d6a44d1845ad3a9f0d71a52e0ce6896a0b0cf4478"
+    },
+    {
+      "id": "decision:support-router",
+      "summary": "Escalate enterprise SSO failures to support owner before asking customers to rerun setup.",
+      "status": "active",
+      "source_hash": "sha256:bdfdc2d3aa3a0ef41e35a3b33110fb90f203ad586698f96f6f2c9489cc8f4c6d"
+    }
+  ],
+  "active_constraints": [
+    {
+      "id": "constraint:no-private-transcripts",
+      "summary": "Do not export raw Slack threads, private DMs, support tickets, or customer secrets into the target agent.",
+      "owner_id": "owner:security",
+      "source_hash": "sha256:34f8af0f00f3e177f31d26f0aaab5b4ed1420879894ccbe264afc2bca594ac64"
+    },
+    {
+      "id": "constraint:source-freshness",
+      "summary": "Any pricing or account-policy claim older than 14 days must be marked stale and reviewed before action.",
+      "owner_id": "owner:revops",
+      "source_hash": "sha256:bd4f0e3f0a25f73ced923bbf549f8b43f8d92be43b1f6bbf355f81bf016edbbb"
+    }
+  ],
+  "exceptions": [
+    {
+      "id": "exception:pilot-copy-window",
+      "summary": "Pilot onboarding may use experimental copy for five named accounts only.",
+      "expires_at": "2026-07-01T00:00:00Z"
+    }
+  ],
+  "owners": [
+    {
+      "id": "owner:security",
+      "role": "security reviewer",
+      "contact_ref": "team/security"
+    },
+    {
+      "id": "owner:revops",
+      "role": "pricing and account policy owner",
+      "contact_ref": "team/revops"
+    }
+  ],
+  "sources": [
+    {
+      "id": "source:operating-decisions-log",
+      "kind": "decision-log",
+      "last_seen_at": "2026-06-25T18:22:00Z",
+      "freshness": "fresh"
+    },
+    {
+      "id": "source:pricing-policy",
+      "kind": "policy-doc",
+      "last_seen_at": "2026-06-10T09:15:00Z",
+      "freshness": "stale"
+    }
+  ],
+  "omitted_gaps": [
+    {
+      "kind": "private-thread",
+      "reason": "Contains customer-identifying support details; only the decision hash and summary were exported.",
+      "resume_instruction": "Ask owner:security for a scoped redacted excerpt before changing related policy."
+    },
+    {
+      "kind": "implicit-model-memory",
+      "reason": "No vendor-private memory can be inspected or transferred.",
+      "resume_instruction": "Treat any missing rationale as unknown; do not infer it from prior model behavior."
+    }
+  ]
+}

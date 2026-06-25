@@ -20,13 +20,15 @@ const MODULE_BOUNDARY_CONTRACT_DEMO = 'module-boundary-contract'
 const INSTRUCTION_CONTEXT_AUDIT_DEMO = 'instruction-context-audit'
 const STYLE_RULES_SYNC_DEMO = 'style-rules-sync'
 const CONTEXT_BUDGET_RECEIPT_DEMO = 'context-budget-receipt'
-const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO]
+const COMPANY_MEMORY_EXPORT_TEST_DEMO = 'company-memory-export-test'
+const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO, COMPANY_MEMORY_EXPORT_TEST_DEMO]
 const SKILL_USE_RATE_SCHEMA = 'pluribus.skill_use_rate_receipt.v1'
 const MCP_AUDIT_RECEIPT_SCHEMA = 'pluribus.mcp_tool_call_audit_receipt.v1'
 const TOOL_SURFACE_DIFF_SCHEMA = 'pluribus.mcp_tool_surface_diff_receipt.v1'
 const MODULE_BOUNDARY_CONTRACT_SCHEMA = 'pluribus.module_boundary_contract.v1'
 const INSTRUCTION_CONTEXT_AUDIT_SCHEMA = 'pluribus.instruction_context_audit.v1'
 const CONTEXT_BUDGET_RECEIPT_SCHEMA = 'pluribus.context_budget_receipt.v1'
+const COMPANY_MEMORY_EXPORT_RECEIPT_SCHEMA = 'pluribus.company_memory_export_receipt.v1'
 
 /**
  * @param {Record<string, string | boolean>} args
@@ -54,6 +56,8 @@ export async function runDemo(args, positional = []) {
       return runStyleRulesSyncDemo(args)
     case CONTEXT_BUDGET_RECEIPT_DEMO:
       return runContextBudgetReceiptDemo(args)
+    case COMPANY_MEMORY_EXPORT_TEST_DEMO:
+      return runCompanyMemoryExportTestDemo(args)
     default:
       console.error(`❌ Unknown demo: ${demoName}`)
       console.error(`   Available demos: ${AVAILABLE_DEMOS.join(', ')}`)
@@ -331,6 +335,10 @@ function bundledContextBudgetReceiptPath() {
   return fileURLToPath(new URL('../../examples/context-budget-receipts/context-budget-receipt.json', import.meta.url))
 }
 
+function bundledCompanyMemoryExportReceiptPath() {
+  return fileURLToPath(new URL('../../examples/company-memory-export-test/company-memory-export-receipt.json', import.meta.url))
+}
+
 function runToolSurfaceDiffDemo(args) {
   const receiptPath = selectedReceiptPath(args, bundledToolSurfaceDiffReceiptPath())
   const receipt = readReceipt(receiptPath, 'tool-surface diff')
@@ -512,6 +520,150 @@ function runContextBudgetReceiptDemo(args) {
   }
 
   if (result.errors.length > 0) process.exit(1)
+}
+
+function runCompanyMemoryExportTestDemo(args) {
+  const receiptPath = selectedReceiptPath(args, bundledCompanyMemoryExportReceiptPath())
+  const receipt = readReceipt(receiptPath, 'company-memory export')
+  const result = validateCompanyMemoryExportReceipt(receipt)
+
+  if (Boolean(args.json)) {
+    console.log(JSON.stringify({
+      ok: result.errors.length === 0,
+      demo: COMPANY_MEMORY_EXPORT_TEST_DEMO,
+      receipt: path.relative(process.cwd(), receiptPath) || receiptPath,
+      summary: result.summary,
+      warnings: result.warnings,
+      errors: result.errors,
+    }, null, 2))
+  } else {
+    console.log('🧪 Pluribus demo: company-memory export test')
+    console.log(`   Receipt: ${path.relative(process.cwd(), receiptPath) || receiptPath}`)
+    console.log('')
+
+    if (result.errors.length === 0) {
+      console.log(`✅ company-memory export receipt ok: ${result.summary.decisionCount} decisions, ${result.summary.constraintCount} constraints, ${result.summary.exceptionCount} exceptions, ${result.summary.ownerCount} owners, ${result.summary.omittedGapCount} omitted gaps, decision=${result.summary.decision}`)
+      for (const warning of result.warnings) console.log(`   • ${warning}`)
+      console.log('')
+      console.log('Why this matters: company memory becomes lock-in when another vendor/agent cannot resume from a neutral bundle. Prove exported decisions, active constraints, exceptions, owners, source freshness, and explicit “not exported” gaps without copying Slack history or hidden model memory.')
+      console.log('Try your own receipt: pluribus demo company-memory-export-test --receipt path/to/company-memory-export-receipt.json --json')
+    } else {
+      console.error('❌ company-memory export receipt invalid:')
+      for (const error of result.errors) console.error(`   • ${error}`)
+    }
+  }
+
+  if (result.errors.length > 0) process.exit(1)
+}
+
+
+export function validateCompanyMemoryExportReceipt(receipt) {
+  const errors = []
+  const warnings = []
+  const allowedDecisions = new Set(['portable', 'review_required', 'not_portable'])
+
+  function requireString(value, field) {
+    if (typeof value !== 'string' || value.trim() === '') errors.push(`${field} must be a non-empty string`)
+  }
+  function requireBoolean(value, field) {
+    if (typeof value !== 'boolean') errors.push(`${field} must be boolean`)
+  }
+  function requireArray(value, field) {
+    if (!Array.isArray(value) || value.length === 0) errors.push(`${field} must be a non-empty array`)
+  }
+
+  if (receipt.schema !== COMPANY_MEMORY_EXPORT_RECEIPT_SCHEMA) errors.push(`schema must be ${COMPANY_MEMORY_EXPORT_RECEIPT_SCHEMA}`)
+  requireString(receipt.run_id, 'run_id')
+  requireString(receipt.generated_at, 'generated_at')
+  requireString(receipt.export_test?.question, 'export_test.question')
+  requireString(receipt.export_test?.decision, 'export_test.decision')
+  requireString(receipt.source_system?.name, 'source_system.name')
+  requireString(receipt.source_system?.vendor, 'source_system.vendor')
+  requireString(receipt.target_agent?.name, 'target_agent.name')
+  requireString(receipt.target_agent?.vendor, 'target_agent.vendor')
+  requireBoolean(receipt.privacy_boundary?.raw_chat_history_included, 'privacy_boundary.raw_chat_history_included')
+  requireBoolean(receipt.privacy_boundary?.hidden_model_memory_required, 'privacy_boundary.hidden_model_memory_required')
+  requireString(receipt.privacy_boundary?.hash_policy, 'privacy_boundary.hash_policy')
+  requireArray(receipt.decisions, 'decisions')
+  requireArray(receipt.active_constraints, 'active_constraints')
+  requireArray(receipt.exceptions, 'exceptions')
+  requireArray(receipt.owners, 'owners')
+  requireArray(receipt.sources, 'sources')
+  requireArray(receipt.omitted_gaps, 'omitted_gaps')
+
+  if (!allowedDecisions.has(receipt.export_test?.decision)) {
+    errors.push(`export_test.decision must be one of ${[...allowedDecisions].join('|')}`)
+  }
+  if (receipt.privacy_boundary?.raw_chat_history_included !== false) {
+    errors.push('privacy_boundary.raw_chat_history_included must be false')
+  }
+  if (receipt.privacy_boundary?.hidden_model_memory_required !== false) {
+    errors.push('privacy_boundary.hidden_model_memory_required must be false')
+  }
+  if (!['hashes_and_summaries_only', 'hashes_only'].includes(receipt.privacy_boundary?.hash_policy)) {
+    errors.push('privacy_boundary.hash_policy must be hashes_and_summaries_only or hashes_only')
+  }
+
+  for (const [index, decision] of (receipt.decisions || []).entries()) {
+    const prefix = `decisions[${index}]`
+    requireString(decision.id, `${prefix}.id`)
+    requireString(decision.summary, `${prefix}.summary`)
+    requireString(decision.status, `${prefix}.status`)
+    requireString(decision.source_hash, `${prefix}.source_hash`)
+    if (!String(decision.source_hash || '').startsWith('sha256:')) errors.push(`${prefix}.source_hash must be sha256: hash`)
+  }
+  for (const [index, constraint] of (receipt.active_constraints || []).entries()) {
+    const prefix = `active_constraints[${index}]`
+    requireString(constraint.id, `${prefix}.id`)
+    requireString(constraint.summary, `${prefix}.summary`)
+    requireString(constraint.owner_id, `${prefix}.owner_id`)
+    requireString(constraint.source_hash, `${prefix}.source_hash`)
+  }
+  for (const [index, exception] of (receipt.exceptions || []).entries()) {
+    const prefix = `exceptions[${index}]`
+    requireString(exception.id, `${prefix}.id`)
+    requireString(exception.summary, `${prefix}.summary`)
+    requireString(exception.expires_at, `${prefix}.expires_at`)
+  }
+  for (const [index, owner] of (receipt.owners || []).entries()) {
+    const prefix = `owners[${index}]`
+    requireString(owner.id, `${prefix}.id`)
+    requireString(owner.role, `${prefix}.role`)
+    requireString(owner.contact_ref, `${prefix}.contact_ref`)
+  }
+  for (const [index, source] of (receipt.sources || []).entries()) {
+    const prefix = `sources[${index}]`
+    requireString(source.id, `${prefix}.id`)
+    requireString(source.kind, `${prefix}.kind`)
+    requireString(source.last_seen_at, `${prefix}.last_seen_at`)
+    requireString(source.freshness, `${prefix}.freshness`)
+    if (!['fresh', 'stale', 'unknown'].includes(source.freshness)) errors.push(`${prefix}.freshness must be fresh|stale|unknown`)
+  }
+  for (const [index, gap] of (receipt.omitted_gaps || []).entries()) {
+    const prefix = `omitted_gaps[${index}]`
+    requireString(gap.kind, `${prefix}.kind`)
+    requireString(gap.reason, `${prefix}.reason`)
+    requireString(gap.resume_instruction, `${prefix}.resume_instruction`)
+  }
+
+  const staleSourceCount = (receipt.sources || []).filter((source) => source.freshness === 'stale' || source.freshness === 'unknown').length
+  if (staleSourceCount > 0) warnings.push(`${staleSourceCount} source freshness value is stale or unknown; target agent should review before acting`)
+  if ((receipt.omitted_gaps || []).length === 0) warnings.push('no omitted gaps recorded; export test may be hiding negative space')
+
+  return {
+    errors,
+    warnings,
+    summary: {
+      decision: receipt.export_test?.decision || 'unknown',
+      decisionCount: Array.isArray(receipt.decisions) ? receipt.decisions.length : 0,
+      constraintCount: Array.isArray(receipt.active_constraints) ? receipt.active_constraints.length : 0,
+      exceptionCount: Array.isArray(receipt.exceptions) ? receipt.exceptions.length : 0,
+      ownerCount: Array.isArray(receipt.owners) ? receipt.owners.length : 0,
+      sourceCount: Array.isArray(receipt.sources) ? receipt.sources.length : 0,
+      omittedGapCount: Array.isArray(receipt.omitted_gaps) ? receipt.omitted_gaps.length : 0,
+      staleSourceCount,
+    },
+  }
 }
 
 

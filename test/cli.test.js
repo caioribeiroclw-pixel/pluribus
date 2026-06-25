@@ -252,6 +252,36 @@ test('demo context-budget-receipt --json reports budget summary', () => {
   assert.equal(payload.summary.deferredToolSchemaCount, 182)
 })
 
+test('demo company-memory-export-test validates the packaged receipt', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'company-memory-export-test'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Pluribus demo: company-memory export test/)
+  assert.match(result.stdout, /company-memory export receipt ok: 2 decisions, 2 constraints, 1 exceptions, 2 owners, 2 omitted gaps/)
+  assert.match(result.stdout, /company memory becomes lock-in/)
+})
+
+test('demo company-memory-export-test --json reports export summary', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'company-memory-export-test', '--json'])
+
+  assert.equal(result.status, 0, result.stderr)
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.demo, 'company-memory-export-test')
+  assert.equal(payload.summary.decision, 'review_required')
+  assert.equal(payload.summary.decisionCount, 2)
+  assert.equal(payload.summary.constraintCount, 2)
+  assert.equal(payload.summary.exceptionCount, 1)
+  assert.equal(payload.summary.ownerCount, 2)
+  assert.equal(payload.summary.sourceCount, 2)
+  assert.equal(payload.summary.omittedGapCount, 2)
+  assert.equal(payload.summary.staleSourceCount, 1)
+})
+
 test('demo module-boundary-contract validates the packaged safe receipt', () => {
   const dir = tempProject()
 
