@@ -1,0 +1,59 @@
+{
+  "schema": "pluribus.shared_state_write_preflight.v1",
+  "run_id": "shared-state-preflight-demo",
+  "generated_at": "2026-06-26T23:00:00Z",
+  "store": {
+    "name": "statey-like-mcp-store",
+    "workspace_hash": "sha256:8ac6f4b3a2b7d17a5d2b4e1bce6f0d6c7c5f4e3d2a1b09876543210fedcba987",
+    "environment": "team-prod"
+  },
+  "actor": {
+    "client": "Claude Code",
+    "agent_id_hash": "sha256:31f2b4cc6de442180f1a37ca9e21f2f297d1f03f3f143aa6b664a56fd1aa124a",
+    "human_id_hash": "sha256:0af8152b11b3c4204aaefc5d1c7a0953d832e0c4e1fa7debe7902d44a5a13a11"
+  },
+  "write_request": {
+    "operation": "record_update",
+    "collection": "customer_tickets",
+    "record_id_hash": "sha256:4c0ffee7b6e9f3b5d2ac71714b9f2c70fbff9e53f9911a8f3a14f0d0d1b2c3d4",
+    "reason": "update triage status after support-agent classified a customer issue"
+  },
+  "authorization": {
+    "decision": "allow",
+    "policy_version": "write-policy-2026-06-26",
+    "allowed_collections": ["customer_tickets", "support_notes"],
+    "write_mode": "read_write",
+    "requires_human_confirmation": false,
+    "idempotency_key": "support-triage-2026-06-26-ticket-hash",
+    "concurrency_token_present": true
+  },
+  "risk_controls": {
+    "prompt_injection_scan": "passed_no_tool_override_language",
+    "raw_prompt_logged": false,
+    "secrets_detected": false,
+    "schema_migration_diff_present": false,
+    "trigger_disabled_by_default": true
+  },
+  "data_boundary": {
+    "raw_record_included": false,
+    "field_shape": [
+      { "field": "status", "type": "enum", "value_hash": "sha256:2f4a0d1d5f9ed4d5b313b0a8dc8e9f2f6007dcdfc4cb6b4f78f9c2a5f85c67c1" },
+      { "field": "priority", "type": "enum", "value_hash": "sha256:53b76d9f8a09972b6f3bdf457f0e57e9f4e520d032c7fd76f5fd26f88f978a24" }
+    ],
+    "omitted_fields": [
+      { "field": "customer_email", "reason": "PII not needed for preflight" },
+      { "field": "raw_support_thread", "reason": "private content; store hash in audit log only" }
+    ]
+  },
+  "provenance": {
+    "source_refs": [
+      { "kind": "tool_result_hash", "ref": "sha256:7a20c2cc1f6d9bc7b5a8b4d1c0c8f73e17e6cc7e2d2f6a2cdb9f3b7d8a9c0e11" },
+      { "kind": "policy_doc", "ref": "support-write-policy#customer_tickets" }
+    ]
+  },
+  "expected_audit_event": {
+    "will_log": true,
+    "causation_id": "agent-turn-2026-06-26T23:00Z-hash",
+    "rollback_hint": "restore previous record_version using optimistic concurrency token"
+  }
+}

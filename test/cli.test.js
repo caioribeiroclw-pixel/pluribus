@@ -282,6 +282,36 @@ test('demo company-memory-export-test --json reports export summary', () => {
   assert.equal(payload.summary.staleSourceCount, 1)
 })
 
+test('demo shared-state-write-preflight validates the packaged receipt', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'shared-state-write-preflight'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Pluribus demo: shared-state write preflight/)
+  assert.match(result.stdout, /shared-state write preflight ok: decision=allow, operation=record_update, 5 controls checked/)
+  assert.match(result.stdout, /shared MCP databases let any connected agent write durable team state/)
+})
+
+test('demo shared-state-write-preflight --json reports write boundary summary', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'shared-state-write-preflight', '--json'])
+
+  assert.equal(result.status, 0, result.stderr)
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.demo, 'shared-state-write-preflight')
+  assert.equal(payload.summary.decision, 'allow')
+  assert.equal(payload.summary.operation, 'record_update')
+  assert.equal(payload.summary.collection, 'customer_tickets')
+  assert.equal(payload.summary.controlCount, 5)
+  assert.equal(payload.summary.rawRecordIncluded, false)
+  assert.equal(payload.summary.omittedFieldCount, 2)
+  assert.equal(payload.summary.sourceRefCount, 2)
+  assert.equal(payload.summary.requiresHumanConfirmation, false)
+})
+
 test('demo module-boundary-contract validates the packaged safe receipt', () => {
   const dir = tempProject()
 

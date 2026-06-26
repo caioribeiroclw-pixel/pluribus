@@ -21,7 +21,8 @@ const INSTRUCTION_CONTEXT_AUDIT_DEMO = 'instruction-context-audit'
 const STYLE_RULES_SYNC_DEMO = 'style-rules-sync'
 const CONTEXT_BUDGET_RECEIPT_DEMO = 'context-budget-receipt'
 const COMPANY_MEMORY_EXPORT_TEST_DEMO = 'company-memory-export-test'
-const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO, COMPANY_MEMORY_EXPORT_TEST_DEMO]
+const SHARED_STATE_WRITE_PREFLIGHT_DEMO = 'shared-state-write-preflight'
+const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO, COMPANY_MEMORY_EXPORT_TEST_DEMO, SHARED_STATE_WRITE_PREFLIGHT_DEMO]
 const SKILL_USE_RATE_SCHEMA = 'pluribus.skill_use_rate_receipt.v1'
 const MCP_AUDIT_RECEIPT_SCHEMA = 'pluribus.mcp_tool_call_audit_receipt.v1'
 const TOOL_SURFACE_DIFF_SCHEMA = 'pluribus.mcp_tool_surface_diff_receipt.v1'
@@ -29,6 +30,7 @@ const MODULE_BOUNDARY_CONTRACT_SCHEMA = 'pluribus.module_boundary_contract.v1'
 const INSTRUCTION_CONTEXT_AUDIT_SCHEMA = 'pluribus.instruction_context_audit.v1'
 const CONTEXT_BUDGET_RECEIPT_SCHEMA = 'pluribus.context_budget_receipt.v1'
 const COMPANY_MEMORY_EXPORT_RECEIPT_SCHEMA = 'pluribus.company_memory_export_receipt.v1'
+const SHARED_STATE_WRITE_PREFLIGHT_SCHEMA = 'pluribus.shared_state_write_preflight.v1'
 
 /**
  * @param {Record<string, string | boolean>} args
@@ -58,6 +60,8 @@ export async function runDemo(args, positional = []) {
       return runContextBudgetReceiptDemo(args)
     case COMPANY_MEMORY_EXPORT_TEST_DEMO:
       return runCompanyMemoryExportTestDemo(args)
+    case SHARED_STATE_WRITE_PREFLIGHT_DEMO:
+      return runSharedStateWritePreflightDemo(args)
     default:
       console.error(`❌ Unknown demo: ${demoName}`)
       console.error(`   Available demos: ${AVAILABLE_DEMOS.join(', ')}`)
@@ -339,6 +343,10 @@ function bundledCompanyMemoryExportReceiptPath() {
   return fileURLToPath(new URL('../../examples/company-memory-export-test/company-memory-export-receipt.json', import.meta.url))
 }
 
+function bundledSharedStateWritePreflightReceiptPath() {
+  return fileURLToPath(new URL('../../examples/shared-state-write-preflight/shared-state-write-preflight-receipt.json', import.meta.url))
+}
+
 function runToolSurfaceDiffDemo(args) {
   const receiptPath = selectedReceiptPath(args, bundledToolSurfaceDiffReceiptPath())
   const receipt = readReceipt(receiptPath, 'tool-surface diff')
@@ -522,6 +530,41 @@ function runContextBudgetReceiptDemo(args) {
   if (result.errors.length > 0) process.exit(1)
 }
 
+
+function runSharedStateWritePreflightDemo(args) {
+  const receiptPath = selectedReceiptPath(args, bundledSharedStateWritePreflightReceiptPath())
+  const receipt = readReceipt(receiptPath, 'shared-state write preflight')
+  const result = validateSharedStateWritePreflightReceipt(receipt)
+
+  if (Boolean(args.json)) {
+    console.log(JSON.stringify({
+      ok: result.errors.length === 0,
+      demo: SHARED_STATE_WRITE_PREFLIGHT_DEMO,
+      receipt: path.relative(process.cwd(), receiptPath) || receiptPath,
+      summary: result.summary,
+      warnings: result.warnings,
+      errors: result.errors,
+    }, null, 2))
+  } else {
+    console.log('🧪 Pluribus demo: shared-state write preflight')
+    console.log(`   Receipt: ${path.relative(process.cwd(), receiptPath) || receiptPath}`)
+    console.log('')
+
+    if (result.errors.length === 0) {
+      console.log(`✅ shared-state write preflight ok: decision=${result.summary.decision}, operation=${result.summary.operation}, ${result.summary.controlCount} controls checked, raw_record_included=${result.summary.rawRecordIncluded}`)
+      for (const warning of result.warnings) console.log(`   • ${warning}`)
+      console.log('')
+      console.log('Why this matters: shared MCP databases let any connected agent write durable team state. Attribution after the fact is useful, but the safer boundary is a preflight that proves actor, collection, scope, policy decision, migration/trigger risk, concurrency, and omitted raw data before the write happens.')
+      console.log('Try your own receipt: pluribus demo shared-state-write-preflight --receipt path/to/shared-state-write-preflight-receipt.json --json')
+    } else {
+      console.error('❌ shared-state write preflight invalid:')
+      for (const error of result.errors) console.error(`   • ${error}`)
+    }
+  }
+
+  if (result.errors.length > 0) process.exit(1)
+}
+
 function runCompanyMemoryExportTestDemo(args) {
   const receiptPath = selectedReceiptPath(args, bundledCompanyMemoryExportReceiptPath())
   const receipt = readReceipt(receiptPath, 'company-memory export')
@@ -556,6 +599,98 @@ function runCompanyMemoryExportTestDemo(args) {
   if (result.errors.length > 0) process.exit(1)
 }
 
+
+
+export function validateSharedStateWritePreflightReceipt(receipt) {
+  const errors = []
+  const warnings = []
+  const allowedDecisions = new Set(['allow', 'review_required', 'block'])
+  const allowedOperations = new Set(['collection_create', 'record_create', 'record_update', 'schema_migration', 'trigger_create'])
+
+  function requireString(value, field) {
+    if (typeof value !== 'string' || value.trim() === '') errors.push(`${field} must be a non-empty string`)
+  }
+  function requireBoolean(value, field) {
+    if (typeof value !== 'boolean') errors.push(`${field} must be boolean`)
+  }
+  function requireArray(value, field) {
+    if (!Array.isArray(value) || value.length === 0) errors.push(`${field} must be a non-empty array`)
+  }
+
+  if (receipt.schema !== SHARED_STATE_WRITE_PREFLIGHT_SCHEMA) errors.push(`schema must be ${SHARED_STATE_WRITE_PREFLIGHT_SCHEMA}`)
+  requireString(receipt.run_id, 'run_id')
+  requireString(receipt.generated_at, 'generated_at')
+  requireString(receipt.store?.name, 'store.name')
+  requireString(receipt.store?.workspace_hash, 'store.workspace_hash')
+  requireString(receipt.store?.environment, 'store.environment')
+  requireString(receipt.actor?.client, 'actor.client')
+  requireString(receipt.actor?.agent_id_hash, 'actor.agent_id_hash')
+  requireString(receipt.write_request?.operation, 'write_request.operation')
+  requireString(receipt.write_request?.collection, 'write_request.collection')
+  requireString(receipt.write_request?.reason, 'write_request.reason')
+  requireString(receipt.authorization?.decision, 'authorization.decision')
+  requireString(receipt.authorization?.policy_version, 'authorization.policy_version')
+  requireArray(receipt.authorization?.allowed_collections, 'authorization.allowed_collections')
+  requireString(receipt.authorization?.write_mode, 'authorization.write_mode')
+  requireString(receipt.authorization?.idempotency_key, 'authorization.idempotency_key')
+  requireBoolean(receipt.authorization?.requires_human_confirmation, 'authorization.requires_human_confirmation')
+  requireBoolean(receipt.authorization?.concurrency_token_present, 'authorization.concurrency_token_present')
+  requireString(receipt.risk_controls?.prompt_injection_scan, 'risk_controls.prompt_injection_scan')
+  requireBoolean(receipt.risk_controls?.raw_prompt_logged, 'risk_controls.raw_prompt_logged')
+  requireBoolean(receipt.risk_controls?.secrets_detected, 'risk_controls.secrets_detected')
+  requireBoolean(receipt.risk_controls?.schema_migration_diff_present, 'risk_controls.schema_migration_diff_present')
+  requireBoolean(receipt.risk_controls?.trigger_disabled_by_default, 'risk_controls.trigger_disabled_by_default')
+  requireBoolean(receipt.data_boundary?.raw_record_included, 'data_boundary.raw_record_included')
+  requireArray(receipt.data_boundary?.field_shape, 'data_boundary.field_shape')
+  requireArray(receipt.data_boundary?.omitted_fields, 'data_boundary.omitted_fields')
+  requireArray(receipt.provenance?.source_refs, 'provenance.source_refs')
+  requireBoolean(receipt.expected_audit_event?.will_log, 'expected_audit_event.will_log')
+  requireString(receipt.expected_audit_event?.causation_id, 'expected_audit_event.causation_id')
+  requireString(receipt.expected_audit_event?.rollback_hint, 'expected_audit_event.rollback_hint')
+
+  if (!allowedDecisions.has(receipt.authorization?.decision)) errors.push(`authorization.decision must be one of ${[...allowedDecisions].join('|')}`)
+  if (!allowedOperations.has(receipt.write_request?.operation)) errors.push(`write_request.operation must be one of ${[...allowedOperations].join('|')}`)
+  if (!['read_only', 'read_write', 'append_only'].includes(receipt.authorization?.write_mode)) errors.push('authorization.write_mode must be read_only, read_write, or append_only')
+  if (receipt.data_boundary?.raw_record_included !== false) errors.push('data_boundary.raw_record_included must be false')
+  if (receipt.risk_controls?.raw_prompt_logged !== false) errors.push('risk_controls.raw_prompt_logged must be false')
+  if (receipt.risk_controls?.secrets_detected !== false) errors.push('risk_controls.secrets_detected must be false')
+  if (receipt.expected_audit_event?.will_log !== true) errors.push('expected_audit_event.will_log must be true')
+  if (!String(receipt.store?.workspace_hash || '').startsWith('sha256:')) errors.push('store.workspace_hash must be a sha256: hash')
+  if (!String(receipt.actor?.agent_id_hash || '').startsWith('sha256:')) errors.push('actor.agent_id_hash must be a sha256: hash')
+
+  if (!receipt.authorization?.allowed_collections?.includes(receipt.write_request?.collection)) {
+    errors.push('authorization.allowed_collections must include write_request.collection')
+  }
+  if (receipt.authorization?.decision === 'allow' && receipt.authorization?.requires_human_confirmation) {
+    warnings.push('decision is allow but requires_human_confirmation is true; caller should pause for human approval')
+  }
+  if (['schema_migration', 'trigger_create'].includes(receipt.write_request?.operation) && !receipt.authorization?.requires_human_confirmation) {
+    errors.push('schema migrations and trigger creation must require human confirmation')
+  }
+  if (receipt.write_request?.operation === 'schema_migration' && receipt.risk_controls?.schema_migration_diff_present !== true) {
+    errors.push('schema_migration requires risk_controls.schema_migration_diff_present=true')
+  }
+  if (receipt.write_request?.operation === 'trigger_create' && receipt.risk_controls?.trigger_disabled_by_default !== true) {
+    errors.push('trigger_create requires risk_controls.trigger_disabled_by_default=true')
+  }
+  if (!receipt.authorization?.concurrency_token_present) warnings.push('no concurrency token present; concurrent agent writes may race')
+  if ((receipt.data_boundary?.omitted_fields || []).length === 0) warnings.push('no omitted fields recorded; preflight may not prove privacy negative space')
+
+  return {
+    errors,
+    warnings,
+    summary: {
+      decision: receipt.authorization?.decision || 'unknown',
+      operation: receipt.write_request?.operation || 'unknown',
+      collection: receipt.write_request?.collection || 'unknown',
+      controlCount: ['prompt_injection_scan', 'raw_prompt_logged', 'secrets_detected', 'schema_migration_diff_present', 'trigger_disabled_by_default'].filter((key) => Object.prototype.hasOwnProperty.call(receipt.risk_controls || {}, key)).length,
+      rawRecordIncluded: receipt.data_boundary?.raw_record_included,
+      omittedFieldCount: Array.isArray(receipt.data_boundary?.omitted_fields) ? receipt.data_boundary.omitted_fields.length : 0,
+      sourceRefCount: Array.isArray(receipt.provenance?.source_refs) ? receipt.provenance.source_refs.length : 0,
+      requiresHumanConfirmation: receipt.authorization?.requires_human_confirmation,
+    },
+  }
+}
 
 export function validateCompanyMemoryExportReceipt(receipt) {
   const errors = []

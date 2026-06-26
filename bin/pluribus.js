@@ -109,6 +109,8 @@ EXAMPLES
   pluribus demo context-budget-receipt --json
   pluribus demo company-memory-export-test
   pluribus demo company-memory-export-test --json
+  pluribus demo shared-state-write-preflight
+  pluribus demo shared-state-write-preflight --json
 
 DOCS
   https://github.com/caioribeiroclw-pixel/pluribus
