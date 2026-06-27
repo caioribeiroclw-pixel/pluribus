@@ -312,6 +312,36 @@ test('demo shared-state-write-preflight --json reports write boundary summary', 
   assert.equal(payload.summary.requiresHumanConfirmation, false)
 })
 
+test('demo cross-client-token-ledger validates the packaged receipt', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'cross-client-token-ledger'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Pluribus demo: cross-client token ledger/)
+  assert.match(result.stdout, /cross-client token ledger ok: 2 clients compared, ratio=11\.62x, decision=investigate_bridge/)
+  assert.match(result.stdout, /agent bridges can show the same visible prompt/)
+})
+
+test('demo cross-client-token-ledger --json reports bridge accounting summary', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'cross-client-token-ledger', '--json'])
+
+  assert.equal(result.status, 0, result.stderr)
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.demo, 'cross-client-token-ledger')
+  assert.equal(payload.summary.decision, 'investigate_bridge')
+  assert.equal(payload.summary.clientCount, 2)
+  assert.equal(payload.summary.baselineClient, 'cursor-native')
+  assert.equal(payload.summary.variantClient, 'zed-through-cursor-acp')
+  assert.equal(payload.summary.baselineTotalTokens, 18450)
+  assert.equal(payload.summary.variantTotalTokens, 214300)
+  assert.equal(payload.summary.totalTokenRatio, 11.62)
+  assert.equal(payload.summary.variantFinalDiffLines, 42)
+})
+
 test('demo module-boundary-contract validates the packaged safe receipt', () => {
   const dir = tempProject()
 

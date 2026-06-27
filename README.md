@@ -411,6 +411,7 @@ If you've felt this pain, tell me about your setup. What tools do you use? How d
 - [MCP Memory Handoff](docs/memory-mcp-handoff.md) — demo for keeping memory recall/store protocols aligned across tool-specific instruction files
 - [Company-memory Export Test](docs/company-memory-export-test.md) — npm-runnable receipt demo for checking whether team/Slack/vendor memory can move to another agent without raw chat history or hidden model memory
 - [Shared-state Write Preflight](docs/shared-state-write-preflight.md) — GitHub-runnable receipt demo for proving a shared MCP database write is scoped, authorized, concurrency-safe, and privacy-bounded before mutation
+- [Cross-client Token Ledger](docs/cross-client-token-ledger.md) — GitHub-runnable receipt demo for comparing Cursor-native vs Zed/ACP or other client bridges without logging raw prompts or files
 - [Task-scoped MCP Config Receipt](examples/task-scoped-mcp-config/) — generate a minimal `--mcp-config` plus selected/withheld server receipt for MCP context-bloat reviews
 - [Instruction-context Audit Receipt](examples/instruction-context-audit/) — hash active instruction files/skills and flag stale, dirty, external, or unreviewed authority surfaces before an agent writes
 - [MCP Tool Visibility Receipts](docs/mcp-tool-visibility-receipts.md) — checklist for debugging healthy MCP servers whose tools do not appear in the agent client catalog

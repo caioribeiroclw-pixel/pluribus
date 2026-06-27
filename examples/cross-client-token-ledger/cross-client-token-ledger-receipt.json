@@ -1,0 +1,122 @@
+{
+  "schema": "pluribus.cross_client_token_ledger.v1",
+  "run_id": "cursor-zed-acp-ledger-demo-2026-06-27",
+  "generated_at": "2026-06-27T22:00:00Z",
+  "comparison": {
+    "claim": "same visible refactor prompt costs much more through a client bridge than through the native client",
+    "baseline_client": "cursor-native",
+    "variant_client": "zed-through-cursor-acp"
+  },
+  "decision": "investigate_bridge",
+  "runs": [
+    {
+      "client": "cursor-native",
+      "bridge": "none",
+      "model": "composer-2.5",
+      "composer_mode": "normal",
+      "chat_state": "fresh_chat",
+      "visible_prompt_hash": "sha256:9f5b13f6c08d7ef4246a210f61e8488d7358efb0b76c0865af05a1a0c7c6d9a4",
+      "repo_fixture_hash": "sha256:b5f5b1687069d6d17984ba06b3112a5501e725b7fb81cb2751d4d2c3a831b6f3",
+      "auto_attached_files": [
+        {
+          "source_hash": "sha256:4c0606b2079ebe98b7cb042b2b3a0ba2f90678d483258c2471efac7b9f3a4d2a",
+          "reason": "active_editor_file",
+          "token_estimate": 820
+        }
+      ],
+      "tool_schemas": {
+        "exposed_count": 8,
+        "loaded_count": 8,
+        "token_estimate": 2400,
+        "cache_status": "hit"
+      },
+      "input": {
+        "visible_prompt_tokens": 310,
+        "hidden_context_tokens_estimate": 3220,
+        "cacheable_input_tokens": 3500,
+        "uncached_input_tokens": 680
+      },
+      "activity": {
+        "tool_call_count": 4,
+        "file_read_count": 3,
+        "changed_file_count": 1,
+        "final_diff_lines": 42
+      },
+      "usage": {
+        "input_tokens": 14210,
+        "output_tokens": 4240,
+        "total_tokens": 18450,
+        "quota_percent": 1.7
+      },
+      "privacy": {
+        "raw_prompt_logged": false,
+        "raw_file_content_logged": false,
+        "omitted_fields": [
+          "raw_prompt",
+          "file_contents",
+          "account_id"
+        ]
+      }
+    },
+    {
+      "client": "zed-through-cursor-acp",
+      "bridge": "cursor-acp",
+      "model": "composer-2.5",
+      "composer_mode": "normal",
+      "chat_state": "fresh_chat",
+      "visible_prompt_hash": "sha256:9f5b13f6c08d7ef4246a210f61e8488d7358efb0b76c0865af05a1a0c7c6d9a4",
+      "repo_fixture_hash": "sha256:b5f5b1687069d6d17984ba06b3112a5501e725b7fb81cb2751d4d2c3a831b6f3",
+      "auto_attached_files": [
+        {
+          "source_hash": "sha256:4c0606b2079ebe98b7cb042b2b3a0ba2f90678d483258c2471efac7b9f3a4d2a",
+          "reason": "active_editor_file",
+          "token_estimate": 820
+        },
+        {
+          "source_hash": "sha256:e4b08a8dd2dd2b92b6b69ebbf8505c2d6180eb46159e8ad3997cf02e1f7649b9",
+          "reason": "workspace_auto_attach",
+          "token_estimate": 38100
+        },
+        {
+          "source_hash": "sha256:f2b6f1721177b940a46f476cf21dd110e5d805b32c2fb9ff1e583a3a07f2cf40",
+          "reason": "bridge_session_summary",
+          "token_estimate": 12400
+        }
+      ],
+      "tool_schemas": {
+        "exposed_count": 42,
+        "loaded_count": 42,
+        "token_estimate": 35600,
+        "cache_status": "miss"
+      },
+      "input": {
+        "visible_prompt_tokens": 310,
+        "hidden_context_tokens_estimate": 122100,
+        "cacheable_input_tokens": 0,
+        "uncached_input_tokens": 158010
+      },
+      "activity": {
+        "tool_call_count": 19,
+        "file_read_count": 31,
+        "changed_file_count": 1,
+        "final_diff_lines": 42
+      },
+      "usage": {
+        "input_tokens": 197800,
+        "output_tokens": 16500,
+        "total_tokens": 214300,
+        "quota_percent": 19.8
+      },
+      "privacy": {
+        "raw_prompt_logged": false,
+        "raw_file_content_logged": false,
+        "omitted_fields": [
+          "raw_prompt",
+          "file_contents",
+          "account_id",
+          "repo_path"
+        ]
+      }
+    }
+  ]
+}

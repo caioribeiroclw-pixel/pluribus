@@ -4,6 +4,8 @@
 
 All notable changes to Pluribus are documented here.
 
+- Added `pluribus demo cross-client-token-ledger`, a GitHub-runnable demo for comparing native-client vs bridge-client token usage by separating visible prompt, hidden context, tool schemas, cache status, file reads, final diff size, and privacy omissions.
+
 ## 0.3.48 - 2026-06-27
 
 - Added `pluribus demo shared-state-write-preflight`, a GitHub-runnable demo for checking whether a shared MCP database / agent-writable system of record can prove actor scope, collection operation, policy decision, concurrency, omitted private fields, source refs, and expected audit event before durable mutation.

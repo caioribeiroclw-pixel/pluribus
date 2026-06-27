@@ -111,6 +111,8 @@ EXAMPLES
   pluribus demo company-memory-export-test --json
   pluribus demo shared-state-write-preflight
   pluribus demo shared-state-write-preflight --json
+  pluribus demo cross-client-token-ledger
+  pluribus demo cross-client-token-ledger --json
 
 DOCS
   https://github.com/caioribeiroclw-pixel/pluribus

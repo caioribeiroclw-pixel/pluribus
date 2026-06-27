@@ -22,7 +22,8 @@ const STYLE_RULES_SYNC_DEMO = 'style-rules-sync'
 const CONTEXT_BUDGET_RECEIPT_DEMO = 'context-budget-receipt'
 const COMPANY_MEMORY_EXPORT_TEST_DEMO = 'company-memory-export-test'
 const SHARED_STATE_WRITE_PREFLIGHT_DEMO = 'shared-state-write-preflight'
-const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO, COMPANY_MEMORY_EXPORT_TEST_DEMO, SHARED_STATE_WRITE_PREFLIGHT_DEMO]
+const CROSS_CLIENT_TOKEN_LEDGER_DEMO = 'cross-client-token-ledger'
+const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO, COMPANY_MEMORY_EXPORT_TEST_DEMO, SHARED_STATE_WRITE_PREFLIGHT_DEMO, CROSS_CLIENT_TOKEN_LEDGER_DEMO]
 const SKILL_USE_RATE_SCHEMA = 'pluribus.skill_use_rate_receipt.v1'
 const MCP_AUDIT_RECEIPT_SCHEMA = 'pluribus.mcp_tool_call_audit_receipt.v1'
 const TOOL_SURFACE_DIFF_SCHEMA = 'pluribus.mcp_tool_surface_diff_receipt.v1'
@@ -31,6 +32,7 @@ const INSTRUCTION_CONTEXT_AUDIT_SCHEMA = 'pluribus.instruction_context_audit.v1'
 const CONTEXT_BUDGET_RECEIPT_SCHEMA = 'pluribus.context_budget_receipt.v1'
 const COMPANY_MEMORY_EXPORT_RECEIPT_SCHEMA = 'pluribus.company_memory_export_receipt.v1'
 const SHARED_STATE_WRITE_PREFLIGHT_SCHEMA = 'pluribus.shared_state_write_preflight.v1'
+const CROSS_CLIENT_TOKEN_LEDGER_SCHEMA = 'pluribus.cross_client_token_ledger.v1'
 
 /**
  * @param {Record<string, string | boolean>} args
@@ -62,6 +64,8 @@ export async function runDemo(args, positional = []) {
       return runCompanyMemoryExportTestDemo(args)
     case SHARED_STATE_WRITE_PREFLIGHT_DEMO:
       return runSharedStateWritePreflightDemo(args)
+    case CROSS_CLIENT_TOKEN_LEDGER_DEMO:
+      return runCrossClientTokenLedgerDemo(args)
     default:
       console.error(`❌ Unknown demo: ${demoName}`)
       console.error(`   Available demos: ${AVAILABLE_DEMOS.join(', ')}`)
@@ -347,6 +351,10 @@ function bundledSharedStateWritePreflightReceiptPath() {
   return fileURLToPath(new URL('../../examples/shared-state-write-preflight/shared-state-write-preflight-receipt.json', import.meta.url))
 }
 
+function bundledCrossClientTokenLedgerReceiptPath() {
+  return fileURLToPath(new URL('../../examples/cross-client-token-ledger/cross-client-token-ledger-receipt.json', import.meta.url))
+}
+
 function runToolSurfaceDiffDemo(args) {
   const receiptPath = selectedReceiptPath(args, bundledToolSurfaceDiffReceiptPath())
   const receipt = readReceipt(receiptPath, 'tool-surface diff')
@@ -531,6 +539,43 @@ function runContextBudgetReceiptDemo(args) {
 }
 
 
+
+function runCrossClientTokenLedgerDemo(args) {
+  const receiptPath = selectedReceiptPath(args, bundledCrossClientTokenLedgerReceiptPath())
+  const receipt = readReceipt(receiptPath, 'cross-client token ledger')
+  const result = validateCrossClientTokenLedgerReceipt(receipt)
+
+  if (Boolean(args.json)) {
+    console.log(JSON.stringify({
+      ok: result.errors.length === 0,
+      demo: CROSS_CLIENT_TOKEN_LEDGER_DEMO,
+      receipt: path.relative(process.cwd(), receiptPath) || receiptPath,
+      summary: result.summary,
+      warnings: result.warnings,
+      errors: result.errors,
+    }, null, 2))
+  } else {
+    console.log('🧪 Pluribus demo: cross-client token ledger')
+    console.log(`   Receipt: ${path.relative(process.cwd(), receiptPath) || receiptPath}`)
+    console.log('')
+
+    if (result.errors.length === 0) {
+      console.log(`✅ cross-client token ledger ok: ${result.summary.clientCount} clients compared, ratio=${result.summary.totalTokenRatio}x, decision=${result.summary.decision}`)
+      console.log(`   • ${result.summary.baselineClient}: ${result.summary.baselineTotalTokens} total tokens`)
+      console.log(`   • ${result.summary.variantClient}: ${result.summary.variantTotalTokens} total tokens`)
+      for (const warning of result.warnings) console.log(`   • ${warning}`)
+      console.log('')
+      console.log('Why this matters: Cursor/Zed/ACP and other agent bridges can show the same visible prompt while sending different hidden context, tool schemas, file reads, and cacheable input. Compare clients with a small privacy-safe ledger before blaming the model, vendor, or user.')
+      console.log('Try your own receipt: pluribus demo cross-client-token-ledger --receipt path/to/cross-client-token-ledger-receipt.json --json')
+    } else {
+      console.error('❌ cross-client token ledger invalid:')
+      for (const error of result.errors) console.error(`   • ${error}`)
+    }
+  }
+
+  if (result.errors.length > 0) process.exit(1)
+}
+
 function runSharedStateWritePreflightDemo(args) {
   const receiptPath = selectedReceiptPath(args, bundledSharedStateWritePreflightReceiptPath())
   const receipt = readReceipt(receiptPath, 'shared-state write preflight')
@@ -600,6 +645,108 @@ function runCompanyMemoryExportTestDemo(args) {
 }
 
 
+
+
+export function validateCrossClientTokenLedgerReceipt(receipt) {
+  const errors = []
+  const warnings = []
+  const allowedDecisions = new Set(['ok', 'investigate_bridge', 'investigate_client', 'inconclusive'])
+
+  function requireString(value, field) {
+    if (typeof value !== 'string' || value.trim() === '') errors.push(`${field} must be a non-empty string`)
+  }
+  function requireBoolean(value, field) {
+    if (typeof value !== 'boolean') errors.push(`${field} must be boolean`)
+  }
+  function requireNumber(value, field) {
+    if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) errors.push(`${field} must be a non-negative number`)
+  }
+  function requireArray(value, field) {
+    if (!Array.isArray(value) || value.length === 0) errors.push(`${field} must be a non-empty array`)
+  }
+
+  if (receipt.schema !== CROSS_CLIENT_TOKEN_LEDGER_SCHEMA) errors.push(`schema must be ${CROSS_CLIENT_TOKEN_LEDGER_SCHEMA}`)
+  requireString(receipt.run_id, 'run_id')
+  requireString(receipt.generated_at, 'generated_at')
+  requireString(receipt.comparison?.claim, 'comparison.claim')
+  requireString(receipt.comparison?.baseline_client, 'comparison.baseline_client')
+  requireString(receipt.comparison?.variant_client, 'comparison.variant_client')
+  requireString(receipt.decision, 'decision')
+  requireArray(receipt.runs, 'runs')
+  if (!allowedDecisions.has(receipt.decision)) errors.push(`decision must be one of ${[...allowedDecisions].join('|')}`)
+
+  const runs = Array.isArray(receipt.runs) ? receipt.runs : []
+  const clients = new Set()
+  for (const [index, run] of runs.entries()) {
+    const prefix = `runs[${index}]`
+    requireString(run.client, `${prefix}.client`)
+    requireString(run.bridge, `${prefix}.bridge`)
+    requireString(run.model, `${prefix}.model`)
+    requireString(run.chat_state, `${prefix}.chat_state`)
+    requireString(run.visible_prompt_hash, `${prefix}.visible_prompt_hash`)
+    requireString(run.repo_fixture_hash, `${prefix}.repo_fixture_hash`)
+    requireArray(run.auto_attached_files, `${prefix}.auto_attached_files`)
+    requireNumber(run.tool_schemas?.exposed_count, `${prefix}.tool_schemas.exposed_count`)
+    requireNumber(run.tool_schemas?.loaded_count, `${prefix}.tool_schemas.loaded_count`)
+    requireNumber(run.tool_schemas?.token_estimate, `${prefix}.tool_schemas.token_estimate`)
+    requireString(run.tool_schemas?.cache_status, `${prefix}.tool_schemas.cache_status`)
+    requireNumber(run.input?.visible_prompt_tokens, `${prefix}.input.visible_prompt_tokens`)
+    requireNumber(run.input?.hidden_context_tokens_estimate, `${prefix}.input.hidden_context_tokens_estimate`)
+    requireNumber(run.input?.cacheable_input_tokens, `${prefix}.input.cacheable_input_tokens`)
+    requireNumber(run.input?.uncached_input_tokens, `${prefix}.input.uncached_input_tokens`)
+    requireNumber(run.activity?.tool_call_count, `${prefix}.activity.tool_call_count`)
+    requireNumber(run.activity?.file_read_count, `${prefix}.activity.file_read_count`)
+    requireNumber(run.activity?.changed_file_count, `${prefix}.activity.changed_file_count`)
+    requireNumber(run.activity?.final_diff_lines, `${prefix}.activity.final_diff_lines`)
+    requireNumber(run.usage?.input_tokens, `${prefix}.usage.input_tokens`)
+    requireNumber(run.usage?.output_tokens, `${prefix}.usage.output_tokens`)
+    requireNumber(run.usage?.total_tokens, `${prefix}.usage.total_tokens`)
+    requireNumber(run.usage?.quota_percent, `${prefix}.usage.quota_percent`)
+    requireBoolean(run.privacy?.raw_prompt_logged, `${prefix}.privacy.raw_prompt_logged`)
+    requireBoolean(run.privacy?.raw_file_content_logged, `${prefix}.privacy.raw_file_content_logged`)
+    requireArray(run.privacy?.omitted_fields, `${prefix}.privacy.omitted_fields`)
+
+    if (run.client) clients.add(run.client)
+    if (!String(run.visible_prompt_hash || '').startsWith('sha256:')) errors.push(`${prefix}.visible_prompt_hash must be a sha256: hash`)
+    if (!String(run.repo_fixture_hash || '').startsWith('sha256:')) errors.push(`${prefix}.repo_fixture_hash must be a sha256: hash`)
+    if (run.privacy?.raw_prompt_logged !== false) errors.push(`${prefix}.privacy.raw_prompt_logged must be false`)
+    if (run.privacy?.raw_file_content_logged !== false) errors.push(`${prefix}.privacy.raw_file_content_logged must be false`)
+    if ((run.privacy?.omitted_fields || []).length === 0) warnings.push(`${prefix} records no omitted fields; ledger may not prove privacy negative space`)
+    if (run.tool_schemas?.loaded_count > run.tool_schemas?.exposed_count) errors.push(`${prefix}.tool_schemas.loaded_count cannot exceed exposed_count`)
+    if (run.input?.hidden_context_tokens_estimate > run.input?.visible_prompt_tokens) warnings.push(`${run.client || prefix} hidden context exceeds visible prompt tokens`)
+    if (run.tool_schemas?.cache_status === 'miss') warnings.push(`${run.client || prefix} tool/context cache missed`)
+  }
+
+  if (runs.length < 2) errors.push('runs must compare at least two clients')
+  const baseline = runs.find((run) => run.client === receipt.comparison?.baseline_client) || runs[0]
+  const variant = runs.find((run) => run.client === receipt.comparison?.variant_client) || runs[1]
+  if (!runs.some((run) => run.client === receipt.comparison?.baseline_client)) errors.push('comparison.baseline_client must match a run.client')
+  if (!runs.some((run) => run.client === receipt.comparison?.variant_client)) errors.push('comparison.variant_client must match a run.client')
+
+  const baselineTotal = baseline?.usage?.total_tokens || 0
+  const variantTotal = variant?.usage?.total_tokens || 0
+  const ratio = baselineTotal > 0 ? Number((variantTotal / baselineTotal).toFixed(2)) : 0
+  if (ratio >= 2) warnings.push(`variant uses ${ratio}x baseline total tokens; inspect hidden context, tool schemas, cache, and file reads before blaming the model`)
+  if (receipt.decision === 'ok' && ratio >= 2) errors.push('decision cannot be ok when variant total tokens are >=2x baseline')
+
+  return {
+    errors,
+    warnings,
+    summary: {
+      decision: receipt.decision || 'unknown',
+      clientCount: clients.size,
+      baselineClient: baseline?.client || 'unknown',
+      variantClient: variant?.client || 'unknown',
+      baselineTotalTokens: baselineTotal,
+      variantTotalTokens: variantTotal,
+      totalTokenRatio: ratio,
+      variantHiddenContextTokens: variant?.input?.hidden_context_tokens_estimate || 0,
+      variantToolSchemaTokens: variant?.tool_schemas?.token_estimate || 0,
+      variantFileReadCount: variant?.activity?.file_read_count || 0,
+      variantFinalDiffLines: variant?.activity?.final_diff_lines || 0,
+    },
+  }
+}
 
 export function validateSharedStateWritePreflightReceipt(receipt) {
   const errors = []
