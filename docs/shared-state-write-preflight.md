@@ -12,11 +12,11 @@ A shared-state write preflight proves the write boundary **before** mutation:
 - redacted field shapes instead of raw records or raw prompts;
 - source refs and the audit event that should be emitted if the write proceeds.
 
-Try the packaged demo from the GitHub branch until the next npm publish includes it:
+Try the packaged demo from the stable GitHub release tag until the next npm publish includes it:
 
 ```bash
-npx -y --package github:caioribeiroclw-pixel/pluribus pluribus demo shared-state-write-preflight
-npx -y --package github:caioribeiroclw-pixel/pluribus pluribus demo shared-state-write-preflight --json
+npx -y --package github:caioribeiroclw-pixel/pluribus#v0.3.48 pluribus demo shared-state-write-preflight
+npx -y --package github:caioribeiroclw-pixel/pluribus#v0.3.48 pluribus demo shared-state-write-preflight --json
 ```
 
 Use it when an MCP memory/database tool, shared team brain, ticket/CRM agent, or reactive agent platform claims “every client can write the same data.” The receipt is not the database. It is the small, pasteable proof that the next durable write is scoped, authorized, concurrency-safe, and privacy-bounded.
