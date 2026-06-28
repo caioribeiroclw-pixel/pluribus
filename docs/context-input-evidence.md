@@ -171,6 +171,17 @@ The important pre-verifier signal is cheap: `selected_count`, `suppressed_count`
 
 When the optional relevance event exists, it keeps the over-selection delta explicit with decisive/supporting/unused/unknown counts. The fixture enforces the invariant `selected_count == decisive_count + supporting_count + unused_count + unknown_count`, so selected-but-not-useful inputs cannot disappear into a generic count bucket.
 
+There is also a smaller Project Telos / gather comparison fixture for pressure-testing the loaded-vs-used boundary with one decisive source document, one supporting config/context item, one unused duplicate, and one suppressed sensitive candidate:
+
+```bash
+node examples/context-input-evidence/convert-context-selection-log.mjs \
+  examples/context-input-evidence/sample-project-telos-comparison-log.jsonl \
+  examples/context-input-evidence/project-telos-comparison-receipt.ndjson \
+  examples/context-input-evidence/project-telos-comparison-otel-trace.json
+```
+
+That fixture emits three loaded inputs and one later relevance event with `decisive_count=1`, `supporting_count=1`, `unused_count=1`, and `unknown_count=0`; the suppressed sensitive candidate stays count/policy-only and does not get a load event. It is meant to test whether another harness can answer the same operator questions without standardizing field names too early.
+
 The receipt should stay narrower than the overlay standard itself. It does **not** require the standard to add frontmatter, classify user intent, or protect users from writing bad target-specific guidance. The minimum useful contract is behavioral:
 
 1. which candidate files the harness discovered;

@@ -130,6 +130,15 @@ A cheap bridge before a full relevance evaluator exists is a selection receipt t
 
 This does not prove which input mattered. It does make over-selection visible immediately: five delivered inputs for one coding-agent decision is a different failure mode from one delivered input that was simply the wrong one. If post-hoc relevance is later available, add decisive/supporting/unused/unknown counts instead of collapsing the delta into a generic bucket.
 
+For a minimal cross-implementation comparison, use a tiny workflow before debating final field names:
+
+- four candidates: one decisive source document, one supporting config/context item, one duplicate that ends up unused, and one private/sensitive candidate suppressed before delivery;
+- three `context.input.loaded` events for delivered inputs only;
+- one later decision/relevance event that accounts for the selected set as `decisive=1`, `supporting=1`, `unused=1`, `unknown=0`; and
+- the same invariant above, plus a privacy check that raw context, unhashed source identities, prompt text, ticket text, and tool output do not appear in the relevance event.
+
+Pluribus includes that pressure-test as `examples/context-input-evidence/sample-project-telos-comparison-log.jsonl`, with generated `project-telos-comparison-receipt.ndjson` and `project-telos-comparison-otel-trace.json`. The fixture is deliberately small so observability tools such as Project Telos / gather can verify whether the same questions are answerable without prematurely standardizing Pluribus-specific names.
+
 ## Privacy defaults
 
 Default to safe evidence:
