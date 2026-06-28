@@ -23,7 +23,8 @@ const CONTEXT_BUDGET_RECEIPT_DEMO = 'context-budget-receipt'
 const COMPANY_MEMORY_EXPORT_TEST_DEMO = 'company-memory-export-test'
 const SHARED_STATE_WRITE_PREFLIGHT_DEMO = 'shared-state-write-preflight'
 const CROSS_CLIENT_TOKEN_LEDGER_DEMO = 'cross-client-token-ledger'
-const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO, COMPANY_MEMORY_EXPORT_TEST_DEMO, SHARED_STATE_WRITE_PREFLIGHT_DEMO, CROSS_CLIENT_TOKEN_LEDGER_DEMO]
+const MCP_ACTION_BOUNDARY_PREFLIGHT_DEMO = 'mcp-action-boundary-preflight'
+const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO, COMPANY_MEMORY_EXPORT_TEST_DEMO, SHARED_STATE_WRITE_PREFLIGHT_DEMO, CROSS_CLIENT_TOKEN_LEDGER_DEMO, MCP_ACTION_BOUNDARY_PREFLIGHT_DEMO]
 const SKILL_USE_RATE_SCHEMA = 'pluribus.skill_use_rate_receipt.v1'
 const MCP_AUDIT_RECEIPT_SCHEMA = 'pluribus.mcp_tool_call_audit_receipt.v1'
 const TOOL_SURFACE_DIFF_SCHEMA = 'pluribus.mcp_tool_surface_diff_receipt.v1'
@@ -33,6 +34,7 @@ const CONTEXT_BUDGET_RECEIPT_SCHEMA = 'pluribus.context_budget_receipt.v1'
 const COMPANY_MEMORY_EXPORT_RECEIPT_SCHEMA = 'pluribus.company_memory_export_receipt.v1'
 const SHARED_STATE_WRITE_PREFLIGHT_SCHEMA = 'pluribus.shared_state_write_preflight.v1'
 const CROSS_CLIENT_TOKEN_LEDGER_SCHEMA = 'pluribus.cross_client_token_ledger.v1'
+const MCP_ACTION_BOUNDARY_PREFLIGHT_SCHEMA = 'pluribus.mcp_action_boundary_preflight.v1'
 
 /**
  * @param {Record<string, string | boolean>} args
@@ -66,6 +68,8 @@ export async function runDemo(args, positional = []) {
       return runSharedStateWritePreflightDemo(args)
     case CROSS_CLIENT_TOKEN_LEDGER_DEMO:
       return runCrossClientTokenLedgerDemo(args)
+    case MCP_ACTION_BOUNDARY_PREFLIGHT_DEMO:
+      return runMcpActionBoundaryPreflightDemo(args)
     default:
       console.error(`❌ Unknown demo: ${demoName}`)
       console.error(`   Available demos: ${AVAILABLE_DEMOS.join(', ')}`)
@@ -355,6 +359,10 @@ function bundledCrossClientTokenLedgerReceiptPath() {
   return fileURLToPath(new URL('../../examples/cross-client-token-ledger/cross-client-token-ledger-receipt.json', import.meta.url))
 }
 
+function bundledMcpActionBoundaryPreflightReceiptPath() {
+  return fileURLToPath(new URL('../../examples/mcp-action-boundary-preflight/mcp-action-boundary-preflight-receipt.json', import.meta.url))
+}
+
 function runToolSurfaceDiffDemo(args) {
   const receiptPath = selectedReceiptPath(args, bundledToolSurfaceDiffReceiptPath())
   const receipt = readReceipt(receiptPath, 'tool-surface diff')
@@ -610,6 +618,41 @@ function runSharedStateWritePreflightDemo(args) {
   if (result.errors.length > 0) process.exit(1)
 }
 
+
+function runMcpActionBoundaryPreflightDemo(args) {
+  const receiptPath = selectedReceiptPath(args, bundledMcpActionBoundaryPreflightReceiptPath())
+  const receipt = readReceipt(receiptPath, 'MCP action-boundary preflight')
+  const result = validateMcpActionBoundaryPreflightReceipt(receipt)
+
+  if (Boolean(args.json)) {
+    console.log(JSON.stringify({
+      ok: result.errors.length === 0,
+      demo: MCP_ACTION_BOUNDARY_PREFLIGHT_DEMO,
+      receipt: path.relative(process.cwd(), receiptPath) || receiptPath,
+      summary: result.summary,
+      warnings: result.warnings,
+      errors: result.errors,
+    }, null, 2))
+  } else {
+    console.log('🧪 Pluribus demo: MCP action-boundary preflight')
+    console.log(`   Receipt: ${path.relative(process.cwd(), receiptPath) || receiptPath}`)
+    console.log('')
+
+    if (result.errors.length === 0) {
+      console.log(`✅ MCP action-boundary preflight ok: decision=${result.summary.decision}, intent=${result.summary.intentClass}, proposed_action=${result.summary.proposedActionClass}, max_mutation_count=${result.summary.maxMutationCount}`)
+      for (const warning of result.warnings) console.log(`   • ${warning}`)
+      console.log('')
+      console.log('Why this matters: Gmail/Calendar/Drive/Slack MCP servers can turn a read request into account mutation when read and write tools share one auth surface. Preflight account, scopes, action class, max mutation, dry-run/confirm defaults, and revocation path before the first state-changing tool call.')
+      console.log('Try your own receipt: pluribus demo mcp-action-boundary-preflight --receipt path/to/mcp-action-boundary-preflight.json --json')
+    } else {
+      console.error('❌ MCP action-boundary preflight invalid:')
+      for (const error of result.errors) console.error(`   • ${error}`)
+    }
+  }
+
+  if (result.errors.length > 0) process.exit(1)
+}
+
 function runCompanyMemoryExportTestDemo(args) {
   const receiptPath = selectedReceiptPath(args, bundledCompanyMemoryExportReceiptPath())
   const receipt = readReceipt(receiptPath, 'company-memory export')
@@ -646,6 +689,110 @@ function runCompanyMemoryExportTestDemo(args) {
 
 
 
+
+
+export function validateMcpActionBoundaryPreflightReceipt(receipt) {
+  const errors = []
+  const warnings = []
+  const allowedDecisions = new Set(['allow', 'review_required', 'block'])
+  const allowedActionClasses = new Set(['read', 'write', 'admin'])
+
+  function requireString(value, field) {
+    if (typeof value !== 'string' || value.trim() === '') errors.push(`${field} must be a non-empty string`)
+  }
+  function requireBoolean(value, field) {
+    if (typeof value !== 'boolean') errors.push(`${field} must be boolean`)
+  }
+  function requireArray(value, field) {
+    if (!Array.isArray(value) || value.length === 0) errors.push(`${field} must be a non-empty array`)
+  }
+  function requireNonNegativeInteger(value, field) {
+    if (!Number.isInteger(value) || value < 0) errors.push(`${field} must be a non-negative integer`)
+  }
+
+  if (receipt.schema !== MCP_ACTION_BOUNDARY_PREFLIGHT_SCHEMA) errors.push(`schema must be ${MCP_ACTION_BOUNDARY_PREFLIGHT_SCHEMA}`)
+  requireString(receipt.run_id, 'run_id')
+  requireString(receipt.generated_at, 'generated_at')
+  requireString(receipt.user_intent?.summary, 'user_intent.summary')
+  requireString(receipt.user_intent?.intent_class, 'user_intent.intent_class')
+  requireString(receipt.user_intent?.requested_resource, 'user_intent.requested_resource')
+  requireString(receipt.user_intent?.resource_account_hash, 'user_intent.resource_account_hash')
+  requireString(receipt.tool_surface?.server, 'tool_surface.server')
+  requireString(receipt.tool_surface?.server_config_hash, 'tool_surface.server_config_hash')
+  requireArray(receipt.tool_surface?.granted_scopes, 'tool_surface.granted_scopes')
+  requireArray(receipt.tool_surface?.available_tools, 'tool_surface.available_tools')
+  requireString(receipt.proposed_action?.tool, 'proposed_action.tool')
+  requireString(receipt.proposed_action?.action_class, 'proposed_action.action_class')
+  requireString(receipt.proposed_action?.target_selector_hash, 'proposed_action.target_selector_hash')
+  requireNonNegativeInteger(receipt.proposed_action?.max_mutation_count, 'proposed_action.max_mutation_count')
+  requireBoolean(receipt.proposed_action?.dry_run, 'proposed_action.dry_run')
+  requireBoolean(receipt.proposed_action?.requires_confirmation, 'proposed_action.requires_confirmation')
+  requireString(receipt.proposed_action?.confirmation_prompt, 'proposed_action.confirmation_prompt')
+  requireBoolean(receipt.boundary_controls?.intent_matches_action_class, 'boundary_controls.intent_matches_action_class')
+  requireBoolean(receipt.boundary_controls?.read_write_split, 'boundary_controls.read_write_split')
+  requireBoolean(receipt.boundary_controls?.default_dry_run, 'boundary_controls.default_dry_run')
+  requireBoolean(receipt.boundary_controls?.explicit_confirmation_required, 'boundary_controls.explicit_confirmation_required')
+  requireBoolean(receipt.boundary_controls?.revocation_path_documented, 'boundary_controls.revocation_path_documented')
+  requireString(receipt.boundary_controls?.rollback_hint, 'boundary_controls.rollback_hint')
+  requireBoolean(receipt.privacy?.raw_email_subjects_included, 'privacy.raw_email_subjects_included')
+  requireBoolean(receipt.privacy?.raw_email_bodies_included, 'privacy.raw_email_bodies_included')
+  requireBoolean(receipt.privacy?.oauth_tokens_included, 'privacy.oauth_tokens_included')
+  requireArray(receipt.privacy?.omitted_fields, 'privacy.omitted_fields')
+  requireString(receipt.decision, 'decision')
+
+  if (!allowedActionClasses.has(receipt.user_intent?.intent_class)) errors.push('user_intent.intent_class must be read, write, or admin')
+  if (!allowedActionClasses.has(receipt.proposed_action?.action_class)) errors.push('proposed_action.action_class must be read, write, or admin')
+  if (!allowedDecisions.has(receipt.decision)) errors.push(`decision must be one of ${[...allowedDecisions].join('|')}`)
+  if (!String(receipt.user_intent?.resource_account_hash || '').startsWith('sha256:')) errors.push('user_intent.resource_account_hash must be a sha256: hash')
+  if (!String(receipt.tool_surface?.server_config_hash || '').startsWith('sha256:')) errors.push('tool_surface.server_config_hash must be a sha256: hash')
+  if (!String(receipt.proposed_action?.target_selector_hash || '').startsWith('sha256:')) errors.push('proposed_action.target_selector_hash must be a sha256: hash')
+  if (receipt.privacy?.raw_email_subjects_included !== false) errors.push('privacy.raw_email_subjects_included must be false')
+  if (receipt.privacy?.raw_email_bodies_included !== false) errors.push('privacy.raw_email_bodies_included must be false')
+  if (receipt.privacy?.oauth_tokens_included !== false) errors.push('privacy.oauth_tokens_included must be false')
+
+  const tools = Array.isArray(receipt.tool_surface?.available_tools) ? receipt.tool_surface.available_tools : []
+  const writeTools = tools.filter((tool) => tool.action_class === 'write' || tool.action_class === 'admin')
+  for (const [index, tool] of tools.entries()) {
+    const prefix = `tool_surface.available_tools[${index}]`
+    requireString(tool.name, `${prefix}.name`)
+    requireString(tool.action_class, `${prefix}.action_class`)
+    if (!allowedActionClasses.has(tool.action_class)) errors.push(`${prefix}.action_class must be read, write, or admin`)
+  }
+
+  const intentClass = receipt.user_intent?.intent_class
+  const actionClass = receipt.proposed_action?.action_class
+  const actionMutates = actionClass === 'write' || actionClass === 'admin'
+  const intentIsRead = intentClass === 'read'
+  if (intentIsRead && actionMutates && receipt.boundary_controls?.intent_matches_action_class !== false) {
+    errors.push('boundary_controls.intent_matches_action_class must be false when read intent proposes write/admin action')
+  }
+  if (intentIsRead && actionMutates && receipt.decision === 'allow') {
+    errors.push('decision cannot be allow when a read intent proposes a write/admin action')
+  }
+  if (actionMutates && !receipt.proposed_action?.dry_run) warnings.push('state-changing proposed action is not dry-run')
+  if (actionMutates && !receipt.proposed_action?.requires_confirmation) errors.push('state-changing proposed action must require confirmation')
+  if (actionMutates && !receipt.boundary_controls?.revocation_path_documented) errors.push('state-changing proposed action must document revocation path')
+  if (writeTools.length > 0 && receipt.boundary_controls?.read_write_split === false) warnings.push(`${writeTools.length} write/admin tools share this surface; prefer a read-only server for read intents`)
+  if ((receipt.privacy?.omitted_fields || []).length === 0) warnings.push('no omitted fields recorded; preflight may not prove privacy negative space')
+
+  return {
+    errors,
+    warnings,
+    summary: {
+      decision: receipt.decision || 'unknown',
+      intentClass: intentClass || 'unknown',
+      proposedActionClass: actionClass || 'unknown',
+      server: receipt.tool_surface?.server || 'unknown',
+      grantedScopeCount: Array.isArray(receipt.tool_surface?.granted_scopes) ? receipt.tool_surface.granted_scopes.length : 0,
+      availableToolCount: tools.length,
+      writeToolCount: writeTools.length,
+      maxMutationCount: Number.isInteger(receipt.proposed_action?.max_mutation_count) ? receipt.proposed_action.max_mutation_count : 0,
+      dryRun: receipt.proposed_action?.dry_run,
+      requiresConfirmation: receipt.proposed_action?.requires_confirmation,
+      omittedFieldCount: Array.isArray(receipt.privacy?.omitted_fields) ? receipt.privacy.omitted_fields.length : 0,
+    },
+  }
+}
 
 export function validateCrossClientTokenLedgerReceipt(receipt) {
   const errors = []

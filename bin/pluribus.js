@@ -113,6 +113,8 @@ EXAMPLES
   pluribus demo shared-state-write-preflight --json
   pluribus demo cross-client-token-ledger
   pluribus demo cross-client-token-ledger --json
+  pluribus demo mcp-action-boundary-preflight
+  pluribus demo mcp-action-boundary-preflight --json
 
 DOCS
   https://github.com/caioribeiroclw-pixel/pluribus

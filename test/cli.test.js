@@ -312,6 +312,37 @@ test('demo shared-state-write-preflight --json reports write boundary summary', 
   assert.equal(payload.summary.requiresHumanConfirmation, false)
 })
 
+
+test('demo mcp-action-boundary-preflight validates the packaged receipt', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'mcp-action-boundary-preflight'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Pluribus demo: MCP action-boundary preflight/)
+  assert.match(result.stdout, /MCP action-boundary preflight ok: decision=block, intent=read, proposed_action=write, max_mutation_count=250/)
+  assert.match(result.stdout, /turn a read request into account mutation/)
+})
+
+test('demo mcp-action-boundary-preflight --json reports permission boundary summary', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'mcp-action-boundary-preflight', '--json'])
+
+  assert.equal(result.status, 0, result.stderr)
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.demo, 'mcp-action-boundary-preflight')
+  assert.equal(payload.summary.decision, 'block')
+  assert.equal(payload.summary.intentClass, 'read')
+  assert.equal(payload.summary.proposedActionClass, 'write')
+  assert.equal(payload.summary.writeToolCount, 2)
+  assert.equal(payload.summary.maxMutationCount, 250)
+  assert.equal(payload.summary.dryRun, true)
+  assert.equal(payload.summary.requiresConfirmation, true)
+  assert.equal(payload.summary.omittedFieldCount, 5)
+})
+
 test('demo cross-client-token-ledger validates the packaged receipt', () => {
   const dir = tempProject()
 

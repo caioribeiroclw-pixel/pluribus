@@ -1,0 +1,67 @@
+{
+  "schema": "pluribus.mcp_action_boundary_preflight.v1",
+  "run_id": "mcp-gmail-preflight-demo-2026-06-28",
+  "generated_at": "2026-06-28T22:08:00Z",
+  "user_intent": {
+    "summary": "Summarize unread Gmail messages from the last 24 hours",
+    "intent_class": "read",
+    "requested_resource": "gmail.messages",
+    "resource_account_hash": "sha256:3e4b7b8b9cb038e9aa2db13d96bfa79b1e4f94f721f8ff7855f2f9ec8ad7d6e1"
+  },
+  "tool_surface": {
+    "server": "google-workspace-mcp",
+    "server_config_hash": "sha256:92c5ce62b4bf7f3dbb4d64d470fe8c71b116455fc771f7f9fb8b81b9b35b07cb",
+    "granted_scopes": [
+      "gmail.readonly",
+      "gmail.modify"
+    ],
+    "available_tools": [
+      {
+        "name": "gmail.search_messages",
+        "action_class": "read"
+      },
+      {
+        "name": "gmail.get_message",
+        "action_class": "read"
+      },
+      {
+        "name": "gmail.mark_read",
+        "action_class": "write"
+      },
+      {
+        "name": "gmail.batch_modify",
+        "action_class": "write"
+      }
+    ]
+  },
+  "proposed_action": {
+    "tool": "gmail.batch_modify",
+    "action_class": "write",
+    "target_selector_hash": "sha256:de1e7630d2f9d24f9a234af95589514f6ad2bd2a58f55d8ff7e63a438e9d4e01",
+    "max_mutation_count": 250,
+    "dry_run": true,
+    "requires_confirmation": true,
+    "confirmation_prompt": "This would mark up to 250 Gmail messages as read. Continue?"
+  },
+  "boundary_controls": {
+    "intent_matches_action_class": false,
+    "read_write_split": false,
+    "default_dry_run": true,
+    "explicit_confirmation_required": true,
+    "revocation_path_documented": true,
+    "rollback_hint": "Gmail label search: newer_than:1d is:read -label:agent-reviewed; restore unread only after operator review"
+  },
+  "privacy": {
+    "raw_email_subjects_included": false,
+    "raw_email_bodies_included": false,
+    "oauth_tokens_included": false,
+    "omitted_fields": [
+      "message.subject",
+      "message.body",
+      "sender.email",
+      "oauth.access_token",
+      "oauth.refresh_token"
+    ]
+  },
+  "decision": "block"
+}
