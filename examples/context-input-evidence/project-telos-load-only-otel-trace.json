@@ -1,0 +1,375 @@
+{
+  "resourceSpans": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "pluribus-context-selection-demo"
+            }
+          },
+          {
+            "key": "service.version",
+            "value": {
+              "stringValue": "0.0.0-fixture"
+            }
+          },
+          {
+            "key": "deployment.environment.name",
+            "value": {
+              "stringValue": "local-fixture"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {
+            "name": "pluribus.context_selection.demo",
+            "version": "0.0.0-fixture"
+          },
+          "spans": [
+            {
+              "traceId": "390143c95441d49ab526cd56b1c5238c",
+              "spanId": "19e7a92430459e55",
+              "parentSpanId": "",
+              "name": "agent.session",
+              "kind": 1,
+              "startTimeUnixNano": "1782651600000000000",
+              "endTimeUnixNano": "1782651603001000000",
+              "attributes": [
+                {
+                  "key": "session.id",
+                  "value": {
+                    "stringValue": "demo-session-project-telos-comparison"
+                  }
+                },
+                {
+                  "key": "gen_ai.conversation.id",
+                  "value": {
+                    "stringValue": "demo-conversation-project-telos-comparison"
+                  }
+                },
+                {
+                  "key": "gen_ai.agent.name",
+                  "value": {
+                    "stringValue": "project-telos-gather-comparison"
+                  }
+                },
+                {
+                  "key": "gen_ai.operation.name",
+                  "value": {
+                    "stringValue": "agent_session"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "name": "context.input.selection.evaluated",
+                  "timeUnixNano": "1782651600000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-project-telos-comparison"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-conversation-project-telos-comparison"
+                      }
+                    },
+                    {
+                      "key": "context.selection.strategy",
+                      "value": {
+                        "stringValue": "small_hash_first_boundary_fixture"
+                      }
+                    },
+                    {
+                      "key": "context.selection.policy",
+                      "value": {
+                        "stringValue": "deliver_decisive_supporting_and_duplicate_suppress_sensitive_candidate"
+                      }
+                    },
+                    {
+                      "key": "context.input.candidate_count",
+                      "value": {
+                        "intValue": "4"
+                      }
+                    },
+                    {
+                      "key": "context.input.selected_count",
+                      "value": {
+                        "intValue": "3"
+                      }
+                    },
+                    {
+                      "key": "context.input.suppressed_count",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered_hash_count",
+                      "value": {
+                        "intValue": "3"
+                      }
+                    },
+                    {
+                      "key": "context.input.selected_token_bucket",
+                      "value": {
+                        "stringValue": "2k-4k"
+                      }
+                    },
+                    {
+                      "key": "context.input.suppressed_token_bucket",
+                      "value": {
+                        "stringValue": "0-1k"
+                      }
+                    },
+                    {
+                      "key": "context.selection.operator_question",
+                      "value": {
+                        "stringValue": "did_we_load_too_much_or_the_wrong_context"
+                      }
+                    },
+                    {
+                      "key": "context.decision.relevance_evaluator",
+                      "value": {
+                        "stringValue": "post_hoc_human_or_harness_review"
+                      }
+                    },
+                    {
+                      "key": "context.selection.audit_gap",
+                      "value": {
+                        "stringValue": "selection receipt proves candidate and delivery pressure; relevance labels appear only in the later decision event"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.input.loaded",
+                  "timeUnixNano": "1782651601000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-project-telos-comparison"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-conversation-project-telos-comparison"
+                      }
+                    },
+                    {
+                      "key": "context.input.kind",
+                      "value": {
+                        "stringValue": "source_document"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.id_hash",
+                      "value": {
+                        "stringValue": "sha256:acba313f664a497ea9f569921d3f7902501b88a10d069ad5391972e16445299c"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.role",
+                      "value": {
+                        "stringValue": "decisive_candidate"
+                      }
+                    },
+                    {
+                      "key": "context.input.selection.rank",
+                      "value": {
+                        "intValue": "1"
+                      }
+                    },
+                    {
+                      "key": "context.input.selection.status",
+                      "value": {
+                        "stringValue": "selected"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivery.status",
+                      "value": {
+                        "stringValue": "delivered"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.hash",
+                      "value": {
+                        "stringValue": "sha256:f000b689fe44b0270ca4c8f224797ff29d332b2971e927397d05e120e7a4ba48"
+                      }
+                    },
+                    {
+                      "key": "context.input.token_bucket",
+                      "value": {
+                        "stringValue": "1k-2k"
+                      }
+                    },
+                    {
+                      "key": "context.input.audit_gap",
+                      "value": {
+                        "stringValue": "hashes and counts prove selected/delivered identity, not semantic usefulness"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.input.loaded",
+                  "timeUnixNano": "1782651602000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-project-telos-comparison"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-conversation-project-telos-comparison"
+                      }
+                    },
+                    {
+                      "key": "context.input.kind",
+                      "value": {
+                        "stringValue": "configuration_context"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.id_hash",
+                      "value": {
+                        "stringValue": "sha256:7d6c5aa9840067975035d9bc71db5fb097bb5a6f19abdc58c5f03df56fb07b3e"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.role",
+                      "value": {
+                        "stringValue": "supporting_candidate"
+                      }
+                    },
+                    {
+                      "key": "context.input.selection.rank",
+                      "value": {
+                        "intValue": "2"
+                      }
+                    },
+                    {
+                      "key": "context.input.selection.status",
+                      "value": {
+                        "stringValue": "selected"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivery.status",
+                      "value": {
+                        "stringValue": "delivered"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.hash",
+                      "value": {
+                        "stringValue": "sha256:ee264feefa8f856a7dfc1c7c0ec81aeae78eb850d77240b3a3d05f7032fcfac6"
+                      }
+                    },
+                    {
+                      "key": "context.input.token_bucket",
+                      "value": {
+                        "stringValue": "0-1k"
+                      }
+                    },
+                    {
+                      "key": "context.input.audit_gap",
+                      "value": {
+                        "stringValue": "hashes and counts prove selected/delivered identity, not semantic usefulness"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "context.input.loaded",
+                  "timeUnixNano": "1782651603000000000",
+                  "attributes": [
+                    {
+                      "key": "session.id",
+                      "value": {
+                        "stringValue": "demo-session-project-telos-comparison"
+                      }
+                    },
+                    {
+                      "key": "gen_ai.conversation.id",
+                      "value": {
+                        "stringValue": "demo-conversation-project-telos-comparison"
+                      }
+                    },
+                    {
+                      "key": "context.input.kind",
+                      "value": {
+                        "stringValue": "duplicate_context"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.id_hash",
+                      "value": {
+                        "stringValue": "sha256:74ae5258a3f353c620a75a6572bb6fda9d5821933fa09c2724541eeda7b536b0"
+                      }
+                    },
+                    {
+                      "key": "context.input.source.role",
+                      "value": {
+                        "stringValue": "unused_duplicate_candidate"
+                      }
+                    },
+                    {
+                      "key": "context.input.selection.rank",
+                      "value": {
+                        "intValue": "3"
+                      }
+                    },
+                    {
+                      "key": "context.input.selection.status",
+                      "value": {
+                        "stringValue": "selected"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivery.status",
+                      "value": {
+                        "stringValue": "delivered"
+                      }
+                    },
+                    {
+                      "key": "context.input.delivered.hash",
+                      "value": {
+                        "stringValue": "sha256:686c0a4a3141950d4a502c30a182d7e9c0125db89a5d24be0d06a66948b1c377"
+                      }
+                    },
+                    {
+                      "key": "context.input.token_bucket",
+                      "value": {
+                        "stringValue": "0-1k"
+                      }
+                    },
+                    {
+                      "key": "context.input.audit_gap",
+                      "value": {
+                        "stringValue": "hashes and counts prove selected/delivered identity, not semantic usefulness"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

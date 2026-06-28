@@ -182,6 +182,17 @@ node examples/context-input-evidence/convert-context-selection-log.mjs \
 
 That fixture emits three loaded inputs and one later relevance event with `decisive_count=1`, `supporting_count=1`, `unused_count=1`, and `unknown_count=0`; the suppressed sensitive candidate stays count/policy-only and does not get a load event. It is meant to test whether another harness can answer the same operator questions without standardizing field names too early.
 
+The same comparison case also has a load-only variant for the pre-evaluator state:
+
+```bash
+node examples/context-input-evidence/convert-context-selection-log.mjs \
+  examples/context-input-evidence/sample-project-telos-load-only-log.jsonl \
+  examples/context-input-evidence/project-telos-load-only-receipt.ndjson \
+  examples/context-input-evidence/project-telos-load-only-otel-trace.json
+```
+
+That variant is intentionally valid as a selection/load receipt but not as a usefulness claim. The converter reports `decisionClaim=valid_load_receipt_not_usefulness_claim` when the later relevance event is absent. It also fails relevance events whose ranks do not join back to delivered `context.input` records, so missing relevance, over-selection, and unjoinable relevance fail as different cases.
+
 The receipt should stay narrower than the overlay standard itself. It does **not** require the standard to add frontmatter, classify user intent, or protect users from writing bad target-specific guidance. The minimum useful contract is behavioral:
 
 1. which candidate files the harness discovered;

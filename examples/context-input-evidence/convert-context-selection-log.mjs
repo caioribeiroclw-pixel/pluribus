@@ -122,11 +122,23 @@ if (relevance) {
   const supportingRanks = relevance.supporting_selection_ranks ?? relevance.relevant_selection_ranks ?? [];
   const unusedRanks = relevance.unused_selection_ranks ?? [];
   const unknownRanks = relevance.unknown_selection_ranks ?? [];
+  const relevanceRanks = [...decisiveRanks, ...supportingRanks, ...unusedRanks, ...unknownRanks];
+  const uniqueRelevanceRanks = new Set(relevanceRanks);
+  const deliveredRanks = new Set(inputs.map((input) => input.selection_rank));
+  const missingDeliveredRanks = [...uniqueRelevanceRanks].filter((rank) => !deliveredRanks.has(rank));
   const decisiveCount = decisiveRanks.length;
   const supportingCount = supportingRanks.length;
   const unusedCount = unusedRanks.length;
   const unknownCount = unknownRanks.length;
   const accountedCount = decisiveCount + supportingCount + unusedCount + unknownCount;
+
+  if (uniqueRelevanceRanks.size !== relevanceRanks.length) {
+    throw new Error('Invalid relevance receipt: relevance selection ranks must be unique across decisive, supporting, unused, and unknown buckets');
+  }
+
+  if (missingDeliveredRanks.length > 0) {
+    throw new Error(`Invalid relevance receipt: relevance ranks must join to delivered context.input records; missing ranks: ${missingDeliveredRanks.join(', ')}`);
+  }
 
   if (decisiveCount + supportingCount > selectedCount) {
     throw new Error(`Invalid relevance receipt: decisive_count + supporting_count (${decisiveCount + supportingCount}) exceeds selected_count (${selectedCount})`);
@@ -242,6 +254,7 @@ console.log(JSON.stringify({
   suppressedCount: selection.suppressed_count,
   deliveredHashCount: selection.delivered_hash_count,
   hasDecisionRelevanceEvent: Boolean(relevance),
+  decisionClaim: relevance ? 'load receipt plus post-hoc relevance accounting' : 'valid_load_receipt_not_usefulness_claim',
   privacyDefault: 'outputs hashes, buckets, counts, ranks, categorical fields, and audit gaps; does not copy raw prompts, customer names, private paths, secrets, tool output, or memory bodies',
-  lesson: 'The cheap first signal is over-selection: selected_count and delivered_hash_count can show too much context crossed the boundary before any relevance evaluator exists. When relevance exists, decisive/supporting/unused/unknown counts must account for selected_count so over-selection stays explicit.'
+  lesson: 'The cheap first signal is over-selection: selected_count and delivered_hash_count can show too much context crossed the boundary before any relevance evaluator exists. When relevance exists, decisive/supporting/unused/unknown counts must account for selected_count and every relevance rank must join to a delivered input so over-selection and unjoinable evidence fail differently.'
 }, null, 2));
