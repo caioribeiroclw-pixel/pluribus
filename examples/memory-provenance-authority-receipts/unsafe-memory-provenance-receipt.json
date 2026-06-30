@@ -1,0 +1,30 @@
+{
+  "schema": "pluribus.memory_provenance_authority_receipt.v1",
+  "receipt_id": "mem-prov-demo-unsafe-001",
+  "task_id": "checkout-provider-upgrade",
+  "generated_at": "2026-06-30T14:00:00.000Z",
+  "agent_surface": "claude-code",
+  "authority_homes": [
+    {
+      "id": "adr-042",
+      "kind": "adr",
+      "path_hash": "sha256:5ef66ce0b5ca7b1d1f5e8c189a13b72fbe0bdecb5cefd1c2e60e4f4f0d87caaa",
+      "git_ref": "main@9c4e2b1"
+    }
+  ],
+  "memory_events": [
+    {
+      "id": "mem-03",
+      "operation": "load",
+      "source_hash": "sha256:f8e53e73f96d5f3c0a9654fcf2e42a5217c2d219046ea67cc52809a302f2295d",
+      "claim": "SQLite remains the production database",
+      "freshness": "superseded",
+      "used_as_authority": true
+    }
+  ],
+  "privacy_omissions": [],
+  "decision": {
+    "status": "safe_to_continue",
+    "next_safe_action": "migrate checkout code using loaded memory"
+  }
+}

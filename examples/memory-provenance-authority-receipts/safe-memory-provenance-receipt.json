@@ -1,0 +1,63 @@
+{
+  "schema": "pluribus.memory_provenance_authority_receipt.v1",
+  "receipt_id": "mem-prov-demo-safe-001",
+  "task_id": "checkout-provider-upgrade",
+  "generated_at": "2026-06-30T14:00:00.000Z",
+  "agent_surface": "claude-code",
+  "question": "which memory facts were allowed to govern this edit?",
+  "authority_homes": [
+    {
+      "id": "adr-042",
+      "kind": "adr",
+      "path_hash": "sha256:5ef66ce0b5ca7b1d1f5e8c189a13b72fbe0bdecb5cefd1c2e60e4f4f0d87caaa",
+      "git_ref": "main@9c4e2b1",
+      "role": "current_database_decision"
+    },
+    {
+      "id": "release-2026-06-28",
+      "kind": "release_note",
+      "path_hash": "sha256:62c8431fc8ee4ba95f21e15b742d0137c4b8670838e31cf45855d2fb0c8f6e31",
+      "git_ref": "main@9c4e2b1",
+      "role": "provider_version_boundary"
+    }
+  ],
+  "memory_events": [
+    {
+      "id": "mem-17",
+      "operation": "search",
+      "source_hash": "sha256:b51d3a2d054f64d2e9372632f0f11255f33f91ce6f8bdf95eb8f98f8b842d012",
+      "claim": "checkout provider v3 removed legacy retry semantics",
+      "freshness": "current",
+      "authority_home": "release-2026-06-28",
+      "used_as_authority": true,
+      "verification_path": "release note -> provider changelog -> smoke checkout test"
+    },
+    {
+      "id": "mem-03",
+      "operation": "load",
+      "source_hash": "sha256:f8e53e73f96d5f3c0a9654fcf2e42a5217c2d219046ea67cc52809a302f2295d",
+      "claim": "SQLite remains the production database",
+      "freshness": "superseded",
+      "superseded_by": "adr-042",
+      "used_as_authority": false,
+      "suppressed_reason": "old transcript note conflicts with current ADR"
+    }
+  ],
+  "privacy_omissions": [
+    {
+      "category": "raw_memory_text",
+      "count": 2,
+      "reason": "receipt keeps hashes and claims, not private notes"
+    },
+    {
+      "category": "customer_identifiers",
+      "count": 4,
+      "reason": "not required to verify provider-version boundary"
+    }
+  ],
+  "decision": {
+    "status": "safe_to_continue",
+    "next_safe_action": "edit checkout adapter behind provider-v3 flag",
+    "blocked_until": null
+  }
+}
