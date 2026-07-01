@@ -417,6 +417,7 @@ If you've felt this pain, tell me about your setup. What tools do you use? How d
 - [Instruction-context Audit Receipt](examples/instruction-context-audit/) — hash active instruction files/skills and flag stale, dirty, external, or unreviewed authority surfaces before an agent writes
 - [MCP Tool Visibility Receipts](docs/mcp-tool-visibility-receipts.md) — checklist for debugging healthy MCP servers whose tools do not appear in the agent client catalog
 - [MCP Runtime Config Receipts](docs/mcp-runtime-config-receipts.md) — live-vs-template evidence for MCP permission/config drift review
+- [Rendered Output Receipts](docs/rendered-output-receipts.md) — canonical manifest → per-client output evidence for MCP/client config drift and rollback
 - [Module Boundary Contract Receipts](examples/module-boundary-contracts/) — copyable contract + npm-runnable checker (`npx --yes pluribus-context@latest demo module-boundary-contract`) for repo modules that need an agent stopping rule
 - [Remote Composable Context Imports](docs/remote-composable-context-imports.md) — design notes for lockfile/cache/auth hardening
 - [Context Format Spec](spec/context-format.md) — the `pluribus.md` format reference

@@ -1,0 +1,69 @@
+{
+  "schema": "pluribus.rendered_output_receipt.v1",
+  "run_id": "mcp-sync-2026-07-01T13:00Z",
+  "generated_at": "2026-07-01T13:00:00Z",
+  "canonical_source": {
+    "kind": "mcp_manifest",
+    "path": ".mcpmrc",
+    "version": "2026-07-01.1",
+    "hash": "sha256:canonical-manifest-example"
+  },
+  "render_targets": [
+    {
+      "client": "claude-code",
+      "target_path": ".mcp.json",
+      "write_mode": "update",
+      "before_hash": "sha256:old-claude-rendered-example",
+      "rendered_hash": "sha256:new-claude-rendered-example",
+      "last_known_good_hash": "sha256:old-claude-rendered-example",
+      "server_changes": [
+        {
+          "server_id": "github",
+          "source_ref": "github:mcp-server/github@v1.2.3",
+          "change_kind": "version_changed",
+          "before_version": "1.2.2",
+          "after_version": "1.2.3",
+          "capability_delta": ["repo:read"]
+        }
+      ],
+      "env_keys": {
+        "required": ["GITHUB_TOKEN"],
+        "present": [],
+        "missing": ["GITHUB_TOKEN"],
+        "values_logged": false
+      },
+      "rollback_snapshot_id": "rollback:mcp-sync-2026-07-01T12:45Z:claude-code"
+    },
+    {
+      "client": "cursor",
+      "target_path": ".cursor/mcp.json",
+      "write_mode": "dry_run",
+      "before_hash": "sha256:old-cursor-rendered-example",
+      "rendered_hash": "sha256:new-cursor-rendered-example",
+      "last_known_good_hash": "sha256:old-cursor-rendered-example",
+      "server_changes": [
+        {
+          "server_id": "github",
+          "source_ref": "github:mcp-server/github@v1.2.3",
+          "change_kind": "version_changed",
+          "before_version": "1.2.2",
+          "after_version": "1.2.3",
+          "capability_delta": ["repo:read"]
+        }
+      ],
+      "env_keys": {
+        "required": ["GITHUB_TOKEN"],
+        "present": ["GITHUB_TOKEN"],
+        "missing": [],
+        "values_logged": false
+      },
+      "rollback_snapshot_id": "rollback:mcp-sync-2026-07-01T12:45Z:cursor"
+    }
+  ],
+  "privacy": {
+    "raw_canonical_source_logged": false,
+    "raw_rendered_outputs_logged": false,
+    "secret_values_logged": false,
+    "absolute_private_paths_logged": false
+  }
+}
