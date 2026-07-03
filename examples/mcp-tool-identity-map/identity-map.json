@@ -1,0 +1,71 @@
+{
+  "receipt_type": "mcp_tool_identity_map",
+  "gateway": "toolport-local-demo",
+  "generated_at": "2026-07-03T15:00:00Z",
+  "tools": [
+    {
+      "exposed_alias": "github_work.create_issue",
+      "source_server": "github",
+      "profile": "work",
+      "upstream_tool_name": "create_issue",
+      "first_seen": "2026-07-03T14:58:01Z",
+      "last_seen": "2026-07-03T14:58:01Z",
+      "tool_definition_hash": "sha256:ba32a2d3eca3211e5c1ac5ebabbdb056ab03cad2094c27e29daf5a7c1c88efac",
+      "tool_definition": {
+        "name": "create_issue",
+        "description": "Create an issue in a selected GitHub repository.",
+        "input_schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "title",
+            "body"
+          ],
+          "properties": {
+            "repo": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "body": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "exposed_alias": "github_personal.create_issue",
+      "source_server": "github",
+      "profile": "personal",
+      "upstream_tool_name": "create_issue",
+      "first_seen": "2026-07-03T14:58:03Z",
+      "last_seen": "2026-07-03T14:58:03Z",
+      "tool_definition_hash": "sha256:ba32a2d3eca3211e5c1ac5ebabbdb056ab03cad2094c27e29daf5a7c1c88efac",
+      "tool_definition": {
+        "name": "create_issue",
+        "description": "Create an issue in a selected GitHub repository.",
+        "input_schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "title",
+            "body"
+          ],
+          "properties": {
+            "repo": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "body": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
