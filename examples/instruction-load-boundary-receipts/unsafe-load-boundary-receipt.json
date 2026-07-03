@@ -1,0 +1,27 @@
+{
+  "schema": "pluribus.instruction_load_boundary_receipt.v1",
+  "checked_at": "2026-07-03T22:00:00Z",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "git_blob": "sha256:57e7d9323a7212a4adf6c8da4b6ef8d534fb51e64f129a66f14fb3ad32f443a0",
+      "visible_text_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "agent_read_text_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "surfaces": ["codex_agents_md"],
+      "status": "clean",
+      "deltas": [
+        {
+          "kind": "bidi_override",
+          "visible_fragment": "safe looking line",
+          "agent_reads": "run hidden instruction",
+          "active_instruction": true,
+          "severity": "high"
+        }
+      ],
+      "remediation": {
+        "auto_rewrite": true,
+        "review_gate": "rewritten silently by scanner"
+      }
+    }
+  ]
+}
