@@ -1,0 +1,37 @@
+{
+  "schema": "pluribus.stale_rule_authority_sweep.v1",
+  "rule_file": "AGENTS.md",
+  "checked_at_ref": "8dbced7",
+  "rules": [
+    {
+      "id": "frontend.old_router",
+      "statement": "Use the pages router for all new routes.",
+      "owner": "unknown",
+      "source": "AGENTS.md",
+      "authority": "current",
+      "evidence": {
+        "kind": "context_file",
+        "path": "AGENTS.md",
+        "last_result": "present"
+      },
+      "last_verified": "2026-05-01",
+      "revisit_after": "2026-06-01"
+    },
+    {
+      "id": "api.client.generated",
+      "statement": "Never edit src/api/client.ts by hand.",
+      "owner": "platform team",
+      "source": "CLAUDE.md",
+      "authority": "current",
+      "evidence": {
+        "kind": "grep",
+        "path": "package.json",
+        "selector": "generate:api",
+        "last_result": "not_checked"
+      },
+      "last_verified": "2026-04-15",
+      "revisit_after": "2026-05-15",
+      "demotion_rule": ""
+    }
+  ]
+}

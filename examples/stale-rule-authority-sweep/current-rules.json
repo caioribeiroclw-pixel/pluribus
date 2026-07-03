@@ -1,0 +1,70 @@
+{
+  "schema": "pluribus.stale_rule_authority_sweep.v1",
+  "rule_file": "CLAUDE.md",
+  "checked_at_ref": "8dbced7",
+  "rules": [
+    {
+      "id": "upload.retry.max_attempts",
+      "statement": "Preserve max 3 retry attempts with exponential backoff for upload retries.",
+      "owner": "platform team",
+      "source": "docs/upload-api.md#retry-policy",
+      "authority": "current",
+      "evidence": {
+        "kind": "test",
+        "path": "test/upload-retry.test.ts",
+        "selector": "preserves three exponential retry attempts",
+        "last_result": "pass"
+      },
+      "last_verified": "2026-07-02",
+      "revisit_after": "2026-08-02",
+      "demotion_rule": "If the retry test or upload-api policy section is removed, treat this as historical until reverified."
+    },
+    {
+      "id": "privacy.no_raw_upload_logs",
+      "statement": "Never log raw file contents or customer uploads.",
+      "owner": "security review",
+      "source": "docs/security/upload-logging.md",
+      "authority": "current",
+      "evidence": {
+        "kind": "grep",
+        "path": "src/upload/**",
+        "selector": "logger.*(file.contents|rawUpload)",
+        "last_result": "no_matches"
+      },
+      "last_verified": "2026-07-03",
+      "revisit_after": "2026-09-01",
+      "demotion_rule": "If upload logging moves to a new package, require a fresh grep/test before treating this as complete."
+    },
+    {
+      "id": "legacy.upload_helper_removed",
+      "statement": "Do not reintroduce uploadLegacy(path); it was removed after v2.5.0.",
+      "owner": "migration owner",
+      "source": "docs/migrations/v2.5.0.md",
+      "authority": "current",
+      "evidence": {
+        "kind": "grep",
+        "path": "src test docs",
+        "selector": "uploadLegacy(",
+        "last_result": "no_matches"
+      },
+      "last_verified": "2026-07-03",
+      "revisit_after": "2026-08-15",
+      "demotion_rule": "If a compatibility adapter is added, replace this rule with the adapter contract and test path."
+    },
+    {
+      "id": "old.payments.topic",
+      "statement": "Payments topic notes are not authority for upload API edits.",
+      "owner": "agent",
+      "source": "notes/payments-spike.md",
+      "authority": "historical",
+      "evidence": {
+        "kind": "path",
+        "path": "notes/payments-spike.md",
+        "last_result": "previous_topic_only"
+      },
+      "last_verified": "2026-07-03",
+      "revisit_after": "2026-08-03",
+      "demotion_rule": "Already historical; only promote if a current upload spec links to it explicitly."
+    }
+  ]
+}
