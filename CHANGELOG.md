@@ -4,7 +4,12 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.49 - 2026-07-04
+
+- Added the public boundary receipt gallery, grouping existing Pluribus examples by the boundary they prove for directory reviewers and cold GitHub/npm visitors.
+- Added context-boundary receipt taxonomy docs covering MCP action preflight, memory/RAG authority, rendered-output provenance, context-input evidence, stale-rule authority, tool identity mapping, and instruction load-boundary safety.
 - Added `pluribus demo cross-client-token-ledger`, a GitHub-runnable demo for comparing native-client vs bridge-client token usage by separating visible prompt, hidden context, tool schemas, cache status, file reads, final diff size, and privacy omissions.
+- Updated package discovery metadata so the npm package homepage points to the boundary gallery and the keyword set includes `project-memory` instead of the stale `opentelemetry` discovery lane.
 
 ## 0.3.48 - 2026-06-27
 

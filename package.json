@@ -1,9 +1,9 @@
 {
   "name": "pluribus-context",
-  "version": "0.3.48",
+  "version": "0.3.49",
   "description": "AI context and rules sync CLI for Claude.md, Claude Code, Cursor, and Copilot instructions, with privacy-safe context receipts that prove what memory, tools, skills, compactions, and security findings crossed agent boundaries without logging raw content.",
   "type": "module",
-  "homepage": "https://github.com/caioribeiroclw-pixel/pluribus#readme",
+  "homepage": "https://caioribeiroclw-pixel.github.io/pluribus/boundary-receipt-gallery.html",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/caioribeiroclw-pixel/pluribus.git"
@@ -56,6 +56,7 @@
     "context",
     "context-drift",
     "context-engineering",
+    "project-memory",
     "context-receipts",
     "context-files",
     "context-sync",
@@ -66,7 +67,6 @@
     "cursor-rules",
     "developer-tools",
     "ai-agent-observability",
-    "opentelemetry",
     "mcp",
     "mcp-audit",
     "mcp-gateway",
