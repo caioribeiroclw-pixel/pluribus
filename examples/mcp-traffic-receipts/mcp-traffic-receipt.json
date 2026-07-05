@@ -1,0 +1,116 @@
+{
+  "schema": "pluribus.mcp_traffic_receipt.v1",
+  "run_id": "mcp-traffic-receipt-demo",
+  "generated_at": "2026-07-05T13:00:00Z",
+  "client": {
+    "name": "claude-code",
+    "workspace_hash": "sha256:6f7013d3a1179c9a3e0f6c9b1b65a728e4b6a31e87f80d552fdc0dd8b4429a27"
+  },
+  "server": {
+    "name": "docs-search-mcp",
+    "transport": "stdio",
+    "command_hash": "sha256:de6fdc0f4c9e8a44d1f10fd97d451f25a7ce0f4a76f64e41b4a4f8f875d070d4"
+  },
+  "capture": {
+    "source": "transparent-mcp-proxy",
+    "mode": "real-client-server-path",
+    "capability_hash": "sha256:8eec33dfd55db1f1b40bdfd3c42b7d94f134a2e8773597fd03b3efae399a9c4e",
+    "started_at": "2026-07-05T12:58:01Z",
+    "ended_at": "2026-07-05T12:58:44Z"
+  },
+  "privacy": {
+    "raw_payloads": "excluded",
+    "argument_policy": "hash_or_shape_only",
+    "response_policy": "hash_or_shape_only",
+    "notes": "Frame payloads stay in the local trace store. This receipt keeps method/status/timing plus hashes for replay and review."
+  },
+  "frames": [
+    {
+      "frame_id": "f001",
+      "direction": "client_to_server",
+      "kind": "request",
+      "method": "initialize",
+      "timestamp": "2026-07-05T12:58:01.100Z",
+      "payload_hash": "sha256:7b6b5b30aa8b7ddf171b24fb2a4567b41b9f9293b99c1cefd7d6b2d00f6ea1f4"
+    },
+    {
+      "frame_id": "f002",
+      "direction": "server_to_client",
+      "kind": "response",
+      "method": "initialize",
+      "timestamp": "2026-07-05T12:58:01.184Z",
+      "payload_hash": "sha256:98f1a41efa68b10ca219debc6b1a808d38055cbd15a84d60316a2f0347184435"
+    },
+    {
+      "frame_id": "f003",
+      "direction": "client_to_server",
+      "kind": "request",
+      "method": "tools/call",
+      "timestamp": "2026-07-05T12:58:19.000Z",
+      "payload_hash": "sha256:4f66f297c722ab0447f187a7021cdbb944bd8c556d4e61654eb8135c120158bb"
+    },
+    {
+      "frame_id": "f004",
+      "direction": "server_to_client",
+      "kind": "response",
+      "method": "tools/call",
+      "timestamp": "2026-07-05T12:58:19.742Z",
+      "payload_hash": "sha256:91eec452f72d0c64f1593f9e410a07c2aa583e75bb8d557a9d337552a0629f6e"
+    },
+    {
+      "frame_id": "f005",
+      "direction": "client_to_server",
+      "kind": "request",
+      "method": "tools/call",
+      "timestamp": "2026-07-05T12:58:38.000Z",
+      "payload_hash": "sha256:1cbf7e2fa1825d916904b2c3db5ff2f6e2698e7acc34821c145ef27cc0f696cf"
+    }
+  ],
+  "tool_calls": [
+    {
+      "call_id": "call-search-001",
+      "tool_name": "docs.search",
+      "request_frame_id": "f003",
+      "response_frame_id": "f004",
+      "status": "ok",
+      "duration_ms": 742,
+      "argument_hash": "sha256:45c174d357948a69f8650a5226bc59ff4d15291d58f0d73c95b53711b814d71b",
+      "argument_shape": {
+        "query": "string",
+        "limit": "number"
+      },
+      "response_hash": "sha256:ab398058698f46c1f470c4ef5f4e6ef00b0c9a3a9dbf2d78d5f61a7f36a2f9a4",
+      "response_shape": "object:2"
+    },
+    {
+      "call_id": "call-fetch-002",
+      "tool_name": "docs.fetch",
+      "request_frame_id": "f005",
+      "response_frame_id": null,
+      "status": "hung",
+      "duration_ms": 30000,
+      "argument_hash": "sha256:e0aa021e21dddbd6d8cecec71e9cf564582adbb1c10ab531463aa175e62518b1",
+      "argument_shape": {
+        "url": "redacted_string"
+      },
+      "response_hash": "sha256:missing-response",
+      "response_shape": "missing_response"
+    }
+  ],
+  "replay_artifacts": [
+    {
+      "call_id": "call-search-001",
+      "artifact_hash": "sha256:27ecdc8c42c19ed43feea69b7a8eb7d068529975245a616632b362136cba07bd",
+      "isolation": "fresh-server-copy",
+      "verdict": "replay_matched_status_and_shape"
+    }
+  ],
+  "review": {
+    "decision": "needs_review",
+    "reasons": [
+      "one hung call has request evidence but no response frame",
+      "capability agreement was captured without exposing raw schemas"
+    ],
+    "next_safe_action": "retry hung call in an isolated replay before granting the agent broader MCP authority"
+  }
+}

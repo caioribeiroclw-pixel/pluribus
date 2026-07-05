@@ -14,6 +14,7 @@ const DEFAULT_DEMO = 'skill-use-rate'
 const SKILL_USE_RATE_DEMO = 'skill-use-rate'
 const MCP_AUDIT_RECEIPT_DEMO = 'mcp-audit-receipt'
 const MCP_TELEMETRY_IMPORT_DEMO = 'mcp-telemetry-import'
+const MCP_TRAFFIC_RECEIPT_DEMO = 'mcp-traffic-receipt'
 const TOOL_SURFACE_DIFF_DEMO = 'tool-surface-diff'
 const CONTEXT_SUFFICIENCY_TRACE_DEMO = 'context-sufficiency-trace'
 const MODULE_BOUNDARY_CONTRACT_DEMO = 'module-boundary-contract'
@@ -24,9 +25,10 @@ const COMPANY_MEMORY_EXPORT_TEST_DEMO = 'company-memory-export-test'
 const SHARED_STATE_WRITE_PREFLIGHT_DEMO = 'shared-state-write-preflight'
 const CROSS_CLIENT_TOKEN_LEDGER_DEMO = 'cross-client-token-ledger'
 const MCP_ACTION_BOUNDARY_PREFLIGHT_DEMO = 'mcp-action-boundary-preflight'
-const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO, COMPANY_MEMORY_EXPORT_TEST_DEMO, SHARED_STATE_WRITE_PREFLIGHT_DEMO, CROSS_CLIENT_TOKEN_LEDGER_DEMO, MCP_ACTION_BOUNDARY_PREFLIGHT_DEMO]
+const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, MCP_TRAFFIC_RECEIPT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO, COMPANY_MEMORY_EXPORT_TEST_DEMO, SHARED_STATE_WRITE_PREFLIGHT_DEMO, CROSS_CLIENT_TOKEN_LEDGER_DEMO, MCP_ACTION_BOUNDARY_PREFLIGHT_DEMO]
 const SKILL_USE_RATE_SCHEMA = 'pluribus.skill_use_rate_receipt.v1'
 const MCP_AUDIT_RECEIPT_SCHEMA = 'pluribus.mcp_tool_call_audit_receipt.v1'
+const MCP_TRAFFIC_RECEIPT_SCHEMA = 'pluribus.mcp_traffic_receipt.v1'
 const TOOL_SURFACE_DIFF_SCHEMA = 'pluribus.mcp_tool_surface_diff_receipt.v1'
 const MODULE_BOUNDARY_CONTRACT_SCHEMA = 'pluribus.module_boundary_contract.v1'
 const INSTRUCTION_CONTEXT_AUDIT_SCHEMA = 'pluribus.instruction_context_audit.v1'
@@ -50,6 +52,8 @@ export async function runDemo(args, positional = []) {
       return runMcpAuditReceiptDemo(args)
     case MCP_TELEMETRY_IMPORT_DEMO:
       return runMcpTelemetryImportDemo(args)
+    case MCP_TRAFFIC_RECEIPT_DEMO:
+      return runMcpTrafficReceiptDemo(args)
     case TOOL_SURFACE_DIFF_DEMO:
       return runToolSurfaceDiffDemo(args)
     case CONTEXT_SUFFICIENCY_TRACE_DEMO:
@@ -311,6 +315,10 @@ function bundledMcpTelemetryJsonlPath() {
   return fileURLToPath(new URL('../../examples/mcp-telemetry-import/sample-rpc-messages.jsonl', import.meta.url))
 }
 
+function bundledMcpTrafficReceiptPath() {
+  return fileURLToPath(new URL('../../examples/mcp-traffic-receipts/mcp-traffic-receipt.json', import.meta.url))
+}
+
 function bundledToolSurfaceDiffReceiptPath() {
   return fileURLToPath(new URL('../../examples/tool-surface-diff-receipts/tool-surface-diff-receipt.json', import.meta.url))
 }
@@ -361,6 +369,40 @@ function bundledCrossClientTokenLedgerReceiptPath() {
 
 function bundledMcpActionBoundaryPreflightReceiptPath() {
   return fileURLToPath(new URL('../../examples/mcp-action-boundary-preflight/mcp-action-boundary-preflight-receipt.json', import.meta.url))
+}
+
+function runMcpTrafficReceiptDemo(args) {
+  const receiptPath = selectedReceiptPath(args, bundledMcpTrafficReceiptPath())
+  const receipt = readReceipt(receiptPath, 'MCP traffic')
+  const result = validateMcpTrafficReceipt(receipt)
+
+  if (Boolean(args.json)) {
+    console.log(JSON.stringify({
+      ok: result.errors.length === 0,
+      demo: MCP_TRAFFIC_RECEIPT_DEMO,
+      receipt: path.relative(process.cwd(), receiptPath) || receiptPath,
+      summary: result.summary,
+      warnings: result.warnings,
+      errors: result.errors,
+    }, null, 2))
+  } else {
+    console.log('🧪 Pluribus demo: MCP traffic receipt')
+    console.log(`   Receipt: ${path.relative(process.cwd(), receiptPath) || receiptPath}`)
+    console.log('')
+
+    if (result.errors.length === 0) {
+      console.log(`✅ MCP traffic receipt ok: ${result.summary.frameCount} frames, ${result.summary.toolCallCount} tool calls, ${result.summary.hungCallCount} hung, ${result.summary.replayableCallCount} replayable`)
+      for (const warning of result.warnings) console.log(`   • ${warning}`)
+      console.log('')
+      console.log('Why this matters: MCP proxies can see real client↔server frames, but agents and reviewers need a redacted receipt that proves capability agreement, tool-call status, replay evidence, and privacy defaults without dumping raw payloads into context.')
+      console.log('Try your own receipt: pluribus demo mcp-traffic-receipt --receipt path/to/mcp-traffic-receipt.json --json')
+    } else {
+      console.error('❌ MCP traffic receipt invalid:')
+      for (const error of result.errors) console.error(`   • ${error}`)
+    }
+  }
+
+  if (result.errors.length > 0) process.exit(1)
 }
 
 function runToolSurfaceDiffDemo(args) {
@@ -1665,6 +1707,90 @@ export function validateMcpAuditReceipt(receipt) {
       toolCallCount: Array.isArray(receipt.tool_calls) ? receipt.tool_calls.length : 0,
       auditEventCount: Array.isArray(receipt.tool_calls) ? receipt.tool_calls.length : 0,
       metricCount: Array.isArray(receipt.usage_metrics) ? receipt.usage_metrics.length : 0,
+    },
+  }
+}
+
+export function validateMcpTrafficReceipt(receipt) {
+  const errors = []
+  const warnings = []
+
+  function requireString(value, field) {
+    if (typeof value !== 'string' || value.trim() === '') errors.push(`${field} must be a non-empty string`)
+  }
+  function requireArray(value, field) {
+    if (!Array.isArray(value) || value.length === 0) errors.push(`${field} must be a non-empty array`)
+  }
+  function requireNonNegativeInteger(value, field) {
+    if (!Number.isInteger(value) || value < 0) errors.push(`${field} must be a non-negative integer`)
+  }
+
+  if (receipt.schema !== MCP_TRAFFIC_RECEIPT_SCHEMA) errors.push(`schema must be ${MCP_TRAFFIC_RECEIPT_SCHEMA}`)
+  requireString(receipt.run_id, 'run_id')
+  requireString(receipt.generated_at, 'generated_at')
+  requireString(receipt.client?.name, 'client.name')
+  requireString(receipt.client?.workspace_hash, 'client.workspace_hash')
+  requireString(receipt.server?.name, 'server.name')
+  requireString(receipt.server?.transport, 'server.transport')
+  requireString(receipt.capture?.source, 'capture.source')
+  requireString(receipt.capture?.mode, 'capture.mode')
+  requireString(receipt.capture?.capability_hash, 'capture.capability_hash')
+  requireString(receipt.privacy?.raw_payloads, 'privacy.raw_payloads')
+  requireString(receipt.privacy?.argument_policy, 'privacy.argument_policy')
+  requireString(receipt.privacy?.response_policy, 'privacy.response_policy')
+  requireArray(receipt.frames, 'frames')
+  requireArray(receipt.tool_calls, 'tool_calls')
+
+  if (receipt.privacy?.raw_payloads !== 'excluded') errors.push('privacy.raw_payloads must be excluded')
+  if (receipt.privacy?.argument_policy !== 'hash_or_shape_only') errors.push('privacy.argument_policy must be hash_or_shape_only')
+  if (receipt.privacy?.response_policy !== 'hash_or_shape_only') errors.push('privacy.response_policy must be hash_or_shape_only')
+
+  const allowedFrameKinds = new Set(['request', 'response', 'notification'])
+  for (const [index, frame] of (receipt.frames || []).entries()) {
+    const prefix = `frames[${index}]`
+    requireString(frame.frame_id, `${prefix}.frame_id`)
+    requireString(frame.direction, `${prefix}.direction`)
+    requireString(frame.kind, `${prefix}.kind`)
+    requireString(frame.method, `${prefix}.method`)
+    requireString(frame.payload_hash, `${prefix}.payload_hash`)
+    requireString(frame.timestamp, `${prefix}.timestamp`)
+    if (!['client_to_server', 'server_to_client'].includes(frame.direction)) errors.push(`${prefix}.direction must be client_to_server or server_to_client`)
+    if (!allowedFrameKinds.has(frame.kind)) errors.push(`${prefix}.kind must be request, response, or notification`)
+    if (typeof frame.payload !== 'undefined' || typeof frame.raw_payload !== 'undefined') errors.push(`${prefix} must not include raw payload data`)
+  }
+
+  for (const [index, call] of (receipt.tool_calls || []).entries()) {
+    const prefix = `tool_calls[${index}]`
+    requireString(call.call_id, `${prefix}.call_id`)
+    requireString(call.tool_name, `${prefix}.tool_name`)
+    requireString(call.request_frame_id, `${prefix}.request_frame_id`)
+    requireString(call.status, `${prefix}.status`)
+    requireString(call.argument_hash, `${prefix}.argument_hash`)
+    requireString(call.response_hash, `${prefix}.response_hash`)
+    requireNonNegativeInteger(call.duration_ms, `${prefix}.duration_ms`)
+    if (!['ok', 'error', 'pending', 'hung', 'denied'].includes(call.status)) errors.push(`${prefix}.status must be one of ok|error|pending|hung|denied`)
+    if (call.status === 'hung' && call.duration_ms < 30000) warnings.push(`${prefix} is marked hung with duration under 30000ms`)
+    if (typeof call.arguments !== 'undefined' || typeof call.response !== 'undefined') errors.push(`${prefix} must not include raw arguments or response`)
+  }
+
+  const replayArtifacts = Array.isArray(receipt.replay_artifacts) ? receipt.replay_artifacts : []
+  if (replayArtifacts.length === 0) warnings.push('replay_artifacts is empty; reviewers cannot verify replay evidence')
+  for (const [index, artifact] of replayArtifacts.entries()) {
+    const prefix = `replay_artifacts[${index}]`
+    requireString(artifact.call_id, `${prefix}.call_id`)
+    requireString(artifact.artifact_hash, `${prefix}.artifact_hash`)
+    requireString(artifact.isolation, `${prefix}.isolation`)
+    requireString(artifact.verdict, `${prefix}.verdict`)
+  }
+
+  return {
+    errors,
+    warnings,
+    summary: {
+      frameCount: Array.isArray(receipt.frames) ? receipt.frames.length : 0,
+      toolCallCount: Array.isArray(receipt.tool_calls) ? receipt.tool_calls.length : 0,
+      hungCallCount: Array.isArray(receipt.tool_calls) ? receipt.tool_calls.filter((call) => call.status === 'hung').length : 0,
+      replayableCallCount: replayArtifacts.length,
     },
   }
 }

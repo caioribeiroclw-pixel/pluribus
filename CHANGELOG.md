@@ -4,6 +4,8 @@
 
 All notable changes to Pluribus are documented here.
 
+- Added `pluribus demo mcp-traffic-receipt`, docs, and a gallery card for redacted MCP client↔server traffic receipts that prove capability agreement, tool-call status, hung calls, replay evidence, and privacy defaults without exposing raw JSON-RPC payloads.
+
 ## 0.3.49 - 2026-07-04
 
 - Added the public boundary receipt gallery, grouping existing Pluribus examples by the boundary they prove for directory reviewers and cold GitHub/npm visitors.

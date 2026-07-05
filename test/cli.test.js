@@ -117,6 +117,30 @@ test('demo mcp-telemetry-import --json reports receipt and coverage gaps', () =>
 })
 
 
+test('demo mcp-traffic-receipt validates the packaged receipt', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'mcp-traffic-receipt'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Pluribus demo: MCP traffic receipt/)
+  assert.match(result.stdout, /5 frames, 2 tool calls, 1 hung, 1 replayable/)
+  assert.match(result.stdout, /capability agreement, tool-call status, replay evidence/)
+})
+
+test('demo mcp-traffic-receipt --json reports machine-readable summary', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'mcp-traffic-receipt', '--json'])
+
+  assert.equal(result.status, 0, result.stderr)
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.demo, 'mcp-traffic-receipt')
+  assert.deepEqual(payload.summary, { frameCount: 5, toolCallCount: 2, hungCallCount: 1, replayableCallCount: 1 })
+})
+
+
 test('demo tool-surface-diff validates the packaged receipt', () => {
   const dir = tempProject()
 

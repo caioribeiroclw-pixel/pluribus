@@ -52,6 +52,13 @@
 
     <section class="grid" aria-label="Boundary receipt examples">
       <article class="card">
+        <span class="pill">MCP traffic</span>
+        <h2>Real tool call → trusted evidence</h2>
+        <p>When an MCP proxy sees client↔server frames, turn raw JSON-RPC into a redacted receipt proving capability agreement, call status, replay evidence, and privacy defaults.</p>
+        <p><a href="mcp-traffic-receipts.md">Try the MCP traffic receipt →</a></p>
+      </article>
+
+      <article class="card">
         <span class="pill">MCP gateways</span>
         <h2>Hidden inventory → model-visible tool</h2>
         <p>When Tool Search or a local gateway hides hundreds of MCP tools, prove which server/profile and upstream definition hash surfaced behind the alias.</p>
@@ -96,8 +103,8 @@
 
     <section class="card">
       <h2>One-minute local check</h2>
-      <p>Run one public demo without cloning the repository. It validates a receipt for discovered → activated → withheld/blocked MCP tools.</p>
-      <pre class="cmd">npx --yes pluribus-context@latest demo tool-surface-diff --json</pre>
+      <p>Run one public demo without cloning the repository. It validates a redacted MCP traffic receipt for capability agreement, tool-call status, replay evidence, and privacy defaults.</p>
+      <pre class="cmd">npm exec --yes --package github:caioribeiroclw-pixel/pluribus -- pluribus demo mcp-traffic-receipt --json</pre>
       <p>For directory maintainers and newsletter reviewers, the <a href="community-review-packet.md">Community Review Packet</a> has copyable listing text and disposable smoke tests.</p>
     </section>
   </main>
