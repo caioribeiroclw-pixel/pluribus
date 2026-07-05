@@ -59,6 +59,13 @@
       </article>
 
       <article class="card">
+        <span class="pill">Package sandbox</span>
+        <h2>Untrusted package → reviewable behavior</h2>
+        <p>When a sandbox captures npm/PyPI/MCP behavior, turn raw traces into a model-safe receipt proving target hash, sandbox policy, artifact hashes, behavior counts, and verdict.</p>
+        <p><a href="package-behavior-receipts.md">Try the package behavior receipt →</a></p>
+      </article>
+
+      <article class="card">
         <span class="pill">MCP gateways</span>
         <h2>Hidden inventory → model-visible tool</h2>
         <p>When Tool Search or a local gateway hides hundreds of MCP tools, prove which server/profile and upstream definition hash surfaced behind the alias.</p>
@@ -103,8 +110,8 @@
 
     <section class="card">
       <h2>One-minute local check</h2>
-      <p>Run one public demo without cloning the repository. It validates a redacted MCP traffic receipt for capability agreement, tool-call status, replay evidence, and privacy defaults.</p>
-      <pre class="cmd">npm exec --yes --package github:caioribeiroclw-pixel/pluribus -- pluribus demo mcp-traffic-receipt --json</pre>
+      <p>Run one public demo without cloning the repository. It validates a redacted package behavior receipt for target hash, sandbox policy, behavior counts, artifact hashes, verdict, and privacy defaults.</p>
+      <pre class="cmd">npm exec --yes --package github:caioribeiroclw-pixel/pluribus -- pluribus demo package-behavior-receipt --json</pre>
       <p>For directory maintainers and newsletter reviewers, the <a href="community-review-packet.md">Community Review Packet</a> has copyable listing text and disposable smoke tests.</p>
     </section>
   </main>

@@ -5,6 +5,7 @@
 All notable changes to Pluribus are documented here.
 
 - Added `pluribus demo mcp-traffic-receipt`, docs, and a gallery card for redacted MCP client↔server traffic receipts that prove capability agreement, tool-call status, hung calls, replay evidence, and privacy defaults without exposing raw JSON-RPC payloads.
+- Added `pluribus demo package-behavior-receipt`, docs, and a gallery card for package/MCP sandbox evidence receipts that prove target hash, sandbox policy, behavior counts, artifact hashes, verdict, and privacy defaults before trusting an untrusted dependency or tool.
 
 ## 0.3.49 - 2026-07-04
 

@@ -98,6 +98,8 @@ EXAMPLES
   pluribus demo mcp-telemetry-import --json
   pluribus demo mcp-traffic-receipt
   pluribus demo mcp-traffic-receipt --json
+  pluribus demo package-behavior-receipt
+  pluribus demo package-behavior-receipt --json
   pluribus demo tool-surface-diff
   pluribus demo tool-surface-diff --json
   pluribus demo context-sufficiency-trace --json

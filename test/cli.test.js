@@ -140,6 +140,37 @@ test('demo mcp-traffic-receipt --json reports machine-readable summary', () => {
   assert.deepEqual(payload.summary, { frameCount: 5, toolCallCount: 2, hungCallCount: 1, replayableCallCount: 1 })
 })
 
+test('demo package-behavior-receipt validates the packaged receipt', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'package-behavior-receipt'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Pluribus demo: package behavior receipt/)
+  assert.match(result.stdout, /3 processes, 88 file events, 3 network events, verdict review_required/)
+  assert.match(result.stdout, /target hash, sandbox policy, behavior counts, artifact hashes/)
+})
+
+test('demo package-behavior-receipt --json reports machine-readable summary', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'package-behavior-receipt', '--json'])
+
+  assert.equal(result.status, 0, result.stderr)
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.demo, 'package-behavior-receipt')
+  assert.deepEqual(payload.summary, {
+    target: 'npm:example-mcp-connector@1.4.2',
+    verdict: 'review_required',
+    observedProcessCount: 3,
+    fileEventCount: 88,
+    networkEventCount: 3,
+    signatureCount: 3,
+    requiresHumanReview: true,
+  })
+})
+
 
 test('demo tool-surface-diff validates the packaged receipt', () => {
   const dir = tempProject()

@@ -15,6 +15,7 @@ const SKILL_USE_RATE_DEMO = 'skill-use-rate'
 const MCP_AUDIT_RECEIPT_DEMO = 'mcp-audit-receipt'
 const MCP_TELEMETRY_IMPORT_DEMO = 'mcp-telemetry-import'
 const MCP_TRAFFIC_RECEIPT_DEMO = 'mcp-traffic-receipt'
+const PACKAGE_BEHAVIOR_RECEIPT_DEMO = 'package-behavior-receipt'
 const TOOL_SURFACE_DIFF_DEMO = 'tool-surface-diff'
 const CONTEXT_SUFFICIENCY_TRACE_DEMO = 'context-sufficiency-trace'
 const MODULE_BOUNDARY_CONTRACT_DEMO = 'module-boundary-contract'
@@ -25,10 +26,11 @@ const COMPANY_MEMORY_EXPORT_TEST_DEMO = 'company-memory-export-test'
 const SHARED_STATE_WRITE_PREFLIGHT_DEMO = 'shared-state-write-preflight'
 const CROSS_CLIENT_TOKEN_LEDGER_DEMO = 'cross-client-token-ledger'
 const MCP_ACTION_BOUNDARY_PREFLIGHT_DEMO = 'mcp-action-boundary-preflight'
-const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, MCP_TRAFFIC_RECEIPT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO, COMPANY_MEMORY_EXPORT_TEST_DEMO, SHARED_STATE_WRITE_PREFLIGHT_DEMO, CROSS_CLIENT_TOKEN_LEDGER_DEMO, MCP_ACTION_BOUNDARY_PREFLIGHT_DEMO]
+const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, MCP_TRAFFIC_RECEIPT_DEMO, PACKAGE_BEHAVIOR_RECEIPT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO, COMPANY_MEMORY_EXPORT_TEST_DEMO, SHARED_STATE_WRITE_PREFLIGHT_DEMO, CROSS_CLIENT_TOKEN_LEDGER_DEMO, MCP_ACTION_BOUNDARY_PREFLIGHT_DEMO]
 const SKILL_USE_RATE_SCHEMA = 'pluribus.skill_use_rate_receipt.v1'
 const MCP_AUDIT_RECEIPT_SCHEMA = 'pluribus.mcp_tool_call_audit_receipt.v1'
 const MCP_TRAFFIC_RECEIPT_SCHEMA = 'pluribus.mcp_traffic_receipt.v1'
+const PACKAGE_BEHAVIOR_RECEIPT_SCHEMA = 'pluribus.package_behavior_receipt.v1'
 const TOOL_SURFACE_DIFF_SCHEMA = 'pluribus.mcp_tool_surface_diff_receipt.v1'
 const MODULE_BOUNDARY_CONTRACT_SCHEMA = 'pluribus.module_boundary_contract.v1'
 const INSTRUCTION_CONTEXT_AUDIT_SCHEMA = 'pluribus.instruction_context_audit.v1'
@@ -54,6 +56,8 @@ export async function runDemo(args, positional = []) {
       return runMcpTelemetryImportDemo(args)
     case MCP_TRAFFIC_RECEIPT_DEMO:
       return runMcpTrafficReceiptDemo(args)
+    case PACKAGE_BEHAVIOR_RECEIPT_DEMO:
+      return runPackageBehaviorReceiptDemo(args)
     case TOOL_SURFACE_DIFF_DEMO:
       return runToolSurfaceDiffDemo(args)
     case CONTEXT_SUFFICIENCY_TRACE_DEMO:
@@ -319,6 +323,10 @@ function bundledMcpTrafficReceiptPath() {
   return fileURLToPath(new URL('../../examples/mcp-traffic-receipts/mcp-traffic-receipt.json', import.meta.url))
 }
 
+function bundledPackageBehaviorReceiptPath() {
+  return fileURLToPath(new URL('../../examples/package-behavior-receipts/package-behavior-receipt.json', import.meta.url))
+}
+
 function bundledToolSurfaceDiffReceiptPath() {
   return fileURLToPath(new URL('../../examples/tool-surface-diff-receipts/tool-surface-diff-receipt.json', import.meta.url))
 }
@@ -398,6 +406,40 @@ function runMcpTrafficReceiptDemo(args) {
       console.log('Try your own receipt: pluribus demo mcp-traffic-receipt --receipt path/to/mcp-traffic-receipt.json --json')
     } else {
       console.error('❌ MCP traffic receipt invalid:')
+      for (const error of result.errors) console.error(`   • ${error}`)
+    }
+  }
+
+  if (result.errors.length > 0) process.exit(1)
+}
+
+function runPackageBehaviorReceiptDemo(args) {
+  const receiptPath = selectedReceiptPath(args, bundledPackageBehaviorReceiptPath())
+  const receipt = readReceipt(receiptPath, 'package behavior')
+  const result = validatePackageBehaviorReceipt(receipt)
+
+  if (Boolean(args.json)) {
+    console.log(JSON.stringify({
+      ok: result.errors.length === 0,
+      demo: PACKAGE_BEHAVIOR_RECEIPT_DEMO,
+      receipt: path.relative(process.cwd(), receiptPath) || receiptPath,
+      summary: result.summary,
+      warnings: result.warnings,
+      errors: result.errors,
+    }, null, 2))
+  } else {
+    console.log('🧪 Pluribus demo: package behavior receipt')
+    console.log(`   Receipt: ${path.relative(process.cwd(), receiptPath) || receiptPath}`)
+    console.log('')
+
+    if (result.errors.length === 0) {
+      console.log(`✅ package behavior receipt ok: ${result.summary.observedProcessCount} processes, ${result.summary.fileEventCount} file events, ${result.summary.networkEventCount} network events, verdict ${result.summary.verdict}`)
+      for (const warning of result.warnings) console.log(`   • ${warning}`)
+      console.log('')
+      console.log('Why this matters: sandbox tools can capture rich syscall/package behavior, but agents and CI need a small privacy-safe receipt that proves target hash, sandbox policy, behavior counts, artifact hashes, and verdict before trusting a dependency or MCP server.')
+      console.log('Try your own receipt: pluribus demo package-behavior-receipt --receipt path/to/package-behavior-receipt.json --json')
+    } else {
+      console.error('❌ package behavior receipt invalid:')
       for (const error of result.errors) console.error(`   • ${error}`)
     }
   }
@@ -1791,6 +1833,100 @@ export function validateMcpTrafficReceipt(receipt) {
       toolCallCount: Array.isArray(receipt.tool_calls) ? receipt.tool_calls.length : 0,
       hungCallCount: Array.isArray(receipt.tool_calls) ? receipt.tool_calls.filter((call) => call.status === 'hung').length : 0,
       replayableCallCount: replayArtifacts.length,
+    },
+  }
+}
+
+export function validatePackageBehaviorReceipt(receipt) {
+  const errors = []
+  const warnings = []
+
+  function requireString(value, field) {
+    if (typeof value !== 'string' || value.trim() === '') errors.push(`${field} must be a non-empty string`)
+  }
+  function requireBoolean(value, field) {
+    if (typeof value !== 'boolean') errors.push(`${field} must be boolean`)
+  }
+  function requireArray(value, field) {
+    if (!Array.isArray(value) || value.length === 0) errors.push(`${field} must be a non-empty array`)
+  }
+  function requireNonNegativeInteger(value, field) {
+    if (!Number.isInteger(value) || value < 0) errors.push(`${field} must be a non-negative integer`)
+  }
+
+  if (receipt.schema !== PACKAGE_BEHAVIOR_RECEIPT_SCHEMA) errors.push(`schema must be ${PACKAGE_BEHAVIOR_RECEIPT_SCHEMA}`)
+  requireString(receipt.run_id, 'run_id')
+  requireString(receipt.generated_at, 'generated_at')
+  requireString(receipt.target?.type, 'target.type')
+  requireString(receipt.target?.name, 'target.name')
+  requireString(receipt.target?.version, 'target.version')
+  requireString(receipt.target?.source, 'target.source')
+  requireString(receipt.target?.artifact_hash, 'target.artifact_hash')
+  requireString(receipt.sandbox?.mode, 'sandbox.mode')
+  requireString(receipt.sandbox?.network_policy, 'sandbox.network_policy')
+  requireString(receipt.sandbox?.image_digest, 'sandbox.image_digest')
+  requireNonNegativeInteger(receipt.sandbox?.timeout_ms, 'sandbox.timeout_ms')
+  requireString(receipt.evidence?.trace_artifact_hash, 'evidence.trace_artifact_hash')
+  requireString(receipt.evidence?.graph_artifact_hash, 'evidence.graph_artifact_hash')
+  requireString(receipt.evidence?.report_artifact_hash, 'evidence.report_artifact_hash')
+  requireArray(receipt.behavior?.processes, 'behavior.processes')
+  requireArray(receipt.behavior?.file_events, 'behavior.file_events')
+  requireArray(receipt.behavior?.network_events, 'behavior.network_events')
+  requireArray(receipt.behavior?.signatures, 'behavior.signatures')
+  requireString(receipt.verdict?.decision, 'verdict.decision')
+  requireString(receipt.verdict?.confidence, 'verdict.confidence')
+  requireBoolean(receipt.verdict?.requires_human_review, 'verdict.requires_human_review')
+  requireBoolean(receipt.privacy?.raw_syscalls_included, 'privacy.raw_syscalls_included')
+  requireBoolean(receipt.privacy?.raw_environment_included, 'privacy.raw_environment_included')
+  requireBoolean(receipt.privacy?.raw_secrets_included, 'privacy.raw_secrets_included')
+  requireString(receipt.privacy?.payload_policy, 'privacy.payload_policy')
+
+  if (!['npm', 'pypi', 'mcp_server', 'container', 'archive'].includes(receipt.target?.type)) errors.push('target.type must be npm, pypi, mcp_server, container, or archive')
+  if (!String(receipt.target?.artifact_hash || '').startsWith('sha256:')) errors.push('target.artifact_hash must be a sha256: hash')
+  for (const key of ['trace_artifact_hash', 'graph_artifact_hash', 'report_artifact_hash']) {
+    if (!String(receipt.evidence?.[key] || '').startsWith('sha256:')) errors.push(`evidence.${key} must be a sha256: hash`)
+  }
+  if (!['network_disabled', 'allowlist_only', 'record_only'].includes(receipt.sandbox?.network_policy)) errors.push('sandbox.network_policy must be network_disabled, allowlist_only, or record_only')
+  if (!['allow', 'review_required', 'block'].includes(receipt.verdict?.decision)) errors.push('verdict.decision must be allow, review_required, or block')
+  if (!['low', 'medium', 'high'].includes(receipt.verdict?.confidence)) errors.push('verdict.confidence must be low, medium, or high')
+  if (receipt.privacy?.raw_syscalls_included !== false) errors.push('privacy.raw_syscalls_included must be false')
+  if (receipt.privacy?.raw_environment_included !== false) errors.push('privacy.raw_environment_included must be false')
+  if (receipt.privacy?.raw_secrets_included !== false) errors.push('privacy.raw_secrets_included must be false')
+  if (receipt.privacy?.payload_policy !== 'counts_hashes_and_shapes_only') errors.push('privacy.payload_policy must be counts_hashes_and_shapes_only')
+
+  let fileWriteCount = 0
+  for (const [index, event] of (receipt.behavior?.file_events || []).entries()) {
+    const prefix = `behavior.file_events[${index}]`
+    requireString(event.kind, `${prefix}.kind`)
+    requireNonNegativeInteger(event.count, `${prefix}.count`)
+    requireString(event.path_shape, `${prefix}.path_shape`)
+    if (['write', 'delete', 'chmod'].includes(event.kind)) fileWriteCount += Number.isInteger(event.count) ? event.count : 0
+  }
+
+  let outboundNetworkCount = 0
+  for (const [index, event] of (receipt.behavior?.network_events || []).entries()) {
+    const prefix = `behavior.network_events[${index}]`
+    requireString(event.kind, `${prefix}.kind`)
+    requireNonNegativeInteger(event.count, `${prefix}.count`)
+    requireString(event.destination_shape, `${prefix}.destination_shape`)
+    if (event.kind === 'outbound_connect') outboundNetworkCount += Number.isInteger(event.count) ? event.count : 0
+  }
+
+  if (receipt.sandbox?.network_policy === 'network_disabled' && outboundNetworkCount > 0) errors.push('network_disabled sandbox cannot report outbound network events')
+  if (receipt.verdict?.decision === 'allow' && receipt.verdict?.requires_human_review) warnings.push('verdict is allow but still requires human review')
+  if (fileWriteCount > 0 && receipt.verdict?.decision === 'allow') warnings.push('receipt allowed a package with write/delete/chmod behavior; review artifact hashes before installing')
+
+  return {
+    errors,
+    warnings,
+    summary: {
+      target: `${receipt.target?.type || 'unknown'}:${receipt.target?.name || 'unknown'}@${receipt.target?.version || 'unknown'}`,
+      verdict: receipt.verdict?.decision || 'unknown',
+      observedProcessCount: Array.isArray(receipt.behavior?.processes) ? receipt.behavior.processes.length : 0,
+      fileEventCount: Array.isArray(receipt.behavior?.file_events) ? receipt.behavior.file_events.reduce((sum, event) => sum + (Number.isInteger(event.count) ? event.count : 0), 0) : 0,
+      networkEventCount: Array.isArray(receipt.behavior?.network_events) ? receipt.behavior.network_events.reduce((sum, event) => sum + (Number.isInteger(event.count) ? event.count : 0), 0) : 0,
+      signatureCount: Array.isArray(receipt.behavior?.signatures) ? receipt.behavior.signatures.length : 0,
+      requiresHumanReview: receipt.verdict?.requires_human_review === true,
     },
   }
 }

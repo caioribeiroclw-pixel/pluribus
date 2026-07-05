@@ -84,7 +84,7 @@ npx --yes pluribus-context@latest sync --dry-run
 npx --yes pluribus-context@latest audit --ci --json --output pluribus-audit.json || test $? -eq 1
 ```
 
-npm `latest` is currently aligned with the latest GitHub release. If a future GitHub release is newer than npm `latest`, review that release directly instead of waiting for the npm dist-tag:
+npm `latest` may lag behind the latest GitHub release. If a GitHub release is newer than npm `latest`, review that release directly instead of waiting for the npm dist-tag:
 
 ```bash
 npm exec --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.26 -- pluribus --version

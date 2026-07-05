@@ -1,0 +1,56 @@
+{
+  "schema": "pluribus.package_behavior_receipt.v1",
+  "run_id": "package-behavior-receipt-demo",
+  "generated_at": "2026-07-05T19:00:00Z",
+  "target": {
+    "type": "npm",
+    "name": "example-mcp-connector",
+    "version": "1.4.2",
+    "source": "registry:npm",
+    "artifact_hash": "sha256:3ad0e7dd1b5d610c72b4c8fd831a8a6d650f7f4d5f7a0b7e97a8f079b771a946"
+  },
+  "sandbox": {
+    "mode": "install_and_smoke_test",
+    "network_policy": "allowlist_only",
+    "timeout_ms": 120000,
+    "image_digest": "sha256:16e9f43d7f7e09b8da42d98a7f1460fdb59f3cbcb5f07a2a2e8a7df6c0f08d6a"
+  },
+  "evidence": {
+    "trace_artifact_hash": "sha256:4ce0a8f43bb2b79e8b890a3bc3fb6e2a26fbfdc7c4b955a7d1e54b6d76c3c531",
+    "graph_artifact_hash": "sha256:5db4e07b1675f8d7cc4f577bdad39f529279fa4b8d066869c8a1c1b6b6770d83",
+    "report_artifact_hash": "sha256:0d6e266d65b4b7b9f69e6ef963b5e9a352c123d2b1b283086c8bb49675d4d4c7"
+  },
+  "behavior": {
+    "processes": [
+      { "name_hash": "sha256:node-main", "kind": "runtime", "count": 1 },
+      { "name_hash": "sha256:npm-postinstall", "kind": "package_script", "count": 1 },
+      { "name_hash": "sha256:helper-child", "kind": "child_process", "count": 2 }
+    ],
+    "file_events": [
+      { "kind": "read", "count": 83, "path_shape": "package_and_node_modules" },
+      { "kind": "write", "count": 4, "path_shape": "tmp_cache_only" },
+      { "kind": "delete", "count": 1, "path_shape": "tmp_cache_only" }
+    ],
+    "network_events": [
+      { "kind": "dns_lookup", "count": 2, "destination_shape": "registry_allowlist" },
+      { "kind": "outbound_connect", "count": 1, "destination_shape": "registry_allowlist_https" }
+    ],
+    "signatures": [
+      { "id": "postinstall_child_process", "severity": "medium", "matched": true },
+      { "id": "unexpected_home_directory_write", "severity": "high", "matched": false },
+      { "id": "network_to_unapproved_host", "severity": "high", "matched": false }
+    ]
+  },
+  "verdict": {
+    "decision": "review_required",
+    "confidence": "high",
+    "requires_human_review": true,
+    "reason": "package runs a postinstall child process and writes cache files; raw traces stay outside the model-visible receipt"
+  },
+  "privacy": {
+    "raw_syscalls_included": false,
+    "raw_environment_included": false,
+    "raw_secrets_included": false,
+    "payload_policy": "counts_hashes_and_shapes_only"
+  }
+}
