@@ -202,6 +202,38 @@ test('demo claude-extension-source-map --json reports machine-readable summary',
 })
 
 
+test('demo memory-answer-receipt validates the packaged receipt', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'memory-answer-receipt'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Pluribus demo: memory answer receipt/)
+  assert.match(result.stdout, /5 refs, 5 omissions, used as orientation, verdict review_required/)
+  assert.match(result.stdout, /snapshot freshness, cited refs, private omissions, authority level/)
+})
+
+test('demo memory-answer-receipt --json reports machine-readable summary', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'memory-answer-receipt', '--json'])
+
+  assert.equal(result.status, 0, result.stderr)
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.demo, 'memory-answer-receipt')
+  assert.deepEqual(payload.summary, {
+    memorySystem: 'live-memory',
+    mode: 'live_memory',
+    referenceCount: 5,
+    claimCount: 3,
+    omissionCount: 5,
+    usedAs: 'orientation',
+    verdict: 'review_required',
+  })
+})
+
+
 test('demo tool-surface-diff validates the packaged receipt', () => {
   const dir = tempProject()
 

@@ -17,6 +17,7 @@ const MCP_TELEMETRY_IMPORT_DEMO = 'mcp-telemetry-import'
 const MCP_TRAFFIC_RECEIPT_DEMO = 'mcp-traffic-receipt'
 const PACKAGE_BEHAVIOR_RECEIPT_DEMO = 'package-behavior-receipt'
 const CLAUDE_EXTENSION_SOURCE_MAP_DEMO = 'claude-extension-source-map'
+const MEMORY_ANSWER_RECEIPT_DEMO = 'memory-answer-receipt'
 const TOOL_SURFACE_DIFF_DEMO = 'tool-surface-diff'
 const CONTEXT_SUFFICIENCY_TRACE_DEMO = 'context-sufficiency-trace'
 const MODULE_BOUNDARY_CONTRACT_DEMO = 'module-boundary-contract'
@@ -27,12 +28,13 @@ const COMPANY_MEMORY_EXPORT_TEST_DEMO = 'company-memory-export-test'
 const SHARED_STATE_WRITE_PREFLIGHT_DEMO = 'shared-state-write-preflight'
 const CROSS_CLIENT_TOKEN_LEDGER_DEMO = 'cross-client-token-ledger'
 const MCP_ACTION_BOUNDARY_PREFLIGHT_DEMO = 'mcp-action-boundary-preflight'
-const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, MCP_TRAFFIC_RECEIPT_DEMO, PACKAGE_BEHAVIOR_RECEIPT_DEMO, CLAUDE_EXTENSION_SOURCE_MAP_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO, COMPANY_MEMORY_EXPORT_TEST_DEMO, SHARED_STATE_WRITE_PREFLIGHT_DEMO, CROSS_CLIENT_TOKEN_LEDGER_DEMO, MCP_ACTION_BOUNDARY_PREFLIGHT_DEMO]
+const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, MCP_TRAFFIC_RECEIPT_DEMO, PACKAGE_BEHAVIOR_RECEIPT_DEMO, CLAUDE_EXTENSION_SOURCE_MAP_DEMO, MEMORY_ANSWER_RECEIPT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO, COMPANY_MEMORY_EXPORT_TEST_DEMO, SHARED_STATE_WRITE_PREFLIGHT_DEMO, CROSS_CLIENT_TOKEN_LEDGER_DEMO, MCP_ACTION_BOUNDARY_PREFLIGHT_DEMO]
 const SKILL_USE_RATE_SCHEMA = 'pluribus.skill_use_rate_receipt.v1'
 const MCP_AUDIT_RECEIPT_SCHEMA = 'pluribus.mcp_tool_call_audit_receipt.v1'
 const MCP_TRAFFIC_RECEIPT_SCHEMA = 'pluribus.mcp_traffic_receipt.v1'
 const PACKAGE_BEHAVIOR_RECEIPT_SCHEMA = 'pluribus.package_behavior_receipt.v1'
 const CLAUDE_EXTENSION_SOURCE_MAP_SCHEMA = 'pluribus.claude_extension_source_map.v1'
+const MEMORY_ANSWER_RECEIPT_SCHEMA = 'pluribus.memory_answer_receipt.v1'
 const TOOL_SURFACE_DIFF_SCHEMA = 'pluribus.mcp_tool_surface_diff_receipt.v1'
 const MODULE_BOUNDARY_CONTRACT_SCHEMA = 'pluribus.module_boundary_contract.v1'
 const INSTRUCTION_CONTEXT_AUDIT_SCHEMA = 'pluribus.instruction_context_audit.v1'
@@ -62,6 +64,8 @@ export async function runDemo(args, positional = []) {
       return runPackageBehaviorReceiptDemo(args)
     case CLAUDE_EXTENSION_SOURCE_MAP_DEMO:
       return runClaudeExtensionSourceMapDemo(args)
+    case MEMORY_ANSWER_RECEIPT_DEMO:
+      return runMemoryAnswerReceiptDemo(args)
     case TOOL_SURFACE_DIFF_DEMO:
       return runToolSurfaceDiffDemo(args)
     case CONTEXT_SUFFICIENCY_TRACE_DEMO:
@@ -335,6 +339,10 @@ function bundledClaudeExtensionSourceMapPath() {
   return fileURLToPath(new URL('../../examples/claude-extension-source-map/claude-extension-source-map-receipt.json', import.meta.url))
 }
 
+function bundledMemoryAnswerReceiptPath() {
+  return fileURLToPath(new URL('../../examples/memory-answer-receipts/memory-answer-receipt.json', import.meta.url))
+}
+
 function bundledToolSurfaceDiffReceiptPath() {
   return fileURLToPath(new URL('../../examples/tool-surface-diff-receipts/tool-surface-diff-receipt.json', import.meta.url))
 }
@@ -482,6 +490,40 @@ function runClaudeExtensionSourceMapDemo(args) {
       console.log('Try your own receipt: pluribus demo claude-extension-source-map --receipt path/to/claude-extension-source-map-receipt.json --json')
     } else {
       console.error('❌ Claude extension source-map receipt invalid:')
+      for (const error of result.errors) console.error(`   • ${error}`)
+    }
+  }
+
+  if (result.errors.length > 0) process.exit(1)
+}
+
+function runMemoryAnswerReceiptDemo(args) {
+  const receiptPath = selectedReceiptPath(args, bundledMemoryAnswerReceiptPath())
+  const receipt = readReceipt(receiptPath, 'memory answer')
+  const result = validateMemoryAnswerReceipt(receipt)
+
+  if (Boolean(args.json)) {
+    console.log(JSON.stringify({
+      ok: result.errors.length === 0,
+      demo: MEMORY_ANSWER_RECEIPT_DEMO,
+      receipt: path.relative(process.cwd(), receiptPath) || receiptPath,
+      summary: result.summary,
+      warnings: result.warnings,
+      errors: result.errors,
+    }, null, 2))
+  } else {
+    console.log('🧪 Pluribus demo: memory answer receipt')
+    console.log(`   Receipt: ${path.relative(process.cwd(), receiptPath) || receiptPath}`)
+    console.log('')
+
+    if (result.errors.length === 0) {
+      console.log(`✅ memory answer receipt ok: ${result.summary.referenceCount} refs, ${result.summary.omissionCount} omissions, used as ${result.summary.usedAs}, verdict ${result.summary.verdict}`)
+      for (const warning of result.warnings) console.log(`   • ${warning}`)
+      console.log('')
+      console.log('Why this matters: live memory, RAG, and knowledge-graph tools can answer broad repo questions, but agents need a compact receipt that proves snapshot freshness, cited refs, private omissions, authority level, and stale-if rules before using the answer for edits.')
+      console.log('Try your own receipt: pluribus demo memory-answer-receipt --receipt path/to/memory-answer-receipt.json --json')
+    } else {
+      console.error('❌ memory answer receipt invalid:')
       for (const error of result.errors) console.error(`   • ${error}`)
     }
   }
@@ -1875,6 +1917,123 @@ export function validateMcpTrafficReceipt(receipt) {
       toolCallCount: Array.isArray(receipt.tool_calls) ? receipt.tool_calls.length : 0,
       hungCallCount: Array.isArray(receipt.tool_calls) ? receipt.tool_calls.filter((call) => call.status === 'hung').length : 0,
       replayableCallCount: replayArtifacts.length,
+    },
+  }
+}
+
+
+export function validateMemoryAnswerReceipt(receipt) {
+  const errors = []
+  const warnings = []
+
+  function requireString(value, field) {
+    if (typeof value !== 'string' || value.trim() === '') errors.push(`${field} must be a non-empty string`)
+  }
+  function requireBoolean(value, field) {
+    if (typeof value !== 'boolean') errors.push(`${field} must be boolean`)
+  }
+  function requireArray(value, field) {
+    if (!Array.isArray(value) || value.length === 0) errors.push(`${field} must be a non-empty array`)
+  }
+  function requireNonNegativeInteger(value, field) {
+    if (!Number.isInteger(value) || value < 0) errors.push(`${field} must be a non-negative integer`)
+  }
+
+  if (receipt.schema !== MEMORY_ANSWER_RECEIPT_SCHEMA) errors.push(`schema must be ${MEMORY_ANSWER_RECEIPT_SCHEMA}`)
+  requireString(receipt.run_id, 'run_id')
+  requireString(receipt.generated_at, 'generated_at')
+  requireString(receipt.memory_system?.name, 'memory_system.name')
+  requireString(receipt.memory_system?.tool, 'memory_system.tool')
+  requireString(receipt.memory_system?.mode, 'memory_system.mode')
+  requireString(receipt.memory_system?.workspace_hash, 'memory_system.workspace_hash')
+  requireString(receipt.query?.question_hash, 'query.question_hash')
+  requireString(receipt.query?.intent, 'query.intent')
+  requireString(receipt.snapshot?.snapshot_ref, 'snapshot.snapshot_ref')
+  requireString(receipt.snapshot?.snapshot_hash, 'snapshot.snapshot_hash')
+  requireString(receipt.snapshot?.ledger_ref, 'snapshot.ledger_ref')
+  requireString(receipt.snapshot?.freshness_window, 'snapshot.freshness_window')
+  requireString(receipt.answer?.answer_hash, 'answer.answer_hash')
+  requireString(receipt.answer?.confidence, 'answer.confidence')
+  requireArray(receipt.answer?.claims, 'answer.claims')
+  requireArray(receipt.answer?.references, 'answer.references')
+  requireString(receipt.authority?.used_as, 'authority.used_as')
+  requireString(receipt.authority?.verdict, 'authority.verdict')
+  requireArray(receipt.authority?.verification_path, 'authority.verification_path')
+  requireBoolean(receipt.privacy?.raw_memory_included, 'privacy.raw_memory_included')
+  requireBoolean(receipt.privacy?.raw_source_files_included, 'privacy.raw_source_files_included')
+  requireBoolean(receipt.privacy?.raw_private_paths_included, 'privacy.raw_private_paths_included')
+  requireString(receipt.privacy?.payload_policy, 'privacy.payload_policy')
+  requireArray(receipt.stale_if, 'stale_if')
+
+  if (!['live_memory', 'rag', 'knowledge_graph', 'notes', 'mcp_memory', 'other'].includes(receipt.memory_system?.mode)) errors.push('memory_system.mode must be live_memory, rag, knowledge_graph, notes, mcp_memory, or other')
+  if (!String(receipt.memory_system?.workspace_hash || '').startsWith('sha256:')) errors.push('memory_system.workspace_hash must be a sha256: hash')
+  if (!String(receipt.query?.question_hash || '').startsWith('sha256:')) errors.push('query.question_hash must be a sha256: hash')
+  if (!String(receipt.snapshot?.snapshot_hash || '').startsWith('sha256:')) errors.push('snapshot.snapshot_hash must be a sha256: hash')
+  if (!String(receipt.answer?.answer_hash || '').startsWith('sha256:')) errors.push('answer.answer_hash must be a sha256: hash')
+  if (!['low', 'medium', 'high'].includes(receipt.answer?.confidence)) errors.push('answer.confidence must be low, medium, or high')
+  if (!['orientation', 'authority', 'blocked'].includes(receipt.authority?.used_as)) errors.push('authority.used_as must be orientation, authority, or blocked')
+  if (!['allow', 'review_required', 'block'].includes(receipt.authority?.verdict)) errors.push('authority.verdict must be allow, review_required, or block')
+  if (receipt.privacy?.raw_memory_included !== false) errors.push('privacy.raw_memory_included must be false')
+  if (receipt.privacy?.raw_source_files_included !== false) errors.push('privacy.raw_source_files_included must be false')
+  if (receipt.privacy?.raw_private_paths_included !== false) errors.push('privacy.raw_private_paths_included must be false')
+  if (receipt.privacy?.payload_policy !== 'hashes_refs_counts_and_redacted_claims_only') errors.push('privacy.payload_policy must be hashes_refs_counts_and_redacted_claims_only')
+
+  const claimIds = new Set()
+  for (const [index, claim] of (receipt.answer?.claims || []).entries()) {
+    const prefix = `answer.claims[${index}]`
+    requireString(claim.id, `${prefix}.id`)
+    requireString(claim.summary, `${prefix}.summary`)
+    requireArray(claim.ref_ids, `${prefix}.ref_ids`)
+    requireString(claim.status, `${prefix}.status`)
+    if (!['supported', 'needs_verification', 'stale', 'rejected'].includes(claim.status)) errors.push(`${prefix}.status must be supported, needs_verification, stale, or rejected`)
+    if (claimIds.has(claim.id)) errors.push(`${prefix}.id must be unique`)
+    claimIds.add(claim.id)
+  }
+
+  const referenceIds = new Set()
+  for (const [index, ref] of (receipt.answer?.references || []).entries()) {
+    const prefix = `answer.references[${index}]`
+    requireString(ref.id, `${prefix}.id`)
+    requireString(ref.kind, `${prefix}.kind`)
+    requireString(ref.ref, `${prefix}.ref`)
+    requireString(ref.content_hash, `${prefix}.content_hash`)
+    requireString(ref.captured_at, `${prefix}.captured_at`)
+    if (!['file', 'symbol', 'commit', 'ledger_entry', 'search_result', 'tool_observation'].includes(ref.kind)) errors.push(`${prefix}.kind must be file, symbol, commit, ledger_entry, search_result, or tool_observation`)
+    if (!String(ref.content_hash || '').startsWith('sha256:')) errors.push(`${prefix}.content_hash must be a sha256: hash`)
+    if (referenceIds.has(ref.id)) errors.push(`${prefix}.id must be unique`)
+    referenceIds.add(ref.id)
+  }
+
+  for (const [index, omission] of (receipt.privacy?.omissions || []).entries()) {
+    const prefix = `privacy.omissions[${index}]`
+    requireString(omission.kind, `${prefix}.kind`)
+    requireString(omission.reason, `${prefix}.reason`)
+    requireNonNegativeInteger(omission.count, `${prefix}.count`)
+  }
+
+  for (const claim of (receipt.answer?.claims || [])) {
+    for (const refId of (claim.ref_ids || [])) {
+      if (!referenceIds.has(refId)) errors.push(`answer.claims.${claim.id || 'unknown'} references missing ref ${refId}`)
+    }
+    if (claim.status === 'supported' && (claim.ref_ids || []).length === 0) errors.push(`answer.claims.${claim.id || 'unknown'} is supported but has no refs`)
+  }
+
+  const staleIf = Array.isArray(receipt.stale_if) ? receipt.stale_if : []
+  if (receipt.authority?.used_as === 'authority' && receipt.authority?.verdict !== 'allow') warnings.push('authority.used_as is authority but verdict is not allow')
+  if (receipt.authority?.used_as === 'authority' && staleIf.length === 0) warnings.push('authority answer has no stale_if invalidators')
+  if ((receipt.answer?.claims || []).some((claim) => claim.status === 'needs_verification') && receipt.authority?.verdict === 'allow') warnings.push('allow verdict includes claims that still need verification')
+
+  return {
+    errors,
+    warnings,
+    summary: {
+      memorySystem: receipt.memory_system?.name || 'unknown',
+      mode: receipt.memory_system?.mode || 'unknown',
+      referenceCount: Array.isArray(receipt.answer?.references) ? receipt.answer.references.length : 0,
+      claimCount: Array.isArray(receipt.answer?.claims) ? receipt.answer.claims.length : 0,
+      omissionCount: Array.isArray(receipt.privacy?.omissions) ? receipt.privacy.omissions.reduce((sum, omission) => sum + (Number.isInteger(omission.count) ? omission.count : 0), 0) : 0,
+      usedAs: receipt.authority?.used_as || 'unknown',
+      verdict: receipt.authority?.verdict || 'unknown',
     },
   }
 }

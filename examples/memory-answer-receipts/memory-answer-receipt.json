@@ -1,0 +1,109 @@
+{
+  "schema": "pluribus.memory_answer_receipt.v1",
+  "run_id": "memans_live_memory_repo_orientation_2026_07_06T130000Z",
+  "generated_at": "2026-07-06T13:00:00Z",
+  "memory_system": {
+    "name": "live-memory",
+    "tool": "ask_live_memory",
+    "mode": "live_memory",
+    "workspace_hash": "sha256:0e518b080f2f2c2d41ef9f7a0af6b7d1a3ce1d69c0a5fb0b6e4a4bff7a83a719"
+  },
+  "query": {
+    "question_hash": "sha256:cc80f6cfb7b97c5c5fd3b9f8e12d3e16076dfb333d56fb38cd34d0379ff901c9",
+    "intent": "repo_orientation_before_patch",
+    "redacted_question_summary": "Where is the CLI demo dispatch implemented, and what files should change for a new receipt demo?"
+  },
+  "snapshot": {
+    "snapshot_ref": "~/.claude/plugins/data/live-memory/workspaces/pluribus/snapshot.json",
+    "snapshot_hash": "sha256:4b4332bc8d117d3b777265a985fa24f98d5bb87f760d6211ac7d1fb67c6d65ef",
+    "ledger_ref": "live-memory-ledger:pluribus:2026-07-06T12:55:00Z",
+    "freshness_window": "valid until repo HEAD or demo.js mtime changes"
+  },
+  "answer": {
+    "answer_hash": "sha256:4767ff918a9d164a6c7be8ef9b87a89b31841a7f2b7fe3b2f35f4b5a9f31bdaa",
+    "confidence": "medium",
+    "claims": [
+      {
+        "id": "c1",
+        "summary": "CLI demo dispatch lives in bin/pluribus.js and src/commands/demo.js; new demos must be registered in help text, constants, available demos, and the switch.",
+        "ref_ids": ["r1", "r2"],
+        "status": "supported"
+      },
+      {
+        "id": "c2",
+        "summary": "Packaged receipt demos use a bundled JSON fixture under examples/<demo>/, a validator, human output, JSON output, docs, gallery copy, and CLI tests.",
+        "ref_ids": ["r2", "r3", "r4"],
+        "status": "supported"
+      },
+      {
+        "id": "c3",
+        "summary": "The exact public Page URL must be smoke-checked after deploy before using it in external replies.",
+        "ref_ids": ["r5"],
+        "status": "needs_verification"
+      }
+    ],
+    "references": [
+      {
+        "id": "r1",
+        "kind": "file",
+        "ref": "bin/pluribus.js:OPTIONS(demo)+EXAMPLES",
+        "content_hash": "sha256:a50a7d3cf7689db493e16c658c4c2e16241ee7c1bc41f262d875f1d3724e10c8",
+        "captured_at": "2026-07-06T13:00:00Z"
+      },
+      {
+        "id": "r2",
+        "kind": "file",
+        "ref": "src/commands/demo.js:demo-dispatch-and-validators",
+        "content_hash": "sha256:09e7df9ee04f6d7b57dd550884a5ad0b40f0ecad3b34db14a251c7b83844c8f7",
+        "captured_at": "2026-07-06T13:00:00Z"
+      },
+      {
+        "id": "r3",
+        "kind": "file",
+        "ref": "test/cli.test.js:demo-cli-smokes",
+        "content_hash": "sha256:77ba026bd125f0ce8b4916ecf50b69530765d8e3c6f148488a7b0ec5ce39f1c8",
+        "captured_at": "2026-07-06T13:00:00Z"
+      },
+      {
+        "id": "r4",
+        "kind": "file",
+        "ref": "docs/boundary-receipt-gallery.html:demo-card-grid",
+        "content_hash": "sha256:aabca354eb2da842435bf1ff23f848e9aa5ee88e85a4cc08ffc3845fb82f84a9",
+        "captured_at": "2026-07-06T13:00:00Z"
+      },
+      {
+        "id": "r5",
+        "kind": "tool_observation",
+        "ref": "previous-block-link-smoke-rule",
+        "content_hash": "sha256:b6e6b4d0be13f1ba265ab601381c6b1324125190d29f05934e3069a37292c11c",
+        "captured_at": "2026-07-06T13:00:00Z"
+      }
+    ]
+  },
+  "authority": {
+    "used_as": "orientation",
+    "verdict": "review_required",
+    "verification_path": [
+      "Re-open referenced files before editing",
+      "Run pluribus demo memory-answer-receipt --json",
+      "Run npm test and git diff --check",
+      "Smoke public docs after Pages deploy before external distribution"
+    ]
+  },
+  "privacy": {
+    "raw_memory_included": false,
+    "raw_source_files_included": false,
+    "raw_private_paths_included": false,
+    "payload_policy": "hashes_refs_counts_and_redacted_claims_only",
+    "omissions": [
+      { "kind": "raw_file_content", "reason": "source file hashes and refs are enough for reviewer replay", "count": 4 },
+      { "kind": "private_workspace_paths", "reason": "workspace location is not needed to verify answer authority", "count": 1 }
+    ]
+  },
+  "stale_if": [
+    "repo HEAD changes after 5c61e0f",
+    "src/commands/demo.js changes after captured_at",
+    "test/cli.test.js changes after captured_at",
+    "the memory server compacts or rebuilds the referenced workspace snapshot"
+  ]
+}
