@@ -1,0 +1,87 @@
+{
+  "receipt_type": "pluribus.evidence_attestation.v1",
+  "skill": "evidence-attestation",
+  "subject": {
+    "kind": "skill_claim",
+    "id_hash": "sha256:7b9e4fd0b1f5c95da5f4bce189c5b436f5d8a9e0d4c83d2b86fc84fd41b0cf8a",
+    "summary": "Evidence-attestation skill can emit a privacy-safe proof object for a registry/verifier claim."
+  },
+  "evidence": [
+    {
+      "id": "ev-skill-md",
+      "kind": "file",
+      "ref": "skills/evidence-attestation/SKILL.md",
+      "ref_hash": "sha256:1e5cc0e1e0e6d6a9c0fef8e99e6a3bcf2df3bb7e54d2bfe850c52f872463e1f8",
+      "observed_at": "2026-07-06T21:00:00Z",
+      "source_label": "observed",
+      "supports": ["claim-named-skill", "claim-privacy-defaults"],
+      "raw_content_copied": false
+    },
+    {
+      "id": "ev-checker",
+      "kind": "file",
+      "ref": "examples/evidence-attestation/check-evidence-attestation.mjs",
+      "ref_hash": "sha256:1e42c79983c8515ca5cf9d7d03ef3ba7e2d3bd09c094f90ae493fb95624723fd",
+      "observed_at": "2026-07-06T21:00:00Z",
+      "source_label": "observed",
+      "supports": ["claim-runnable-check"],
+      "raw_content_copied": false
+    },
+    {
+      "id": "ev-gaia-feedback",
+      "kind": "issue",
+      "ref": "https://github.com/gaia-research/gaia-skill-tree/issues/968#issuecomment-4895234438",
+      "ref_hash": "sha256:7b2af5ecfcb00fd5528ba1b6c5d06767889d65e1344fd8a911e63340c0ce00d7",
+      "observed_at": "2026-07-06T16:33:19Z",
+      "source_label": "human_provided",
+      "supports": ["claim-named-skill"],
+      "raw_content_copied": false
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim-named-skill",
+      "text": "The evidence pattern is represented as a named skill rather than only a taxonomy proposal.",
+      "status": "supported"
+    },
+    {
+      "id": "claim-runnable-check",
+      "text": "A local checker can validate the attestation shape without reading private logs.",
+      "status": "supported"
+    },
+    {
+      "id": "claim-privacy-defaults",
+      "text": "The skill instructs agents not to copy raw prompts, transcripts, source, secrets, or customer data into the attestation.",
+      "status": "supported"
+    },
+    {
+      "id": "claim-registry-accepted",
+      "text": "A registry has accepted this as a curated capability.",
+      "status": "not_checked"
+    }
+  ],
+  "verdict": "review_required",
+  "privacy": {
+    "raw_prompts_copied": false,
+    "raw_transcript_copied": false,
+    "raw_source_copied": false,
+    "secrets_copied": false,
+    "customer_data_copied": false
+  },
+  "omissions": [
+    "No raw SKILL.md body is copied into evidence refs; reviewers can inspect the referenced file if authorized.",
+    "No private session transcript, prompt, secret, source file, or customer data is included.",
+    "No registry acceptance is claimed before a curator/verifier acts."
+  ],
+  "limits": [
+    "This proves the attestation structure is inspectable, not that every future attestation is truthful.",
+    "The checker validates shape and privacy booleans; it cannot independently verify each referenced artifact's semantics.",
+    "Registry scoring or star assignment remains external to Pluribus."
+  ],
+  "stale_if": [
+    "skills/evidence-attestation/SKILL.md changes without updating the fixture/checker",
+    "the Gaia issue feedback changes or rejects the named-skill direction",
+    "the attestation schema changes without versioning receipt_type",
+    "the checker stops being included in package files"
+  ]
+}

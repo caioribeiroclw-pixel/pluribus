@@ -73,6 +73,13 @@
       </article>
 
       <article class="card">
+        <span class="pill">Agent Skills</span>
+        <h2>Claim → evidence attestation</h2>
+        <p>When a skill, registry, leaderboard, review, approval, or handoff makes a reusable claim, emit evidence refs, omissions, limits, verdict, and stale-if rules without private logs.</p>
+        <p><a href="evidence-attestation-skill.md">Try the evidence-attestation Skill →</a></p>
+      </article>
+
+      <article class="card">
         <span class="pill">MCP gateways</span>
         <h2>Hidden inventory → model-visible tool</h2>
         <p>When Tool Search or a local gateway hides hundreds of MCP tools, prove which server/profile and upstream definition hash surfaced behind the alias.</p>
@@ -126,6 +133,7 @@
       <h2>One-minute local check</h2>
       <p>Run one public demo without cloning the repository. It validates a redacted memory answer receipt for snapshot freshness, cited refs, private omissions, authority level, and stale-if rules.</p>
       <pre class="cmd">npm exec --yes --package github:caioribeiroclw-pixel/pluribus -- pluribus demo memory-answer-receipt --json</pre>
+      <pre class="cmd">npm exec --yes --package github:caioribeiroclw-pixel/pluribus -- sh -c 'pkg=$(dirname "$(readlink -f "$(command -v pluribus)")")/..; node "$pkg/examples/evidence-attestation/check-evidence-attestation.mjs" "$pkg/examples/evidence-attestation/evidence-attestation.json"'</pre>
       <p>For directory maintainers and newsletter reviewers, the <a href="community-review-packet.md">Community Review Packet</a> has copyable listing text and disposable smoke tests.</p>
     </section>
   </main>
