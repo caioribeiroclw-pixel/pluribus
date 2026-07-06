@@ -1,0 +1,132 @@
+{
+  "schema": "pluribus.claude_extension_source_map.v1",
+  "run_id": "claude-extension-source-map-2026-07-06T01-00Z",
+  "generated_at": "2026-07-06T01:07:00Z",
+  "platform": {
+    "name": "claude-code",
+    "version": "observed-2026-07",
+    "workspace_hash": "sha256:4e01d1b9a9866d3e0bb6ef2a7a5d8b48d8fdbe39f9e52c33f4cb9c0f2ac20177"
+  },
+  "source_model": {
+    "official_docs_captured_at": "2026-07-04T00:00:00Z",
+    "observed_trace_set": "sha256:43c9c35d3d8f0c9d67b44f2e0f0e8e5d690ba39d2af877ba1a441b527e3ab4a6",
+    "confidence_labels": ["official", "observed", "community_claim", "practical_inference"]
+  },
+  "extension_layers": [
+    {
+      "id": "project-claude-md",
+      "kind": "claude_md",
+      "active": true,
+      "source_label": "official",
+      "authority_scope": "persistent_project_context",
+      "loaded_from": "CLAUDE.md",
+      "content_hash": "sha256:0c5fb2631e8f9c570fd1e4ef31b24bbaf36d4174a47c2f80c1644f70c21af8bf",
+      "raw_content_included": false,
+      "controls": ["repo_review", "stale_if_repo_hash_changes"]
+    },
+    {
+      "id": "style-concise",
+      "kind": "output_style",
+      "active": true,
+      "source_label": "official",
+      "authority_scope": "response_behavior",
+      "loaded_from": "user_setting:output_style",
+      "content_hash": "sha256:7f5db8a9d047eb2e8105feeb6f6f2f1a7e818094973a4b99215857225c8f6e03",
+      "raw_content_included": false,
+      "controls": ["operator_visible_setting"]
+    },
+    {
+      "id": "context-receipts-skill",
+      "kind": "skill",
+      "active": true,
+      "source_label": "official",
+      "authority_scope": "repeatable_procedure",
+      "loaded_from": ".claude/skills/context-receipts/SKILL.md",
+      "content_hash": "sha256:9f7bfb548a5a58b87494a59b7f9a457127f00b9d08b31b3fd6f4d7fc61fe57c8",
+      "raw_content_included": false,
+      "controls": ["metadata_description", "support_files_progressive_disclosure"]
+    },
+    {
+      "id": "pretool-write-gate",
+      "kind": "hook",
+      "active": true,
+      "source_label": "official",
+      "authority_scope": "deterministic_lifecycle_policy",
+      "loaded_from": ".claude/hooks/pretool-write-gate.json",
+      "content_hash": "sha256:92e1ac52bfa73ef7c7f74e9f021ac2604d42f623e77aa8809d40fe49a9f73b4d",
+      "raw_content_included": false,
+      "controls": ["PreToolUse", "blocks_unreviewed_write_tools"]
+    },
+    {
+      "id": "reviewer-subagent",
+      "kind": "subagent",
+      "active": false,
+      "source_label": "official",
+      "authority_scope": "isolated_review_context",
+      "loaded_from": ".claude/agents/reviewer.md",
+      "content_hash": "sha256:27ac890ad0fca709e5e8f6e9cb79cd8721d52279902f02fb6466f3d29d1c4c41",
+      "raw_content_included": false,
+      "controls": ["separate_context_window", "parent_verifies_findings"]
+    },
+    {
+      "id": "team-plugin",
+      "kind": "plugin",
+      "active": true,
+      "source_label": "official",
+      "authority_scope": "distributed_extension_bundle",
+      "loaded_from": "plugin:acme-agent-rules@0.4.1",
+      "content_hash": "sha256:5df943d312f790c1957db7368b080457f943eb04b7f65a9c5eaf5b8034e2257e",
+      "raw_content_included": false,
+      "controls": ["signed_release", "pinned_version"]
+    },
+    {
+      "id": "github-mcp",
+      "kind": "mcp_server",
+      "active": true,
+      "source_label": "official",
+      "authority_scope": "external_tool_and_state_boundary",
+      "loaded_from": ".mcp.json:github",
+      "content_hash": "sha256:ca8f7c8e665fa5724df4ebf0fcd73089394c681ce7b79f1eb5fd11e91e7040e8",
+      "raw_content_included": false,
+      "controls": ["server_command_digest", "env_key_names_only", "tool_policy_receipt_required"]
+    }
+  ],
+  "boundary_observations": [
+    {
+      "boundary": "local_context_to_model_message",
+      "evidence_layer_ids": ["project-claude-md"],
+      "receipt": "hash_only",
+      "risk": "stale_or_dirty_project_rules"
+    },
+    {
+      "boundary": "invoked_skill_to_loaded_instructions",
+      "evidence_layer_ids": ["context-receipts-skill"],
+      "receipt": "hash_and_selection_reason",
+      "risk": "auto_selected_skill_adds_unreviewed_authority"
+    },
+    {
+      "boundary": "tool_request_to_external_state",
+      "evidence_layer_ids": ["pretool-write-gate", "github-mcp"],
+      "receipt": "pre_action_policy_and_tool_identity",
+      "risk": "display_name_or_broad_token_hides_write_surface"
+    }
+  ],
+  "privacy": {
+    "raw_prompts_included": false,
+    "raw_tool_schemas_included": false,
+    "raw_mcp_payloads_included": false,
+    "raw_secret_values_included": false,
+    "payload_policy": "names_hashes_scopes_and_source_labels_only"
+  },
+  "decision": {
+    "verdict": "review_required",
+    "reason": "multiple active authority layers can affect the same run; write-capable MCP tools require source-labeled proof before mutation"
+  },
+  "stale_if": [
+    "CLAUDE.md content hash changes",
+    ".claude/skills or plugin version changes",
+    ".claude/hooks policy changes",
+    ".mcp.json command/env key names/tool policy changes",
+    "Claude Code extension-loading semantics change"
+  ]
+}

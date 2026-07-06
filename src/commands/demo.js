@@ -16,6 +16,7 @@ const MCP_AUDIT_RECEIPT_DEMO = 'mcp-audit-receipt'
 const MCP_TELEMETRY_IMPORT_DEMO = 'mcp-telemetry-import'
 const MCP_TRAFFIC_RECEIPT_DEMO = 'mcp-traffic-receipt'
 const PACKAGE_BEHAVIOR_RECEIPT_DEMO = 'package-behavior-receipt'
+const CLAUDE_EXTENSION_SOURCE_MAP_DEMO = 'claude-extension-source-map'
 const TOOL_SURFACE_DIFF_DEMO = 'tool-surface-diff'
 const CONTEXT_SUFFICIENCY_TRACE_DEMO = 'context-sufficiency-trace'
 const MODULE_BOUNDARY_CONTRACT_DEMO = 'module-boundary-contract'
@@ -26,11 +27,12 @@ const COMPANY_MEMORY_EXPORT_TEST_DEMO = 'company-memory-export-test'
 const SHARED_STATE_WRITE_PREFLIGHT_DEMO = 'shared-state-write-preflight'
 const CROSS_CLIENT_TOKEN_LEDGER_DEMO = 'cross-client-token-ledger'
 const MCP_ACTION_BOUNDARY_PREFLIGHT_DEMO = 'mcp-action-boundary-preflight'
-const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, MCP_TRAFFIC_RECEIPT_DEMO, PACKAGE_BEHAVIOR_RECEIPT_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO, COMPANY_MEMORY_EXPORT_TEST_DEMO, SHARED_STATE_WRITE_PREFLIGHT_DEMO, CROSS_CLIENT_TOKEN_LEDGER_DEMO, MCP_ACTION_BOUNDARY_PREFLIGHT_DEMO]
+const AVAILABLE_DEMOS = [SKILL_USE_RATE_DEMO, MCP_AUDIT_RECEIPT_DEMO, MCP_TELEMETRY_IMPORT_DEMO, MCP_TRAFFIC_RECEIPT_DEMO, PACKAGE_BEHAVIOR_RECEIPT_DEMO, CLAUDE_EXTENSION_SOURCE_MAP_DEMO, TOOL_SURFACE_DIFF_DEMO, CONTEXT_SUFFICIENCY_TRACE_DEMO, MODULE_BOUNDARY_CONTRACT_DEMO, INSTRUCTION_CONTEXT_AUDIT_DEMO, STYLE_RULES_SYNC_DEMO, CONTEXT_BUDGET_RECEIPT_DEMO, COMPANY_MEMORY_EXPORT_TEST_DEMO, SHARED_STATE_WRITE_PREFLIGHT_DEMO, CROSS_CLIENT_TOKEN_LEDGER_DEMO, MCP_ACTION_BOUNDARY_PREFLIGHT_DEMO]
 const SKILL_USE_RATE_SCHEMA = 'pluribus.skill_use_rate_receipt.v1'
 const MCP_AUDIT_RECEIPT_SCHEMA = 'pluribus.mcp_tool_call_audit_receipt.v1'
 const MCP_TRAFFIC_RECEIPT_SCHEMA = 'pluribus.mcp_traffic_receipt.v1'
 const PACKAGE_BEHAVIOR_RECEIPT_SCHEMA = 'pluribus.package_behavior_receipt.v1'
+const CLAUDE_EXTENSION_SOURCE_MAP_SCHEMA = 'pluribus.claude_extension_source_map.v1'
 const TOOL_SURFACE_DIFF_SCHEMA = 'pluribus.mcp_tool_surface_diff_receipt.v1'
 const MODULE_BOUNDARY_CONTRACT_SCHEMA = 'pluribus.module_boundary_contract.v1'
 const INSTRUCTION_CONTEXT_AUDIT_SCHEMA = 'pluribus.instruction_context_audit.v1'
@@ -58,6 +60,8 @@ export async function runDemo(args, positional = []) {
       return runMcpTrafficReceiptDemo(args)
     case PACKAGE_BEHAVIOR_RECEIPT_DEMO:
       return runPackageBehaviorReceiptDemo(args)
+    case CLAUDE_EXTENSION_SOURCE_MAP_DEMO:
+      return runClaudeExtensionSourceMapDemo(args)
     case TOOL_SURFACE_DIFF_DEMO:
       return runToolSurfaceDiffDemo(args)
     case CONTEXT_SUFFICIENCY_TRACE_DEMO:
@@ -327,6 +331,10 @@ function bundledPackageBehaviorReceiptPath() {
   return fileURLToPath(new URL('../../examples/package-behavior-receipts/package-behavior-receipt.json', import.meta.url))
 }
 
+function bundledClaudeExtensionSourceMapPath() {
+  return fileURLToPath(new URL('../../examples/claude-extension-source-map/claude-extension-source-map-receipt.json', import.meta.url))
+}
+
 function bundledToolSurfaceDiffReceiptPath() {
   return fileURLToPath(new URL('../../examples/tool-surface-diff-receipts/tool-surface-diff-receipt.json', import.meta.url))
 }
@@ -440,6 +448,40 @@ function runPackageBehaviorReceiptDemo(args) {
       console.log('Try your own receipt: pluribus demo package-behavior-receipt --receipt path/to/package-behavior-receipt.json --json')
     } else {
       console.error('❌ package behavior receipt invalid:')
+      for (const error of result.errors) console.error(`   • ${error}`)
+    }
+  }
+
+  if (result.errors.length > 0) process.exit(1)
+}
+
+function runClaudeExtensionSourceMapDemo(args) {
+  const receiptPath = selectedReceiptPath(args, bundledClaudeExtensionSourceMapPath())
+  const receipt = readReceipt(receiptPath, 'Claude extension source-map')
+  const result = validateClaudeExtensionSourceMapReceipt(receipt)
+
+  if (Boolean(args.json)) {
+    console.log(JSON.stringify({
+      ok: result.errors.length === 0,
+      demo: CLAUDE_EXTENSION_SOURCE_MAP_DEMO,
+      receipt: path.relative(process.cwd(), receiptPath) || receiptPath,
+      summary: result.summary,
+      warnings: result.warnings,
+      errors: result.errors,
+    }, null, 2))
+  } else {
+    console.log('🧪 Pluribus demo: Claude extension source-map receipt')
+    console.log(`   Receipt: ${path.relative(process.cwd(), receiptPath) || receiptPath}`)
+    console.log('')
+
+    if (result.errors.length === 0) {
+      console.log(`✅ Claude extension source-map ok: ${result.summary.layerCount} layers, ${result.summary.activeLayerCount} active, ${result.summary.boundaryObservationCount} boundary observations, verdict ${result.summary.verdict}`)
+      for (const warning of result.warnings) console.log(`   • ${warning}`)
+      console.log('')
+      console.log('Why this matters: CLAUDE.md, output styles, Skills, hooks, subagents, plugins, and MCP servers can all affect one Claude Code run. A source-map receipt proves which authority layers were active, source-labeled, and privacy-safe before a write or external action.')
+      console.log('Try your own receipt: pluribus demo claude-extension-source-map --receipt path/to/claude-extension-source-map-receipt.json --json')
+    } else {
+      console.error('❌ Claude extension source-map receipt invalid:')
       for (const error of result.errors) console.error(`   • ${error}`)
     }
   }
@@ -1927,6 +1969,109 @@ export function validatePackageBehaviorReceipt(receipt) {
       networkEventCount: Array.isArray(receipt.behavior?.network_events) ? receipt.behavior.network_events.reduce((sum, event) => sum + (Number.isInteger(event.count) ? event.count : 0), 0) : 0,
       signatureCount: Array.isArray(receipt.behavior?.signatures) ? receipt.behavior.signatures.length : 0,
       requiresHumanReview: receipt.verdict?.requires_human_review === true,
+    },
+  }
+}
+
+
+export function validateClaudeExtensionSourceMapReceipt(receipt) {
+  const errors = []
+  const warnings = []
+
+  function requireString(value, field) {
+    if (typeof value !== 'string' || value.trim() === '') errors.push(`${field} must be a non-empty string`)
+  }
+  function requireBoolean(value, field) {
+    if (typeof value !== 'boolean') errors.push(`${field} must be boolean`)
+  }
+  function requireArray(value, field) {
+    if (!Array.isArray(value) || value.length === 0) errors.push(`${field} must be a non-empty array`)
+  }
+
+  if (receipt.schema !== CLAUDE_EXTENSION_SOURCE_MAP_SCHEMA) errors.push(`schema must be ${CLAUDE_EXTENSION_SOURCE_MAP_SCHEMA}`)
+  requireString(receipt.run_id, 'run_id')
+  requireString(receipt.generated_at, 'generated_at')
+  requireString(receipt.platform?.name, 'platform.name')
+  requireString(receipt.platform?.version, 'platform.version')
+  requireString(receipt.platform?.workspace_hash, 'platform.workspace_hash')
+  requireString(receipt.source_model?.official_docs_captured_at, 'source_model.official_docs_captured_at')
+  requireString(receipt.source_model?.observed_trace_set, 'source_model.observed_trace_set')
+  requireArray(receipt.source_model?.confidence_labels, 'source_model.confidence_labels')
+  requireArray(receipt.extension_layers, 'extension_layers')
+  requireArray(receipt.boundary_observations, 'boundary_observations')
+  requireBoolean(receipt.privacy?.raw_prompts_included, 'privacy.raw_prompts_included')
+  requireBoolean(receipt.privacy?.raw_tool_schemas_included, 'privacy.raw_tool_schemas_included')
+  requireBoolean(receipt.privacy?.raw_mcp_payloads_included, 'privacy.raw_mcp_payloads_included')
+  requireBoolean(receipt.privacy?.raw_secret_values_included, 'privacy.raw_secret_values_included')
+  requireString(receipt.privacy?.payload_policy, 'privacy.payload_policy')
+  requireString(receipt.decision?.verdict, 'decision.verdict')
+  requireString(receipt.decision?.reason, 'decision.reason')
+  requireArray(receipt.stale_if, 'stale_if')
+
+  if (receipt.platform?.name !== 'claude-code') warnings.push('platform.name is not claude-code; confirm extension-layer semantics still match')
+  if (!String(receipt.platform?.workspace_hash || '').startsWith('sha256:')) errors.push('platform.workspace_hash must be a sha256: hash')
+  if (!String(receipt.source_model?.observed_trace_set || '').startsWith('sha256:')) errors.push('source_model.observed_trace_set must be a sha256: hash')
+  if (receipt.privacy?.raw_prompts_included !== false) errors.push('privacy.raw_prompts_included must be false')
+  if (receipt.privacy?.raw_tool_schemas_included !== false) errors.push('privacy.raw_tool_schemas_included must be false')
+  if (receipt.privacy?.raw_mcp_payloads_included !== false) errors.push('privacy.raw_mcp_payloads_included must be false')
+  if (receipt.privacy?.raw_secret_values_included !== false) errors.push('privacy.raw_secret_values_included must be false')
+  if (receipt.privacy?.payload_policy !== 'names_hashes_scopes_and_source_labels_only') errors.push('privacy.payload_policy must be names_hashes_scopes_and_source_labels_only')
+  if (!['allow', 'review_required', 'block'].includes(receipt.decision?.verdict)) errors.push('decision.verdict must be allow, review_required, or block')
+
+  const allowedKinds = new Set(['claude_md', 'output_style', 'skill', 'hook', 'subagent', 'plugin', 'mcp_server'])
+  const allowedLabels = new Set(['official', 'observed', 'community_claim', 'practical_inference'])
+  const layerIds = new Set()
+  let activeLayerCount = 0
+  let mcpActiveCount = 0
+  let hookActiveCount = 0
+  for (const [index, layer] of (receipt.extension_layers || []).entries()) {
+    const prefix = `extension_layers[${index}]`
+    requireString(layer.id, `${prefix}.id`)
+    requireString(layer.kind, `${prefix}.kind`)
+    requireBoolean(layer.active, `${prefix}.active`)
+    requireString(layer.source_label, `${prefix}.source_label`)
+    requireString(layer.authority_scope, `${prefix}.authority_scope`)
+    requireString(layer.loaded_from, `${prefix}.loaded_from`)
+    requireString(layer.content_hash, `${prefix}.content_hash`)
+    requireBoolean(layer.raw_content_included, `${prefix}.raw_content_included`)
+    requireArray(layer.controls, `${prefix}.controls`)
+    if (!allowedKinds.has(layer.kind)) errors.push(`${prefix}.kind must be one of ${[...allowedKinds].join('|')}`)
+    if (!allowedLabels.has(layer.source_label)) errors.push(`${prefix}.source_label must be one of ${[...allowedLabels].join('|')}`)
+    if (!String(layer.content_hash || '').startsWith('sha256:')) errors.push(`${prefix}.content_hash must be a sha256: hash`)
+    if (layer.raw_content_included !== false) errors.push(`${prefix}.raw_content_included must be false`)
+    if (layerIds.has(layer.id)) errors.push(`${prefix}.id must be unique`)
+    layerIds.add(layer.id)
+    if (layer.active === true) activeLayerCount += 1
+    if (layer.kind === 'mcp_server' && layer.active === true) mcpActiveCount += 1
+    if (layer.kind === 'hook' && layer.active === true) hookActiveCount += 1
+  }
+
+  const requiredKinds = ['claude_md', 'skill', 'hook', 'subagent', 'plugin', 'mcp_server']
+  for (const kind of requiredKinds) {
+    if (!(receipt.extension_layers || []).some((layer) => layer.kind === kind)) warnings.push(`no ${kind} layer recorded`)
+  }
+  if (mcpActiveCount > 0 && hookActiveCount === 0) warnings.push('active MCP server without an active hook/policy layer; write actions may lack deterministic gates')
+
+  for (const [index, observation] of (receipt.boundary_observations || []).entries()) {
+    const prefix = `boundary_observations[${index}]`
+    requireString(observation.boundary, `${prefix}.boundary`)
+    requireArray(observation.evidence_layer_ids, `${prefix}.evidence_layer_ids`)
+    requireString(observation.receipt, `${prefix}.receipt`)
+    requireString(observation.risk, `${prefix}.risk`)
+    for (const id of observation.evidence_layer_ids || []) {
+      if (!layerIds.has(id)) errors.push(`${prefix}.evidence_layer_ids references unknown layer ${id}`)
+    }
+  }
+
+  return {
+    errors,
+    warnings,
+    summary: {
+      platform: receipt.platform?.name || 'unknown',
+      layerCount: Array.isArray(receipt.extension_layers) ? receipt.extension_layers.length : 0,
+      activeLayerCount,
+      boundaryObservationCount: Array.isArray(receipt.boundary_observations) ? receipt.boundary_observations.length : 0,
+      verdict: receipt.decision?.verdict || 'unknown',
     },
   }
 }

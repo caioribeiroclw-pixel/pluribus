@@ -172,6 +172,36 @@ test('demo package-behavior-receipt --json reports machine-readable summary', ()
 })
 
 
+test('demo claude-extension-source-map validates the packaged receipt', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'claude-extension-source-map'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /Pluribus demo: Claude extension source-map receipt/)
+  assert.match(result.stdout, /7 layers, 6 active, 3 boundary observations, verdict review_required/)
+  assert.match(result.stdout, /CLAUDE\.md, output styles, Skills, hooks, subagents, plugins, and MCP servers/)
+})
+
+test('demo claude-extension-source-map --json reports machine-readable summary', () => {
+  const dir = tempProject()
+
+  const result = runCli(dir, ['demo', 'claude-extension-source-map', '--json'])
+
+  assert.equal(result.status, 0, result.stderr)
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.ok, true)
+  assert.equal(payload.demo, 'claude-extension-source-map')
+  assert.deepEqual(payload.summary, {
+    platform: 'claude-code',
+    layerCount: 7,
+    activeLayerCount: 6,
+    boundaryObservationCount: 3,
+    verdict: 'review_required',
+  })
+})
+
+
 test('demo tool-surface-diff validates the packaged receipt', () => {
   const dir = tempProject()
 
