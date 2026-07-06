@@ -1,0 +1,38 @@
+{
+  "batchId": "20260706220409-caioribeiroclw-pixel-pluribus",
+  "userId": "caioribeiroclw-pixel",
+  "sourceRepo": "caioribeiroclw-pixel/pluribus",
+  "generatedAt": "2026-07-06T22:04:09Z",
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "evidence-attestation",
+      "name": "evidence-attestation",
+      "type": "basic",
+      "description": "Emit privacy-safe evidence attestations for agent actions, reviews, memory answers, handoffs, scores, approvals, and tool dispatches.",
+      "sourceRepo": "caioribeiroclw-pixel/pluribus",
+      "lifecycle": "pending"
+    }
+  ],
+  "proposedCombinations": [],
+  "similarity": [
+    {
+      "sourceSkillId": "evidence-attestation",
+      "targetSkillId": "e2e-testing",
+      "score": 0.581,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "evidence-attestation",
+      "targetSkillId": "release-automation",
+      "score": 0.579,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "evidence-attestation",
+      "targetSkillId": "error-interpretation",
+      "score": 0.55,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ]
+}
