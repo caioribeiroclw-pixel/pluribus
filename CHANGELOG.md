@@ -4,6 +4,7 @@
 
 All notable changes to Pluribus are documented here.
 
+- Added the copyable `agent-change-manifest` doc, fixture, and checker for agent-written Git commits where reviewers need intent, loaded authority, verification evidence, skipped checks, commit trailers, privacy flags, and stale-if rules without raw transcripts or source.
 - Added `pluribus demo memory-answer-receipt`, docs, fixture, and gallery card for live-memory/RAG answer receipts that prove snapshot freshness, cited refs, private omissions, authority level, verification path, and stale-if rules before an agent uses memory as edit authority.
 - Added the copyable `skills/evidence-attestation` Agent Skill plus fixture/checker/docs for emitting privacy-safe proof objects with claims, evidence refs, omissions, limits, verdict, and stale-if rules.
 - Added `pluribus demo mcp-traffic-receipt`, docs, and a gallery card for redacted MCP client↔server traffic receipts that prove capability agreement, tool-call status, hung calls, replay evidence, and privacy defaults without exposing raw JSON-RPC payloads.

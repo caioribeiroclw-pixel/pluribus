@@ -1,0 +1,82 @@
+{
+  "schema": "pluribus.agent_change_manifest.v1",
+  "subject": {
+    "git_ref": "feature/checkout-retry-guard",
+    "commit": "8fd4c0e2b9a13d5ef98a0c2d1b4e7f6a5c3d2e10",
+    "change_id": "pr-123"
+  },
+  "agent": {
+    "surface": "claude-code",
+    "session_ref": "claude-code:sha256:5fe0c8ad7f5a14d6a5c8d48df2e7d2c3a1b0e9f8a7d6c5b4a392817263544332",
+    "role": "implementer"
+  },
+  "intent": {
+    "task_summary": "Add retry guard around checkout webhook handoff without changing payment capture semantics.",
+    "acceptance_criteria_refs": [
+      "issue:123#acceptance",
+      "docs/runbooks/checkout.md#retry-policy"
+    ]
+  },
+  "context_authority": [
+    {
+      "kind": "rule_file",
+      "ref": "CLAUDE.md",
+      "hash": "sha256:49c8e7642fd0d10f3a6df5d62a7c2d4b067b35d8f5189eac23d72027f6f5bb65",
+      "authority": "project"
+    },
+    {
+      "kind": "issue",
+      "ref": "issue:123",
+      "hash": "sha256:2f9c0b184fa9d2d9a72ef25dcfbf2d8a89d3b5979b3e2d746d48a93fba9290b5",
+      "authority": "task"
+    }
+  ],
+  "change_scope": {
+    "touched_paths": [
+      "src/checkout/retry.js",
+      "test/checkout-retry.test.js"
+    ],
+    "out_of_scope": [
+      "payment capture timing",
+      "refund policy"
+    ]
+  },
+  "verification": {
+    "commands": [
+      {
+        "cmd": "npm test -- checkout-retry",
+        "status": "passed",
+        "evidence_ref": "ci:run-456#checkout-retry"
+      },
+      {
+        "cmd": "npm run lint -- src/checkout/retry.js",
+        "status": "passed",
+        "evidence_ref": "ci:run-456#lint"
+      }
+    ],
+    "not_checked": [
+      "payment-provider sandbox callback behavior",
+      "load test under duplicate webhook bursts"
+    ]
+  },
+  "git_trailers": {
+    "Agent-Session": "claude-code:sha256:5fe0c8ad7f5a14d6a5c8d48df2e7d2c3a1b0e9f8a7d6c5b4a392817263544332",
+    "Agent-Manifest": ".pluribus/agent-change-manifests/8fd4c0e.json",
+    "Agent-Verification": "ci:run-456"
+  },
+  "privacy": {
+    "raw_prompt_included": false,
+    "raw_transcript_included": false,
+    "raw_source_included": false,
+    "secrets_included": false,
+    "customer_data_included": false
+  },
+  "verdict": "reviewable",
+  "stale_if": [
+    "subject commit changes without manifest refresh",
+    "CLAUDE.md or issue:123 hash changes",
+    "checkout retry tests are superseded or removed",
+    "target branch moves across payment ownership boundary",
+    "agent resumes from a different session without carrying Agent-Manifest trailer"
+  ]
+}
