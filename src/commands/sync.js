@@ -25,6 +25,7 @@ export async function runSync(args) {
   const sourcePath = sourceArg
     ? path.resolve(cwd, sourceArg)
     : path.join(cwd, 'pluribus.md')
+  const projectDir = path.dirname(sourcePath)
 
   if (!fs.existsSync(sourcePath)) {
     console.error(`❌ pluribus.md not found at: ${sourcePath}`)
@@ -43,7 +44,6 @@ export async function runSync(args) {
 
   let resolvedContent
   try {
-    const projectDir = path.dirname(sourcePath)
     const resolved = await resolveImportsAsync(sourcePath, {
       rootDir: projectDir,
       allowRemote: updateImports,
@@ -113,7 +113,7 @@ export async function runSync(args) {
 
   for (const toolId of toolsToSync) {
     // Check for local skill override first: pluribus/skills/<tool>.md
-    const localSkillPath = path.join(cwd, 'pluribus', 'skills', `${toolId}.md`)
+    const localSkillPath = path.join(projectDir, 'pluribus', 'skills', `${toolId}.md`)
     let skill
 
     if (fs.existsSync(localSkillPath)) {
@@ -160,7 +160,7 @@ export async function runSync(args) {
     // Render the template
     let rendered
     try {
-      rendered = renderTemplate(skill.template, sections, path.relative(cwd, sourcePath) || 'pluribus.md')
+      rendered = renderTemplate(skill.template, sections, path.relative(projectDir, sourcePath) || 'pluribus.md')
     } catch (err) {
       console.error(`   ❌ [${toolId}] Template rendering failed: ${err.message}`)
       failCount++
@@ -169,7 +169,7 @@ export async function runSync(args) {
 
     // Write output files
     for (const outputFile of skill.outputFiles) {
-      const outputPath = path.join(cwd, outputFile)
+      const outputPath = path.join(projectDir, outputFile)
 
       if (isDryRun) {
         console.log(`   📝 [dry-run] Would write: ${outputFile}`)

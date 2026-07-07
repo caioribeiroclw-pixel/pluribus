@@ -56,6 +56,7 @@ export async function runAudit(args) {
   const sourcePath = sourceArg
     ? path.resolve(cwd, sourceArg)
     : path.join(cwd, 'pluribus.md')
+  const projectDir = path.dirname(sourcePath)
   const displaySource = path.relative(cwd, sourcePath) || 'pluribus.md'
 
   if (!fs.existsSync(sourcePath)) {
@@ -110,7 +111,6 @@ export async function runAudit(args) {
   const errors = []
   let resolvedContent
   try {
-    const projectDir = path.dirname(sourcePath)
     const resolved = await resolveImportsAsync(sourcePath, {
       rootDir: projectDir,
       allowRemote: updateImports,
@@ -161,7 +161,7 @@ export async function runAudit(args) {
 
   const results = []
   for (const toolId of tools) {
-    const skill = loadSkill(cwd, toolId)
+    const skill = loadSkill(projectDir, toolId)
     if (!skill) {
       results.push({ toolId, status: 'error', file: '(skill)', message: 'Skill not found' })
       continue
@@ -184,14 +184,14 @@ export async function runAudit(args) {
 
     let rendered
     try {
-      rendered = renderTemplate(skill.template, sections, path.relative(cwd, sourcePath) || 'pluribus.md')
+      rendered = renderTemplate(skill.template, sections, path.relative(projectDir, sourcePath) || 'pluribus.md')
     } catch (err) {
       results.push({ toolId, status: 'error', file: '(template)', message: err.message })
       continue
     }
 
     for (const outputFile of skill.outputFiles) {
-      const outputPath = path.join(cwd, outputFile)
+      const outputPath = path.join(projectDir, outputFile)
       if (!fs.existsSync(outputPath)) {
         results.push({ toolId, status: 'missing', file: outputFile })
         continue
@@ -227,7 +227,7 @@ export async function runAudit(args) {
   }, {})
 
   const hasProblem = (summary.drift || 0) + (summary.missing || 0) + (summary.error || 0) > 0
-  const fidelityReport = fidelityReportEnabled ? buildFidelityReport({ cwd, sections, tools, loadSkill }) : null
+  const fidelityReport = fidelityReportEnabled ? buildFidelityReport({ cwd: projectDir, sections, tools, loadSkill }) : null
 
   if (!json && fidelityReport) {
     printFidelityReport(fidelityReport)
