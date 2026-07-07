@@ -43,6 +43,7 @@
             <option value="ruleAttention">Sample: CLAUDE.md rule attention drift</option>
             <option value="skillInstall">Sample: Agent Skill install provenance</option>
             <option value="retrievalAdoption">Sample: retrieval adoption receipt</option>
+            <option value="chatRecovery">Sample: archived chat recovery card</option>
           </select>
           <button id="load">Load sample</button>
           <button id="validate">Validate</button>
@@ -58,6 +59,7 @@
         <p><span class="pill">rule attention</span> shows whether project rules were re-read, cited in the pre-edit plan, and checked before changes.</p>
         <p><span class="pill">skill install provenance</span> shows which <code>SKILL.md</code> source path won, which mirrors were ignored, and whether install metadata stayed content-safe.</p>
         <p><span class="pill">retrieval adoption</span> shows whether an available graph/RAG tool was actually used before claims, not just configured.</p>
+        <p><span class="pill">chat recovery</span> turns archived agent chats into resumable search cards: workspace, branch/files, last check, handoff summary, and stale-if.</p>
         <h2>CLI equivalent</h2>
         <p><code>npx --yes pluribus-context@latest demo tool-surface-diff --json</code></p>
       </aside>
@@ -138,6 +140,23 @@
         privacy: { raw_prompts_omitted: true, raw_graph_nodes_omitted: true, source_code_omitted: true, tool_outputs_omitted: true, customer_data_omitted: true },
         result: { status: 'availability_not_adoption', next_safe_action: 'treat graph/RAG as unadopted unless a gate requires or verifies retrieval before final claims' }
       },
+      chatRecovery: {
+        schema: 'pluribus.archived_agent_chat_recovery_card.v1',
+        card_id: 'cursor_archived_chat_recovery_demo',
+        generated_at: '2026-07-07T21:00:00Z',
+        source: { surface: 'cursor_agent_chat_search', chat_id_hash: 'sha256:archived-chat-redacted', archived: true, resumable: 'unknown_until_opened' },
+        workspace: { repo_or_folder_hash: 'sha256:workspace-path-redacted', branch: 'feature/recover-agent-session', last_commit: 'abc1234' },
+        continuity: {
+          last_touched_files: ['src/agent/recovery.ts', 'test/recovery.test.ts'],
+          last_command_or_check: { command_hash: 'sha256:npm-test-redacted', status: 'passed', finished_at: '2026-07-07T20:44:03Z' },
+          handoff_summary: 'Implemented archive-search fallback; next agent should verify search ranking before editing UI labels.',
+          open_questions: ['Does archived chat search rank chats below skills?', 'Can the chat be reopened with tool state intact?']
+        },
+        recovery_action: { preferred: 'open_chat', fallback: 'create_new_chat_with_handoff_summary', restore_command_omitted: true },
+        privacy: { raw_chat_omitted: true, raw_prompts_omitted: true, source_code_omitted: true, secrets_omitted: true, customer_data_omitted: true },
+        stale_if: ['branch_changed', 'last_commit_changed', 'files_touched_by_other_session', 'chat_not_resumable', 'test_status_unknown'],
+        verdict: 'review_before_resume'
+      },
       skillInstall: {
         schema: 'pluribus.agent_skill_install_provenance_receipt.v1',
         receipt_id: 'skill_install_openskills_demo',
@@ -193,6 +212,7 @@
       if (receipt.schema === 'pluribus.claude_code_rule_attention_receipt.v1') return render(validateRuleAttention(receipt))
       if (receipt.schema === 'pluribus.agent_skill_install_provenance_receipt.v1') return render(validateSkillInstall(receipt))
       if (receipt.schema === 'pluribus.retrieval_adoption_receipt.v1') return render(validateRetrievalAdoption(receipt))
+      if (receipt.schema === 'pluribus.archived_agent_chat_recovery_card.v1') return render(validateChatRecovery(receipt))
       render({ ok:false, errors:[`unsupported schema: ${receipt.schema || '(missing)'}`], warnings:[] })
     }
 
@@ -262,6 +282,27 @@
       if (!usedRetrieval && r.boundary_checks?.no_retrieval_claim_allowed !== true) errors.push('no_retrieval_claim_allowed must be true when retrieval was available but no adoption evidence exists')
       if (!usedRetrieval && !escapeCalls.length) warnings.push('no retrieval adoption and no native escape-hatch calls recorded; receipt may be missing usage telemetry')
       return { ok: errors.length === 0, schema:r.schema, retrieval_available:r.retrieval_surface?.available === true, retrieval_call_count:retrievalCalls.length, cited_context_count:cited.length, graph_grounded_findings:graphGroundedFindings, native_escape_hatch_calls:escapeCalls, status: usedRetrieval ? 'retrieval_adopted' : 'availability_not_adoption', errors, warnings }
+    }
+
+
+
+    function validateChatRecovery(r) {
+      const errors = [], warnings = []
+      const touched = Array.isArray(r.continuity?.last_touched_files) ? r.continuity.last_touched_files : []
+      const staleIf = Array.isArray(r.stale_if) ? r.stale_if : []
+      if (!r.source?.surface) errors.push('source.surface is required')
+      if (!r.source?.chat_id_hash) errors.push('source.chat_id_hash is required')
+      if (r.source?.archived !== true) warnings.push('source.archived is not true; this may be a normal chat, not a recovery card')
+      if (!r.workspace?.repo_or_folder_hash) errors.push('workspace.repo_or_folder_hash is required')
+      if (!r.workspace?.branch && !r.workspace?.last_commit) warnings.push('workspace branch or last_commit is recommended for resume safety')
+      if (!touched.length) errors.push('continuity.last_touched_files must include at least one reduced path')
+      if (!r.continuity?.last_command_or_check?.status) errors.push('continuity.last_command_or_check.status is required')
+      if (!r.continuity?.handoff_summary || r.continuity.handoff_summary.length < 20) errors.push('continuity.handoff_summary must be a useful 1-2 line summary')
+      if (!r.recovery_action?.preferred) errors.push('recovery_action.preferred is required')
+      for (const field of ['raw_chat_omitted','raw_prompts_omitted','source_code_omitted','secrets_omitted','customer_data_omitted']) if (r.privacy?.[field] !== true) errors.push(`privacy.${field} must be true`)
+      for (const needed of ['branch_changed','last_commit_changed','chat_not_resumable']) if (!staleIf.includes(needed)) warnings.push(`stale_if should include ${needed}`)
+      if (r.verdict === 'safe_to_resume' && warnings.length) errors.push('verdict cannot be safe_to_resume while recommended resume checks are missing')
+      return { ok: errors.length === 0, schema:r.schema, archived:r.source?.archived === true, resumable:r.source?.resumable || 'unknown', touched_file_count:touched.length, stale_if:staleIf, verdict:r.verdict || 'missing', errors, warnings }
     }
 
     function validateSkillInstall(r) {
