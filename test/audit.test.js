@@ -78,6 +78,24 @@ test('audit detects drifted and missing generated files in strict mode', () => {
   assert.match(audit.stdout, /issues\/new\?template=audit-feedback\.yml/)
 })
 
+test('audit compares generated files next to an explicit --source file', () => {
+  const dir = tempProject()
+  const projectDir = path.join(dir, 'project')
+  writeFile(path.join(projectDir, 'pluribus.md'), validContext)
+
+  const sync = runCli(dir, ['sync', '--source', 'project/pluribus.md'])
+  assert.equal(sync.status, 0, sync.stderr)
+
+  fs.appendFileSync(path.join(projectDir, 'CLAUDE.md'), '\nmanual edit\n')
+
+  const audit = runCli(dir, ['audit', '--source', 'project/pluribus.md', '--strict'])
+
+  assert.equal(audit.status, 1)
+  assert.match(audit.stdout, /\[claude\] CLAUDE\.md differs from generated output/)
+  assert.match(audit.stdout, /\[cursor\] \.cursorrules is current/)
+  assert.equal(fs.existsSync(path.join(dir, 'CLAUDE.md')), false)
+})
+
 
 test('audit --ci is a shortcut for strict GitHub Actions annotations', () => {
   const dir = tempProject()
