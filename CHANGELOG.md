@@ -4,6 +4,9 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.50 - 2026-07-07
+
+- Fixed `sync --source` and `audit --source` so generated files and comparisons are anchored to the source context directory instead of the shell current working directory, preserving project-local authority in nested repos and monorepos. Thanks `@fengjikui` for the external bug-fix PR.
 - Added an archived agent chat recovery card sample to the browser playground for Cursor/Claude-style closed-session search.
 - Added config treatment receipts for config-doctor/canonicalization workflows, including docs, a fixture, checker, and test for proving treated AI-agent config loaded across target surfaces without private rule payloads.
 - Added the copyable `agent-change-manifest` doc, fixture, and checker for agent-written Git commits where reviewers need intent, loaded authority, verification evidence, skipped checks, commit trailers, privacy flags, and stale-if rules without raw transcripts or source.

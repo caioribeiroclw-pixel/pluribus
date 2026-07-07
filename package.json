@@ -1,6 +1,6 @@
 {
   "name": "pluribus-context",
-  "version": "0.3.49",
+  "version": "0.3.50",
   "description": "AI context and rules sync CLI for Claude.md, Claude Code, Cursor, and Copilot instructions, with privacy-safe context receipts that prove what memory, tools, skills, compactions, and security findings crossed agent boundaries without logging raw content.",
   "type": "module",
   "homepage": "https://caioribeiroclw-pixel.github.io/pluribus/boundary-receipt-gallery.html",
