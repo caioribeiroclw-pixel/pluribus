@@ -4,6 +4,7 @@
 
 All notable changes to Pluribus are documented here.
 
+- Added config treatment receipts for config-doctor/canonicalization workflows, including docs, a fixture, checker, and test for proving treated AI-agent config loaded across target surfaces without private rule payloads.
 - Added the copyable `agent-change-manifest` doc, fixture, and checker for agent-written Git commits where reviewers need intent, loaded authority, verification evidence, skipped checks, commit trailers, privacy flags, and stale-if rules without raw transcripts or source.
 - Added `pluribus demo memory-answer-receipt`, docs, fixture, and gallery card for live-memory/RAG answer receipts that prove snapshot freshness, cited refs, private omissions, authority level, verification path, and stale-if rules before an agent uses memory as edit authority.
 - Added the copyable `skills/evidence-attestation` Agent Skill plus fixture/checker/docs for emitting privacy-safe proof objects with claims, evidence refs, omissions, limits, verdict, and stale-if rules.

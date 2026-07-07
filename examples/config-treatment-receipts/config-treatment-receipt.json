@@ -1,0 +1,70 @@
+{
+  "schema": "pluribus.config_treatment_receipt.v1",
+  "subject": {
+    "repo": "example/payments-api",
+    "commit": "4b825dc642cb6eb9a060e54bf8d69288fbee4904",
+    "treatment_id": "config-doctor-2026-07-07T15:00Z"
+  },
+  "treatment": {
+    "tool": "ai-harness-doctor",
+    "tool_version": "0.1.0",
+    "command": "ai-harness-doctor fix --emit-receipt",
+    "authority_home": "AGENTS.md"
+  },
+  "canonical_authority": {
+    "ref": "AGENTS.md",
+    "hash": "sha256:4e3fc2db6d7f54f7f3e5d8a3d4c8c3d3e8d2d31e8d5d3a3c8e6f1a2b3c4d5e6f",
+    "summary": "project coding standards, security constraints, and AI-agent review policy"
+  },
+  "target_surfaces": [
+    {
+      "tool": "claude-code",
+      "target_file": "CLAUDE.md",
+      "stub_hash": "sha256:9d42a8107b6c1e4a9f2d5c2b1a8e7d6c5b4a39281726354433221100ffeeddcc",
+      "loaded_hash": "sha256:9d42a8107b6c1e4a9f2d5c2b1a8e7d6c5b4a39281726354433221100ffeeddcc",
+      "load_status": "loaded",
+      "shadowing": "project overrides global baseline"
+    },
+    {
+      "tool": "cursor",
+      "target_file": ".cursorrules",
+      "stub_hash": "sha256:a7713e4e1ed4a4f3f3a4c5d6e7f89011223344556677889900aabbccddeeff00",
+      "loaded_hash": "sha256:a7713e4e1ed4a4f3f3a4c5d6e7f89011223344556677889900aabbccddeeff00",
+      "load_status": "loaded",
+      "shadowing": "project rules selected"
+    },
+    {
+      "tool": "github-copilot",
+      "target_file": ".github/copilot-instructions.md",
+      "stub_hash": "sha256:b6619f4e1ed4a4f3f3a4c5d6e7f89011223344556677889900aabbccddeeff11",
+      "loaded_hash": "sha256:b6619f4e1ed4a4f3f3a4c5d6e7f89011223344556677889900aabbccddeeff11",
+      "load_status": "loaded",
+      "shadowing": "repo instruction file selected"
+    }
+  ],
+  "verification": {
+    "drift_gate": "npm run ai-config:check",
+    "eval_ref": "config-eval/2026-07-07.json",
+    "status": "passed",
+    "not_checked": [
+      "interactive IDE plugin cache"
+    ]
+  },
+  "privacy": {
+    "raw_rules_included": false,
+    "raw_prompts_included": false,
+    "secrets_included": false,
+    "customer_data_included": false,
+    "omitted_private_payloads": [
+      "internal compliance clauses"
+    ]
+  },
+  "verdict": "usable",
+  "stale_if": [
+    "canonical AGENTS.md hash changes",
+    "target stub hash differs from loaded hash",
+    "Claude Code global config shadows project file",
+    "tool load limit truncates target file",
+    "drift gate has not run on current commit"
+  ]
+}
