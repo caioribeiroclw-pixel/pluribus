@@ -4,6 +4,8 @@
 
 All notable changes to Pluribus are documented here.
 
+- Added a browser-playground handoff freshness receipt sample for HANDOFF.md/CONTEXT.md-style session-continuity skills, proving source session, repo state, referenced file hashes, verification status, privacy omissions, and stale-if before a new agent resumes.
+
 ## 0.3.50 - 2026-07-07
 
 - Fixed `sync --source` and `audit --source` so generated files and comparisons are anchored to the source context directory instead of the shell current working directory, preserving project-local authority in nested repos and monorepos. Thanks `@fengjikui` for the external bug-fix PR.

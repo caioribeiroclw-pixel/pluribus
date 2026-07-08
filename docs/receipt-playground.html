@@ -44,6 +44,7 @@
             <option value="skillInstall">Sample: Agent Skill install provenance</option>
             <option value="retrievalAdoption">Sample: retrieval adoption receipt</option>
             <option value="chatRecovery">Sample: archived chat recovery card</option>
+            <option value="handoffFreshness">Sample: handoff freshness receipt</option>
           </select>
           <button id="load">Load sample</button>
           <button id="validate">Validate</button>
@@ -60,6 +61,7 @@
         <p><span class="pill">skill install provenance</span> shows which <code>SKILL.md</code> source path won, which mirrors were ignored, and whether install metadata stayed content-safe.</p>
         <p><span class="pill">retrieval adoption</span> shows whether an available graph/RAG tool was actually used before claims, not just configured.</p>
         <p><span class="pill">chat recovery</span> turns archived agent chats into resumable search cards: workspace, branch/files, last check, handoff summary, and stale-if.</p>
+        <p><span class="pill">handoff freshness</span> proves a HANDOFF.md/CONTEXT.md-style artifact still matches the source session, repo state, checks, and referenced files before a new agent resumes.</p>
         <h2>CLI equivalent</h2>
         <p><code>npx --yes pluribus-context@latest demo tool-surface-diff --json</code></p>
       </aside>
@@ -140,6 +142,26 @@
         privacy: { raw_prompts_omitted: true, raw_graph_nodes_omitted: true, source_code_omitted: true, tool_outputs_omitted: true, customer_data_omitted: true },
         result: { status: 'availability_not_adoption', next_safe_action: 'treat graph/RAG as unadopted unless a gate requires or verifies retrieval before final claims' }
       },
+      handoffFreshness: {
+        schema: 'pluribus.handoff_freshness_receipt.v1',
+        receipt_id: 'handoff_freshness_demo',
+        generated_at: '2026-07-08T15:00:00Z',
+        source_session: { surface: 'claude_code', session_id_hash: 'sha256:session-redacted', source_tool_version: '2.1.204', handoff_command: '/handoff' },
+        artifact: { path: 'HANDOFF.md', artifact_hash: 'sha256:handoff-md-redacted', renderer: 'claude-code-handoff-skill', renderer_version: '0.4.2' },
+        repo_state: { workspace_hash: 'sha256:workspace-redacted', branch: 'feature/session-recovery', commit: '9f1c2d3', dirty: false },
+        references: {
+          files_referenced: [
+            { path_hash: 'sha256:src-agent-runner-ts-redacted', content_hash_at_handoff: 'sha256:file-before-redacted', current_content_hash: 'sha256:file-before-redacted' },
+            { path_hash: 'sha256:test-agent-runner-test-ts-redacted', content_hash_at_handoff: 'sha256:test-before-redacted', current_content_hash: 'sha256:test-before-redacted' }
+          ],
+          raw_paths_omitted: true,
+          raw_file_contents_omitted: true
+        },
+        verification: { last_check: { command_hash: 'sha256:npm-test-redacted', status: 'passed', finished_at: '2026-07-08T14:58:12Z' }, resume_check_required: true, resume_check_status: 'not_yet_run' },
+        privacy: { raw_handoff_omitted: true, raw_transcript_omitted: true, raw_prompts_omitted: true, source_code_omitted: true, secrets_omitted: true, customer_data_omitted: true },
+        stale_if: ['artifact_hash_changed', 'branch_changed', 'commit_changed', 'dirty_worktree', 'referenced_file_hash_changed', 'last_check_failed_or_missing', 'renderer_version_changed'],
+        verdict: 'review_before_resume'
+      },
       chatRecovery: {
         schema: 'pluribus.archived_agent_chat_recovery_card.v1',
         card_id: 'cursor_archived_chat_recovery_demo',
@@ -213,6 +235,7 @@
       if (receipt.schema === 'pluribus.agent_skill_install_provenance_receipt.v1') return render(validateSkillInstall(receipt))
       if (receipt.schema === 'pluribus.retrieval_adoption_receipt.v1') return render(validateRetrievalAdoption(receipt))
       if (receipt.schema === 'pluribus.archived_agent_chat_recovery_card.v1') return render(validateChatRecovery(receipt))
+      if (receipt.schema === 'pluribus.handoff_freshness_receipt.v1') return render(validateHandoffFreshness(receipt))
       render({ ok:false, errors:[`unsupported schema: ${receipt.schema || '(missing)'}`], warnings:[] })
     }
 
@@ -303,6 +326,36 @@
       for (const needed of ['branch_changed','last_commit_changed','chat_not_resumable']) if (!staleIf.includes(needed)) warnings.push(`stale_if should include ${needed}`)
       if (r.verdict === 'safe_to_resume' && warnings.length) errors.push('verdict cannot be safe_to_resume while recommended resume checks are missing')
       return { ok: errors.length === 0, schema:r.schema, archived:r.source?.archived === true, resumable:r.source?.resumable || 'unknown', touched_file_count:touched.length, stale_if:staleIf, verdict:r.verdict || 'missing', errors, warnings }
+    }
+
+    function validateHandoffFreshness(r) {
+      const errors = [], warnings = []
+      const files = Array.isArray(r.references?.files_referenced) ? r.references.files_referenced : []
+      const staleIf = Array.isArray(r.stale_if) ? r.stale_if : []
+      if (!r.source_session?.surface) errors.push('source_session.surface is required')
+      if (!r.source_session?.session_id_hash) errors.push('source_session.session_id_hash is required')
+      if (!r.artifact?.path) errors.push('artifact.path is required')
+      if (!r.artifact?.artifact_hash) errors.push('artifact.artifact_hash is required')
+      if (!r.artifact?.renderer || !r.artifact?.renderer_version) warnings.push('artifact renderer and renderer_version are recommended')
+      if (!r.repo_state?.workspace_hash) errors.push('repo_state.workspace_hash is required')
+      if (!r.repo_state?.branch) warnings.push('repo_state.branch is recommended')
+      if (!r.repo_state?.commit) warnings.push('repo_state.commit is recommended')
+      if (r.repo_state?.dirty === true) warnings.push('repo_state.dirty is true; handoff should be reviewed before resume')
+      if (!files.length) errors.push('references.files_referenced must include at least one reduced file reference')
+      for (const file of files) {
+        if (!file.path_hash) errors.push('each referenced file must include path_hash')
+        if (!file.content_hash_at_handoff) errors.push('each referenced file must include content_hash_at_handoff')
+        if (!file.current_content_hash) warnings.push('current_content_hash is recommended so resume can detect stale references')
+        if (file.content_hash_at_handoff && file.current_content_hash && file.content_hash_at_handoff !== file.current_content_hash) warnings.push(`${file.path_hash || 'file'} changed after handoff`)
+      }
+      if (r.references?.raw_paths_omitted !== true) errors.push('references.raw_paths_omitted must be true')
+      if (r.references?.raw_file_contents_omitted !== true) errors.push('references.raw_file_contents_omitted must be true')
+      if (!r.verification?.last_check?.status) errors.push('verification.last_check.status is required')
+      if (r.verification?.resume_check_required !== true) warnings.push('verification.resume_check_required should be true before a new agent resumes')
+      for (const field of ['raw_handoff_omitted','raw_transcript_omitted','raw_prompts_omitted','source_code_omitted','secrets_omitted','customer_data_omitted']) if (r.privacy?.[field] !== true) errors.push(`privacy.${field} must be true`)
+      for (const needed of ['artifact_hash_changed','commit_changed','referenced_file_hash_changed','last_check_failed_or_missing']) if (!staleIf.includes(needed)) warnings.push(`stale_if should include ${needed}`)
+      if (r.verdict === 'safe_to_resume' && (warnings.length || r.verification?.resume_check_status !== 'passed')) errors.push('verdict cannot be safe_to_resume until resume checks pass with no warnings')
+      return { ok: errors.length === 0, schema:r.schema, surface:r.source_session?.surface || 'missing', artifact:r.artifact?.path || 'missing', referenced_file_count:files.length, stale_if:staleIf, verdict:r.verdict || 'missing', errors, warnings }
     }
 
     function validateSkillInstall(r) {
