@@ -106,6 +106,7 @@ Current built-in adapter ids are:
 | `continue` | `.continue/rules/pluribus.md` |
 | `zed` | `.rules` |
 | `bob` | `.bob/rules/pluribus.md` |
+| `roo` | `.roo/rules/pluribus.md` |
 
 If your tool is missing, open a [tool integration request](https://github.com/caioribeiroclw-pixel/pluribus/issues/new?template=integration-request.yml) with the official docs URL, expected output path, and a minimal public example.
 

@@ -122,6 +122,25 @@ test('sync generates Continue workspace rule and creates .continue/rules directo
   assert.match(output, /## Anti-patterns\nDo not duplicate project rules in tool-specific files\./)
 })
 
+test('sync generates Roo Code workspace rule and creates .roo/rules directory', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), context)
+
+  const result = runCli(dir, ['sync', '--tools', 'roo'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /\[roo\].*\.roo\/rules\/pluribus\.md/)
+
+  const outputPath = path.join(dir, '.roo', 'rules', 'pluribus.md')
+  assert.equal(fs.existsSync(outputPath), true)
+
+  const output = fs.readFileSync(outputPath, 'utf8')
+  assert.match(output, /Pluribus Project Rules for Roo Code/)
+  assert.match(output, /## Conventions\nUse async\/await and keep modules small\./)
+  assert.match(output, /## Constraints\nDo not add native dependencies\./)
+  assert.match(output, /## Anti-patterns\nDo not duplicate project rules in tool-specific files\./)
+})
+
 test('sync writes generated files next to an explicit --source file', () => {
   const dir = tempProject()
   const projectDir = path.join(dir, 'project')
