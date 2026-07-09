@@ -122,6 +122,26 @@ test('sync generates Continue workspace rule and creates .continue/rules directo
   assert.match(output, /## Anti-patterns\nDo not duplicate project rules in tool-specific files\./)
 })
 
+test('sync generates GEMINI.md for Gemini CLI', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), context)
+
+  const result = runCli(dir, ['sync', '--tools', 'gemini-cli'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /\[gemini-cli\].*GEMINI\.md/)
+
+  const outputPath = path.join(dir, 'GEMINI.md')
+  assert.equal(fs.existsSync(outputPath), true)
+
+  const output = fs.readFileSync(outputPath, 'utf8')
+  assert.match(output, /# GEMINI\.md/)
+  assert.match(output, /## Stack\n\nNode\.js 22 and SQLite\./)
+  assert.match(output, /## Conventions\n\nUse async\/await and keep modules small\./)
+  assert.match(output, /## Goals\n\nMake AI context portable across tools\./)
+  assert.match(output, /## Constraints\n\nDo not add native dependencies\./)
+})
+
 test('sync writes generated files next to an explicit --source file', () => {
   const dir = tempProject()
   const projectDir = path.join(dir, 'project')
