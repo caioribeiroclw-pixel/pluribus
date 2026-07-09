@@ -34,6 +34,11 @@ Each one has its own way of understanding your project:
 - `.rules` for Zed
 - `.bob/rules/pluribus.md` for Bob
 - `.clinerules` for Cline
+- `.roo/rules/pluribus.md` for Roo Code
+- `.amazonq/rules/pluribus.md` for Amazon Q Developer
+- `.junie/AGENTS.md` for JetBrains Junie
+- `WARP.md` for Warp
+- `GEMINI.md` for Gemini CLI
 
 You end up maintaining **5+ files** that say roughly the same thing — your project's architecture, conventions, tech stack, who you are, what matters. Copy-paste across files. They drift. They rot. You forget to update one. Your AI gives you wrong answers because it's reading stale context.
 
@@ -70,6 +75,11 @@ And it generates the right files for each tool:
 - `.rules` ← for Zed
 - `.bob/rules/pluribus.md` ← for Bob
 - `.clinerules` ← for Cline
+- `.roo/rules/pluribus.md` ← for Roo Code
+- `.amazonq/rules/pluribus.md` ← for Amazon Q Developer
+- `.junie/AGENTS.md` ← for JetBrains Junie
+- `WARP.md` ← for Warp
+- `GEMINI.md` ← for Gemini CLI
 
 **One source of truth. Zero drift.**
 
@@ -353,6 +363,11 @@ pluribus watch --once --tools claude,cursor
 | `windsurf` | `.windsurf/rules/pluribus.md` | Windsurf Cascade workspace rules |
 | `continue` | `.continue/rules/pluribus.md` | Continue workspace rules |
 | `cline` | `.clinerules` | Cline (VS Code extension) |
+| `roo` | `.roo/rules/pluribus.md` | Roo Code workspace rules |
+| `amazonq` | `.amazonq/rules/pluribus.md` | Amazon Q Developer project rules |
+| `junie` | `.junie/AGENTS.md` | JetBrains Junie project guidelines |
+| `warp` | `WARP.md` | Warp terminal agent rules |
+| `gemini-cli` | `GEMINI.md` | Gemini CLI context file |
 
 ### Custom Skills
 

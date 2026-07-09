@@ -141,6 +141,104 @@ test('sync generates Cline .clinerules', () => {
   assert.match(output, /## Anti-patterns\nDo not duplicate project rules in tool-specific files\./)
 })
 
+
+test('sync generates Roo Code workspace rule and creates .roo/rules directory', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), context)
+
+  const result = runCli(dir, ['sync', '--tools', 'roo'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /\[roo\].*\.roo\/rules\/pluribus\.md/)
+
+  const outputPath = path.join(dir, '.roo', 'rules', 'pluribus.md')
+  assert.equal(fs.existsSync(outputPath), true)
+
+  const output = fs.readFileSync(outputPath, 'utf8')
+  assert.match(output, /Pluribus Project Rules for Roo Code/)
+  assert.match(output, /## Conventions\nUse async\/await and keep modules small\./)
+  assert.match(output, /## Constraints\nDo not add native dependencies\./)
+  assert.match(output, /## Anti-patterns\nDo not duplicate project rules in tool-specific files\./)
+})
+
+test('sync generates Amazon Q Developer project rule and creates .amazonq/rules directory', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), context)
+
+  const result = runCli(dir, ['sync', '--tools', 'amazonq'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /\[amazonq\].*\.amazonq\/rules\/pluribus\.md/)
+
+  const outputPath = path.join(dir, '.amazonq', 'rules', 'pluribus.md')
+  assert.equal(fs.existsSync(outputPath), true)
+
+  const output = fs.readFileSync(outputPath, 'utf8')
+  assert.match(output, /Pluribus Project Rules for Amazon Q Developer/)
+  assert.match(output, /## Conventions\nUse async\/await and keep modules small\./)
+  assert.match(output, /## Constraints\nDo not add native dependencies\./)
+  assert.match(output, /## Anti-patterns\nDo not duplicate project rules in tool-specific files\./)
+})
+
+test('sync generates JetBrains Junie AGENTS.md and creates .junie directory', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), context)
+
+  const result = runCli(dir, ['sync', '--tools', 'junie'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /\[junie\].*\.junie\/AGENTS\.md/)
+
+  const outputPath = path.join(dir, '.junie', 'AGENTS.md')
+  assert.equal(fs.existsSync(outputPath), true)
+
+  const output = fs.readFileSync(outputPath, 'utf8')
+  assert.match(output, /Pluribus Project Guidelines for JetBrains Junie/)
+  assert.match(output, /## Conventions\nUse async\/await and keep modules small\./)
+  assert.match(output, /## Constraints\nDo not add native dependencies\./)
+  assert.match(output, /## Anti-patterns\nDo not duplicate project rules in tool-specific files\./)
+})
+
+test('sync generates WARP.md for Warp', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), context)
+
+  const result = runCli(dir, ['sync', '--tools', 'warp'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /\[warp\].*WARP\.md/)
+
+  const outputPath = path.join(dir, 'WARP.md')
+  assert.equal(fs.existsSync(outputPath), true)
+
+  const output = fs.readFileSync(outputPath, 'utf8')
+  assert.match(output, /# WARP\.md/)
+  assert.match(output, /## Stack\n\nNode\.js 22 and SQLite\./)
+  assert.match(output, /## Conventions\n\nUse async\/await and keep modules small\./)
+  assert.match(output, /## Goals\n\nMake AI context portable across tools\./)
+  assert.match(output, /## Constraints\n\nDo not add native dependencies\./)
+})
+
+test('sync generates GEMINI.md for Gemini CLI', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), context)
+
+  const result = runCli(dir, ['sync', '--tools', 'gemini-cli'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /\[gemini-cli\].*GEMINI\.md/)
+
+  const outputPath = path.join(dir, 'GEMINI.md')
+  assert.equal(fs.existsSync(outputPath), true)
+
+  const output = fs.readFileSync(outputPath, 'utf8')
+  assert.match(output, /# GEMINI\.md/)
+  assert.match(output, /## Stack\n\nNode\.js 22 and SQLite\./)
+  assert.match(output, /## Conventions\n\nUse async\/await and keep modules small\./)
+  assert.match(output, /## Goals\n\nMake AI context portable across tools\./)
+  assert.match(output, /## Constraints\n\nDo not add native dependencies\./)
+})
+
 test('sync writes generated files next to an explicit --source file', () => {
   const dir = tempProject()
   const projectDir = path.join(dir, 'project')
