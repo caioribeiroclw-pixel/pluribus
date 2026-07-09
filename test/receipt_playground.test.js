@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url'
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const playgroundPath = path.join(repoRoot, 'docs', 'receipt-playground.html')
 
-test('receipt playground script parses and includes archived chat recovery, handoff freshness, and context diet samples', () => {
+test('receipt playground script parses and includes archived chat recovery, handoff freshness, context diet, and context hygiene samples', () => {
   const html = fs.readFileSync(playgroundPath, 'utf8')
   const script = html.match(/<script>([\s\S]*)<\/script>/)?.[1]
 
@@ -19,4 +19,6 @@ test('receipt playground script parses and includes archived chat recovery, hand
   assert.match(html, /validateHandoffFreshness/)
   assert.match(html, /pluribus\.context_diet_receipt\.v1/)
   assert.match(html, /validateContextDiet/)
+  assert.match(html, /pluribus\.context_hygiene_receipt\.v1/)
+  assert.match(html, /validateContextHygiene/)
 })

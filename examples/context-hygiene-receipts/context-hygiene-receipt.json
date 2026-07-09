@@ -1,0 +1,176 @@
+{
+  "schema": "pluribus.context_hygiene_receipt.v1",
+  "receipt_id": "context_hygiene_demo_001",
+  "generated_at": "2026-07-09T14:00:00Z",
+  "mode": "audit_before_prune",
+  "subject": {
+    "repo": "github.com/example/checkout-service",
+    "commit": "9f8e7d6c5b4a32100123456789abcdef01234567",
+    "agent_surface": "claude_code",
+    "model_window_bucket": "over_100k"
+  },
+  "context_budget": {
+    "startup_token_estimate": 58400,
+    "loaded_token_estimate": 45100,
+    "deferred_token_estimate": 108000,
+    "candidate_savings_estimate": 11200,
+    "estimate_method": "client_context_report_plus_source_tokenizer"
+  },
+  "loaded_sources": [
+    {
+      "id": "src:repo-claude-md",
+      "kind": "instruction_file",
+      "surface": "CLAUDE.md",
+      "source_hash": "sha256:01a74a4e1e4d638af312b47d97f851404a8f171fae9b986763afbd911926d733",
+      "token_estimate": 1800,
+      "load_status": "loaded",
+      "last_used_evidence": "cited_in_pre_edit_plan",
+      "action": "keep",
+      "risk_if_removed": "high"
+    },
+    {
+      "id": "src:repo-agents-md",
+      "kind": "instruction_file",
+      "surface": "AGENTS.md",
+      "source_hash": "sha256:b8b90378bcd5100ef501791b02e89ab7f132502ed1d7d92f1e52d1e29987b2b7",
+      "token_estimate": 1600,
+      "load_status": "loaded",
+      "last_used_evidence": "loaded_but_uncited",
+      "action": "review_for_overlap",
+      "risk_if_removed": "medium"
+    },
+    {
+      "id": "src:mcp-github-tools",
+      "kind": "mcp_tool_schema_catalog",
+      "surface": "github-mcp",
+      "source_hash": "sha256:0db5970bd90bd1480118c018d58e8e2aa2f6cd65ddf6f1d4f7ebda7a1d90e94a",
+      "token_estimate": 21800,
+      "load_status": "loaded",
+      "last_used_evidence": "zero_calls_this_session",
+      "action": "defer_or_scope",
+      "risk_if_removed": "medium"
+    },
+    {
+      "id": "src:payments-memory-summary",
+      "kind": "memory_summary",
+      "surface": "repo-memory",
+      "source_hash": "sha256:ef64cd81d698f1fa37d8ec5b8581a3487c8620b6df6b4130ade9bf5162eb39f3",
+      "token_estimate": 4200,
+      "load_status": "loaded",
+      "last_used_evidence": "superseded_by_runbook",
+      "action": "remove_candidate",
+      "risk_if_removed": "low"
+    },
+    {
+      "id": "src:legacy-migration-note",
+      "kind": "memory_note",
+      "surface": "repo-memory",
+      "source_hash": "sha256:2f987e5d4b6fa573973ec35bd13ffbc6f1b5bc4025f4eb0c550a7bd4db51be18",
+      "token_estimate": 2600,
+      "load_status": "loaded",
+      "last_used_evidence": "no_citations_last_30d",
+      "action": "remove_candidate",
+      "risk_if_removed": "low"
+    },
+    {
+      "id": "src:security-policy",
+      "kind": "policy_instruction",
+      "surface": "org-policy",
+      "source_hash": "sha256:8c94d7b2df59e1bd113ce9fdb18ca2b1445a7f76ae635f20c8cd892f1e1e0237",
+      "token_estimate": 900,
+      "load_status": "loaded",
+      "last_used_evidence": "rarely_cited_but_required",
+      "action": "keep_negative_control",
+      "risk_if_removed": "critical"
+    },
+    {
+      "id": "src:customer-data-rule",
+      "kind": "privacy_instruction",
+      "surface": "org-policy",
+      "source_hash": "sha256:5db2822b94057f9d8e2265d44ed4d16f5c9958aa0b23e1d7d262ce003e6a593a",
+      "token_estimate": 700,
+      "load_status": "loaded",
+      "last_used_evidence": "privacy_boundary_required",
+      "action": "keep_negative_control",
+      "risk_if_removed": "critical"
+    }
+  ],
+  "candidate_removals": [
+    {
+      "source_id": "src:payments-memory-summary",
+      "reason": "superseded_by_current_runbook",
+      "evidence": ["newer_source_hash_matches", "current_runbook_cited", "old_summary_not_cited_last_30d"],
+      "estimated_token_savings": 4200,
+      "risk": "low",
+      "safe_to_remove": true,
+      "rollback_ref": "git:restore-memory-summary"
+    },
+    {
+      "source_id": "src:legacy-migration-note",
+      "reason": "obsolete_after_migration_completed",
+      "evidence": ["migration_issue_closed", "no_matching_paths_in_repo", "no_citations_last_30d"],
+      "estimated_token_savings": 2600,
+      "risk": "low",
+      "safe_to_remove": true,
+      "rollback_ref": "git:restore-legacy-note"
+    },
+    {
+      "source_id": "src:mcp-github-tools",
+      "reason": "eager_tool_schema_load_with_zero_calls",
+      "evidence": ["tool_call_count_zero", "deferred_catalog_available", "task_did_not_need_github_write"],
+      "estimated_token_savings": 4400,
+      "risk": "medium",
+      "safe_to_remove": false,
+      "proposed_action": "scope_to_tasks_that_need_github_or_lazy_expand_after_search"
+    }
+  ],
+  "negative_controls": [
+    {
+      "source_id": "src:security-policy",
+      "why_keep": "safety_policy_even_if_rarely_cited",
+      "must_remain_loaded_for": ["shell_commands", "external_writes", "secret_handling"]
+    },
+    {
+      "source_id": "src:customer-data-rule",
+      "why_keep": "privacy_boundary_even_when_no_customer_data_is_present",
+      "must_remain_loaded_for": ["support_repos", "logs", "screenshots"]
+    }
+  ],
+  "review_gate": {
+    "human_review_required": true,
+    "cleanup_started": false,
+    "approved_candidate_ids": [],
+    "blocked_candidate_ids": ["src:mcp-github-tools"]
+  },
+  "post_cleanup_plan": {
+    "required_checks": ["npm test", "pluribus audit --json", "empty-folder context repro"],
+    "before_after_token_counts_required": true,
+    "receipt_after_cleanup_required": true
+  },
+  "rollback": {
+    "available": true,
+    "command_hash": "sha256:0a8a8a07e9cf5e501aa59ed65c5a9cdd55a3d0fd0359d288a4e926f843b6d3ee",
+    "backup_ref_hash": "sha256:91e78d19d3a479f13e1443539f073f98e61346e6ac132f98de45d3c953ec9127"
+  },
+  "privacy": {
+    "raw_prompts_included": false,
+    "raw_transcripts_included": false,
+    "source_code_included": false,
+    "raw_rule_bodies_included": false,
+    "raw_memory_bodies_included": false,
+    "raw_mcp_schemas_included": false,
+    "secrets_included": false,
+    "customer_data_included": false,
+    "private_paths_hashed": true
+  },
+  "stale_if": [
+    "commit_changed",
+    "context_report_changed",
+    "loaded_source_hash_changed",
+    "mcp_catalog_hash_changed",
+    "policy_source_changed",
+    "candidate_removed_without_post_cleanup_receipt",
+    "rollback_ref_missing"
+  ],
+  "verdict": "review_before_cleanup"
+}
