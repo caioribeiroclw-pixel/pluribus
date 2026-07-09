@@ -4,6 +4,7 @@
 
 All notable changes to Pluribus are documented here.
 
+- Added a browser-playground context diet / scoped memory receipt sample for Claude Code/Cursor/Codex users who want to avoid bloating every session: it proves repeated observed corrections, narrow task/path scope, pruned duplicates, privacy omissions, and stale-if before a context note becomes reusable.
 - Added a browser-playground handoff freshness receipt sample for HANDOFF.md/CONTEXT.md-style session-continuity skills, proving source session, repo state, referenced file hashes, verification status, privacy omissions, and stale-if before a new agent resumes.
 
 ## 0.3.50 - 2026-07-07

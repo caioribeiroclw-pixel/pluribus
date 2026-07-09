@@ -45,6 +45,7 @@
             <option value="retrievalAdoption">Sample: retrieval adoption receipt</option>
             <option value="chatRecovery">Sample: archived chat recovery card</option>
             <option value="handoffFreshness">Sample: handoff freshness receipt</option>
+            <option value="contextDiet">Sample: context diet / scoped memory receipt</option>
           </select>
           <button id="load">Load sample</button>
           <button id="validate">Validate</button>
@@ -62,6 +63,7 @@
         <p><span class="pill">retrieval adoption</span> shows whether an available graph/RAG tool was actually used before claims, not just configured.</p>
         <p><span class="pill">chat recovery</span> turns archived agent chats into resumable search cards: workspace, branch/files, last check, handoff summary, and stale-if.</p>
         <p><span class="pill">handoff freshness</span> proves a HANDOFF.md/CONTEXT.md-style artifact still matches the source session, repo state, checks, and referenced files before a new agent resumes.</p>
+        <p><span class="pill">context diet</span> proves a memory/rule file was promoted only after observed corrections, scoped tightly, and pruned instead of bloating every new session.</p>
         <h2>CLI equivalent</h2>
         <p><code>npx --yes pluribus-context@latest demo tool-surface-diff --json</code></p>
       </aside>
@@ -162,6 +164,38 @@
         stale_if: ['artifact_hash_changed', 'branch_changed', 'commit_changed', 'dirty_worktree', 'referenced_file_hash_changed', 'last_check_failed_or_missing', 'renderer_version_changed'],
         verdict: 'review_before_resume'
       },
+      contextDiet: {
+        schema: 'pluribus.context_diet_receipt.v1',
+        receipt_id: 'context_diet_demo',
+        generated_at: '2026-07-09T01:00:00Z',
+        audience: 'claude_code_cursor_codex_users_with_repo_memory_files',
+        trigger: { kind: 'observed_repeated_correction', evidence_count: 3, last_seen_at: '2026-07-09T00:42:10Z' },
+        candidate_context: {
+          target_file: 'docs/agent-start/task-scoped-payments.md',
+          scope: { task_types: ['payments-refactor'], path_globs: ['services/payments/**'], excluded_path_globs: ['services/billing/**'] },
+          max_lines: 30,
+          summary_hash: 'sha256:scoped-context-redacted'
+        },
+        promotion_evidence: {
+          corrections: [
+            { correction_id_hash: 'sha256:corr-001', observed_in_commit: 'a1b2c3d', fixed_by_human: true },
+            { correction_id_hash: 'sha256:corr-002', observed_in_commit: 'b2c3d4e', fixed_by_human: true },
+            { correction_id_hash: 'sha256:corr-003', observed_in_commit: 'c3d4e5f', fixed_by_human: true }
+          ],
+          negative_controls: ['not_needed_for_readme_edits', 'not_needed_for_frontend_copy_only'],
+          raw_conversations_omitted: true
+        },
+        diet_check: {
+          always_load: false,
+          load_instruction: 'point the agent at this file only for payments-refactor tasks',
+          expected_startup_token_bucket: 'under_2k',
+          pruned_or_merged_old_context_count: 4,
+          duplicate_context_hashes_removed: ['sha256:old-note-redacted', 'sha256:stale-plan-redacted']
+        },
+        privacy: { raw_prompts_omitted: true, raw_memory_body_omitted: true, source_code_omitted: true, private_paths_hashed: true, secrets_omitted: true, customer_data_omitted: true },
+        stale_if: ['task_scope_changed', 'path_glob_changed', 'correction_no_longer_reproducible', 'newer_conflicting_rule_added', 'file_exceeds_max_lines', 'startup_token_bucket_regresses'],
+        verdict: 'load_only_when_task_matches'
+      },
       chatRecovery: {
         schema: 'pluribus.archived_agent_chat_recovery_card.v1',
         card_id: 'cursor_archived_chat_recovery_demo',
@@ -236,6 +270,7 @@
       if (receipt.schema === 'pluribus.retrieval_adoption_receipt.v1') return render(validateRetrievalAdoption(receipt))
       if (receipt.schema === 'pluribus.archived_agent_chat_recovery_card.v1') return render(validateChatRecovery(receipt))
       if (receipt.schema === 'pluribus.handoff_freshness_receipt.v1') return render(validateHandoffFreshness(receipt))
+      if (receipt.schema === 'pluribus.context_diet_receipt.v1') return render(validateContextDiet(receipt))
       render({ ok:false, errors:[`unsupported schema: ${receipt.schema || '(missing)'}`], warnings:[] })
     }
 
@@ -356,6 +391,29 @@
       for (const needed of ['artifact_hash_changed','commit_changed','referenced_file_hash_changed','last_check_failed_or_missing']) if (!staleIf.includes(needed)) warnings.push(`stale_if should include ${needed}`)
       if (r.verdict === 'safe_to_resume' && (warnings.length || r.verification?.resume_check_status !== 'passed')) errors.push('verdict cannot be safe_to_resume until resume checks pass with no warnings')
       return { ok: errors.length === 0, schema:r.schema, surface:r.source_session?.surface || 'missing', artifact:r.artifact?.path || 'missing', referenced_file_count:files.length, stale_if:staleIf, verdict:r.verdict || 'missing', errors, warnings }
+    }
+
+    function validateContextDiet(r) {
+      const errors = [], warnings = []
+      const corrections = Array.isArray(r.promotion_evidence?.corrections) ? r.promotion_evidence.corrections : []
+      const staleIf = Array.isArray(r.stale_if) ? r.stale_if : []
+      const taskTypes = Array.isArray(r.candidate_context?.scope?.task_types) ? r.candidate_context.scope.task_types : []
+      const pathGlobs = Array.isArray(r.candidate_context?.scope?.path_globs) ? r.candidate_context.scope.path_globs : []
+      if (r.trigger?.kind !== 'observed_repeated_correction') warnings.push('trigger.kind should be observed_repeated_correction, not speculative context')
+      if (Number(r.trigger?.evidence_count || 0) < 2) errors.push('trigger.evidence_count must show repeated evidence before promotion')
+      if (!r.candidate_context?.target_file) errors.push('candidate_context.target_file is required')
+      if (!taskTypes.length && !pathGlobs.length) errors.push('candidate_context.scope must include task_types or path_globs')
+      if (Number(r.candidate_context?.max_lines || 0) > 60) warnings.push('candidate_context.max_lines is high; context may be too broad for a diet receipt')
+      if (!r.candidate_context?.summary_hash) errors.push('candidate_context.summary_hash is required')
+      if (corrections.length < 2) errors.push('promotion_evidence.corrections must include at least two observed corrections')
+      if (r.promotion_evidence?.raw_conversations_omitted !== true) errors.push('promotion_evidence.raw_conversations_omitted must be true')
+      if (r.diet_check?.always_load === true) errors.push('diet_check.always_load must be false for task-scoped memory')
+      if (!r.diet_check?.load_instruction) errors.push('diet_check.load_instruction is required')
+      if (Number(r.diet_check?.pruned_or_merged_old_context_count || 0) === 0) warnings.push('no old context was pruned or merged; this may still add bloat')
+      for (const field of ['raw_prompts_omitted','raw_memory_body_omitted','source_code_omitted','private_paths_hashed','secrets_omitted','customer_data_omitted']) if (r.privacy?.[field] !== true) errors.push(`privacy.${field} must be true`)
+      for (const needed of ['task_scope_changed','correction_no_longer_reproducible','newer_conflicting_rule_added','startup_token_bucket_regresses']) if (!staleIf.includes(needed)) warnings.push(`stale_if should include ${needed}`)
+      if (r.verdict === 'always_load' || r.verdict === 'safe_to_globalize') errors.push('verdict must not globalize task-scoped context')
+      return { ok: errors.length === 0, schema:r.schema, evidence_count:Number(r.trigger?.evidence_count || corrections.length), target_file:r.candidate_context?.target_file || 'missing', task_types:taskTypes, path_globs:pathGlobs, pruned_or_merged_old_context_count:Number(r.diet_check?.pruned_or_merged_old_context_count || 0), verdict:r.verdict || 'missing', errors, warnings }
     }
 
     function validateSkillInstall(r) {
