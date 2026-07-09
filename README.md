@@ -33,6 +33,7 @@ Each one has its own way of understanding your project:
 - `.continue/rules/pluribus.md` for Continue
 - `.rules` for Zed
 - `.bob/rules/pluribus.md` for Bob
+- `.junie/guidelines.md` for JetBrains Junie
 
 You end up maintaining **5+ files** that say roughly the same thing — your project's architecture, conventions, tech stack, who you are, what matters. Copy-paste across files. They drift. They rot. You forget to update one. Your AI gives you wrong answers because it's reading stale context.
 
@@ -68,6 +69,7 @@ And it generates the right files for each tool:
 - `.continue/rules/pluribus.md` ← for Continue
 - `.rules` ← for Zed
 - `.bob/rules/pluribus.md` ← for Bob
+- `.junie/guidelines.md` ← for JetBrains Junie
 
 **One source of truth. Zero drift.**
 
@@ -350,6 +352,7 @@ pluribus watch --once --tools claude,cursor
 | `bob` | `.bob/rules/pluribus.md` | Bob rules |
 | `windsurf` | `.windsurf/rules/pluribus.md` | Windsurf Cascade workspace rules |
 | `continue` | `.continue/rules/pluribus.md` | Continue workspace rules |
+| `junie` | `.junie/guidelines.md` | JetBrains Junie guidelines |
 
 ### Custom Skills
 

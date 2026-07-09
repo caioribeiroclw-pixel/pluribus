@@ -122,6 +122,25 @@ test('sync generates Continue workspace rule and creates .continue/rules directo
   assert.match(output, /## Anti-patterns\nDo not duplicate project rules in tool-specific files\./)
 })
 
+test('sync generates JetBrains Junie guidelines and creates .junie directory', () => {
+  const dir = tempProject()
+  writeFile(path.join(dir, 'pluribus.md'), context)
+
+  const result = runCli(dir, ['sync', '--tools', 'junie'])
+
+  assert.equal(result.status, 0, result.stderr)
+  assert.match(result.stdout, /\[junie\].*\.junie\/guidelines\.md/)
+
+  const outputPath = path.join(dir, '.junie', 'guidelines.md')
+  assert.equal(fs.existsSync(outputPath), true)
+
+  const output = fs.readFileSync(outputPath, 'utf8')
+  assert.match(output, /Pluribus Project Guidelines for JetBrains Junie/)
+  assert.match(output, /## Conventions\nUse async\/await and keep modules small\./)
+  assert.match(output, /## Constraints\nDo not add native dependencies\./)
+  assert.match(output, /## Anti-patterns\nDo not duplicate project rules in tool-specific files\./)
+})
+
 test('sync writes generated files next to an explicit --source file', () => {
   const dir = tempProject()
   const projectDir = path.join(dir, 'project')
