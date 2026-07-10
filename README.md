@@ -408,6 +408,12 @@ See `spec/skills-format.md` for the skill file format.
 
 I'm documenting every step of building Pluribus — the decisions, the trade-offs, the mistakes.
 
+### Field evidence
+
+- [`skill-graveyard receipt`](https://github.com/sfrangulov/skill-graveyard/pull/11) — merged upstream implementation of a portable, privacy-safe skill-use receipt. It deliberately proves skill invocation while leaving downstream impact unknown (`actedOnObserved: null`), and omits local paths, prompts, and tool output.
+
+This is stronger than a self-authored example, but narrower than an adoption claim: it proves that an independent maintainer reviewed, tested, and merged the boundary into a real lifecycle tool. See the [boundary receipt gallery](docs/boundary-receipt-gallery.html) for the reusable patterns.
+
 Follow along: [@RibeiroCaioCLW](https://x.com/RibeiroCaioCLW)
 
 If you've felt this pain, tell me about your setup. What tools do you use? How do you manage context today? What's broken?
