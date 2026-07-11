@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Independently merged implementations and distribution evidence from Pluribus field research.">
+  <title>Pluribus field evidence</title>
+  <style>
+    :root { color-scheme:dark light; --bg:#0b1020; --card:#121a33; --text:#e8ecf8; --muted:#aab4cf; --accent:#8ee6c4; --border:#283454; --good:#b9f6df; }
+    * { box-sizing:border-box; }
+    body { margin:0; font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif; background:var(--bg); color:var(--text); }
+    main { max-width:920px; margin:0 auto; padding:56px 20px 80px; }
+    a { color:var(--accent); }
+    h1 { font-size:clamp(2rem,6vw,3.8rem); line-height:1.05; margin:.3rem 0 1rem; }
+    h2 { margin-top:2.4rem; }
+    .eyebrow { color:var(--accent); font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+    .lead { color:var(--muted); font-size:1.15rem; max-width:760px; }
+    .callout,.card { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:22px; margin:18px 0; }
+    .callout { border-color:#47785f; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:16px; }
+    .card { margin:0; }
+    .card h3 { margin:.15rem 0 .45rem; }
+    .meta { color:var(--good); font-size:.92rem; font-weight:650; }
+    .muted { color:var(--muted); }
+    code { background:#060a15; padding:.15rem .35rem; border-radius:6px; }
+    nav { margin-bottom:32px; }
+  </style>
+</head>
+<body>
+  <main>
+    <nav><a href="index.html">← Pluribus home</a></nav>
+    <p class="eyebrow">Field evidence · updated 2026-07-11</p>
+    <h1>What survived contact with other projects</h1>
+    <p class="lead">Pluribus is an evidence layer for agent context boundaries. The strongest support for that direction is not another document in this repository; it is small, reviewable behavior that independent maintainers accepted in tools people can inspect.</p>
+
+    <div class="callout">
+      <strong>Evidence, not an adoption claim.</strong>
+      These are independently reviewed and merged patches authored during Pluribus field research. They prove that specific boundary checks were useful enough to enter other codebases. They do <em>not</em> prove Pluribus installs, active users, or runtime consumption.
+    </div>
+
+    <h2>Merged implementations</h2>
+    <div class="grid">
+      <article class="card">
+        <p class="meta">Skill lifecycle · merged 2026-07-10</p>
+        <h3>Portable skill-use evidence</h3>
+        <p><code>skill-graveyard</code> accepted a privacy-safe receipt that separates inventory from observed use, with CLI and test coverage.</p>
+        <p><a href="https://github.com/sfrangulov/skill-graveyard/pull/11">Inspect merged PR #11 →</a></p>
+      </article>
+      <article class="card">
+        <p class="meta">Runtime authority · merged 2026-07-08</p>
+        <h3>Effective authority snapshots</h3>
+        <p><code>halo-record</code> accepted runtime authority snapshots and a follow-up that deduplicates unchanged evidence instead of pretending every observation is new.</p>
+        <p><a href="https://github.com/bkuan001/halo-record/pull/4">Snapshot PR #4</a> · <a href="https://github.com/bkuan001/halo-record/pull/5">dedupe PR #5</a></p>
+      </article>
+      <article class="card">
+        <p class="meta">Context freshness · merged 2026-07-04</p>
+        <h3>Repository-map freshness</h3>
+        <p><code>agent-context-economy</code> accepted metadata that makes a generated repository map's staleness inspectable instead of treating existence as current authority.</p>
+        <p><a href="https://github.com/grafikerdem/agent-context-economy/pull/1">Inspect merged PR #1 →</a></p>
+      </article>
+      <article class="card">
+        <p class="meta">Mutation safety · merged 2026-07-01–03</p>
+        <h3>Dry-run and rollback proof</h3>
+        <p><code>mcpm</code> accepted sync dry-run receipts followed by rollback snapshots, separating previewed intent from applied and recoverable state.</p>
+        <p><a href="https://github.com/AZERDSQ131/mcpm/pull/4">Dry-run PR #4</a> · <a href="https://github.com/AZERDSQ131/mcpm/pull/6">rollback PR #6</a></p>
+      </article>
+      <article class="card">
+        <p class="meta">Session continuity · merged 2026-06-25</p>
+        <h3>Resume proof before edits</h3>
+        <p><code>claude-handoff-revive</code> accepted a pre-edit resume receipt so a handoff can be checked before a new session mutates the repository.</p>
+        <p><a href="https://github.com/sofumel/claude-handoff-revive/pull/2">Inspect merged PR #2 →</a></p>
+      </article>
+      <article class="card">
+        <p class="meta">Instruction integrity · merged 2026-06-23</p>
+        <h3>Hidden instruction visibility</h3>
+        <p><code>promptblock</code> accepted hidden-comment indexes in warnings, making invisible instruction locations reviewable instead of reporting only a generic finding.</p>
+        <p><a href="https://github.com/ryandens/promptblock/pull/16">Inspect merged PR #16 →</a></p>
+      </article>
+    </div>
+
+    <h2>Independent distribution</h2>
+    <div class="grid">
+      <article class="card">
+        <p class="meta">Observability directory · merged 2026-07-11</p>
+        <h3>Safety Guardrails and Observability</h3>
+        <p>An independent maintainer listed Pluribus in <code>awesome-ai-agents-2026</code> under the observability category.</p>
+        <p><a href="https://github.com/ARUNAGIRINATHAN-K/awesome-ai-agents-2026/pull/148">Inspect merged listing PR #148 →</a></p>
+      </article>
+      <article class="card">
+        <p class="meta">Context-engineering directory · merged 2026-07-07</p>
+        <h3>Context management tools</h3>
+        <p>The <code>context-engineering</code> resource repository accepted Pluribus as a context-management tool.</p>
+        <p><a href="https://github.com/bonigarcia/context-engineering/pull/434">Inspect merged listing PR #434 →</a></p>
+      </article>
+      <article class="card">
+        <p class="meta">Gemini CLI directory · merged 2026-07-09</p>
+        <h3>Cross-tool context sync</h3>
+        <p><code>awesome-gemini-cli</code> accepted the Pluribus listing, exposing the source-to-native-file workflow to Gemini CLI users.</p>
+        <p><a href="https://github.com/Piebald-AI/awesome-gemini-cli/pull/72">Inspect merged listing PR #72 →</a></p>
+      </article>
+    </div>
+
+    <h2>Try the boundary yourself</h2>
+    <p>The browser demo shows the narrowest useful Pluribus workflow: one reviewed source, native agent-file previews, and hashes for what was generated. The receipt remains honest that generation does not prove a client loaded the output.</p>
+    <p><a href="context-sync-demo.html">Run the 30-second context sync demo →</a></p>
+    <p class="muted">For the latest CLI release, use <a href="https://github.com/caioribeiroclw-pixel/pluribus/releases/latest">GitHub Releases</a>. npm may lag during release windows.</p>
+  </main>
+</body>
+</html>
