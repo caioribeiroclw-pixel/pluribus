@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pluribus — 30-second context sync demo</title>
+  <style>
+    :root { color-scheme:dark; --bg:#080d1a; --card:#111a30; --text:#edf2ff; --muted:#aab5cf; --accent:#88e8c2; --border:#2a3758; --bad:#ff9aa8; }
+    * { box-sizing:border-box; }
+    body { margin:0; font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif; background:radial-gradient(circle at 20% 0,#182b44 0,transparent 34%),var(--bg); color:var(--text); }
+    main { max-width:1180px; margin:auto; padding:34px 18px 54px; }
+    h1 { margin:.25rem 0 .7rem; font-size:clamp(2.1rem,5vw,4.5rem); line-height:.98; letter-spacing:-.055em; max-width:900px; }
+    h2 { margin:.2rem 0 .7rem; }
+    p { color:var(--muted); }
+    a { color:var(--accent); }
+    .lede { max-width:780px; font-size:1.08rem; }
+    .flow { display:flex; flex-wrap:wrap; gap:8px; margin:20px 0; }
+    .flow span { border:1px solid var(--border); background:#0b1326; border-radius:999px; padding:7px 11px; color:var(--muted); }
+    .grid { display:grid; gap:16px; }
+    @media (min-width:900px) { .grid { grid-template-columns:1fr 1fr; } }
+    .card { background:rgba(17,26,48,.94); border:1px solid var(--border); border-radius:18px; padding:18px; box-shadow:0 18px 70px rgba(0,0,0,.22); }
+    textarea, pre { width:100%; min-height:430px; margin:0; border:1px solid var(--border); border-radius:13px; padding:14px; background:#050914; color:#e5ecff; font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; white-space:pre-wrap; overflow:auto; }
+    button, select { border:1px solid var(--border); border-radius:999px; background:#182544; color:var(--text); padding:10px 14px; cursor:pointer; }
+    button.primary { background:var(--accent); color:#07120e; border-color:var(--accent); font-weight:750; }
+    button:hover, select:hover { border-color:var(--accent); }
+    .controls { display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin-bottom:12px; }
+    .status { min-height:1.5rem; color:var(--accent); }
+    .error { color:var(--bad); }
+    .small { font-size:.9rem; }
+    code { background:#050914; border-radius:5px; padding:.12rem .32rem; }
+    .receipt { margin-top:16px; }
+    .receipt pre { min-height:190px; }
+  </style>
+</head>
+<body>
+<main>
+  <p><a href="index.html">← Pluribus</a></p>
+  <h1>One source. Native agent files. A receipt that does not pretend they loaded.</h1>
+  <p class="lede">Edit the project rule, click once, and inspect the generated <code>CLAUDE.md</code>, <code>AGENTS.md</code>, or <code>.cursorrules</code>. Everything runs locally in this browser; nothing is uploaded or written.</p>
+  <div class="flow"><span>1 · edit pluribus.md</span><span>2 · preview native output</span><span>3 · inspect source/output hashes</span><span>4 · runtime load remains unknown</span></div>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Canonical source</h2>
+      <p class="small">Change “Run tests before merging” below, then generate again.</p>
+      <textarea id="source" spellcheck="false"><!-- pluribus:tools: claude,cursor,openclaw -->
+# Identity
+Acme API is a TypeScript billing service.
+
+# Stack
+- Node.js 22
+- TypeScript strict mode
+- Vitest
+
+# Conventions
+- Prefer small, reviewable changes.
+- Run tests before merging.
+
+# Goals
+- Keep AI-assisted changes consistent across tools.
+
+# Constraints
+- Never expose customer data or credentials.
+- Do not change billing behavior without tests.</textarea>
+    </section>
+
+    <section class="card">
+      <h2>Native output</h2>
+      <div class="controls">
+        <select id="target" aria-label="Target agent">
+          <option value="claude">CLAUDE.md</option>
+          <option value="openclaw">AGENTS.md</option>
+          <option value="cursor">.cursorrules</option>
+        </select>
+        <button class="primary" id="generate">Generate preview</button>
+        <button id="copy">Copy output</button>
+      </div>
+      <div id="status" class="status" aria-live="polite">Ready.</div>
+      <pre id="output"></pre>
+    </section>
+  </div>
+
+  <section class="card receipt">
+    <h2>Boundary receipt</h2>
+    <p class="small">This proves what this preview transformed. It does <strong>not</strong> claim Claude, Cursor, or another runtime loaded the file.</p>
+    <pre id="receipt"></pre>
+  </section>
+
+  <section class="card">
+    <h2>Try the real CLI</h2>
+    <p><code>npx --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.51 pluribus init --dry-run --name "Acme API" --description "A TypeScript billing service" --tools claude,cursor,openclaw</code></p>
+    <p class="small">The pinned GitHub release avoids the current npm release lag. <code>--dry-run</code> previews without writing files.</p>
+  </section>
+</main>
+<script>
+  const required = ['identity','stack','conventions','goals','constraints'];
+  const targetNames = { claude:'CLAUDE.md', openclaw:'AGENTS.md', cursor:'.cursorrules' };
+
+  function parseSections(markdown) {
+    const sections = {};
+    const lines = markdown.replace(/\r\n/g, '\n').split('\n');
+    let key = null;
+    for (const line of lines) {
+      const match = line.match(/^#\s+(.+?)\s*$/);
+      if (match) {
+        key = match[1].toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        sections[key] = [];
+      } else if (key) sections[key].push(line);
+    }
+    return Object.fromEntries(Object.entries(sections).map(([name, body]) => [name, body.join('\n').trim()]));
+  }
+
+  function render(sections, target) {
+    const header = '<!-- Generated preview by Pluribus — do not edit manually -->\n<!-- Source: pluribus.md -->\n\n';
+    if (target === 'claude') return header + `# Project Context for Claude\n\n## Identity\n\n${sections.identity}\n\n---\n\n## Tech Stack\n\n${sections.stack}\n\n---\n\n## Conventions\n\n${sections.conventions}\n\n---\n\n## Goals\n\n${sections.goals}\n\n---\n\n## Constraints\n\n> These are non-negotiable. Do not deviate from these under any circumstances.\n\n${sections.constraints}\n`;
+    if (target === 'openclaw') return header + `# AGENTS.md\n\n## Identity\n\n${sections.identity}\n\n---\n\n## Stack\n\n${sections.stack}\n\n---\n\n## Conventions\n\n${sections.conventions}\n\n---\n\n## Goals\n\n${sections.goals}\n\n---\n\n## Constraints\n\n${sections.constraints}\n`;
+    return `# Cursor Rules — generated preview by Pluribus\n# Source: pluribus.md\n# Do not edit manually.\n\n## Project\n${sections.identity}\n\n## Stack\n${sections.stack}\n\n## Conventions\n${sections.conventions}\n\n## Goals\n${sections.goals}\n\n## Constraints\n${sections.constraints}\n`;
+  }
+
+  async function sha256(value) {
+    const bytes = new TextEncoder().encode(value);
+    const digest = await crypto.subtle.digest('SHA-256', bytes);
+    return 'sha256:' + [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2,'0')).join('');
+  }
+
+  async function generate() {
+    const source = document.querySelector('#source').value;
+    const target = document.querySelector('#target').value;
+    const sections = parseSections(source);
+    const missing = required.filter(name => !sections[name]);
+    const status = document.querySelector('#status');
+    if (missing.length) {
+      status.className = 'status error';
+      status.textContent = `Missing required sections: ${missing.join(', ')}`;
+      document.querySelector('#output').textContent = '';
+      document.querySelector('#receipt').textContent = '';
+      return;
+    }
+    const output = render(sections, target);
+    document.querySelector('#output').textContent = output;
+    const receipt = {
+      schema: 'pluribus.rendered_output_receipt.v1',
+      mode: 'browser_preview',
+      source: { path: 'pluribus.md', sha256: await sha256(source) },
+      target: { path: targetNames[target], sha256: await sha256(output), writes_started: false },
+      transformation: { required_sections_present: true, target_template: target },
+      runtime_load: { status: 'unknown', reason: 'preview generation does not prove client discovery or prompt insertion' },
+      privacy: { uploaded: false, raw_source_in_receipt: false }
+    };
+    document.querySelector('#receipt').textContent = JSON.stringify(receipt, null, 2);
+    status.className = 'status';
+    status.textContent = `Previewed ${targetNames[target]} from one canonical source. No files written.`;
+  }
+
+  document.querySelector('#generate').addEventListener('click', generate);
+  document.querySelector('#target').addEventListener('change', generate);
+  document.querySelector('#copy').addEventListener('click', async () => {
+    await navigator.clipboard.writeText(document.querySelector('#output').textContent);
+    document.querySelector('#status').textContent = 'Output copied.';
+  });
+  generate();
+</script>
+</body>
+</html>
