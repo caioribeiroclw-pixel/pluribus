@@ -20,6 +20,7 @@
     @media (min-width:900px) { .grid { grid-template-columns:1fr 1fr; } }
     .card { background:rgba(17,26,48,.94); border:1px solid var(--border); border-radius:18px; padding:18px; box-shadow:0 18px 70px rgba(0,0,0,.22); }
     textarea, pre { width:100%; min-height:430px; margin:0; border:1px solid var(--border); border-radius:13px; padding:14px; background:#050914; color:#e5ecff; font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; white-space:pre-wrap; overflow:auto; }
+    textarea.compact, pre.compact { min-height:240px; }
     button, select { border:1px solid var(--border); border-radius:999px; background:#182544; color:var(--text); padding:10px 14px; cursor:pointer; }
     button.primary { background:var(--accent); color:#07120e; border-color:var(--accent); font-weight:750; }
     button:hover, select:hover { border-color:var(--accent); }
@@ -36,8 +37,8 @@
 <main>
   <p><a href="index.html">← Pluribus</a></p>
   <h1>One source. Native agent files. A receipt that does not pretend they loaded.</h1>
-  <p class="lede">Edit the project rule, click once, and inspect the generated <code>CLAUDE.md</code>, <code>AGENTS.md</code>, or <code>.cursorrules</code>. Everything runs locally in this browser; nothing is uploaded or written.</p>
-  <div class="flow"><span>1 · edit pluribus.md</span><span>2 · preview native output</span><span>3 · inspect source/output hashes</span><span>4 · runtime load remains unknown</span></div>
+  <p class="lede">Edit the project rule, click once, and inspect the generated <code>CLAUDE.md</code>, <code>AGENTS.md</code>, or <code>.cursorrules</code>. Then change the generated copy and make the write-back policy explicit. Everything runs locally in this browser; nothing is uploaded or written.</p>
+  <div class="flow"><span>1 · edit pluribus.md</span><span>2 · preview native output</span><span>3 · simulate target drift</span><span>4 · choose warn, overwrite, or promote</span><span>5 · runtime load remains unknown</span></div>
 
   <div class="grid">
     <section class="card">
@@ -79,6 +80,23 @@ Acme API is a TypeScript billing service.
       <pre id="output"></pre>
     </section>
   </div>
+
+  <section class="card receipt">
+    <h2>Target-edit triage</h2>
+    <p class="small">Real workflows do not stay one-way: a human or agent may edit a generated target. Change the observed file below, choose a policy, and inspect the decision. “Promote” means review the diff for the canonical source; it never silently makes the target authoritative.</p>
+    <div class="controls">
+      <select id="drift-policy" aria-label="Target edit policy">
+        <option value="warn">Warn and reject the target edit</option>
+        <option value="overwrite">Overwrite from canonical source</option>
+        <option value="promote">Review target diff for source promotion</option>
+      </select>
+      <button id="simulate-drift">Load a real drift-shaped edit</button>
+      <button class="primary" id="analyze-drift">Analyze target edit</button>
+    </div>
+    <div id="drift-status" class="status" aria-live="polite">Generate a preview to establish the expected target.</div>
+    <textarea class="compact" id="observed" spellcheck="false" aria-label="Observed generated target"></textarea>
+    <pre class="compact" id="drift-receipt"></pre>
+  </section>
 
   <section class="card receipt">
     <h2>Boundary receipt</h2>
@@ -138,6 +156,9 @@ Acme API is a TypeScript billing service.
     }
     const output = render(sections, target);
     document.querySelector('#output').textContent = output;
+    document.querySelector('#observed').value = output;
+    document.querySelector('#drift-receipt').textContent = '';
+    document.querySelector('#drift-status').textContent = `Expected ${targetNames[target]} captured. Edit it or load the drift-shaped example.`;
     const receipt = {
       schema: 'pluribus.rendered_output_receipt.v1',
       mode: 'browser_preview',
@@ -152,8 +173,53 @@ Acme API is a TypeScript billing service.
     status.textContent = `Previewed ${targetNames[target]} from one canonical source. No files written.`;
   }
 
+  async function analyzeDrift() {
+    const target = document.querySelector('#target').value;
+    const expected = document.querySelector('#output').textContent;
+    const observed = document.querySelector('#observed').value;
+    const policy = document.querySelector('#drift-policy').value;
+    const drifted = expected !== observed;
+    const decisions = {
+      warn: drifted ? 'reject_observed_edit_and_warn' : 'no_action',
+      overwrite: drifted ? 'regenerate_target_from_canonical_source' : 'no_action',
+      promote: drifted ? 'review_diff_before_source_promotion' : 'no_action'
+    };
+    const receipt = {
+      schema: 'pluribus.target_edit_triage.v1',
+      mode: 'browser_preview',
+      target: {
+        path: targetNames[target],
+        expected_sha256: await sha256(expected),
+        observed_sha256: await sha256(observed),
+        drift_detected: drifted,
+        observed_writer: 'unknown'
+      },
+      policy: { selected: policy, decision: decisions[policy], automatic_source_promotion: false },
+      boundaries: {
+        writes_started: false,
+        runtime_load: 'unknown',
+        semantic_intent_preserved: drifted ? 'not_evaluated' : 'byte_identical'
+      },
+      privacy: { uploaded: false, raw_target_in_receipt: false }
+    };
+    document.querySelector('#drift-receipt').textContent = JSON.stringify(receipt, null, 2);
+    const status = document.querySelector('#drift-status');
+    status.className = drifted ? 'status error' : 'status';
+    status.textContent = drifted
+      ? `Drift detected in ${targetNames[target]}. Decision: ${decisions[policy].replaceAll('_', ' ')}.`
+      : `${targetNames[target]} is byte-identical to the generated preview.`;
+  }
+
   document.querySelector('#generate').addEventListener('click', generate);
   document.querySelector('#target').addEventListener('change', generate);
+  document.querySelector('#simulate-drift').addEventListener('click', () => {
+    const observed = document.querySelector('#observed');
+    const marker = '\n- Skip tests for docs-only changes.\n';
+    if (!observed.value.includes(marker.trim())) observed.value += marker;
+    document.querySelector('#drift-status').className = 'status error';
+    document.querySelector('#drift-status').textContent = 'Observed target changed after generation. Choose a policy and analyze it.';
+  });
+  document.querySelector('#analyze-drift').addEventListener('click', analyzeDrift);
   document.querySelector('#copy').addEventListener('click', async () => {
     await navigator.clipboard.writeText(document.querySelector('#output').textContent);
     document.querySelector('#status').textContent = 'Output copied.';
