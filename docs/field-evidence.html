@@ -29,16 +29,32 @@
 <body>
   <main>
     <nav><a href="index.html">← Pluribus home</a></nav>
-    <p class="eyebrow">Field evidence · updated 2026-07-11</p>
+    <p class="eyebrow">Field evidence · updated 2026-07-13</p>
     <h1>What survived contact with other projects</h1>
-    <p class="lead">Pluribus is an evidence layer for agent context boundaries. The strongest support for that direction is not another document in this repository; it is small, reviewable behavior that independent maintainers accepted in tools people can inspect.</p>
+    <p class="lead">Pluribus is an evidence layer for agent context boundaries. The strongest support for that direction is not another document in this repository; it is a falsifiable boundary that an independent maintainer ships or protects in tests.</p>
 
     <div class="callout">
       <strong>Evidence, not an adoption claim.</strong>
-      These are independently reviewed and merged patches authored during Pluribus field research. They prove that specific boundary checks were useful enough to enter other codebases. They do <em>not</em> prove Pluribus installs, active users, or runtime consumption.
+      This ledger separates maintainer-shipped outcomes, independently reviewed contributions, and directory distribution. They prove that specific boundary checks affected inspectable external systems. They do <em>not</em> prove Pluribus installs, active users, or runtime consumption.
     </div>
 
-    <h2>Merged implementations</h2>
+    <h2>Maintainer-shipped from a falsifier</h2>
+    <div class="grid">
+      <article class="card">
+        <p class="meta">MCP trace privacy · shipped and protected 2026-07-12</p>
+        <h3>Local storage ≠ agent-visible replay</h3>
+        <p>A synthetic canary showed that Observer returned raw historical tool arguments to the agent and created a world-readable database. The maintainer shipped metadata-only, session-scoped defaults, raw opt-in, pre-store redaction, and <code>0600</code> storage; then requested and merged the hermetic regression suite.</p>
+        <p><a href="https://github.com/valtors/observer/issues/10">Fix and independent rerun</a> · <a href="https://github.com/valtors/observer/pull/12">merged tests #12</a></p>
+      </article>
+      <article class="card">
+        <p class="meta">Cross-agent continuity · released 2026-07-12</p>
+        <h3>Prompt replay ≠ task continuity</h3>
+        <p>A failover test asked whether backup agent B inspects work left by quota-limited agent A. Usher's maintainer turned that first external feedback into a default continuation guard, machine-readable marker, opt-out, end-to-end test, and tagged release in 37 minutes. The remaining boundary is explicit: warning delivered does not prove workspace inspected.</p>
+        <p><a href="https://github.com/theodorebeaupre-prog/usher/releases/tag/v0.3.2">inspect v0.3.2</a> · <a href="https://github.com/theodorebeaupre-prog/usher/issues/6">next evidence rung #6</a></p>
+      </article>
+    </div>
+
+    <h2>Independently reviewed contributions</h2>
     <div class="grid">
       <article class="card">
         <p class="meta">Skill lifecycle · merged 2026-07-10</p>
