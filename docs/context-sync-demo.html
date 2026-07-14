@@ -31,6 +31,11 @@
     code { background:#050914; border-radius:5px; padding:.12rem .32rem; }
     .receipt { margin-top:16px; }
     .receipt pre { min-height:190px; }
+    .comparison { display:grid; gap:12px; margin-top:12px; }
+    @media (min-width:900px) { .comparison { grid-template-columns:1fr 1fr; } }
+    .lane { border:1px solid var(--border); border-radius:13px; padding:13px; background:#0b1326; }
+    .lane h3 { margin:.1rem 0 .45rem; }
+    .lane pre { min-height:390px; }
   </style>
 </head>
 <body>
@@ -96,6 +101,26 @@ Acme API is a TypeScript billing service.
     <div id="drift-status" class="status" aria-live="polite">Generate a preview to establish the expected target.</div>
     <textarea class="compact" id="observed" spellcheck="false" aria-label="Observed generated target"></textarea>
     <pre class="compact" id="drift-receipt"></pre>
+  </section>
+
+  <section class="card receipt">
+    <h2>Configured is not loaded — and loaded is not useful</h2>
+    <p class="small">Same guidance, same tiny task, same runtime version. Lane A uses a filename the target silently ignores; lane B uses its native filename and observes the source hash at the request boundary. Token count describes cost, not usefulness, so each lane keeps verification and accepted outcome separate.</p>
+    <div class="controls">
+      <button class="primary" id="compare-load">Build A/B receipts</button>
+    </div>
+    <div id="load-status" class="status" aria-live="polite">Build the comparison to inspect both boundaries.</div>
+    <div class="comparison">
+      <div class="lane">
+        <h3>A · configured, ignored</h3>
+        <pre id="ignored-load"></pre>
+      </div>
+      <div class="lane">
+        <h3>B · native filename, observed</h3>
+        <pre id="observed-load"></pre>
+      </div>
+    </div>
+    <p class="small">Measurement motivation: <a href="https://systima.ai/blog/claude-code-vs-opencode-token-overhead">Systima's API-boundary study</a> observed Claude Code 2.1.207 ignoring <code>AGENTS.md</code> but loading the same content as <code>CLAUDE.md</code>. Projection tools such as <a href="https://github.com/leofmarciano/agentctl">agentctl</a> can prove delivery to a native-session boundary; destination observation still needs its own evidence.</p>
   </section>
 
   <section class="card receipt">
@@ -210,6 +235,57 @@ Acme API is a TypeScript billing service.
       : `${targetNames[target]} is byte-identical to the generated preview.`;
   }
 
+  async function compareEffectiveLoad() {
+    const guidance = '- Return exactly GUIDANCE-LOADED.\n';
+    const sourceHash = await sha256(guidance);
+    const cachePrefixHash = await sha256('fixture:claude-code-2.1.207:native-guidance-lane');
+    const common = {
+      schema: 'pluribus.rendered_output_receipt.v1',
+      mode: 'documented_external_fixture',
+      source: { sha256: sourceHash, raw_source_in_receipt: false },
+      target_runtime: { name: 'Claude Code', version: '2.1.207' },
+      task: { id: 'one-line-guidance-check', expected: 'GUIDANCE-LOADED' },
+      privacy: { uploaded_by_demo: false, synthetic_fixture: true }
+    };
+    const ignored = {
+      ...common,
+      target: { configured_as: 'AGENTS.md', writes_started: false },
+      runtime_load: {
+        status: 'not_observed',
+        source_hash_found_at_request_boundary: false,
+        evidence_method: 'synthetic reconstruction of documented API-boundary result; this demo did not capture a payload'
+      },
+      measurement: {
+        observed_input_tokens: 'unknown',
+        cache_prefix_sha256: 'not_applicable',
+        request_count: 1
+      },
+      verification: { output_matched_expected: false },
+      accepted_outcome: false,
+      verdict: 'configured_but_ignored'
+    };
+    const observed = {
+      ...common,
+      target: { configured_as: 'CLAUDE.md', writes_started: false },
+      runtime_load: {
+        status: 'observed_in_request',
+        source_hash_found_at_request_boundary: true,
+        evidence_method: 'synthetic reconstruction of documented API-boundary result; this demo did not capture a payload'
+      },
+      measurement: {
+        observed_input_tokens: 'unknown_in_this_synthetic_fixture; record from usage block in a real run',
+        cache_prefix_sha256: cachePrefixHash,
+        request_count: 1
+      },
+      verification: { output_matched_expected: true },
+      accepted_outcome: true,
+      verdict: 'loaded_and_task_outcome_accepted'
+    };
+    document.querySelector('#ignored-load').textContent = JSON.stringify(ignored, null, 2);
+    document.querySelector('#observed-load').textContent = JSON.stringify(observed, null, 2);
+    document.querySelector('#load-status').textContent = 'A/B built: identical source identity, different observed loader result. Cost and outcome remain separate claims.';
+  }
+
   document.querySelector('#generate').addEventListener('click', generate);
   document.querySelector('#target').addEventListener('change', generate);
   document.querySelector('#simulate-drift').addEventListener('click', () => {
@@ -220,11 +296,13 @@ Acme API is a TypeScript billing service.
     document.querySelector('#drift-status').textContent = 'Observed target changed after generation. Choose a policy and analyze it.';
   });
   document.querySelector('#analyze-drift').addEventListener('click', analyzeDrift);
+  document.querySelector('#compare-load').addEventListener('click', compareEffectiveLoad);
   document.querySelector('#copy').addEventListener('click', async () => {
     await navigator.clipboard.writeText(document.querySelector('#output').textContent);
     document.querySelector('#status').textContent = 'Output copied.';
   });
   generate();
+  compareEffectiveLoad();
 </script>
 </body>
 </html>
