@@ -4,6 +4,11 @@
 
 All notable changes to Pluribus are documented here.
 
+## 0.3.52 - 2026-07-14
+
+- Added a browser-only 30-second context sync demo that renders one rule into `CLAUDE.md`, `AGENTS.md`, or `.cursorrules`, exposes source/output hashes, and distinguishes configured, loaded, ignored, and task-outcome evidence without uploading content.
+- Added an effective-load A/B fixture to the demo for the silent portability failure where a context file exists in the repo but the active runtime does not load it.
+- Added target-edit triage so testers can report which source edit and generated target they actually tried instead of leaving only abstract feedback.
 - Added a browser-playground context diet / scoped memory receipt sample for Claude Code/Cursor/Codex users who want to avoid bloating every session: it proves repeated observed corrections, narrow task/path scope, pruned duplicates, privacy omissions, and stale-if before a context note becomes reusable.
 - Added a browser-playground handoff freshness receipt sample for HANDOFF.md/CONTEXT.md-style session-continuity skills, proving source session, repo state, referenced file hashes, verification status, privacy omissions, and stale-if before a new agent resumes.
 
