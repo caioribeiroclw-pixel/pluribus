@@ -14,9 +14,17 @@ The original sync workflow is still useful: Pluribus can keep project instructio
 
 It is **not** a persistent memory layer, retrieval system, agent orchestrator, enterprise ContextOps platform, or agent-merging framework. Think evidence for context boundaries: `CLAUDE.md`, `.cursorrules`, `copilot-instructions.md`, `AGENTS.md`, MCP Tool Search, Agent Skills, RAG/code-search, pruning, and compaction — with privacy-safe receipts instead of raw content dumps.
 
-Pluribus sits beside context layers rather than replacing them: memory suites, Skill/plugin marketplaces, path-scoped rules engines, RAG/search tools, MCP servers, hooks, and orchestration harnesses can all inject context. Pluribus' job is to prove what crossed the agent boundary. A useful receipt should separate `installed`, `visible`, `loaded`, `invoked`, and `unused_or_stale` so a team can tell the difference between "this context exists somewhere" and "this context actually governed the run."
+Pluribus sits beside context layers rather than replacing them. The boundary is easiest to see by comparing the jobs:
 
-**See the core workflow in 30 seconds:** open the [browser-only context sync demo](https://caioribeiroclw-pixel.github.io/pluribus/context-sync-demo.html), edit one rule, preview `CLAUDE.md`, `AGENTS.md`, or `.cursorrules`, and inspect the source/output hashes. It makes the boundary explicit: generation is proven; runtime load remains `unknown` until the client supplies evidence.
+| Layer | Question it answers | Example |
+| --- | --- | --- |
+| Storage + retrieval | What memory should an agent recall? | [ContextVault](https://www.contextvault.dev/) and MCP/RAG memory systems |
+| Behavioral ablation | Did removing one rule change behavior in this harness? | [rulecov](https://github.com/Yiwit/rulecov) |
+| Cross-tool boundary evidence | Which exact source/target was configured, observed by the native loader, and tied to an accepted or reverted outcome? | Pluribus |
+
+Pluribus does not replace memory ranking or causal rule experiments; it can preserve their outputs as evidence at the next boundary. A useful receipt separates `configured`, `visible`, `loaded`, `invoked`, and `accepted_or_reverted` so a team can tell the difference between “this context exists somewhere,” “this harness reacted to it,” and “this exact context governed a useful run.”
+
+**See the core workflow in 30 seconds:** open the [browser-only context sync demo](https://caioribeiroclw-pixel.github.io/pluribus/context-sync-demo.html), edit one rule, preview `CLAUDE.md`, `AGENTS.md`, or `.cursorrules`, and inspect the source/output hashes. It makes the boundary explicit: generation is proven; runtime load and task outcome remain `unknown` until the client supplies evidence.
 
 **Field evidence:** the [public evidence ledger](https://caioribeiroclw-pixel.github.io/pluribus/field-evidence.html) separates maintainer-shipped outcomes, independently reviewed contributions, and directory distribution across trace privacy, handoff continuity, skill use, runtime authority, freshness, and mutation safety. It says exactly what each result proves—and does not call it Pluribus adoption.
 
