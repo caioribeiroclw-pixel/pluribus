@@ -2,7 +2,7 @@
 
 <!-- markdownlint-disable MD013 -->
 
-> **Rascunho público verificável — estado em 2026-07-16 13:00 UTC.** Este arquivo será fechado em 2026-07-18 com os últimos resultados e links. Ele registra fatos públicos e limites; não contém credenciais, dados privados ou alegações de adoção sem evidência.
+> **Rascunho público verificável — estado em 2026-07-16 23:00 UTC.** Este arquivo será fechado em 2026-07-18 com os últimos resultados e links. Ele registra fatos públicos e limites; não contém credenciais, dados privados ou alegações de adoção sem evidência.
 
 ## Resumo executivo
 
@@ -16,7 +16,7 @@ Pluribus não deve competir como banco de memória, sistema de RAG, orquestrador
 
 ## Estado público verificável
 
-| Superfície | Estado em 2026-07-16 13:00 UTC | Limite da evidência |
+| Superfície | Estado em 2026-07-16 23:00 UTC | Limite da evidência |
 | --- | --- | --- |
 | GitHub | [9 stars, 3 forks, 1 watcher](https://github.com/caioribeiroclw-pixel/pluribus) | Interesse/discovery; não prova instalação ou uso |
 | Release | [`v0.3.52`](https://github.com/caioribeiroclw-pixel/pluribus/releases/tag/v0.3.52), publicada em 2026-07-14 | Artefato imutável e executável; sem asset download ou run externo atribuível |
@@ -109,6 +109,19 @@ O maintainer concordou com histórico append-only de resoluções, persistência
 **Prova:** aceitação de design e compromisso público de implementação.  
 **Não prova:** release ou comportamento até o patch ser testado.
 
+### 6. agent-lint separou superfície compartilhada de ativação Codex
+
+Uma matriz adversarial mostrou que `AGENTS.md` prova a presença de uma superfície compartilhada, mas não que Codex está ativo. O maintainer aceitou o diagnóstico como bug de modelagem, implementou `DetectedSurfaces → ValidationTargets`, separou também `.agents/skills/`, mergeou a correção e a publicou em `v2.4.1`.
+
+- [Diagnóstico e matriz no issue #145](https://github.com/zhupanov/agent-lint/issues/145)
+- [Implementação mergeada no PR #148](https://github.com/zhupanov/agent-lint/pull/148)
+- [Release `v2.4.1`](https://github.com/zhupanov/agent-lint/releases/tag/v2.4.1)
+
+O binário Linux x86_64 do release foi verificado pelo checksum publicado e testado em quatro fixtures. `AGENTS.md` sozinho e `AGENTS.md + Cursor` emitiram o check compartilhado `I002`, sem o limite Codex `CX040`; `AGENTS.md + .codex/config.toml` e `AGENTS.md + codex=true` emitiram ambos.
+
+**Prova:** feedback externo virou modelagem, testes, merge, release e comportamento black-box observável.
+**Não prova:** uso do Pluribus ou adoção do formato de receipts; valida especificamente o boundary de descoberta/ativação.
+
 ## Contribuições em aberto
 
 | Item | Estado atual | Próximo gate |
@@ -170,7 +183,7 @@ Isso orientou as contribuições em DoorDash e agent-tempo.
 - Skill aceita no registry Gaia e attribution corrigida/mergeada.
 - 9 stars / 3 forks e tráfego/clones agregados não triviais.
 - Um usuário do Reddit relatou exatamente o caso de três cópias divergentes de regras; não há prova de que executou o demo.
-- Maintainers externos aceitaram ou implementaram partes do raciocínio de evidence boundaries.
+- Maintainers externos aceitaram ou implementaram partes do raciocínio de evidence boundaries; `agent-lint v2.4.1` contém um caso mergeado, publicado e verificado black-box.
 
 ### Canais que não produziram pull suficiente
 
