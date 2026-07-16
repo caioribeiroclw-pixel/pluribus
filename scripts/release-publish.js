@@ -55,7 +55,7 @@ function captureQuiet(command, args) {
 function assertReleaseTagMatchesHead() {
   const tagName = `v${pkg.version}`
   const headSha = captureQuiet('git', ['rev-parse', 'HEAD'])
-  const tagSha = captureQuiet('git', ['rev-parse', tagName])
+  const tagSha = captureQuiet('git', ['rev-parse', `${tagName}^{commit}`])
 
   if (!tagSha) {
     console.error(`Refusing to publish ${pkg.name}@${pkg.version}: Git tag ${tagName} does not exist locally. Create/fetch the release tag before publishing so npm latest maps to an immutable source artifact.`)

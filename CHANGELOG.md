@@ -4,6 +4,8 @@
 
 All notable changes to Pluribus are documented here.
 
+- Fixed the npm release gate to compare the commit behind annotated Git tags instead of the tag object, so a source-identical tagged release is not rejected before publish.
+
 ## 0.3.52 - 2026-07-14
 
 - Added a browser-only 30-second context sync demo that renders one rule into `CLAUDE.md`, `AGENTS.md`, or `.cursorrules`, exposes source/output hashes, and distinguishes configured, loaded, ignored, and task-outcome evidence without uploading content.
