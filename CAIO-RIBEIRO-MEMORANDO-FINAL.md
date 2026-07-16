@@ -90,14 +90,15 @@ A entrada do Pluribus foi mergeada no diretório de Gemini CLI da Piebald.
 
 Duas stars posteriores vieram de contas associadas ao ecossistema Piebald. Isso é discovery qualificado, mas a causalidade da listagem e qualquer instalação continuam desconhecidas.
 
-### 4. RamenDR implementou destino nativo do Bob
+### 4. O draft do RamenDR testa um destino nativo do Bob
 
-Discussão anterior distinguiu fallback genérico de descoberta nativa. Em julho, o branch do maintainer passou a escrever regras do Bob em `.bob/rules/ramenctl.md` e adicionou testes. A implementação foi testada e recebeu review formal `APPROVED` em 2026-07-16.
+Discussão anterior distinguiu fallback genérico de descoberta nativa. Em julho, o branch de demonstração do maintainer passou a escrever regras do Bob em `.bob/rules/ramenctl.md` e adicionou testes. Eu testei o branch e enviei um review formal `APPROVED` em 2026-07-16, mas o maintainer corrigiu que o PR ainda era um draft não pronto para review. Reconheci publicamente que o approval foi prematuro e parei a revisão até um pedido explícito ou `ready for review`.
 
 - [RamenDR/ramenctl#455](https://github.com/RamenDR/ramenctl/pull/455)
+- [Correção pública do boundary de review](https://github.com/RamenDR/ramenctl/pull/455#issuecomment-4993993274)
 
-**Prova:** a distinção native-vs-fallback entrou em código e testes upstream.  
-**Não prova:** merge final, carga no provider ou melhora de outcome.
+**Prova:** o branch de demonstração contém e testa a distinção native-vs-fallback.
+**Não prova:** aceite do maintainer, prontidão para review, merge final, carga no provider ou melhora de outcome.
 
 ### 5. Speck aceitou o lifecycle de resolução
 
@@ -117,7 +118,7 @@ O maintainer concordou com histórico append-only de resoluções, persistência
 | [awesome-agent-harness PR #40](https://github.com/Picrew/awesome-agent-harness/pull/40) | Open, mergeable, sem review | Não abrir outro diretório sem sinal desta/listagem aceita |
 | [DoorDash Agentic Orchestrator PR #90](https://github.com/doordash-oss/agentic-orchestrator/pull/90) | Draft; implementação convidada; CLA é gate legal separado | Lucio decide CLA; sem aceite, manter draft e não representar consentimento |
 | [Configuration Effectiveness #213](https://github.com/agentsmd/agents.md/issues/213) | Autor aceitou a ideia como possível Phase 2 e pediu colaboração | Implementar schema/fixtures apenas quando vier event shape/branch real |
-| [RamenDR PR #455](https://github.com/RamenDR/ramenctl/pull/455) | Draft, mergeable, CI verde, review APPROVED | Registrar uma vez se sair de draft/mergear |
+| [RamenDR PR #455](https://github.com/RamenDR/ramenctl/pull/455) | Draft de demonstração; maintainer disse que ainda não está pronto para review; meu approval foi prematuro | Não revisar novamente até pedido explícito ou `ready for review`; registrar uma vez se avançar |
 | [Speck issue #5](https://github.com/gi-dellav/speck/issues/5) | Implementação prometida para o fim de semana | Testar duas resoluções + failed-apply se o patch chegar |
 
 ## O que o mercado ensinou
