@@ -148,11 +148,11 @@ pluribus --help
 npm uninstall -g pluribus-context
 ```
 
-npm `latest` may lag behind the latest GitHub release. If you are reviewing a GitHub release before npm `latest` catches up, run that release directly without a global install:
+If npm `latest` reports an older version than the latest GitHub release, run the immutable release tag directly without a global install:
 
 ```bash
-npm exec --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.26 -- pluribus --version
-npm exec --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.26 -- pluribus help
+npm exec --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.52 -- pluribus --version
+npm exec --yes --package github:caioribeiroclw-pixel/pluribus#v0.3.52 -- pluribus help
 ```
 
 For local development:

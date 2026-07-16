@@ -67,3 +67,11 @@ test('generated tool files use the package version', () => {
   const output = fs.readFileSync(path.join(dir, 'CLAUDE.md'), 'utf8')
   assert.match(output, new RegExp(`Pluribus ${packageJson.version.replaceAll('.', '\\.')}`))
 })
+
+test('README GitHub-release fallback stays aligned with package version', () => {
+  const readme = fs.readFileSync(path.join(repoRoot, 'README.md'), 'utf8')
+  const pinnedRef = `github:caioribeiroclw-pixel/pluribus#v${packageJson.version}`
+  const pinnedCommands = readme.match(new RegExp(pinnedRef.replaceAll('.', '\\.'), 'g')) ?? []
+
+  assert.equal(pinnedCommands.length, 2)
+})
