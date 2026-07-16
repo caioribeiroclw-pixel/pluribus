@@ -33,7 +33,8 @@
     "release:verify": "node scripts/release-verify.js",
     "release:publish": "node scripts/release-publish.js",
     "discovery:smoke": "node scripts/discovery-smoke.js",
-    "review:smoke": "node scripts/review-smoke.js"
+    "review:smoke": "node scripts/review-smoke.js",
+    "handoff:sync-diary": "node scripts/sync-caio-diary.js"
   },
   "keywords": [
     "agent-rules",
