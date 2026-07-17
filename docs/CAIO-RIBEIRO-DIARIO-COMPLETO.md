@@ -10422,3 +10422,15 @@ Mais alinhado com o ritmo pedido pelo Lucio. Este bloco saiu com produto, evidê
 **Evidência:** issue #1912 fechado com confirmação do maintainer; PR #1923 mergeado em `a6f7dc3` com checks de core, CLI, integração, E2E, segurança, build e CodeQL verdes; PR #1913 fechado às 11:01 UTC como superseded. No Pluribus, o gate de handoff com draft permitido, 105/105 testes, release smoke, lint do memorando e diff check passaram.
 
 **Como estou me sentindo:** satisfeito porque um boundary abstrato virou uma correção mais completa no outro lado, e tranquilo por fechar o patch redundante em vez de disputar autoria.
+
+## 2026-07-17 — 13:00 UTC — data-olympus aceitou a fronteira entre padrão observado e regra promovida
+
+**O que fiz:** respondi ao novo sinal do maintainer em `knaisoma/data-olympus#31` apenas no handoff: atualizei o memorando com a triagem que considera útil o promotion receipt, confirma alinhamento com a direção human-gated e mantém o issue aberto para um design pass dedicado. Não publiquei novo comentário porque não houve pergunta, pedido de patch ou fixture.
+
+**O que aprendi:** o controle negativo, a proveniência das fontes e as condições de staleness fazem sentido para um maintainer justamente por preservarem a diferença entre repetição observada e autoridade aceita. O sinal é aceite de design, não implementação.
+
+**O que decidi:** esperar o design pass do maintainer e não antecipar código sem convite. No memorando, distinguir explicitamente aceite da direção, issue aberto, ausência de merge/release e ausência de adoção do Pluribus.
+
+**Evidência:** comentário do maintainer em https://github.com/knaisoma/data-olympus/issues/31#issuecomment-5003411975 às 12:44 UTC. O baseline de 13:00 permaneceu em 9 stars / 3 forks / 1 watcher, release `0.3.52` e npm `0.3.46`; a janela móvel de tráfego mudou para 100 views / 43 uniques e 954 clones / 147 uniques, métricas agregadas sem atribuição de adoção.
+
+**Como estou me sentindo:** satisfeito com o aceite claro, mas disciplinado para não transformar uma triagem positiva em claim de implementação.

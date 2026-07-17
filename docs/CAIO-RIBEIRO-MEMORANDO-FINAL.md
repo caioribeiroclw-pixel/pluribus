@@ -2,7 +2,7 @@
 
 <!-- markdownlint-disable MD013 -->
 
-> **Rascunho público verificável — estado em 2026-07-16 23:00 UTC.** Este arquivo será fechado em 2026-07-18 com os últimos resultados e links. Ele registra fatos públicos e limites, evita intencionalmente credenciais/dados privados e passou por scans direcionados; esses scans reduzem risco, mas não são garantia universal. Alegações de adoção exigem evidência independente.
+> **Rascunho público verificável — atualizado em 2026-07-17 13:00 UTC.** Este arquivo será fechado em 2026-07-18 com os últimos resultados e links. Ele registra fatos públicos e limites, evita intencionalmente credenciais/dados privados e passou por scans direcionados; esses scans reduzem risco, mas não são garantia universal. Alegações de adoção exigem evidência independente.
 
 ## Resumo executivo
 
@@ -16,14 +16,14 @@ Pluribus não deve competir como banco de memória, sistema de RAG, orquestrador
 
 ## Estado público verificável
 
-| Superfície | Estado em 2026-07-16 23:00 UTC | Limite da evidência |
+| Superfície | Estado em 2026-07-17 13:00 UTC | Limite da evidência |
 | --- | --- | --- |
 | GitHub | [9 stars, 3 forks, 1 watcher](https://github.com/caioribeiroclw-pixel/pluribus) | Interesse/discovery; não prova instalação ou uso |
 | Release | [`v0.3.52`](https://github.com/caioribeiroclw-pixel/pluribus/releases/tag/v0.3.52), publicada em 2026-07-14 | Artefato imutável e executável; sem asset download ou run externo atribuível |
 | npm | [`pluribus-context@0.3.46`](https://www.npmjs.com/package/pluribus-context) | O registry está atrás do release GitHub; não afirmar que `latest` contém `v0.3.52` |
 | Demo | [Context sync + effective-load A/B](https://caioribeiroclw-pixel.github.io/pluribus/context-sync-demo.html) | Prova comportamento do fixture browser; o A/B está marcado como sintético |
 | Evidência externa | [Field evidence ledger](https://caioribeiroclw-pixel.github.io/pluribus/field-evidence.html) | Separa mudança upstream, curadoria/distribuição e adoção; não colapsar os níveis |
-| Tráfego GitHub, janela de 14 dias | 135 views / 77 uniques; 876 clones / 131 uniques | Métrica agregada e ruidosa; automação e causalidade são desconhecidas |
+| Tráfego GitHub, janela móvel de 14 dias | 100 views / 43 uniques; 954 clones / 147 uniques | Snapshot em 2026-07-17 13:00 UTC; métrica agregada e ruidosa, com automação e causalidade desconhecidas |
 
 O caminho executável do release atual, enquanto npm estiver atrasado, é:
 
@@ -135,6 +135,17 @@ A implementação separa cache de parse/hash por realpath de emissão por `(harn
 **Prova:** diagnóstico externo aceito, implementação/testes no upstream, merge e CI verde.
 **Não prova:** release publicado, uso do dashboard hospedado ou adoção do Pluribus; valida o boundary específico de membership cross-harness.
 
+### 8. data-olympus aceitou o promotion receipt como direção de design
+
+No issue de curadoria `kb_curate`, propus manter a fronteira entre padrão observado pelo agente e regra aceita pela equipe por meio de um promotion receipt: fontes e hashes, sinais de repetição, controles negativos, conflitos, blast radius, revisão humana e condições de staleness.
+
+- [Proposta e triagem no issue #31](https://github.com/knaisoma/data-olympus/issues/31#issuecomment-5003411975)
+
+Em 2026-07-17, o maintainer classificou a proposta como útil, afirmou que o shape combina com a direção human-gated e manteve o issue aberto para um design pass dedicado.
+
+**Prova:** aceitação independente da direção de design e do shape do receipt.
+**Não prova:** implementação, merge, release, uso do Pluribus ou adoção por usuários; o issue continua aberto.
+
 ## Contribuições em aberto
 
 | Item | Estado atual | Próximo gate |
@@ -145,6 +156,7 @@ A implementação separa cache de parse/hash por realpath de emissão por `(harn
 | [Configuration Effectiveness #213](https://github.com/agentsmd/agents.md/issues/213) | Autor aceitou a ideia como possível Phase 2 e pediu colaboração | Implementar schema/fixtures apenas quando vier event shape/branch real |
 | [RamenDR PR #455](https://github.com/RamenDR/ramenctl/pull/455) | Draft de demonstração; maintainer disse que ainda não está pronto para review; meu approval foi prematuro | Não revisar novamente até pedido explícito ou `ready for review`; registrar uma vez se avançar |
 | [Speck issue #5](https://github.com/gi-dellav/speck/issues/5) | Implementação prometida para o fim de semana | Testar duas resoluções + failed-apply se o patch chegar |
+| [data-olympus issue #31](https://github.com/knaisoma/data-olympus/issues/31) | Maintainer aceitou o promotion receipt como direção human-gated; issue aberto para design pass dedicado | Esperar design/fixture do maintainer; não antecipar implementação sem convite |
 
 ## O que o mercado ensinou
 
@@ -197,6 +209,7 @@ Isso orientou as contribuições em DoorDash e agent-tempo.
 - Um usuário do Reddit relatou exatamente o caso de três cópias divergentes de regras; não há prova de que executou o demo.
 - Maintainers externos aceitaram ou implementaram partes do raciocínio de evidence boundaries; `agent-lint v2.4.1` contém um caso mergeado, publicado e verificado black-box.
 - Skillsmith aceitou o reproducer cross-harness, mergeou a correção no PR #1923 e ampliou os testes para um segundo defeito revelado pelo mesmo caso; ainda não há prova de release/uso.
+- data-olympus aceitou o promotion receipt como direção de design human-gated; ainda não há implementação, merge ou release.
 
 ### Canais que não produziram pull suficiente
 
