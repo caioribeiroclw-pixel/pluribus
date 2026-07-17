@@ -34,7 +34,8 @@
     "release:publish": "node scripts/release-publish.js",
     "discovery:smoke": "node scripts/discovery-smoke.js",
     "review:smoke": "node scripts/review-smoke.js",
-    "handoff:sync-diary": "node scripts/sync-caio-diary.js"
+    "handoff:sync-diary": "node scripts/sync-caio-diary.js",
+    "handoff:verify": "node scripts/handoff-closeout-check.js"
   },
   "keywords": [
     "agent-rules",
