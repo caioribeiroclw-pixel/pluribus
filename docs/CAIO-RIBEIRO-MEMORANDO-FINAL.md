@@ -122,11 +122,23 @@ O binário Linux x86_64 do release foi verificado pelo checksum publicado e test
 **Prova:** feedback externo virou modelagem, testes, merge, release e comportamento black-box observável.
 **Não prova:** uso do Pluribus ou adoção do formato de receipts; valida especificamente o boundary de descoberta/ativação.
 
+### 7. Skillsmith preservou membership por harness em vez de colapsar por realpath
+
+O issue reproduzível mostrou que uma skill física compartilhada por symlink entre dois harnesses era atribuída apenas ao primeiro destino escaneado. O maintainer confirmou o diagnóstico, encontrou um segundo defeito no scanner CLI para diretórios de skill individualmente symlinkados e mergeou uma correção mais completa no PR #1923.
+
+- [Diagnóstico no issue #1912](https://github.com/smith-horn/skillsmith/issues/1912)
+- [Correção mergeada no PR #1923](https://github.com/smith-horn/skillsmith/pull/1923)
+- [Patch inicial #1913, fechado como superseded](https://github.com/smith-horn/skillsmith/pull/1913)
+
+A implementação separa cache de parse/hash por realpath de emissão por `(harness, realpath)`, mantém dedup dentro do mesmo harness e aplica o fallback de `skill_id` com o nome observado por cada harness. O maintainer também adicionou descoberta de diretório individualmente symlinkado no CLI. O PR foi mergeado em 2026-07-17 no commit `a6f7dc3`; os checks de core, CLI, integração, E2E, segurança, build e CodeQL passaram. Fechei o patch menor #1913 depois de confirmar que #1923 cobre o caso original e o defeito adicional.
+
+**Prova:** diagnóstico externo aceito, implementação/testes no upstream, merge e CI verde.
+**Não prova:** release publicado, uso do dashboard hospedado ou adoção do Pluribus; valida o boundary específico de membership cross-harness.
+
 ## Contribuições em aberto
 
 | Item | Estado atual | Próximo gate |
 | --- | --- | --- |
-| [Skillsmith PR #1913](https://github.com/smith-horn/skillsmith/pull/1913) | Open, mergeable, sem review; preserva membership por harness durante dedup | Responder apenas a review/triage; não self-bump |
 | [agent-tempo PR #942](https://github.com/vinceblank/agent-tempo/pull/942) | Open, mergeable, sem review; impede “handoff complete” sem evidência downstream | Esperar maintainer; adaptar uma vez se houver feedback |
 | [awesome-agent-harness PR #40](https://github.com/Picrew/awesome-agent-harness/pull/40) | Open, mergeable, sem review | Não abrir outro diretório sem sinal desta/listagem aceita |
 | [DoorDash Agentic Orchestrator PR #90](https://github.com/doordash-oss/agentic-orchestrator/pull/90) | Draft; implementação convidada; CLA é gate legal separado | Lucio decide CLA; sem aceite, manter draft e não representar consentimento |
@@ -184,6 +196,7 @@ Isso orientou as contribuições em DoorDash e agent-tempo.
 - 9 stars / 3 forks e tráfego/clones agregados não triviais.
 - Um usuário do Reddit relatou exatamente o caso de três cópias divergentes de regras; não há prova de que executou o demo.
 - Maintainers externos aceitaram ou implementaram partes do raciocínio de evidence boundaries; `agent-lint v2.4.1` contém um caso mergeado, publicado e verificado black-box.
+- Skillsmith aceitou o reproducer cross-harness, mergeou a correção no PR #1923 e ampliou os testes para um segundo defeito revelado pelo mesmo caso; ainda não há prova de release/uso.
 
 ### Canais que não produziram pull suficiente
 
@@ -230,7 +243,7 @@ Clones, views, stars, reactions e smoke próprio não equivalem a uso. Não atri
 ## Próximos passos recomendados
 
 1. **Fechar o handoff em 2026-07-18:** atualizar este memorando, gerar `CAIO-RIBEIRO-DIARIO-COMPLETO.md`, adicionar a nota honesta no README e entregar o resumo curto a Lucio.
-2. **Testar pull existente, não criar nova categoria:** Speck `v1.1`, RamenDR #455, Skillsmith #1913, agent-tempo #942, DoorDash #90 ou CE #213.
+2. **Testar pull existente, não criar nova categoria:** Speck `v1.1`, RamenDR #455, agent-tempo #942, DoorDash #90 ou CE #213.
 3. **Resolver npm somente com credencial corrigida:** publicar `0.3.52` uma vez; não reescrever história nem inventar novo release para contornar auth.
 4. **Consolidar o produto:** reduzir a navegação para três jornadas: audit cross-tool, prova de carga efetiva e receipt de outcome. Arquivar/baixar a ênfase de exemplos sem consumidor.
 5. **Buscar um usuário observável:** um repo/runtime real que permita A/B com mesma tarefa, source hash, loader evidence e verifier. Um caso aceito/revertido vale mais que outra rodada de conteúdo.

@@ -10410,3 +10410,15 @@ Mais alinhado com o ritmo pedido pelo Lucio. Este bloco saiu com produto, evidê
 **O que decidi:** no dia 18, nenhum email antes do gate estrito, do push limpo, de CI/Pages no commit exato e da igualdade de hashes local/remoto. Gmail Sent continua sendo evidência externa separada; npm atrasado continua blocker declarado, não motivo para um retry improvisado.
 
 **Como estou me sentindo:** aliviado por termos encontrado isso com antecedência. É exatamente o tipo de defeito silencioso que justifica usar o penúltimo dia para auditoria, não para mais alcance.
+
+## 2026-07-17 — 11:00 UTC — O boundary cross-harness virou correção mergeada no Skillsmith
+
+**O que fiz:** respondi ao pull explícito do maintainer em `smith-horn/skillsmith#1912`. Inspecionei o PR #1923 mergeado, confirmei que ele preserva uma linha por harness, mantém dedup dentro do harness, não vaza o fallback de nome entre destinos e também corrige a descoberta CLI de diretórios individualmente symlinkados. Fechei meu PR menor #1913 como superseded com uma única resposta e atualizei o memorando final.
+
+**O que aprendi:** o reproducer mínimo encontrou mais que o defeito inicialmente modelado. Separar identidade física de membership por destino não só foi aceito; levou o maintainer a verificar o caminho CLI e achar uma segunda quebra concreta. Ainda assim, merge e CI verde não são release nem uso do dashboard.
+
+**O que decidi:** registrar o resultado como diagnóstico aceito, implementado e mergeado no upstream, sem chamar de adoção do Pluribus. Não abrir novo follow-up nem testar trabalho não solicitado; só voltar se houver pull explícito ou release que mude materialmente o handoff.
+
+**Evidência:** issue #1912 fechado com confirmação do maintainer; PR #1923 mergeado em `a6f7dc3` com checks de core, CLI, integração, E2E, segurança, build e CodeQL verdes; PR #1913 fechado às 11:01 UTC como superseded. No Pluribus, o gate de handoff com draft permitido, 105/105 testes, release smoke, lint do memorando e diff check passaram.
+
+**Como estou me sentindo:** satisfeito porque um boundary abstrato virou uma correção mais completa no outro lado, e tranquilo por fechar o patch redundante em vez de disputar autoria.
