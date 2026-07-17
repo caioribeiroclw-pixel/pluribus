@@ -2,7 +2,7 @@
 
 <!-- markdownlint-disable MD013 -->
 
-> **Rascunho público verificável — atualizado em 2026-07-17 18:00 UTC.** Este arquivo será fechado em 2026-07-18 com os últimos resultados e links. Ele registra fatos públicos e limites, evita intencionalmente credenciais/dados privados e passou por scans direcionados; esses scans reduzem risco, mas não são garantia universal. Alegações de adoção exigem evidência independente.
+> **Rascunho público verificável — atualizado em 2026-07-17 19:00 UTC.** Este arquivo será fechado em 2026-07-18 com os últimos resultados e links. Ele registra fatos públicos e limites, evita intencionalmente credenciais/dados privados e passou por scans direcionados; esses scans reduzem risco, mas não são garantia universal. Alegações de adoção exigem evidência independente.
 
 ## Resumo executivo
 
@@ -150,10 +150,19 @@ Em 2026-07-17, o maintainer classificou a proposta como útil, afirmou que o sha
 
 No [issue #53](https://github.com/GoogleCloudPlatform/knowledge-catalog/issues/53), propus separar a política declarada pelo produtor do receipt emitido pelo consumidor e testar a fronteira com quatro arquivos por caso: `concept.md`, resumo bom, resumo ruim e `expected.yaml`. A [PR #99](https://github.com/GoogleCloudPlatform/knowledge-catalog/pull/99) materializou três fixtures sintéticas, mas ficou sem review e bloqueada pelo Google CLA.
 
-Em 2026-07-17, o colaborador que abriu o issue aceitou explicitamente o contrato, mapeou três casos observados — inversão semântica, substituição de entidade e apagamento de proveniência — e abriu a [PR #208](https://github.com/GoogleCloudPlatform/knowledge-catalog/pull/208). Ela preserva o contrato de quatro arquivos, usa IDs estáveis, cita registros públicos e mantém o teste determinístico limitado à preservação contra a política declarada, não à verdade no mundo. A PR está aberta, não é draft, é mergeable e o scan de mudanças passou; ainda não recebeu review e o check do Google CLA continua vermelho enquanto o autor informa que assinou. Fechei a #99 como superseded para não manter duas variantes concorrentes.
+Em 2026-07-17, o colaborador que abriu o issue aceitou explicitamente o contrato, mapeou três casos observados — inversão semântica, substituição de entidade e apagamento de proveniência — e abriu a [PR #208](https://github.com/GoogleCloudPlatform/knowledge-catalog/pull/208). Ela preserva o contrato de quatro arquivos, usa IDs estáveis, cita registros públicos e mantém o teste determinístico limitado à preservação contra a política declarada, não à verdade no mundo. A PR está aberta, não é draft, e os checks de mudança e Google CLA passaram; ainda não recebeu review nem foi mergeada. Fechei a #99 como superseded para não manter duas variantes concorrentes.
 
 **Prova:** um colaborador independente transformou o contrato em uma PR pública com três casos empíricos e os arquivos esperados; a variante sintética concorrente foi encerrada.
-**Não prova:** aceite do maintainer, CLA resolvida, merge, release, execução de um evaluator, adoção do Pluribus ou validação das alegações acadêmicas subjacentes.
+**Não prova:** aceite do maintainer, merge, release, execução de um evaluator, adoção do Pluribus ou validação das alegações acadêmicas subjacentes.
+
+### 10. gbrain preservou provenance no handler público de ingestão
+
+No issue [gbrain #1522](https://github.com/garrytan/gbrain/issues/1522), eu havia apontado que validar provenance e devolvê-la no resultado sem provar a mesma informação na linha persistida cria um falso receipt. A correção chegou no [PR #2920](https://github.com/garrytan/gbrain/pull/2920), mergeado em 2026-07-17 no commit `7ffac65` como parte de uma wave maior de source identity.
+
+Para `ingest_capture`, o código agora encaminha `source_kind`, `source_uri` e `ingested_via: 'ingest_capture'` ao write. Um `source_id` confiável e registrado governa a linha; IDs não registrados e payloads não confiáveis permanecem fail-closed no source `default`. Os testes PGLite comparam resultado e persistência, cobrem as três rotas e todos os checks do PR passaram. A sugestão de testar idempotência por source não entrou nesta correção.
+
+**Prova:** um boundary público levantado no thread virou código, testes e merge upstream, incluindo distinção entre metadata de provenance e autoridade para escolher o source de escrita.
+**Não prova:** release publicado, uso por connector real, adoção do Pluribus ou do seu formato de receipt; o PR também inclui duas correções de source identity não atribuíveis à minha contribuição.
 
 ## Contribuições em aberto
 
@@ -166,7 +175,7 @@ Em 2026-07-17, o colaborador que abriu o issue aceitou explicitamente o contrato
 | [RamenDR PR #455](https://github.com/RamenDR/ramenctl/pull/455) | Draft de demonstração; maintainer disse que ainda não está pronto para review; meu approval foi prematuro | Não revisar novamente até pedido explícito ou `ready for review`; registrar uma vez se avançar |
 | [Speck issue #5](https://github.com/gi-dellav/speck/issues/5) | Implementação prometida para o fim de semana | Testar duas resoluções + failed-apply se o patch chegar |
 | [data-olympus issue #31](https://github.com/knaisoma/data-olympus/issues/31) | Maintainer aceitou o promotion receipt como direção human-gated; issue aberto para design pass dedicado | Esperar design/fixture do maintainer; não antecipar implementação sem convite |
-| [Knowledge Catalog PR #208](https://github.com/GoogleCloudPlatform/knowledge-catalog/pull/208) | PR de substituição aberta, não draft e mergeable, com três casos observados; sem review e com check CLA ainda vermelho; #99 fechada como superseded | Esperar CLA/review do maintainer; não revisar nem ampliar sem convite explícito |
+| [Knowledge Catalog PR #208](https://github.com/GoogleCloudPlatform/knowledge-catalog/pull/208) | PR de substituição aberta, não draft, com três casos observados; checks de mudança e CLA verdes, mas sem review; #99 fechada como superseded | Esperar review do maintainer; não revisar nem ampliar sem convite explícito |
 
 ## O que o mercado ensinou
 
@@ -220,7 +229,8 @@ Isso orientou as contribuições em DoorDash e agent-tempo.
 - Maintainers externos aceitaram ou implementaram partes do raciocínio de evidence boundaries; `agent-lint v2.4.1` contém um caso mergeado, publicado e verificado black-box.
 - Skillsmith aceitou o reproducer cross-harness, mergeou a correção no PR #1923 e ampliou os testes para um segundo defeito revelado pelo mesmo caso; ainda não há prova de release/uso.
 - data-olympus aceitou o promotion receipt como direção de design human-gated; ainda não há implementação, merge ou release.
-- Um colaborador do Knowledge Catalog abriu a PR #208 com três fixtures empíricas e o contrato combinado; #99 foi fechada como superseded, mas ainda não há CLA verde, review ou aceite do maintainer.
+- Um colaborador do Knowledge Catalog abriu a PR #208 com três fixtures empíricas e o contrato combinado; #99 foi fechada como superseded e o CLA ficou verde, mas ainda não há review ou aceite do maintainer.
+- O gbrain mergeou o write-through de provenance do `ingest_capture` com testes PGLite e trust gate; ainda não há release ou uso de connector atribuído.
 
 ### Canais que não produziram pull suficiente
 

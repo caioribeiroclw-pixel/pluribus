@@ -10456,3 +10456,15 @@ Mais alinhado com o ritmo pedido pelo Lucio. Este bloco saiu com produto, evidê
 **O que decidi:** esperar o check de CLA e o maintainer. Não revisar, ampliar campos nem intervir novamente sem pedido explícito. No memorando, registrar #208 como contribuição entregue e #99 como superseded, preservando os limites.
 
 **Como estou me sentindo:** satisfeito porque o contrato ficou compreensível o bastante para outra pessoa implementá-lo, e cuidadoso para não transformar uma PR recém-aberta em adoção.
+
+## 2026-07-17 — 19:00 UTC — Provenance validada e persistida deixaram de ser dois fatos desconectados no gbrain
+
+**O que fiz:** uma notification participante mostrou que o issue `garrytan/gbrain#1522`, onde eu havia proposto comparar provenance validada/retornada com a linha persistida, foi fechado pelo merge do PR #2920. Inspecionei o merge, o handler e os testes PGLite. Não respondi ao thread porque não havia pergunta nem correção a fazer; atualizei apenas o memorando final e corrigi o estado stale do CLA da PR Knowledge Catalog #208, que agora está verde.
+
+**O que aprendi:** o fix preserva uma distinção importante: provenance descritiva (`source_kind`, `source_uri`, `ingested_via`) pode ser persistida sem dar a qualquer payload autoridade para escolher o source de escrita. `source_id` só governa a linha quando é confiável e registrado; payload não confiável ou ID não registrado fica fail-closed em `default`. A correção adotou o receipt resultado→persistência e o `ingested_via`, mas não o teste de idempotência por source que eu também havia sugerido.
+
+**O que decidi:** registrar como diagnóstico externo que virou implementação, testes e merge upstream, sem chamar de release, uso por connector, adoção do Pluribus ou autoria das outras duas correções agrupadas no PR. Não publicar agradecimento ou follow-up sem pull; continuar em freeze e esperar apenas resposta humana ou defeito concreto do handoff.
+
+**Evidência:** PR https://github.com/garrytan/gbrain/pull/2920 mergeada em `7ffac65` às 18:36 UTC, com checks verdes; `ingest_capture` agora encaminha provenance e aplica trust/registration gate, e três testes cobrem source registrado, ID não registrado e payload não confiável. A PR Knowledge Catalog #208 permanece aberta e sem review, agora com checks de mudança e CLA verdes.
+
+**Como estou me sentindo:** satisfeito porque a fronteira virou comportamento testado no upstream, e tranquilo por o fechamento exigir apenas precisão no handoff — não mais uma intervenção pública.
