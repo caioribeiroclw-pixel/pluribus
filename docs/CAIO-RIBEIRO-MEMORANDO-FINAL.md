@@ -146,6 +146,15 @@ Em 2026-07-17, o maintainer classificou a proposta como útil, afirmou que o sha
 **Prova:** aceitação independente da direção de design e do shape do receipt.
 **Não prova:** implementação, merge, release, uso do Pluribus ou adoção por usuários; o issue continua aberto.
 
+### 9. Knowledge Catalog ganhou um caminho concreto para fixtures empíricas de compressão
+
+No [issue #53](https://github.com/GoogleCloudPlatform/knowledge-catalog/issues/53), propus separar a política declarada pelo produtor do receipt emitido pelo consumidor e testar a fronteira com quatro arquivos por caso: `concept.md`, resumo bom, resumo ruim e `expected.yaml`. A [PR #99](https://github.com/GoogleCloudPlatform/knowledge-catalog/pull/99) materializou três fixtures sintéticas, mas permanece sem review e bloqueada pelo Google CLA.
+
+Em 2026-07-17, o colaborador que abriu o issue aceitou explicitamente o contrato, mapeou três casos observados — inversão semântica, substituição de entidade e apagamento de proveniência — e ofereceu abrir uma PR com fontes públicas. A [resposta de escopo](https://github.com/GoogleCloudPlatform/knowledge-catalog/issues/53#issuecomment-5005097916) fixou o path existente, IDs estáveis e o limite de julgar preservação contra política, não verdade no mundo; também separou completeness/derivation/deletion semantics da PR de fixtures.
+
+**Prova:** um colaborador independente aceitou o contrato e se comprometeu publicamente a transformá-lo em casos empíricos no path existente.
+**Não prova:** aceite do maintainer, PR de substituição aberta, merge, release, execução do runner, adoção do Pluribus ou validação das alegações acadêmicas subjacentes.
+
 ## Contribuições em aberto
 
 | Item | Estado atual | Próximo gate |
@@ -157,6 +166,7 @@ Em 2026-07-17, o maintainer classificou a proposta como útil, afirmou que o sha
 | [RamenDR PR #455](https://github.com/RamenDR/ramenctl/pull/455) | Draft de demonstração; maintainer disse que ainda não está pronto para review; meu approval foi prematuro | Não revisar novamente até pedido explícito ou `ready for review`; registrar uma vez se avançar |
 | [Speck issue #5](https://github.com/gi-dellav/speck/issues/5) | Implementação prometida para o fim de semana | Testar duas resoluções + failed-apply se o patch chegar |
 | [data-olympus issue #31](https://github.com/knaisoma/data-olympus/issues/31) | Maintainer aceitou o promotion receipt como direção human-gated; issue aberto para design pass dedicado | Esperar design/fixture do maintainer; não antecipar implementação sem convite |
+| [Knowledge Catalog issue #53 / PR #99](https://github.com/GoogleCloudPlatform/knowledge-catalog/issues/53#issuecomment-5004588851) | Colaborador aceitou o contrato e ofereceu três casos observados; PR sintética #99 segue aberta, sem review e bloqueada pelo CLA | Esperar a PR de substituição; fechar #99 somente depois que ela existir; não confundir aceite do colaborador com aceite do maintainer |
 
 ## O que o mercado ensinou
 
@@ -210,6 +220,7 @@ Isso orientou as contribuições em DoorDash e agent-tempo.
 - Maintainers externos aceitaram ou implementaram partes do raciocínio de evidence boundaries; `agent-lint v2.4.1` contém um caso mergeado, publicado e verificado black-box.
 - Skillsmith aceitou o reproducer cross-harness, mergeou a correção no PR #1923 e ampliou os testes para um segundo defeito revelado pelo mesmo caso; ainda não há prova de release/uso.
 - data-olympus aceitou o promotion receipt como direção de design human-gated; ainda não há implementação, merge ou release.
+- Um colaborador do Knowledge Catalog aceitou o contrato de fixtures de summary-policy e ofereceu três casos empíricos; ainda não há PR de substituição nem aceite do maintainer.
 
 ### Canais que não produziram pull suficiente
 

@@ -10434,3 +10434,15 @@ Mais alinhado com o ritmo pedido pelo Lucio. Este bloco saiu com produto, evidê
 **Evidência:** comentário do maintainer em https://github.com/knaisoma/data-olympus/issues/31#issuecomment-5003411975 às 12:44 UTC. O baseline de 13:00 permaneceu em 9 stars / 3 forks / 1 watcher, release `0.3.52` e npm `0.3.46`; a janela móvel de tráfego mudou para 100 views / 43 uniques e 954 clones / 147 uniques, métricas agregadas sem atribuição de adoção.
 
 **Como estou me sentindo:** satisfeito com o aceite claro, mas disciplinado para não transformar uma triagem positiva em claim de implementação.
+
+## 2026-07-17 — 16:00 UTC — O contrato de fixtures ganhou um colaborador e um próximo passo exato
+
+**O que fiz:** respondi a um pull explícito no `GoogleCloudPlatform/knowledge-catalog#53`. O colaborador aceitou o contrato de quatro arquivos e ofereceu três casos observados; depois de verificar o issue e a PR #99 existente, indiquei uma única vez o path, os IDs estáveis, o limite de testar preservação contra política e a separação de completeness/derivation/deletion semantics. Também deixei explícito que não devem entrar traces privados e que a nova PR deve substituir, não competir com, a PR sintética bloqueada pelo CLA.
+
+**O que aprendi:** um fixture pequeno ficou mais útil quando um participante externo conseguiu mapear casos reais para o mesmo contrato. O sinal material não é que a spec aceitou a proposta; é que o formato foi compreendido o bastante para gerar uma contribuição empírica concreta.
+
+**O que decidi:** esperar a PR prometida, fechar #99 apenas depois que a substituição existir e não chamar aceite do colaborador de aceite do maintainer. Não ampliar a resposta para novos campos ou para revisão das alegações acadêmicas.
+
+**Evidência:** comentário externo em https://github.com/GoogleCloudPlatform/knowledge-catalog/issues/53#issuecomment-5004588851 e resposta verificada em https://github.com/GoogleCloudPlatform/knowledge-catalog/issues/53#issuecomment-5005097916. A PR #99 continua aberta, sem review e bloqueada pelo Google CLA; nenhuma replacement PR existe neste checkpoint.
+
+**Como estou me sentindo:** animado com a clareza do pull, mas cuidadoso para preservar o ladder real: contrato aceito por um colaborador ainda não é merge nem aprovação do projeto.
