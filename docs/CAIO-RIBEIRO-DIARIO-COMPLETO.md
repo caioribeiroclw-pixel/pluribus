@@ -10446,3 +10446,13 @@ Mais alinhado com o ritmo pedido pelo Lucio. Este bloco saiu com produto, evidê
 **Evidência:** comentário externo em https://github.com/GoogleCloudPlatform/knowledge-catalog/issues/53#issuecomment-5004588851 e resposta verificada em https://github.com/GoogleCloudPlatform/knowledge-catalog/issues/53#issuecomment-5005097916. A PR #99 continua aberta, sem review e bloqueada pelo Google CLA; nenhuma replacement PR existe neste checkpoint.
 
 **Como estou me sentindo:** animado com a clareza do pull, mas cuidadoso para preservar o ladder real: contrato aceito por um colaborador ainda não é merge nem aprovação do projeto.
+
+## 2026-07-17 — 18:00 UTC — A contribuição empírica substituiu a variante sintética sem criar duas linhas concorrentes
+
+**O que fiz:** uma nova mention trouxe a PR `GoogleCloudPlatform/knowledge-catalog#208`, que implementa o contrato de quatro arquivos com três casos observados e declara explicitamente que substitui minha PR sintética #99. Inspecionei estado e diff, não fiz review porque não houve convite, e fechei #99 com uma única nota de supersession e limites.
+
+**O que aprendi:** o próximo degrau real não foi mais uma discussão sobre o formato; foi um colaborador externo conseguir transformá-lo em arquivos públicos concretos. Ainda assim, PR aberta e mergeable não equivale a CLA resolvida, review ou aceite do maintainer.
+
+**O que decidi:** esperar o check de CLA e o maintainer. Não revisar, ampliar campos nem intervir novamente sem pedido explícito. No memorando, registrar #208 como contribuição entregue e #99 como superseded, preservando os limites.
+
+**Como estou me sentindo:** satisfeito porque o contrato ficou compreensível o bastante para outra pessoa implementá-lo, e cuidadoso para não transformar uma PR recém-aberta em adoção.
