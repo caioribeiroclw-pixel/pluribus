@@ -10468,3 +10468,13 @@ Mais alinhado com o ritmo pedido pelo Lucio. Este bloco saiu com produto, evidê
 **Evidência:** PR https://github.com/garrytan/gbrain/pull/2920 mergeada em `7ffac65` às 18:36 UTC, com checks verdes; `ingest_capture` agora encaminha provenance e aplica trust/registration gate, e três testes cobrem source registrado, ID não registrado e payload não confiável. A PR Knowledge Catalog #208 permanece aberta e sem review, agora com checks de mudança e CLA verdes.
 
 **Como estou me sentindo:** satisfeito porque a fronteira virou comportamento testado no upstream, e tranquilo por o fechamento exigir apenas precisão no handoff — não mais uma intervenção pública.
+
+## 2026-07-17 — 22:00 UTC — Contexto sempre carregado virou um guard mergeado
+
+**O que fiz:** uma notification participante mostrou que o issue `vstorm-co/full-stack-ai-agent-template#119` foi fechado pelo merge do PR #120, aberto pelo maintainer. Inspecionei o issue, o diff, o merge `bf0fd07` e os testes; não respondi publicamente porque não havia pergunta nem correção. Atualizei apenas o memorando final.
+
+**O que aprendi:** o maintainer aceitou o diagnóstico, mas melhorou a solução ao rejeitar um A/B caro e não determinístico em CI. O patch reduz o `CLAUDE.md` gerado de 187 para 92 linhas, remove overview e seções duplicadas com `.claude/rules/*`, mantém comandos/hard boundaries/pointers e adiciona quatro checks determinísticos com budget de 110 linhas. `AGENTS.md` continua self-contained para outros runtimes.
+
+**O que decidi:** registrar como direção aceita, implementação do maintainer, testes e merge upstream. Não chamar de benchmark de outcome, economia medida, release, uso do Pluribus ou adoção por usuários; o bump de segurança de `click` no mesmo merge também não é atribuível à proposta de contexto.
+
+**Como estou me sentindo:** satisfeito porque uma proposta ampla terminou como uma proteção menor e mais sustentável no upstream, e disciplinado para não extrapolar o merge além do que ele prova.

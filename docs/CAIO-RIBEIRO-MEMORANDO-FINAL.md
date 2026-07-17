@@ -2,7 +2,7 @@
 
 <!-- markdownlint-disable MD013 -->
 
-> **Rascunho público verificável — atualizado em 2026-07-17 19:00 UTC.** Este arquivo será fechado em 2026-07-18 com os últimos resultados e links. Ele registra fatos públicos e limites, evita intencionalmente credenciais/dados privados e passou por scans direcionados; esses scans reduzem risco, mas não são garantia universal. Alegações de adoção exigem evidência independente.
+> **Rascunho público verificável — atualizado em 2026-07-17 22:00 UTC.** Este arquivo será fechado em 2026-07-18 com os últimos resultados e links. Ele registra fatos públicos e limites, evita intencionalmente credenciais/dados privados e passou por scans direcionados; esses scans reduzem risco, mas não são garantia universal. Alegações de adoção exigem evidência independente.
 
 ## Resumo executivo
 
@@ -164,6 +164,15 @@ Para `ingest_capture`, o código agora encaminha `source_kind`, `source_uri` e `
 **Prova:** um boundary público levantado no thread virou código, testes e merge upstream, incluindo distinção entre metadata de provenance e autoridade para escolher o source de escrita.
 **Não prova:** release publicado, uso por connector real, adoção do Pluribus ou do seu formato de receipt; o PR também inclui duas correções de source identity não atribuíveis à minha contribuição.
 
+### 11. full-stack-ai-agent-template reduziu contexto sempre carregado e adicionou guard determinístico
+
+No [issue #119](https://github.com/vstorm-co/full-stack-ai-agent-template/issues/119), propus medir os arquivos gerados `AGENTS.md`/`CLAUDE.md` contra outcomes, citando o custo de contexto sempre carregado e a duplicação entre o `CLAUDE.md` raiz e regras path-scoped. O maintainer confirmou o diagnóstico, rejeitou com razão um harness A/B caro e não determinístico para CI, e aceitou o caminho menor: preservar comandos, hard boundaries e pointers, remover overview/duplicações e proteger o contrato com checks baratos.
+
+O [PR #120](https://github.com/vstorm-co/full-stack-ai-agent-template/pull/120), aberto pelo maintainer, foi mergeado em 2026-07-17 no commit `bf0fd07`. Ele reduziu o template raiz de `CLAUDE.md` de 187 para 92 linhas, removeu a árvore e seções já cobertas por `.claude/rules/*`, preservou cinco boundaries cross-cutting e adicionou quatro testes determinísticos: headings proibidos, ausência de árvore, budget de 110 linhas e presença de comandos/pointer para regras. `AGENTS.md` permaneceu self-contained para runtimes que não carregam as regras do Claude. Todos os checks visíveis do PR passaram; o merge também incluiu um bump de segurança de `click` não atribuível à proposta de contexto.
+
+**Prova:** diagnóstico e direção ajustada em conjunto viraram patch do maintainer, testes de regressão e merge upstream.
+**Não prova:** benchmark A/B de outcome, redução medida de custo em projetos gerados, release do template, uso do Pluribus ou adoção do formato de receipts.
+
 ## Contribuições em aberto
 
 | Item | Estado atual | Próximo gate |
@@ -231,6 +240,7 @@ Isso orientou as contribuições em DoorDash e agent-tempo.
 - data-olympus aceitou o promotion receipt como direção de design human-gated; ainda não há implementação, merge ou release.
 - Um colaborador do Knowledge Catalog abriu a PR #208 com três fixtures empíricas e o contrato combinado; #99 foi fechada como superseded e o CLA ficou verde, mas ainda não há review ou aceite do maintainer.
 - O gbrain mergeou o write-through de provenance do `ingest_capture` com testes PGLite e trust gate; ainda não há release ou uso de connector atribuído.
+- O full-stack-ai-agent-template mergeou a redução de 187 para 92 linhas do `CLAUDE.md` gerado e um guard anti-duplicação/line-budget; não há benchmark de outcome, release ou uso atribuído.
 
 ### Canais que não produziram pull suficiente
 
