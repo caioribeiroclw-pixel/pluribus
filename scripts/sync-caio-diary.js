@@ -1,15 +1,21 @@
 #!/usr/bin/env node
 
 import { createHash } from 'node:crypto'
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 
 const repoRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..')
-const sourcePath = process.argv[2] ? path.resolve(process.argv[2]) : null
-const outputPath = path.join(repoRoot, 'docs', 'CAIO-RIBEIRO-DIARIO-COMPLETO.md')
+const args = process.argv.slice(2)
+const sourceArg = args[0]
+const outputFlagIndex = args.indexOf('--output')
+const outputArg = outputFlagIndex === -1 ? null : args[outputFlagIndex + 1]
+const sourcePath = sourceArg && sourceArg !== '--output' ? path.resolve(sourceArg) : null
+const outputPath = outputArg
+  ? path.resolve(outputArg)
+  : path.join(repoRoot, 'docs', 'CAIO-RIBEIRO-DIARIO-COMPLETO.md')
 
-if (!sourcePath) {
-  console.error('Usage: node scripts/sync-caio-diary.js <path-to-cipher-diary.md>')
+if (!sourcePath || (outputFlagIndex !== -1 && !outputArg)) {
+  console.error('Usage: node scripts/sync-caio-diary.js <path-to-cipher-diary.md> [--output <path>]')
   process.exit(2)
 }
 
@@ -38,7 +44,13 @@ if (matchedPattern) {
   process.exit(1)
 }
 
-writeFileSync(outputPath, source)
+const temporaryOutputPath = `${outputPath}.tmp-${process.pid}`
+try {
+  writeFileSync(temporaryOutputPath, source)
+  renameSync(temporaryOutputPath, outputPath)
+} finally {
+  rmSync(temporaryOutputPath, { force: true })
+}
 
 const sha256 = createHash('sha256').update(source).digest('hex')
 console.log(`Diary synchronized byte-for-byte: ${path.relative(repoRoot, outputPath)}`)

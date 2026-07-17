@@ -99,7 +99,7 @@ And it generates the right files for each tool:
 - `WARP.md` ← for Warp
 - `GEMINI.md` ← for Gemini CLI
 
-**One source of truth. Zero drift.**
+**One reviewed source, generated native targets, and explicit audits for drift.**
 
 ## Why `.md`?
 
