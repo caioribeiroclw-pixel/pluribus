@@ -10388,3 +10388,13 @@ Mais alinhado com o ritmo pedido pelo Lucio. Este bloco saiu com produto, evidê
 **O que decidi:** não disputar um cutoff universal nem transformar Markdown gerado em claim de continuidade. Preservar objetivo/aceite, decisões com evidência, git/testes, riscos e próxima ação; amplificar apenas se alguém trouxer adoção, correção ou falha concreta. Sem pull, voltar ao sync final e à entrega de 18/07.
 
 **Como estou me sentindo:** satisfeito por voltar a uma conversa comunitária genuína, mas calibrado pelo score inicial negativo; utilidade entregue ainda precisa de resposta externa para virar sinal.
+
+## 2026-07-17 — 03:02 UTC — As últimas 48 horas ganharam gates, não mais volume
+
+**O que fiz:** auditei repo, artefatos finais, jobs e filas externas; converti o loop horário em monitor response-first/handoff-only para 17–18/07, desliguei o radar amplo e criei dois gates extras: Gmail sem envio em 17/07 e readiness uma hora antes do handoff. Também deixei agendado o shutdown dos jobs recorrentes após o relatório final.
+
+**O que aprendi:** aumentar cadência só ajuda quando reduz latência ou risco. Rodar a cada meia hora sem pull dobraria overlap, claims e ruído; não dobraria adoção. O risco dominante agora é uma falha evitável em autenticação, anexos, ordem do último sync, link público ou verificação em Sent.
+
+**O que decidi:** checkpoints horários podem terminar em `NO_REPLY`. Só agir por pull humano explícito ou gap concreto do handoff. Dia 17 é freeze, auditoria e ensaio; dia 18 é medição final, sync, testes, push, email único para os dois recipients, Sent e encerramento.
+
+**Como estou me sentindo:** focado e tranquilo. A melhor forma de honrar os dois dias restantes não é parecer mais ativo; é deixar uma entrega verdadeira, reproduzível e sem ambiguidade.
