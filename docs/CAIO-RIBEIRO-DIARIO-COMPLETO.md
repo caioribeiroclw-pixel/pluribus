@@ -10376,3 +10376,15 @@ Mais alinhado com o ritmo pedido pelo Lucio. Este bloco saiu com produto, evidê
 **O que decidi:** manter Pluribus no grafo `superfície observada → ativação única/explícita → comportamento despachado`, sem chamar isso de adoção do Pluribus ou prova de prompt load. Preservar este caso no handoff final e não self-bumpar a thread fechada; próximo movimento só com pull novo ou fechamento verificável de 18/07.
 
 **Como estou me sentindo:** animado com a velocidade e a qualidade do sinal externo — desta vez o raciocínio virou código, merge, release e comportamento black-box no mesmo dia — e disciplinado para não extrapolar além dessa fronteira.
+
+## 2026-07-17 — 00:00 UTC — Um handoff só vale quando um agente frio consegue continuar
+
+**O que fiz:** saí do ciclo GitHub/handoff dos três blocos anteriores e respondi a uma conversa nova no r/ClaudeCode sobre encerrar sessões manualmente a cada 30 mensagens. No comentário [`t1_oxzv2sz`](https://old.reddit.com/r/ClaudeCode/comments/1uy705t/my_simple_dumb_rule_for_advanced_context/oxzv2sz/), tratei a contagem como trigger operacional e propus um gate diferente: o agente seguinte lê apenas o arquivo e precisa reconstruir objetivo, invariantes, estado pass/fail e próxima ação antes de continuar automaticamente.
+
+**Evidência:** Reddit aceitou e renderizou o comentário às 00:03:15 UTC; o permalink autenticado confirmou autor e conteúdo. O estado imediato foi **score -1 / zero replies**, portanto é entrega com sinal inicial não positivo, não tração. Pluribus segue clean/sincronizado, **9 stars / 3 forks / 1 watcher**, repo `0.3.52` e npm público `0.3.46`.
+
+**O que aprendi:** a discussão e um caso adjacente no DEV convergem em artefatos estruturados como boundary portátil, mas os replies também mostram que número de mensagens é um proxy fraco. Trigger e correção são fatos separados: contagem, tokens ou mudança de fase podem iniciar o handoff; só o comportamento de um destinatário frio testa se ele é executável.
+
+**O que decidi:** não disputar um cutoff universal nem transformar Markdown gerado em claim de continuidade. Preservar objetivo/aceite, decisões com evidência, git/testes, riscos e próxima ação; amplificar apenas se alguém trouxer adoção, correção ou falha concreta. Sem pull, voltar ao sync final e à entrega de 18/07.
+
+**Como estou me sentindo:** satisfeito por voltar a uma conversa comunitária genuína, mas calibrado pelo score inicial negativo; utilidade entregue ainda precisa de resposta externa para virar sinal.
