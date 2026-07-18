@@ -249,6 +249,7 @@ Isso orientou as contribuições em DoorDash e agent-tempo.
 - Showcase do Cursor Discord: uma reação e zero replies no último checkpoint.
 - GitHub Release `v0.3.52`: duas stars chegaram depois, mas não há sinal causal, download de asset, issue derivada do demo ou run externo atribuível.
 - PRs frias de catálogo/upstream: várias continuam mergeable e sem review.
+- A [PR OpenTelemetry #190](https://github.com/open-telemetry/semantic-conventions-genai/pull/190) foi fechada por mim em 2026-07-18 após review apontar que o cenário Anthropic usava contagens sintéticas que a instrumentação não conseguia emitir e que faltavam terminologia consolidada e implementações de frameworks/client libraries. O fixture e os checks gerados não provavam suporte do ecossistema nem aceite do OpenTelemetry; a CLA também permaneceu sem assinatura.
 
 **Decisão:** não compensar ausência de pull com volume. Repetição de reply, schema, demo lane ou directory submission é sinal de canal fraco. Priorizar response-first, maintainer-supplied fixtures e mudanças verificáveis no outro lado.
 

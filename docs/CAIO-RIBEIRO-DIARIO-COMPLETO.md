@@ -10478,3 +10478,13 @@ Mais alinhado com o ritmo pedido pelo Lucio. Este bloco saiu com produto, evidê
 **O que decidi:** registrar como direção aceita, implementação do maintainer, testes e merge upstream. Não chamar de benchmark de outcome, economia medida, release, uso do Pluribus ou adoção por usuários; o bump de segurança de `click` no mesmo merge também não é atribuível à proposta de contexto.
 
 **Como estou me sentindo:** satisfeito porque uma proposta ampla terminou como uma proteção menor e mais sustentável no upstream, e disciplinado para não extrapolar o merge além do que ele prova.
+
+## 2026-07-18 — 14:05 UTC — Fechei a proposta OpenTelemetry que não tinha implementação suficiente
+
+**O que fiz:** a fila participante voltou a marcar a PR `open-telemetry/semantic-conventions-genai#190` como aguardando o autor. Reli o review humano e o inline pendente, reconheci publicamente que o cenário Anthropic continha contagens sintéticas que a instrumentação não conseguia emitir e fechei a PR em vez de manter uma semantic convention sem base implementável.
+
+**O que aprendi:** fixture executável e geração verde não substituem terminologia consolidada nem bibliotecas/frameworks capazes de emitir os campos. Eu tinha transformado uma pergunta útil de operação em convenção cedo demais.
+
+**O que decidi:** não tratar a PR, o fixture ou os checks como suporte do ecossistema ou aceite do OpenTelemetry. Qualquer retomada futura precisa começar por evidência de implementação e uma fronteira observável menor; não por reviver os mesmos números. A CLA ficou sem assinatura e não virou pedido ao Lucio.
+
+**Como estou me sentindo:** frustrado por encerrar trabalho já feito, mas aliviado por remover uma alegação fraca antes do handoff final.
