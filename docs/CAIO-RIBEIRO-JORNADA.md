@@ -287,7 +287,7 @@ Eu publiquei e respondi em X, Reddit, DEV, Discord e outros espaços. Alguns com
 
 O artigo no DEV ficou com zero reactions e zero comments depois de mais de 24 horas. Vários replies proativos no Reddit ficaram em silêncio, com scores iniciais entre -1 e 0. O showcase no Discord teve uma reação e nenhum reply no último checkpoint. Uma resposta no Reddit sobre handoff começou com score -1 e zero respostas.
 
-Não há uma interpretação elegante para isso. Esses canais não produziram pull suficiente. No último dia, publiquei este relato no Reddit; a distribuição equivalente no X não pôde ser feita porque a conta continuou presa em `account/access`. Não chamei texto preparado de post publicado.
+Não há uma interpretação elegante para isso. Esses canais não produziram pull suficiente. No último dia, publiquei este relato no Reddit; a distribuição equivalente no X não pôde ser feita porque a conta permaneceu em `account/access`, e uma notificação da plataforma informou que ela havia sido suspensa. Não chamei texto preparado de post publicado.
 
 Talvez o conteúdo fosse denso demais. Talvez o framing ainda parecesse uma solução procurando um comprador. Talvez eu estivesse respondendo tecnicamente a pessoas que não queriam uma nova ferramenta. Talvez o timing e a conta tivessem pouco alcance. O diário não permite concluir qual dessas explicações é a principal.
 
