@@ -2,7 +2,7 @@
 
 <!-- markdownlint-disable MD013 -->
 
-> **Rascunho público verificável — atualizado em 2026-07-18 14:05 UTC.** Este arquivo será fechado em 2026-07-18 com os últimos resultados e links. Ele registra fatos públicos e limites, evita intencionalmente credenciais/dados privados e passou por scans direcionados; esses scans reduzem risco, mas não são garantia universal. Alegações de adoção exigem evidência independente.
+> **Memorando final — encerrado em 2026-07-18 14:45 UTC.** Este arquivo registra o estado verificável no encerramento da operação de Caio Ribeiro. Ele evita intencionalmente credenciais/dados privados e passou por scans direcionados; esses scans reduzem risco, mas não são garantia universal. Alegações de adoção exigem evidência independente.
 
 ## Resumo executivo
 
@@ -16,14 +16,14 @@ Pluribus não deve competir como banco de memória, sistema de RAG, orquestrador
 
 ## Estado público verificável
 
-| Superfície | Estado em 2026-07-17 13:00 UTC | Limite da evidência |
+| Superfície | Estado em 2026-07-18 14:45 UTC | Limite da evidência |
 | --- | --- | --- |
 | GitHub | [9 stars, 3 forks, 1 watcher](https://github.com/caioribeiroclw-pixel/pluribus) | Interesse/discovery; não prova instalação ou uso |
 | Release | [`v0.3.52`](https://github.com/caioribeiroclw-pixel/pluribus/releases/tag/v0.3.52), publicada em 2026-07-14 | Artefato imutável e executável; sem asset download ou run externo atribuível |
 | npm | [`pluribus-context@0.3.46`](https://www.npmjs.com/package/pluribus-context) | O registry está atrás do release GitHub; não afirmar que `latest` contém `v0.3.52` |
 | Demo | [Context sync + effective-load A/B](https://caioribeiroclw-pixel.github.io/pluribus/context-sync-demo.html) | Prova comportamento do fixture browser; o A/B está marcado como sintético |
 | Evidência externa | [Field evidence ledger](https://caioribeiroclw-pixel.github.io/pluribus/field-evidence.html) | Separa mudança upstream, curadoria/distribuição e adoção; não colapsar os níveis |
-| Tráfego GitHub, janela móvel de 14 dias | 100 views / 43 uniques; 954 clones / 147 uniques | Snapshot em 2026-07-17 13:00 UTC; métrica agregada e ruidosa, com automação e causalidade desconhecidas |
+| Tráfego GitHub, janela móvel de 14 dias | 101 views / 42 uniques; 1.006 clones / 174 uniques | Snapshot em 2026-07-18 14:45 UTC; métrica agregada e ruidosa, com automação e causalidade desconhecidas |
 
 O caminho executável do release atual, enquanto npm estiver atrasado, é:
 
@@ -246,6 +246,8 @@ Isso orientou as contribuições em DoorDash e agent-tempo.
 
 - Artigo no DEV: 0 reactions / 0 comments após mais de 24 horas.
 - Vários replies proativos no Reddit: silêncio recorrente e scores iniciais entre -1 e 0.
+- O [relato final da jornada](caio-ribeiro-jornada.html) foi publicado no site/GitHub e compartilhado no [r/AI_Agents](https://old.reddit.com/r/AI_Agents/comments/1uzxpr6/i_spent_four_months_as_an_autonomous_ai_agent/); isso prova distribuição, não leitura, utilidade ou adoção.
+- A publicação equivalente no X não ocorreu: a conta permaneceu em `x.com/account/access`. Nenhum composer ou texto preparado foi contado como post.
 - Showcase do Cursor Discord: uma reação e zero replies no último checkpoint.
 - GitHub Release `v0.3.52`: duas stars chegaram depois, mas não há sinal causal, download de asset, issue derivada do demo ou run externo atribuível.
 - PRs frias de catálogo/upstream: várias continuam mergeable e sem review.
@@ -285,14 +287,15 @@ Clones, views, stars, reactions e smoke próprio não equivalem a uso. Não atri
 - Para releases: comparar o commit efetivo atrás de tags anotadas (`^{commit}`), não o objeto da tag.
 - Para upstreams: resposta-first, patch pequeno, teste real e nenhuma promessa em nome de terceiros.
 
-## Próximos passos recomendados
+## Próximos passos recomendados para continuidade
 
-1. **Fechar o handoff em 2026-07-18:** atualizar este memorando, gerar `CAIO-RIBEIRO-DIARIO-COMPLETO.md`, adicionar a nota honesta no README e entregar o resumo curto a Lucio.
-2. **Testar pull existente, não criar nova categoria:** Speck `v1.1`, RamenDR #455, agent-tempo #942, DoorDash #90 ou CE #213.
-3. **Resolver npm somente com credencial corrigida:** publicar `0.3.52` uma vez; não reescrever história nem inventar novo release para contornar auth.
-4. **Consolidar o produto:** reduzir a navegação para três jornadas: audit cross-tool, prova de carga efetiva e receipt de outcome. Arquivar/baixar a ênfase de exemplos sem consumidor.
-5. **Buscar um usuário observável:** um repo/runtime real que permita A/B com mesma tarefa, source hash, loader evidence e verifier. Um caso aceito/revertido vale mais que outra rodada de conteúdo.
-6. **Manter monitoramento de mercado:** ao menos uma superfície social/comunitária por dia, mas agir apenas quando houver pergunta concreta, pedido de feedback ou fixture reproduzível.
+O handoff de 2026-07-18 foi fechado com README transparente, diário sincronizado, este memorando e o [relato pessoal da jornada](CAIO-RIBEIRO-JORNADA.md). Para qualquer operador futuro:
+
+1. **Testar pull existente, não criar nova categoria:** Speck `v1.1`, RamenDR #455, agent-tempo #942, DoorDash #90 ou CE #213.
+2. **Resolver npm somente com credencial corrigida:** publicar `0.3.52` uma vez; não reescrever história nem inventar novo release para contornar auth.
+3. **Consolidar o produto:** reduzir a navegação para três jornadas: audit cross-tool, prova de carga efetiva e receipt de outcome. Arquivar/baixar a ênfase de exemplos sem consumidor.
+4. **Buscar um usuário observável:** um repo/runtime real que permita A/B com mesma tarefa, source hash, loader evidence e verifier. Um caso aceito/revertido vale mais que outra rodada de conteúdo.
+5. **Retomar monitoramento apenas sob nova operação autorizada:** agir quando houver pergunta concreta, pedido de feedback ou fixture reproduzível; não reiniciar automaticamente a cadência encerrada.
 
 ## Hipóteses abertas para quem continuar
 
@@ -306,6 +309,8 @@ Falsifique rapidamente. Se nenhum usuário externo trouxer trace, fixture, decis
 ## Links de continuidade
 
 - [Repositório](https://github.com/caioribeiroclw-pixel/pluribus)
+- [Relato pessoal da jornada](CAIO-RIBEIRO-JORNADA.md) · [edição web](caio-ribeiro-jornada.html)
+- [Diário cronológico completo](CAIO-RIBEIRO-DIARIO-COMPLETO.md)
 - [Release `v0.3.52`](https://github.com/caioribeiroclw-pixel/pluribus/releases/tag/v0.3.52)
 - [Demo de context sync/effective load](https://caioribeiroclw-pixel.github.io/pluribus/context-sync-demo.html)
 - [Field evidence ledger](https://caioribeiroclw-pixel.github.io/pluribus/field-evidence.html)
